@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fraunces";
+        font-weight: 600;
+        font-display: block;
+        src: url("assets/fonts/Fraunces-wght-600-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fraunces";
+        font-weight: 700;
+        font-display: block;
+        src: url("assets/fonts/Fraunces-wght-700-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Nunito";
+        font-weight: 600;
+        font-display: block;
+        src: url("assets/fonts/Nunito-wght-600-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Nunito";
+        font-weight: 700;
+        font-display: block;
+        src: url("assets/fonts/Nunito-wght-700-latin.woff2") format("woff2");
+      }
+
+      :root {
+        --cream: #fbf4e2;
+        --cream-2: #f5e9cd;
+        --ink: #3a3024;
+        --ink-soft: #6b5d49;
+        --water: #2c7fb8;
+        --water-light: #5bb5e8;
+        --green: #7e9a52;
+        --green-deep: #5e7a3a;
+        --gold: #e0a82e;
+        --clay: #b5705c;
+        --wine: #7b4b6b;
+        --duck: #d98a3d;
+        --town: #c77b6b;
+        --shadow: 0 8px 28px rgba(80, 60, 30, 0.14);
+        --shadow-sm: 0 3px 12px rgba(80, 60, 30, 0.12);
+        --radius: 18px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--cream);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--cream);
+        font-family: "Nunito", sans-serif;
+        color: var(--ink);
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+      }
+      .glyph {
+        display: block;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ---------- Camera + board (camera space = 1920x1080 board at scale 1) ---------- */
+      #cam {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: 0 0;
+      }
+      #board {
+        position: absolute;
+        inset: 0;
+        isolation: isolate;
+      }
+      #board-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #grade-multiply {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: multiply;
+        background: linear-gradient(180deg, var(--gold), var(--clay));
+      }
+      #grade-color {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: color;
+        background: var(--clay);
+      }
+      #river-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* rain */
+      .rain {
+        position: absolute;
+        width: 150px;
+        height: 110px;
+        overflow: hidden;
+      }
+      .rain-strip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 150px;
+        height: 330px;
+      }
+
+      /* medallions (authored in camera space: plan 3 holds at scale 1.14) */
+      .medal {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+      .medal-disc {
+        position: absolute;
+        left: -46px;
+        top: -46px;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: var(--cream);
+        border: 2.6px solid currentColor;
+        box-shadow: 0 2.6px 10.5px rgba(80, 60, 30, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .medal-disc svg {
+        width: 40px;
+        height: 40px;
+      }
+      .medal-label {
+        position: absolute;
+        left: -150px;
+        width: 300px;
+        top: 54px;
+        display: flex;
+        justify-content: center;
+      }
+      .medal-label span {
+        display: block;
+        background: rgba(251, 244, 226, 0.92);
+        border-radius: 9px;
+        padding: 4px 12px;
+        font: 700 19.3px/1.25 "Nunito", sans-serif;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      #served {
+        position: absolute;
+        left: 58px;
+        top: -17px;
+        background: rgba(251, 244, 226, 0.94);
+        border-radius: 9px;
+        padding: 5px 12px;
+        font: 600 17.5px/1.25 "Nunito", sans-serif;
+        color: var(--ink-soft);
+        white-space: nowrap;
+        box-shadow: 0 2.6px 10.5px rgba(80, 60, 30, 0.12);
+      }
+      .flow-label {
+        position: absolute;
+        font: 600 16.7px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+        background: rgba(251, 244, 226, 0.9);
+        border-radius: 8px;
+        padding: 4px 10px;
+        white-space: nowrap;
+      }
+
+      /* ---------- Screen-space overlays ---------- */
+      .plaque {
+        background: rgba(251, 244, 226, 0.88);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+      /* Plan 1 */
+      #p1-title-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 422px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+      }
+      #p1-title {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        padding: 26px 56px 26px 48px;
+      }
+      #p1-title svg {
+        width: 46px;
+        height: 46px;
+        color: var(--water);
+      }
+      .wordmark {
+        font: 700 92px/1 "Fraunces", serif;
+        letter-spacing: 0.18em;
+        margin-right: -0.18em;
+        color: var(--ink);
+      }
+      #p1-sub {
+        font: 600 30px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+        padding: 12px 26px;
+        border-radius: 999px;
+      }
+
+      /* Plan 2 pills */
+      .pill {
+        position: absolute;
+        left: 90px;
+        bottom: 90px;
+        width: 260px;
+      }
+      .pill-body {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        height: 58px;
+        padding: 0 22px;
+        border-radius: 999px;
+        background: var(--cream-2);
+        box-shadow: var(--shadow-sm);
+      }
+      .pill-label {
+        font: 700 24px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+      }
+      .pill-dot {
+        font: 700 24px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+      }
+      .pill-num {
+        font: 700 40px/1 "Fraunces", serif;
+        color: var(--water);
+        font-variant-numeric: tabular-nums;
+        min-width: 46px;
+        text-align: right;
+      }
+      .pill-unit {
+        font: 700 24px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+      }
+      .pill-track {
+        margin: 6px 22px 0;
+        height: 4px;
+      }
+      .pill-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: var(--water);
+        transform-origin: 0 50%;
+      }
+
+      /* Plan 4 cards */
+      #p4-cards {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 467px;
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+      }
+      .card {
+        width: 400px;
+        height: 190px;
+        background: var(--cream);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px 34px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+      }
+      .card-top {
+        font: 700 46px/1 "Fraunces", serif;
+        color: var(--water);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      .card-bottom {
+        font: 600 22px/1.3 "Nunito", sans-serif;
+        color: var(--ink-soft);
+      }
+
+      /* Plan 5 */
+      #p5-logotype {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 548px;
+        display: flex;
+        justify-content: center;
+      }
+      #p5-logotype .plaque {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 24px 52px 26px;
+        background: rgba(251, 244, 226, 0.94);
+        border-radius: var(--radius);
+      }
+      #p5-logo-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      #p5-logo-row svg {
+        width: 36px;
+        height: 36px;
+        color: var(--water);
+      }
+      #p5-logo-row .wordmark {
+        font-size: 64px;
+      }
+      #p5-tagline {
+        font: 600 26px/1 "Nunito", sans-serif;
+        color: var(--ink-soft);
+      }
+      #p5-mission {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 768px;
+        display: flex;
+        justify-content: center;
+      }
+      #p5-mission .plaque {
+        padding: 28px 44px;
+        background: rgba(251, 244, 226, 0.94);
+        border-radius: var(--radius);
+        font: 600 56px/1.1 "Fraunces", serif;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      #p5-logos {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 56px;
+        height: 52px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 44px;
+      }
+      #p5-logos img {
+        height: 52px;
+        width: auto;
+        display: block;
+      }
+
+      /* Always-on finishing layers */
+      #vignette {
+        background: radial-gradient(
+          ellipse 75% 75% at 50% 50%,
+          rgba(58, 48, 36, 0) 55%,
+          rgba(58, 48, 36, 0.22) 100%
+        );
+        pointer-events: none;
+      }
+      #grain {
+        background-image: url("assets/grain.png");
+        background-size: 256px 256px;
+        opacity: 0.05;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Glyph library: 24x24 grid, 2px stroke, outline only -->
+      <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+        <defs>
+          <symbol id="g-drop" viewBox="0 0 24 24">
+            <path d="M12 2.8C12 2.8 5.2 10.6 5.2 15.2a6.8 6.8 0 0 0 13.6 0C18.8 10.6 12 2.8 12 2.8Z" />
+            <path d="M8.9 15.6a3.2 3.2 0 0 0 3.1 3" />
+          </symbol>
+          <symbol id="g-cattle" viewBox="0 0 24 24">
+            <path d="M4.5 4.5C4.5 7 6 8.6 8.6 8.6" />
+            <path d="M19.5 4.5C19.5 7 18 8.6 15.4 8.6" />
+            <path
+              d="M8.6 8.6h6.8c1.1 0 1.8.8 1.8 1.9v3.3c0 1.6-.8 2.6-1.6 3.4l-.6 2.6c-.3 1-1 1.5-2 1.5h-2c-1 0-1.7-.5-2-1.5l-.6-2.6c-.8-.8-1.6-1.8-1.6-3.4v-3.3c0-1.1.7-1.9 1.8-1.9Z"
+            />
+            <path d="M6.8 10.4 3.2 9.6l2.4 3" />
+            <path d="M17.2 10.4l3.6-.8-2.4 3" />
+            <path d="M10.4 18.4h.01M13.6 18.4h.01M10 12.6h.01M14 12.6h.01" />
+          </symbol>
+          <symbol id="g-grape" viewBox="0 0 24 24">
+            <path d="M12 8.4V4.6" />
+            <path d="M12 5.6c1.8-2.6 5.6-3 8-1-1.8 2.4-5.4 3-8 1Z" />
+            <circle cx="9.8" cy="10.6" r="2.2" />
+            <circle cx="14.2" cy="10.6" r="2.2" />
+            <circle cx="9.8" cy="14.9" r="2.2" />
+            <circle cx="14.2" cy="14.9" r="2.2" />
+            <circle cx="12" cy="19.2" r="2.2" />
+          </symbol>
+          <symbol id="g-corn" viewBox="0 0 24 24">
+            <path d="M12 2.8c2.6 2 2.6 10 0 14.2-2.6-4.2-2.6-12.2 0-14.2Z" />
+            <path d="M10.7 7.6h2.6M10.5 10.6h3M10.8 13.6h2.4" />
+            <path d="M12 17v4.2" />
+            <path d="M12 19.4c-3-.8-6-3.8-6.8-8.2 2.4 1.8 4.4 3.8 5.8 6" />
+            <path d="M12 19.4c3-.8 6-3.8 6.8-8.2-2.4 1.8-4.4 3.8-5.8 6" />
+          </symbol>
+          <symbol id="g-duck" viewBox="0 0 24 24">
+            <circle cx="14.6" cy="7.8" r="3" />
+            <path d="M17.5 7.2l3.8.9-3.6 1.3" />
+            <path
+              d="M12.4 10.2c-1.4 1.9-2.6 2.8-5.4 2.8-1.6 0-3-.4-3.8-1 0 4.6 3.6 8 8.8 8 4.4 0 7.6-2.4 7.6-6 0-1.5-.8-2.8-2.2-3.4"
+            />
+            <path d="M8 15.4c2 1.5 5 1.5 7 0" />
+            <path d="M15 7.4h.01" />
+          </symbol>
+          <symbol id="g-town" viewBox="0 0 24 24">
+            <path d="M12 1.6v1.4" />
+            <path d="M12 3 16.8 10H7.2Z" />
+            <path d="M8 10v11.2h8V10" />
+            <path d="M10.6 21.2v-2.6a1.4 1.4 0 0 1 2.8 0v2.6" />
+            <circle cx="12" cy="13.8" r="2" />
+            <path d="M12 13.8v-1.1M12 13.8h.9" />
+          </symbol>
+        </defs>
+      </svg>
+
+      <div id="stage" class="clip layer" data-start="0" data-duration="30" data-track-index="0">
+        <!-- ===== Camera space ===== -->
+        <div id="cam">
+          <div id="board">
+            <img id="board-img" src="public/board.webp" alt="" />
+            <div id="grade-multiply"></div>
+            <div id="grade-color"></div>
+            <svg id="river-svg" viewBox="0 0 1672 941" preserveAspectRatio="none">
+              <defs>
+                <path
+                  id="river"
+                  d="M 560,-10 C 573,-2 617,24 640,40 C 663,56 680,71 700,85 C 720,99 742,110 760,122 C 778,134 787,149 805,160 C 823,171 848,181 870,190 C 892,199 922,207 935,215 C 948,223 954,231 948,240 C 942,249 921,260 900,268 C 879,276 847,284 820,290 C 793,296 763,296 740,302 C 717,308 696,316 682,325 C 668,334 655,346 655,357 C 655,368 668,380 680,392 C 692,404 712,415 730,427 C 748,439 771,452 790,465 C 809,478 826,490 842,502 C 858,514 878,528 888,538 C 898,548 897,552 900,560 C 903,568 898,579 905,588 C 912,597 930,603 945,612 C 960,621 978,629 992,642 C 1006,655 1024,675 1028,690 C 1032,705 1025,718 1018,732 C 1011,746 996,757 988,772 C 980,787 970,805 972,820 C 974,835 986,848 1000,862 C 1014,876 1039,887 1058,902 C 1077,917 1103,943 1112,951"
+                />
+                <path
+                  id="river-low"
+                  d="M 1112,951 C 1103,943 1077,917 1058,902 C 1039,887 1014,876 1000,862 C 986,848 974,835 972,820 C 970,805 980,787 988,772 C 996,757 1011,746 1018,732 C 1025,718 1032,705 1028,690 C 1024,675 1006,655 992,642 C 978,629 960,621 945,612 C 930,603 912,597 905,588 C 898,579 901,565 900,560"
+                />
+                <filter id="soft6" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="6" />
+                </filter>
+                <filter id="soft3" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" />
+                </filter>
+              </defs>
+              <!-- Plan 1: one shimmer, upstream to downstream -->
+              <g id="shimmer" opacity="0.18">
+                <use
+                  href="#river"
+                  class="shimmer-stroke"
+                  fill="none"
+                  stroke="#5BB5E8"
+                  stroke-width="30"
+                  stroke-linecap="round"
+                  filter="url(#soft6)"
+                />
+                <use
+                  href="#river"
+                  class="shimmer-stroke"
+                  fill="none"
+                  stroke="#FFFFFF"
+                  stroke-width="12"
+                  stroke-linecap="round"
+                  filter="url(#soft3)"
+                />
+              </g>
+              <!-- Plan 2: dry bed climbing from the bottom up to the bridge -->
+              <use
+                id="drybed"
+                href="#river-low"
+                fill="none"
+                stroke="#C9C0AC"
+                stroke-width="64"
+                stroke-linecap="round"
+                opacity="0.6"
+                filter="url(#soft6)"
+              />
+              <!-- Plan 2: the river thins -->
+              <use
+                id="river-thin"
+                href="#river"
+                fill="none"
+                stroke="#5BB5E8"
+                stroke-width="21.6"
+                stroke-linecap="round"
+                opacity="0"
+              />
+              <!-- Plan 3: upstream -> downstream dashed line -->
+              <use
+                id="flow-line"
+                href="#river"
+                fill="none"
+                stroke="#3A3024"
+                stroke-width="1.6"
+                stroke-dasharray="9.2 10.7"
+                stroke-linecap="round"
+                opacity="0"
+              />
+            </svg>
+          </div>
+
+          <!-- rain under the two corner clouds (camera space) -->
+          <div class="rain" data-layout-allow-overflow id="rain-a" style="left: 48px; top: 42px">
+            <svg class="rain-strip" viewBox="0 0 150 330"></svg>
+          </div>
+          <div class="rain" data-layout-allow-overflow id="rain-b" style="left: 1734px; top: 46px">
+            <svg class="rain-strip" viewBox="0 0 150 330"></svg>
+          </div>
+
+          <!-- upstream / downstream labels -->
+          <div class="flow-label" id="lbl-amont" style="left: 940px; top: 120px">amont</div>
+          <div class="flow-label" id="lbl-aval" style="left: 1090px; top: 820px">aval</div>
+
+          <!-- Plan 3 medallions, upstream -> downstream -->
+          <div class="medal" id="m1" style="left: 17%; top: 16.5%; color: #b5705c">
+            <div class="medal-disc"><svg class="glyph"><use href="#g-cattle" /></svg></div>
+            <div class="medal-label"><span>Élevage &amp; céréales</span></div>
+          </div>
+          <div class="medal" id="m2" style="left: 77%; top: 14%; color: #7b4b6b">
+            <div class="medal-disc"><svg class="glyph"><use href="#g-grape" /></svg></div>
+            <div class="medal-label"><span>Viticulture</span></div>
+          </div>
+          <div class="medal" id="m3" style="left: 70%; top: 29%; color: #c77b6b">
+            <div class="medal-disc"><svg class="glyph"><use href="#g-town" /></svg></div>
+            <div class="medal-label"><span>La commune</span></div>
+            <div id="served">servie en premier</div>
+          </div>
+          <div class="medal" id="m4" style="left: 21%; top: 46%; color: #e0a82e">
+            <div class="medal-disc"><svg class="glyph"><use href="#g-corn" /></svg></div>
+            <div class="medal-label"><span>Grande culture de maïs</span></div>
+          </div>
+          <div class="medal" id="m5" style="left: 84%; top: 75%; color: #d98a3d">
+            <div class="medal-disc"><svg class="glyph"><use href="#g-duck" /></svg></div>
+            <div class="medal-label"><span>Granivore &amp; volaille</span></div>
+          </div>
+        </div>
+
+        <!-- ===== Plan 1: title ===== -->
+        <div id="p1-title-wrap">
+          <div id="p1-title" class="plaque">
+            <svg class="glyph"><use href="#g-drop" /></svg>
+            <div class="wordmark">SOLLAGUA</div>
+          </div>
+          <div id="p1-sub" class="plaque">Armagnac · un tronçon de rivière</div>
+        </div>
+
+        <!-- ===== Plan 2: four years of rain ===== -->
+        <div id="pills"></div>
+
+        <!-- ===== Plan 4: what it costs ===== -->
+        <div id="p4-cards">
+          <div class="card">
+            <div class="card-top">50&#8239;€</div>
+            <div class="card-bottom">l’unité d’eau</div>
+          </div>
+          <div class="card">
+            <div class="card-top"><span id="reut-num">60&#8239;000</span>&#8239;€</div>
+            <div class="card-bottom">recycler — à l’unanimité des cinq</div>
+          </div>
+          <div class="card">
+            <div class="card-top">7&#8239;/&#8239;10</div>
+            <div class="card-bottom">la biodiversité, au départ</div>
+          </div>
+        </div>
+
+        <!-- ===== Plan 5: the mission ===== -->
+        <div id="p5-logotype">
+          <div class="plaque">
+            <div id="p5-logo-row">
+              <svg class="glyph"><use href="#g-drop" /></svg>
+              <div class="wordmark">SOLLAGUA</div>
+            </div>
+            <div id="p5-tagline">Le jeu sérieux de l’eau partagée</div>
+          </div>
+        </div>
+        <div id="p5-mission">
+          <div class="plaque">Traverser quatre années sans qu’aucune ferme ne tombe.</div>
+        </div>
+        <div id="p5-logos">
+          <img src="public/logos/interreg.png" alt="Interreg Sudoe" />
+          <img src="public/logos/univ-toulouse.png" alt="Université de Toulouse" />
+          <img src="public/logos/imt-mines-ales.png" alt="IMT Mines Alès" />
+          <img src="public/logos/geode.png" alt="GEODE" />
+          <img src="public/logos/defis-cles.png" alt="Défis clés Water Occitanie" />
+        </div>
+
+        <div id="vignette" class="layer"></div>
+        <div id="grain" class="layer"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const W = 1920;
+        const H = 1080;
+        const FPS = 30;
+        const XF = 0.25; // half of the 0.5 s crossfade between plans
+        const NBSP = " ";
+
+        // ---------- build-time DOM (deterministic) ----------
+        // Rain strips: 3 identical tiles stacked, so a 1/3 translate loops seamlessly.
+        document.querySelectorAll(".rain-strip").forEach((svg, k) => {
+          let s = "";
+          for (let tile = 0; tile < 3; tile++) {
+            for (let i = 0; i < 14; i++) {
+              const x = ((i * 37 + k * 11) % 150) + 2;
+              const y = tile * 110 + ((i * 53) % 110);
+              const len = 16 + ((i * 7) % 9);
+              const dx = Math.tan((8 * Math.PI) / 180) * len;
+              s +=
+                '<line x1="' + (x + dx) + '" y1="' + y + '" x2="' + x + '" y2="' + (y + len) +
+                '" stroke="#2C7FB8" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>';
+            }
+          }
+          svg.innerHTML = s;
+        });
+
+        // Pills: An 1..4
+        const YEARS = [
+          { t: 6.6, label: "An 1", value: 70, bar: 1.0 },
+          { t: 7.75, label: "An 2", value: 55, bar: 0.79 },
+          { t: 8.9, label: "An 3", value: 40, bar: 0.57 },
+          { t: 10.05, label: "An 4", value: 25, bar: 0.36 },
+        ];
+        const pillsHost = document.getElementById("pills");
+        YEARS.forEach((y, i) => {
+          const el = document.createElement("div");
+          el.className = "pill";
+          el.id = "pill-" + i;
+          el.innerHTML =
+            '<div class="pill-body"><span class="pill-label">' + y.label +
+            '</span><span class="pill-dot">·</span><span class="pill-num" id="pill-num-' + i +
+            '">0</span><span class="pill-unit">u</span></div>' +
+            '<div class="pill-track"><div class="pill-bar" id="pill-bar-' + i +
+            '" style="width:' + Math.round(216 * y.bar) + 'px"></div></div>';
+          pillsHost.appendChild(el);
+        });
+
+        // ---------- camera ----------
+        const cam = { s: 1.15, ox: 0.58, oy: 0.26, dy: 0 };
+        const camEl = document.getElementById("cam");
+        function applyCam() {
+          const tx = cam.ox * W * (1 - cam.s);
+          const ty = cam.oy * H * (1 - cam.s) + cam.dy;
+          camEl.style.transform =
+            "translate(" + tx.toFixed(3) + "px," + ty.toFixed(3) + "px) scale(" + cam.s.toFixed(5) + ")";
+        }
+        applyCam();
+
+        // ---------- grain: one deterministic offset per frame ----------
+        const grainEl = document.getElementById("grain");
+        function applyGrain(t) {
+          const f = Math.floor(t * FPS + 1e-6);
+          const h = (f * 2654435761) >>> 0;
+          grainEl.style.backgroundPosition = (h % 256) + "px " + ((h >>> 8) % 256) + "px";
+        }
+
+        const tl = gsap.timeline({
+          paused: true,
+          onUpdate: function () {
+            applyGrain(this.time());
+          },
+        });
+        applyGrain(0);
+
+        // ===================== PLAN 1 · 0.0 → 6.0 =====================
+        tl.to(cam, { s: 1.07, duration: 6, ease: "power1.out", onUpdate: applyCam }, 0);
+
+        const riverPath = document.getElementById("river");
+        const RL = riverPath.getTotalLength();
+        const SH = 142; // ~180 screen px at the plan-1 scale
+        tl.fromTo(
+          ".shimmer-stroke",
+          { attr: { "stroke-dasharray": SH + " " + (RL + SH * 2), "stroke-dashoffset": SH } },
+          { attr: { "stroke-dashoffset": -RL }, duration: 5, ease: "none" },
+          0.5,
+        );
+
+        tl.fromTo(".rain", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "none" }, 0);
+        tl.fromTo(
+          "#rain-a .rain-strip",
+          { yPercent: -66.667 },
+          { yPercent: -33.333, duration: 1.2, ease: "none", repeat: 4 },
+          0,
+        );
+        tl.fromTo(
+          "#rain-b .rain-strip",
+          { yPercent: -55.556 },
+          { yPercent: -22.222, duration: 1.2, ease: "none", repeat: 4 },
+          0,
+        );
+        tl.to(".rain", { opacity: 0, duration: 0.5, ease: "none" }, 6 - XF);
+
+        tl.fromTo(
+          "#p1-title",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" },
+          1.2,
+        );
+        tl.fromTo(
+          "#p1-sub",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" },
+          2.6,
+        );
+        tl.to(["#p1-title", "#p1-sub"], { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 5.4);
+
+        // ===================== PLAN 2 · 6.0 → 12.4 =====================
+        tl.to(cam, { s: 1.03, duration: 6.4, ease: "power1.inOut", onUpdate: applyCam }, 6.0);
+
+        tl.fromTo("#grade-multiply", { opacity: 0 }, { opacity: 0.32, duration: 5, ease: "sine.inOut" }, 6.4);
+        tl.fromTo("#grade-color", { opacity: 0 }, { opacity: 0.12, duration: 5, ease: "sine.inOut" }, 6.4);
+        tl.fromTo(
+          "#board-img",
+          { filter: "saturate(1)" },
+          { filter: "saturate(0.74)", duration: 5, ease: "sine.inOut" },
+          6.4,
+        );
+
+        tl.fromTo("#river-thin", { opacity: 0 }, { opacity: 0.5, duration: 0.5, ease: "none" }, 6 - XF);
+        tl.fromTo(
+          "#river-thin",
+          { attr: { "stroke-width": 21.6 } },
+          { attr: { "stroke-width": 7.5 }, duration: 5, ease: "sine.inOut", immediateRender: false },
+          6.4,
+        );
+
+        const lowPath = document.getElementById("river-low");
+        const LL = lowPath.getTotalLength();
+        tl.fromTo(
+          "#drybed",
+          { attr: { "stroke-dasharray": LL + " " + (LL + 200), "stroke-dashoffset": LL } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 5, ease: "sine.inOut" },
+          6.4,
+        );
+
+        YEARS.forEach((y, i) => {
+          tl.fromTo(
+            "#pill-" + i,
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+            y.t,
+          );
+          for (let j = 0; j < i; j++) {
+            tl.to("#pill-" + j, { y: -74 * (i - j), duration: 0.5, ease: "power2.out" }, y.t);
+          }
+          tl.fromTo(
+            "#pill-bar-" + i,
+            { scaleX: 0 },
+            { scaleX: 1, duration: 0.5, ease: "power2.out" },
+            y.t,
+          );
+          const proxy = { v: 0 };
+          const numEl = document.getElementById("pill-num-" + i);
+          tl.fromTo(
+            proxy,
+            { v: 0 },
+            {
+              v: y.value,
+              duration: 0.6,
+              ease: "power2.out",
+              onUpdate: () => {
+                numEl.textContent = String(Math.round(proxy.v));
+              },
+            },
+            y.t,
+          );
+        });
+        tl.to("#pills", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 12.4 - XF);
+
+        // ===================== PLAN 3 · 12.4 → 18.6 =====================
+        tl.to(cam, { s: 1.14, duration: 1.4, ease: "power2.inOut", onUpdate: applyCam }, 12.4);
+
+        ["#m1", "#m2", "#m3", "#m4", "#m5"].forEach((id, i) => {
+          const t = 13.0 + i * 0.3;
+          const disc = id + " .medal-disc";
+          const label = id + " .medal-label";
+          tl.fromTo(disc, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1.06, duration: 0.3, ease: "power2.out" }, t);
+          tl.to(disc, { scale: 1, duration: 0.15, ease: "sine.inOut" }, t + 0.3);
+          tl.fromTo(label, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.33, ease: "power2.out" }, t + 0.12);
+        });
+
+        tl.to("#m3 .medal-disc", { scale: 1.05, duration: 0.25, ease: "sine.inOut" }, 15.6);
+        tl.to("#m3 .medal-disc", { scale: 1, duration: 0.25, ease: "sine.inOut" }, 15.85);
+        tl.fromTo("#served", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 15.6);
+
+        tl.fromTo("#flow-line", { opacity: 0 }, { opacity: 0.4, duration: 0.4, ease: "none" }, 14.2);
+        tl.fromTo(
+          "#flow-line",
+          { attr: { "stroke-dashoffset": 0 } },
+          { attr: { "stroke-dashoffset": -19.9 * (18.6 + XF - 14.2) }, duration: 18.6 + XF - 14.2, ease: "none", immediateRender: false },
+          14.2,
+        );
+        tl.fromTo(
+          ["#lbl-amont", "#lbl-aval"],
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "none" },
+          14.2,
+        );
+
+        // ===================== PLAN 4 · 18.6 → 24.8 =====================
+        tl.to([".medal", "#flow-line", "#lbl-amont", "#lbl-aval"], { opacity: 0, duration: 0.4, ease: "none" }, 18.6);
+        tl.to("#board", { opacity: 0.55, duration: 0.6, ease: "power1.inOut" }, 18.6);
+        tl.fromTo("#board", { filter: "blur(0px)" }, { filter: "blur(2px)", duration: 0.6, ease: "power1.inOut" }, 18.6);
+
+        document.querySelectorAll(".card").forEach((card, i) => {
+          tl.fromTo(
+            card,
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+            19.2 + i * 0.28,
+          );
+        });
+        const reut = { v: 0 };
+        const reutEl = document.getElementById("reut-num");
+        const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
+        tl.fromTo(
+          reut,
+          { v: 0 },
+          {
+            v: 60000,
+            duration: 0.8,
+            ease: "power2.out",
+            onUpdate: () => {
+              reutEl.textContent = fmt(Math.round(reut.v / 100) * 100);
+            },
+          },
+          20.0,
+        );
+        tl.to("#p4-cards", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 24.8 - XF);
+
+        // ===================== PLAN 5 · 24.8 → 30.0 =====================
+        tl.to(cam, { s: 0.8, ox: 0.5, oy: 0.5, dy: -35, duration: 0.9, ease: "power3.inOut", onUpdate: applyCam }, 24.8);
+        tl.to("#board", { opacity: 1, duration: 0.9, ease: "power3.inOut" }, 24.8);
+        tl.to("#board", { filter: "blur(0px)", duration: 0.9, ease: "power3.inOut" }, 24.8);
+        tl.fromTo(
+          "#board",
+          { boxShadow: "0 0 0 0px rgba(251,244,226,0), 0 0px 0px rgba(80,60,30,0)" },
+          {
+            boxShadow: "0 0 0 35px rgba(251,244,226,1), 0 30px 87px rgba(80,60,30,0.22)",
+            duration: 0.9,
+            ease: "power3.inOut",
+            immediateRender: false,
+          },
+          24.8,
+        );
+
+        tl.fromTo(
+          "#p5-mission .plaque",
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          25.9,
+        );
+        tl.fromTo(
+          "#p5-logotype .plaque",
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          27.4,
+        );
+        tl.fromTo("#p5-logos", { opacity: 0 }, { opacity: 0.92, duration: 0.5, ease: "none" }, 28.5);
+
+        // hold the last frame to 30.0
+        tl.set({}, {}, 30);
+
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
