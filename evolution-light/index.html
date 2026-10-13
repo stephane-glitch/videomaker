@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="assets/figures.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #050403;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #050403;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+      }
+      #gl {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        filter: blur(0.5px);
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      #vignette {
+        background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.55) 100%);
+      }
+      #grain {
+        background-image: url("assets/grain.png");
+        background-size: 256px 256px;
+        opacity: 0.07;
+        mix-blend-mode: screen;
+      }
+      #fade {
+        background: #000;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage" class="clip" data-start="0" data-duration="30" data-track-index="0">
+        <canvas id="gl" width="1920" height="1080"></canvas>
+        <div id="vignette" class="layer"></div>
+        <div id="grain" class="layer"></div>
+        <div id="fade" class="layer"></div>
+      </div>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="30" data-track-index="1" data-volume="1"></audio>
+      <audio id="sfx-ignite" src="assets/ignite.mp3" data-start="0.95" data-duration="1.5" data-track-index="2" data-volume="1"></audio>
+      <audio id="sfx-fire" src="assets/fire.mp3" data-start="18.85" data-duration="5" data-track-index="3" data-volume="1"></audio>
+      <audio id="sfx-rise" src="assets/rise.mp3" data-start="24.3" data-duration="3" data-track-index="2" data-volume="1"></audio>
+    </div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+      const W = 1920;
+      const H = 1080;
+      const FPS = 30;
+      const DURATION = 30;
+
+      // ---------------- math helpers ----------------
+      const clamp01 = (v) => Math.min(1, Math.max(0, v));
+      const smooth = (v) => {
+        const x = clamp01(v);
+        return x * x * (3 - 2 * x);
+      };
+      const sineInOut = (v) => 0.5 - 0.5 * Math.cos(Math.PI * clamp01(v));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      // deterministic flicker noise
+      const noise = (t, s) =>
+        0.5 * Math.sin(t * 7.3 + s) + 0.3 * Math.sin(t * 13.1 + s * 2.1) + 0.2 * Math.sin(t * 23.7 + s * 3.7);
+
+      // ---------------- renderer / scene ----------------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050403);
+      scene.fog = new THREE.FogExp2(0x0d0907, 0.05);
+
+      const camera = new THREE.PerspectiveCamera(38, W / H, 0.05, 200);
+
+      // ---------------- textures ----------------
+      function radialTexture(stops) {
+        const c = document.createElement("canvas");
+        c.width = c.height = 256;
+        const g = c.getContext("2d");
+        const grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+        stops.forEach(([o, col]) => grad.addColorStop(o, col));
+        g.fillStyle = grad;
+        g.fillRect(0, 0, 256, 256);
+        const tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        return tex;
+      }
+      const texCore = radialTexture([
+        [0, "rgba(255,255,255,1)"],
+        [0.18, "rgba(255,240,210,0.95)"],
+        [0.45, "rgba(255,190,110,0.35)"],
+        [1, "rgba(255,150,60,0)"],
+      ]);
+      const texHaze = radialTexture([
+        [0, "rgba(255,190,120,0.55)"],
+        [0.4, "rgba(255,160,90,0.18)"],
+        [1, "rgba(255,140,70,0)"],
+      ]);
+      const texFlame = radialTexture([
+        [0, "rgba(255,250,220,1)"],
+        [0.25, "rgba(255,200,90,0.9)"],
+        [0.6, "rgba(255,110,30,0.35)"],
+        [1, "rgba(200,60,10,0)"],
+      ]);
+      const curtainTex = new THREE.TextureLoader().load("assets/curtain.jpg");
+      curtainTex.colorSpace = THREE.SRGBColorSpace;
+      curtainTex.wrapS = THREE.RepeatWrapping;
+      curtainTex.repeat.set(3, 1);
+
+      function sprite(tex, size, opacity, color = 0xffffff) {
+        const m = new THREE.SpriteMaterial({
+          map: tex,
+          color,
+          transparent: true,
+          opacity,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          fog: false,
+        });
+        const s = new THREE.Sprite(m);
+        s.scale.set(size, size, 1);
+        return s;
+      }
+
+      // ---------------- set: wet floor + curtain ----------------
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(80, 40),
+        new THREE.MeshStandardMaterial({
+          color: 0x070605,
+          roughness: 0.3,
+          metalness: 0.55,
+          transparent: true,
+          opacity: 0.62,
+          depthWrite: false,
+        }),
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.renderOrder = 2;
+      scene.add(floor);
+
+      const curtain = new THREE.Mesh(
+        new THREE.PlaneGeometry(60, 9),
+        new THREE.MeshStandardMaterial({ map: curtainTex, roughness: 0.9, metalness: 0, color: 0x8a705c }),
+      );
+      curtain.position.set(6, 4.0, -5.5);
+      scene.add(curtain);
+
+      scene.add(new THREE.HemisphereLight(0x3a2a1c, 0x050403, 0.4));
+
+      // ---------------- the drawing: figures + floor connectors ----------------
+      const FIG = window.EVOLUTION_FIGURES.figures;
+      const FX = [0, 2.6, 5.2, 7.8, 10.4];
+      const FZ = [0, -0.3, 0.2, -0.15, 0.1];
+      const figPts = FIG.map((f, i) =>
+        f.points.map(([x, y], k) => new THREE.Vector3(FX[i] + x, Math.max(0.012, y), FZ[i] + 0.03 * Math.sin(k * 0.45))),
+      );
+      const startOf = (i) => figPts[i][0].clone();
+      function floorLink(a, b, lift = 0.02, bend = 0.35) {
+        const pts = [];
+        for (let k = 0; k <= 24; k++) {
+          const u = k / 24;
+          pts.push(
+            new THREE.Vector3(lerp(a.x, b.x, u), lift + (a.y - lift) * Math.pow(1 - u, 6) + (b.y - lift) * Math.pow(u, 6), lerp(a.z, b.z, u) + bend * Math.sin(Math.PI * u)),
+          );
+        }
+        return pts;
+      }
+
+      // torch figure: full outline, then a second pass up to the torch tip
+      const torchPts = figPts[3];
+      let tipIdx = 0;
+      torchPts.forEach((p, k) => {
+        if (p.y > torchPts[tipIdx].y) tipIdx = k;
+      });
+      const torchStroke = torchPts.concat(torchPts.slice(1, tipIdx + 1));
+      const TIP = torchPts[tipIdx].clone().add(new THREE.Vector3(0, 0.06, 0));
+
+      // spark: falls from the flame in an arc to the floor, then runs to the last figure
+      const sparkPts = [];
+      for (let k = 0; k <= 30; k++) {
+        const u = k / 30;
+        sparkPts.push(new THREE.Vector3(TIP.x + 0.9 * u, TIP.y * (1 - u * u) + 0.02 * u * u + 0.25 * Math.sin(Math.PI * u), TIP.z + 0.2 * u));
+      }
+      const sparkEnd = sparkPts[sparkPts.length - 1];
+      const sparkLink = sparkPts.concat(floorLink(sparkEnd, startOf(4), 0.02, -0.25).slice(1));
+
+      // finale: the last figure's outline, then a rise into the dark
+      const sapPts = figPts[4];
+      let headIdx = 0;
+      sapPts.forEach((p, k) => {
+        if (p.y > sapPts[headIdx].y) headIdx = k;
+      });
+      const HEAD = sapPts[headIdx];
+      const risePts = [];
+      for (let k = 1; k <= 40; k++) {
+        const u = k / 40;
+        risePts.push(new THREE.Vector3(HEAD.x + 2.6 * u, HEAD.y + 1.6 * Math.pow(u, 1.4), HEAD.z - 1.2 * u + 0.35 * Math.sin(u * Math.PI * 2)));
+      }
+      const sapStroke = sapPts.concat(sapPts.slice(1, headIdx + 1)).concat(risePts);
+
+      const ORIGIN = new THREE.Vector3(-2.6, 0.03, 0.5);
+      // [points, t0, t1, ease, radius]
+      const PLAN = [
+        [floorLink(ORIGIN, startOf(0), 0.03, 0.25), 1.8, 2.8, "lin", 0.009],
+        [figPts[0], 2.8, 6.0, "sine", 0.011],
+        [floorLink(startOf(0), startOf(1)), 6.0, 7.0, "lin", 0.009],
+        [figPts[1], 7.0, 10.0, "sine", 0.011],
+        [floorLink(startOf(1), startOf(2)), 10.0, 11.0, "lin", 0.009],
+        [figPts[2], 11.0, 14.2, "sine", 0.011],
+        [floorLink(startOf(2), startOf(3)), 14.2, 15.2, "lin", 0.009],
+        [torchStroke, 15.2, 18.9, "sine", 0.011],
+        [sparkLink, 19.7, 21.0, "sine", 0.009],
+        [sapStroke, 21.0, 25.6, "sine", 0.011],
+      ];
+      const T_IGNITE = 1.0;
+      const T_FIRE = 18.9;
+
+      const glowColor = new THREE.Color(0xffc690).multiplyScalar(1.7);
+      const strokes = PLAN.map(([pts, t0, t1, ease, radius]) => {
+        const curve = new THREE.CatmullRomCurve3(pts, false, "centripetal");
+        const len = curve.getLength();
+        const seg = Math.max(64, Math.ceil(len / 0.008));
+        const radial = 6;
+        const geo = new THREE.TubeGeometry(curve, seg, radius, radial, false);
+        geo.setDrawRange(0, 0);
+        const mat = new THREE.MeshBasicMaterial({ color: glowColor.clone(), transparent: true, opacity: 1, fog: false, toneMapped: false });
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+        // wet-floor reflection: the same geometry mirrored under the floor
+        const rmat = new THREE.MeshBasicMaterial({ color: glowColor.clone(), transparent: true, opacity: 0.4, fog: false, toneMapped: false, depthWrite: false });
+        const refl = new THREE.Mesh(geo, rmat);
+        refl.scale.y = -1;
+        refl.renderOrder = 1;
+        scene.add(refl);
+        return { curve, geo, mat, rmat, seg, radial, t0, t1, ease };
+      });
+
+      function progressOf(s, t) {
+        const u = clamp01((t - s.t0) / (s.t1 - s.t0));
+        return s.ease === "sine" ? sineInOut(u) : u;
+      }
+
+      // where is the light at time t?
+      function headAt(t) {
+        if (t < PLAN[0][1]) return ORIGIN.clone();
+        for (let i = 0; i < strokes.length; i++) {
+          const s = strokes[i];
+          const next = strokes[i + 1];
+          if (t <= s.t1) return s.curve.getPointAt(progressOf(s, t));
+          if (!next || t < next.t0) {
+            // waiting between strokes: rests at the end (the torch tip waits as the flame)
+            return s.curve.getPointAt(1);
+          }
+        }
+        return strokes[strokes.length - 1].curve.getPointAt(1);
+      }
+
+      // ---------------- the light itself ----------------
+      const head = new THREE.Group();
+      const headCore = sprite(texCore, 0.22, 1);
+      const headHalo = sprite(texHaze, 0.9, 0.3);
+      head.add(headHalo, headCore);
+      scene.add(head);
+      const headRefl = sprite(texCore, 0.26, 0.2);
+      scene.add(headRefl);
+      const headLight = new THREE.PointLight(0xffb878, 0, 9, 1.6);
+      scene.add(headLight);
+
+      // ---------------- the fire ----------------
+      const flame = new THREE.Group();
+      const flameSprites = [];
+      for (let k = 0; k < 7; k++) {
+        const s = sprite(texFlame, 0.22, 0.85, k < 3 ? 0xfff0c8 : 0xffa24a);
+        flame.add(s);
+        flameSprites.push(s);
+      }
+      const flameHalo = sprite(texHaze, 1.3, 0.0);
+      flame.add(flameHalo);
+      flame.position.copy(TIP);
+      scene.add(flame);
+      const flameLight = new THREE.PointLight(0xff9a4a, 0, 10, 1.4);
+      flameLight.position.copy(TIP);
+      scene.add(flameLight);
+      const flameRefl = sprite(texFlame, 0.7, 0);
+      flameRefl.position.set(TIP.x, -TIP.y, TIP.z);
+      scene.add(flameRefl);
+
+      // ---------------- low haze drifting over the floor ----------------
+      const hazes = [];
+      for (let k = 0; k < 9; k++) {
+        const s = sprite(texHaze, 6 + (k % 3) * 2, 0.05, 0xd8b090);
+        s.position.set(-2 + k * 1.9, 0.5 + (k % 2) * 0.4, -1.5 + (k % 3) * 0.8);
+        hazes.push(s);
+        scene.add(s);
+      }
+
+      // ---------------- post: bloom = long exposure glow ----------------
+      const composer = new EffectComposer(renderer);
+      composer.setPixelRatio(1);
+      composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.75, 0.45, 0.18);
+      composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+
+      // ---------------- camera ----------------
+      function followX(t) {
+        // lagged average of the light's x: the camera trails the light, never jerks
+        let acc = 0;
+        let n = 0;
+        for (let k = 0; k <= 12; k++) {
+          const tt = Math.max(0, t - 0.9 + k * 0.075);
+          acc += headAt(tt).x;
+          n++;
+        }
+        return acc / n;
+      }
+      const camPos = new THREE.Vector3();
+      const camLook = new THREE.Vector3();
+      function cameraAt(t) {
+        const hx = followX(t);
+        const hy = headAt(t).y;
+        // follow shot: low, close, a three-quarter angle down the procession
+        const fPos = new THREE.Vector3(hx - 2.0, 1.0 + 0.15 * hy, 5.7);
+        const fLook = new THREE.Vector3(hx + 0.6, 0.75 + 0.15 * hy, 0);
+        // opening: tight on the spark in the dark
+        const oPos = new THREE.Vector3(ORIGIN.x - 0.9, 0.45, ORIGIN.z + 2.4);
+        const oLook = ORIGIN.clone().add(new THREE.Vector3(0.4, 0.15, 0));
+        // finale: crane back to reveal the whole procession
+        const wPos = new THREE.Vector3(4.6, 2.3, 13.0);
+        const wLook = new THREE.Vector3(6.2, 0.95, 0);
+        const kOpen = smooth((t - 1.6) / 1.8);
+        const kWide = sineInOut((t - 24.6) / 4.2);
+        camPos.copy(oPos).lerp(fPos, kOpen).lerp(wPos, kWide);
+        camLook.copy(oLook).lerp(fLook, kOpen).lerp(wLook, kWide);
+        // a hint of handheld drift, deterministic
+        camPos.x += 0.03 * Math.sin(t * 0.7);
+        camPos.y += 0.02 * Math.sin(t * 0.9 + 1.0);
+        camera.position.copy(camPos);
+        camera.lookAt(camLook);
+      }
+
+      // ---------------- render one exact frame ----------------
+      const fadeEl = document.getElementById("fade");
+      const grainEl = document.getElementById("grain");
+      function renderAt(t) {
+        t = Math.min(Math.max(t, 0), DURATION);
+
+        // strokes: draw progress + long-exposure afterglow
+        strokes.forEach((s) => {
+          const p = progressOf(s, t);
+          const segs = Math.floor(p * s.seg);
+          s.geo.setDrawRange(0, segs * s.radial * 6);
+          const age = Math.max(0, t - s.t1);
+          const k = 1 - 0.38 * smooth(age / 6);
+          s.mat.color.copy(glowColor).multiplyScalar(k);
+          s.rmat.color.copy(glowColor).multiplyScalar(k);
+        });
+
+        // the light
+        const hp = headAt(t);
+        const ign = smooth((t - T_IGNITE) / 0.5);
+        const pulse = 1 + 0.08 * noise(t, 1.3);
+        const fireOn = smooth((t - T_FIRE) / 0.5);
+        const atTorch = t >= T_FIRE - 0.05 && t < PLAN[8][1];
+        const endFade = 1 - smooth((t - 27.2) / 2.4) * 0.6;
+        head.position.copy(hp);
+        headCore.scale.setScalar(0.22 * pulse * (0.4 + 0.6 * ign));
+        headCore.material.opacity = ign * (atTorch ? 0 : 1) * endFade;
+        headHalo.material.opacity = 0.22 * ign * (atTorch ? 0 : 1) * endFade;
+        headRefl.position.set(hp.x, -hp.y, hp.z);
+        headRefl.material.opacity = 0.14 * ign * (atTorch ? 0 : 1) * endFade;
+        headLight.position.copy(hp);
+        headLight.intensity = 2.2 * ign * pulse * (atTorch ? 0 : 1) * endFade;
+
+        // the fire: lit when the light reaches the torch, burns until the end
+        flameSprites.forEach((s, k) => {
+          const n1 = noise(t * 1.6, k * 1.7);
+          const n2 = noise(t * 2.1, k * 2.9 + 4);
+          s.position.set(0.03 * n1, 0.05 + k * 0.045 + 0.03 * n2, 0.02 * n2);
+          const sc = (0.22 - k * 0.02) * (1 + 0.25 * n1) * fireOn;
+          s.scale.set(sc, sc * 1.5, 1);
+        });
+        flameHalo.material.opacity = 0.35 * fireOn * (1 + 0.15 * noise(t, 9));
+        flameLight.intensity = 3.5 * fireOn * (1 + 0.2 * noise(t * 1.4, 5));
+        flameRefl.material.opacity = 0.18 * fireOn;
+        flameRefl.scale.set(0.7, 1.4, 1);
+
+        hazes.forEach((s, k) => {
+          s.position.x = -2 + k * 1.9 + 0.3 * Math.sin(t * 0.15 + k);
+          s.material.opacity = 0.035 * smooth((t - 0.8) / 2);
+        });
+
+        cameraAt(t);
+        composer.render();
+
+        const f = Math.floor(t * FPS + 1e-6);
+        const h = Math.imul(f + 1, 2654435761) >>> 0;
+        grainEl.style.backgroundPosition = (h % 256) + "px " + ((h >>> 8) % 256) + "px";
+        fadeEl.style.opacity = String(smooth((t - 29.2) / 0.8) * 0.85);
+      }
+
+      // HyperFrames clock: an empty paused timeline carries the 30 s duration; the
+      // three adapter's hf-seek drives every frame through renderAt.
+      const clock = gsap.timeline({ paused: true });
+      clock.set({}, {}, DURATION);
+      window.__timelines["main"] = clock;
+
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
