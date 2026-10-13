@@ -92,11 +92,35 @@ def sapiens(d, ox, oy):  # modern, tall long stride, arms swinging
     cap(d, (0.03, 1.40), (0.16, 1.16), 0.055, ox, oy); cap(d, (0.16, 1.16), (0.30, 1.00), 0.048, ox, oy)
     cap(d, (-0.02, 1.40), (-0.16, 1.18), 0.055, ox, oy); cap(d, (-0.16, 1.18), (-0.24, 0.96), 0.048, ox, oy)
 
-def contour(fn):
+
+def robot(d, ox, oy):  # same stride as sapiens, rebuilt in hard angles
+    R = lambda x0, y0, x1, y1: poly(d, [(x0, y0), (x1, y0), (x1, y1), (x0, y1)], ox, oy)
+    R(-0.16, 1.00, 0.16, 1.50)                                   # chest block
+    poly(d, [(-0.12, 0.92), (0.12, 0.92), (0.16, 1.02), (-0.16, 1.02)], ox, oy)   # hips
+    R(-0.035, 1.50, 0.035, 1.58)                                 # neck
+    R(-0.11, 1.58, 0.15, 1.80)                                   # head
+    poly(d, [(0.15, 1.64), (0.20, 1.66), (0.20, 1.74), (0.15, 1.76)], ox, oy)     # visor
+    R(-0.012, 1.80, 0.012, 1.92); R(-0.03, 1.92, 0.03, 1.96)     # antenna
+    def limb(a, b, w):
+        (x1, y1), (x2, y2) = a, b; dx, dy = x2 - x1, y2 - y1; L = (dx * dx + dy * dy) ** 0.5
+        nx, ny = -dy / L * w, dx / L * w
+        poly(d, [(x1 + nx, y1 + ny), (x2 + nx, y2 + ny), (x2 - nx, y2 - ny), (x1 - nx, y1 - ny)], ox, oy)
+    def joint(c, r): R(c[0] - r, c[1] - r, c[0] + r, c[1] + r)
+    limb((0.04, 0.96), (0.18, 0.52), 0.07); joint((0.18, 0.52), 0.075); limb((0.18, 0.52), (0.30, 0.07), 0.055)
+    limb((-0.04, 0.96), (-0.14, 0.52), 0.07); joint((-0.14, 0.52), 0.075); limb((-0.14, 0.52), (-0.36, 0.12), 0.055)
+    poly(d, [(0.22, 0.0), (0.48, 0.0), (0.48, 0.06), (0.24, 0.08)], ox, oy)       # feet
+    poly(d, [(-0.48, 0.07), (-0.30, 0.03), (-0.28, 0.12), (-0.44, 0.15)], ox, oy)
+    joint((0.0, 1.44), 0.0)
+    limb((0.10, 1.42), (0.20, 1.18), 0.05); joint((0.20, 1.18), 0.06); limb((0.20, 1.18), (0.38, 1.18), 0.045)
+    R(0.38, 1.13, 0.44, 1.23)                                    # hand
+    limb((-0.10, 1.42), (-0.20, 1.16), 0.05); joint((-0.20, 1.16), 0.06); limb((-0.20, 1.16), (-0.26, 0.94), 0.045)
+
+def contour(fn, smooth=True):
     W, H = int(2.4 * PX), int(2.4 * PX); ox, oy = 1.0 * PX, 2.3 * PX
     im = Image.new("L", (W, H), 0); d = ImageDraw.Draw(im); fn(d, ox, oy)
     from PIL import ImageFilter
-    im = im.filter(ImageFilter.GaussianBlur(9)).point(lambda v: 255 if v > 110 else 0)
+    if smooth:
+        im = im.filter(ImageFilter.GaussianBlur(9)).point(lambda v: 255 if v > 110 else 0)
     a = np.asarray(im) > 127
     cs = measure.find_contours(a.astype(float), 0.5)
     c = max(cs, key=len)
@@ -109,13 +133,13 @@ def contour(fn):
     pts = pts[s:] + pts[:s] + [pts[s]]
     return pts, im
 
-FIGS = [("ape", ape), ("australopithecus", australo), ("erectus", erectus), ("torch", torch), ("sapiens", sapiens)]
+FIGS = [("ape", ape), ("australopithecus", australo), ("erectus", erectus), ("torch", torch), ("sapiens", sapiens), ("robot", robot)]
 if __name__ == "__main__":
     import sys
     out = {"figures": []}
-    sheet = Image.new("L", (5 * 480, 480), 0)
+    sheet = Image.new("L", (len(FIGS) * 480, 480), 0)
     for i, (name, fn) in enumerate(FIGS):
-        pts, im = contour(fn)
+        pts, im = contour(fn, smooth=(name != "robot"))
         out["figures"].append({"name": name, "points": [[round(x, 4), round(y, 4)] for x, y in pts]})
         sheet.paste(im.resize((480, 480)), (i * 480, 0))
         print(name, len(pts), "pts")
