@@ -60,12 +60,38 @@ façon procédurale et déterministe (relief par fonctions, PRNG à graine fixe,
 Ordre des logos : Interreg Sudoe · Université de Toulouse · IMT Mines Alès · GEODE ·
 Défis clés Water Occitanie.
 
-## Voix
+## Script de la voix off
 
-Voix française masculine, chaude, posée, registre conteur documentaire (pas de voix de
-bande-annonce). Générée avec ElevenLabs (`eleven_multilingual_v2`), débit 0,95, la
-dernière phrase un peu plus lente (0,9). Niveau −16 LUFS. Récupère l'horodatage mot à mot
-pour caler les éveils des lieux sur « vignes », « troupeaux », « village », « champs ».
+Cinq répliques, à dire exactement ainsi (ne pas réécrire). Chaque réplique est un fichier
+séparé, posé à l'instant indiqué.
+
+| #   | Début  | Durée env. | Texte                                                                     | Intention                                                                                                                      |
+| --- | ------ | ---------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | 3,7 s  | 1 s        | Une rivière.                                                              | Posé, presque murmuré, juste après l'impact de la goutte.                                                                      |
+| 2   | 4,9 s  | 6,8 s      | Des vignes. Des troupeaux. Un village. Des champs. La même eau pour tous. | Chaleureux, un temps marqué après chaque point : chaque mot réveille un lieu. « La même eau pour tous » plus lent, en ouvrant. |
+| 3   | 13,4 s | 3,5 s      | Mais les étés s'allongent. Et la pluie se fait rare.                      | Plus grave, sans dramatiser.                                                                                                   |
+| 4   | 19,6 s | 4,5 s      | Partager ou garder ? S'entendre, ou laisser tomber le voisin ?            | Deux vraies questions, posées au spectateur. Légère tension.                                                                   |
+| 5   | 28,0 s | 4 s        | Saurez-vous tenir le territoire… quand l'eau vient à manquer ?            | Un ton en dessous, plus lent, un silence sur les points de suspension. Pas de montée finale.                                   |
+
+Repères mot à mot pour la réplique 2 (depuis le début du fichier) : « vignes » 0,29 s,
+« troupeaux » 1,43 s, « village » 2,69 s, « champs » 3,97 s, « La même eau » 4,81 s.
+Les éveils des lieux se calent sur ces mots. Si la voix générée diffère, recale les
+éveils sur l'horodatage réel, pas l'inverse.
+
+**Génération** (ElevenLabs) :
+
+- Voix : française masculine, chaude, grave médium, registre conteur documentaire, pas
+  de voix de bande-annonce. Celle retenue : « Guillaume – Narrator » de la bibliothèque
+  partagée ElevenLabs (`voice_id` `tVu7uvtKsrCoOPPIUVR7`).
+- Modèle `eleven_multilingual_v2`, `language_code` `fr`, endpoint `with-timestamps` pour
+  récupérer l'horodatage.
+- Réglages : stability 0,55, similarity_boost 0,8, style 0,15, speaker boost activé,
+  speed 0,95 (0,9 pour la réplique 5).
+- Passer la réplique précédente et la suivante en `previous_text` / `next_text` pour
+  garder une intonation continue.
+- Normaliser chaque fichier à −16 LUFS (crête −2 dB).
+
+Sous-titres : produire aussi un `.vtt` calé sur ces cinq répliques, non incrusté.
 
 ## Son
 
