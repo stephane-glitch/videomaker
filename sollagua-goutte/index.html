@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fraunces";
+        font-weight: 600;
+        font-display: block;
+        src: url("assets/fonts/Fraunces-wght-600-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fraunces";
+        font-weight: 700;
+        font-display: block;
+        src: url("assets/fonts/Fraunces-wght-700-latin.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0b2a3a;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0b2a3a;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+      }
+      #gl {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      #vignette {
+        background: radial-gradient(ellipse 72% 72% at 50% 50%, rgba(20, 14, 8, 0) 55%, rgba(20, 14, 8, 0.4) 100%);
+      }
+      #grain {
+        background-image: url("assets/grain.png");
+        background-size: 256px 256px;
+        opacity: 0.045;
+      }
+      #final {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        padding-bottom: 90px;
+        opacity: 0;
+      }
+      #logo {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        color: #fbf4e2;
+      }
+      #logo svg {
+        width: 84px;
+        height: 84px;
+        fill: none;
+        stroke: #9fd4f5;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      #wordmark {
+        font: 700 124px/1 "Fraunces", serif;
+        letter-spacing: 0.18em;
+        margin-right: -0.18em;
+        text-shadow: 0 6px 30px rgba(0, 20, 30, 0.55);
+      }
+      .ask {
+        font: 600 56px/1.15 "Fraunces", serif;
+        color: #fbf4e2;
+        text-align: center;
+        text-shadow: 0 4px 22px rgba(0, 20, 30, 0.6);
+        white-space: nowrap;
+      }
+      .ask em {
+        font-style: normal;
+        color: #9fd4f5;
+      }
+      #play {
+        font: 600 40px/1 "Fraunces", serif;
+        color: #9fd4f5;
+        margin-top: 6px;
+      }
+      #partners {
+        position: absolute;
+        left: 50%;
+        bottom: 62px;
+        display: flex;
+        align-items: center;
+        gap: 44px;
+        padding: 14px 36px;
+        border-radius: 18px;
+        background: rgba(251, 244, 226, 0.94);
+        box-shadow: 0 10px 36px rgba(0, 15, 25, 0.35);
+        opacity: 0;
+      }
+      #partners img {
+        height: 50px;
+        width: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="36"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage" class="clip" data-start="0" data-duration="36" data-track-index="0">
+        <canvas id="gl" width="1920" height="1080"></canvas>
+        <div id="vignette" class="layer"></div>
+        <div id="final" class="layer">
+          <div id="logo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.8C12 2.8 5.2 10.6 5.2 15.2a6.8 6.8 0 0 0 13.6 0C18.8 10.6 12 2.8 12 2.8Z" />
+              <path d="M8.9 15.6a3.2 3.2 0 0 0 3.1 3" />
+            </svg>
+            <div id="wordmark">SOLLAGUA</div>
+          </div>
+          <div class="ask" id="ask1">Saurez-vous tenir le territoire…</div>
+          <div class="ask" id="ask2">quand <em>l’eau</em> vient à manquer ?</div>
+          <div id="play">À vous de jouer.</div>
+        </div>
+        <div id="partners">
+          <img src="assets/logos/interreg.png" alt="Interreg Sudoe" />
+          <img src="assets/logos/univ-toulouse.png" alt="Université de Toulouse" />
+          <img src="assets/logos/imt-mines-ales.png" alt="IMT Mines Alès" />
+          <img src="assets/logos/geode.png" alt="GEODE" />
+          <img src="assets/logos/defis-cles.png" alt="Défis clés Water Occitanie" />
+        </div>
+        <div id="grain" class="layer"></div>
+      </div>
+
+      <audio id="vo1" src="assets/l1.mp3" data-start="3.7" data-duration="1.2" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo2" src="assets/l2.mp3" data-start="4.9" data-duration="7.0" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo3" src="assets/l3.mp3" data-start="13.4" data-duration="3.8" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo4" src="assets/l4.mp3" data-start="19.6" data-duration="4.7" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo5" src="assets/l5.mp3" data-start="28.0" data-duration="4.2" data-track-index="1" data-volume="1"></audio>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="36" data-track-index="2" data-volume="1"></audio>
+      <audio id="sfx-drop" src="assets/sfx-drop.mp3" data-start="3.45" data-duration="2" data-track-index="3" data-volume="1"></audio>
+      <audio id="sfx-stream" src="assets/sfx-stream.mp3" data-start="3.6" data-duration="8" data-track-index="4" data-volume="1"></audio>
+      <audio id="sfx-wind" src="assets/sfx-wind.mp3" data-start="13.2" data-duration="5" data-track-index="3" data-volume="1"></audio>
+      <audio id="sfx-crack" src="assets/sfx-crack.mp3" data-start="15.4" data-duration="3" data-track-index="4" data-volume="1"></audio>
+      <audio id="sfx-ripple" src="assets/sfx-ripple.mp3" data-start="27.15" data-duration="4" data-track-index="3" data-volume="1"></audio>
+      <audio id="sfx-chime" src="assets/sfx-chime.mp3" data-start="27.7" data-duration="2.5" data-track-index="4" data-volume="1"></audio>
+    </div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+      const W = 1920;
+      const H = 1080;
+      const FPS = 30;
+      const DURATION = 36;
+
+      // ---------------- helpers ----------------
+      const clamp01 = (v) => Math.min(1, Math.max(0, v));
+      const smooth = (v) => {
+        const x = clamp01(v);
+        return x * x * (3 - 2 * x);
+      };
+      const sineInOut = (v) => 0.5 - 0.5 * Math.cos(Math.PI * clamp01(v));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const win = (t, a, b) => smooth((t - a) / (b - a));
+      function rng(seed) {
+        let a = seed >>> 0;
+        return () => {
+          a = (a + 0x6d2b79f5) >>> 0;
+          let t = a;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      const R = rng(7);
+
+      // ---------------- the valley, laid out like the game board ----------------
+      const BW = 40;
+      const BD = 22.5;
+      const board = (bx, by) => new THREE.Vector2((bx - 0.5) * BW, (by - 0.5) * BD);
+      const RIVER_PX = [
+        [560, -10], [640, 40], [700, 85], [760, 122], [805, 160], [870, 190], [935, 215], [948, 240], [900, 268],
+        [820, 290], [740, 302], [682, 325], [655, 357], [680, 392], [730, 427], [790, 465], [842, 502], [888, 538],
+        [900, 560], [905, 588], [945, 612], [992, 642], [1028, 690], [1018, 732], [988, 772], [972, 820], [1000, 862],
+        [1058, 902], [1112, 951],
+      ];
+      const river2d = new THREE.SplineCurve(RIVER_PX.map(([x, y]) => board(x / 1672, y / 941)));
+      const RIVER_N = 700;
+      const riverSamples = river2d.getSpacedPoints(RIVER_N);
+      const riverLen = river2d.getLength();
+
+      const PLACES = {
+        troupeaux: { p: board(0.16, 0.175), r: 3.0, u: 0.03 },
+        vigne: { p: board(0.77, 0.13), r: 3.2, u: 0.25 },
+        village: { p: board(0.7, 0.3), r: 2.8, u: 0.285 },
+        champs: { p: board(0.21, 0.46), r: 3.6, u: 0.48 },
+        mare: { p: board(0.85, 0.79), r: 2.8, u: 0.97 },
+        village2: { p: board(0.2, 0.7), r: 2.6, u: 0.5 },
+        retH: { p: board(0.53, 0.13), r: 1.9 },
+        pool: { p: board(0.51, 0.43), r: 2.0 },
+      };
+
+      function riverDist(x, z) {
+        let best = 1e9;
+        for (let i = 0; i < riverSamples.length; i += 2) {
+          const d = (riverSamples[i].x - x) ** 2 + (riverSamples[i].y - z) ** 2;
+          if (d < best) best = d;
+        }
+        return Math.sqrt(best);
+      }
+      function baseHeight(x, z) {
+        let h =
+          0.55 * Math.sin(x * 0.21 + 1.3) * Math.cos(z * 0.27) +
+          0.32 * Math.sin(x * 0.53 + z * 0.31) +
+          0.18 * Math.sin(z * 0.9 + x * 0.17);
+        const ex = Math.abs(x) / 21;
+        const ez = Math.abs(z) / 12;
+        h += 2.6 * smooth((Math.max(ex, ez) - 0.78) / 0.5);
+        return h;
+      }
+      const placeBase = {};
+      for (const k in PLACES) placeBase[k] = baseHeight(PLACES[k].p.x, PLACES[k].p.y);
+      function height(x, z, dRiver) {
+        const d = dRiver === undefined ? riverDist(x, z) : dRiver;
+        let h = baseHeight(x, z) * (0.35 + 0.65 * smooth(d / 3.5));
+        for (const k in PLACES) {
+          const pl = PLACES[k];
+          const dp = Math.hypot(x - pl.p.x, z - pl.p.y);
+          h = lerp(h, placeBase[k] * 0.7, smooth((pl.r + 2.0 - dp) / 2.0));
+        }
+        h -= 1.0 * Math.exp(-((d / 1.25) ** 2));
+        return h;
+      }
+
+      // ---------------- renderer ----------------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0xf2e6cc, 30, 80);
+      const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 300);
+
+      // sky dome with animated gradient
+      const skyU = { top: { value: new THREE.Color() }, horizon: { value: new THREE.Color() } };
+      const sky = new THREE.Mesh(
+        new THREE.SphereGeometry(150, 32, 16),
+        new THREE.ShaderMaterial({
+          side: THREE.BackSide,
+          depthWrite: false,
+          fog: false,
+          uniforms: skyU,
+          vertexShader: "varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
+          fragmentShader:
+            "uniform vec3 top; uniform vec3 horizon; varying vec3 vP; void main(){ float k = smoothstep(-0.05, 0.55, vP.y); gl_FragColor = vec4(mix(horizon, top, k), 1.0); }",
+        }),
+      );
+      scene.add(sky);
+
+      const sun = new THREE.DirectionalLight(0xfff1d8, 2.4);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(2048, 2048);
+      sun.shadow.camera.left = -26;
+      sun.shadow.camera.right = 26;
+      sun.shadow.camera.top = 18;
+      sun.shadow.camera.bottom = -18;
+      sun.shadow.camera.near = 1;
+      sun.shadow.camera.far = 90;
+      sun.shadow.bias = -0.0006;
+      sun.shadow.normalBias = 0.03;
+      scene.add(sun, sun.target);
+      const hemi = new THREE.HemisphereLight(0xcfe3f0, 0x6b5a3c, 1.0);
+      scene.add(hemi);
+
+      // ---------------- terrain ----------------
+      const TERRAIN_W = 66;
+      const TERRAIN_D = 42;
+      const tGeo = new THREE.PlaneGeometry(TERRAIN_W, TERRAIN_D, 198, 126);
+      tGeo.rotateX(-Math.PI / 2);
+      const tPos = tGeo.attributes.position;
+      const tCol = new Float32Array(tPos.count * 3);
+      const tRiv = new Float32Array(tPos.count);
+      const cGrass = new THREE.Color(0x8fa65a);
+      const cGrass2 = new THREE.Color(0x6f8c45);
+      const cGold = new THREE.Color(0xd9b56b);
+      const cSand = new THREE.Color(0xcfc3a8);
+      const cPebble = new THREE.Color(0xa99f8b);
+      const tmpC = new THREE.Color();
+      for (let i = 0; i < tPos.count; i++) {
+        const x = tPos.getX(i);
+        const z = tPos.getZ(i);
+        const d = riverDist(x, z);
+        tPos.setY(i, height(x, z, d));
+        tRiv[i] = d;
+        // patchwork of fields
+        const fx = Math.floor((x + 40) / 3.1);
+        const fz = Math.floor((z + 40) / 2.3);
+        const cell = (Math.sin(fx * 12.9898 + fz * 78.233) * 43758.5453) % 1;
+        const pick = Math.abs(cell);
+        tmpC.copy(pick > 0.62 ? cGold : pick > 0.3 ? cGrass : cGrass2);
+        tmpC.offsetHSL(0, 0, (Math.sin(x * 1.7) * Math.sin(z * 2.3)) * 0.03);
+        tmpC.lerp(cSand, 1 - smooth((d - 0.9) / 1.0));
+        tmpC.lerp(cPebble, 1 - smooth((d - 0.4) / 0.6));
+        tCol[i * 3] = tmpC.r;
+        tCol[i * 3 + 1] = tmpC.g;
+        tCol[i * 3 + 2] = tmpC.b;
+      }
+      tGeo.setAttribute("color", new THREE.BufferAttribute(tCol, 3));
+      tGeo.setAttribute("aRiver", new THREE.BufferAttribute(tRiv, 1));
+      tGeo.computeVertexNormals();
+      const U = { life: { value: 0 }, dry: { value: 0 } };
+      const tMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
+      tMat.onBeforeCompile = (sh) => {
+        sh.uniforms.uLife = U.life;
+        sh.uniforms.uDry = U.dry;
+        sh.vertexShader = sh.vertexShader
+          .replace("#include <common>", "#include <common>\nattribute float aRiver;\nvarying float vRiver;\nvarying vec3 vWPos;")
+          .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRiver = aRiver;\nvWPos = (modelMatrix * vec4(position, 1.0)).xyz;");
+        sh.fragmentShader = sh.fragmentShader
+          .replace(
+            "#include <common>",
+            `#include <common>
+uniform float uLife; uniform float uDry; varying float vRiver; varying vec3 vWPos;
+vec2 h2(vec2 p){ p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3))); return fract(sin(p) * 43758.5453); }
+float cellEdge(vec2 x){ vec2 n = floor(x); vec2 f = fract(x); float m1 = 8.0; float m2 = 8.0;
+  for (int j = -1; j <= 1; j++) for (int i = -1; i <= 1; i++) { vec2 g = vec2(float(i), float(j)); vec2 r = g + h2(n + g) - f; float d = dot(r, r);
+    if (d < m1) { m2 = m1; m1 = d; } else if (d < m2) { m2 = d; } }
+  return 1.0 - smoothstep(0.0, 0.05, sqrt(m2) - sqrt(m1)); }`,
+          )
+          .replace(
+            "#include <color_fragment>",
+            `#include <color_fragment>
+vec3 c = diffuseColor.rgb;
+float l = dot(c, vec3(0.299, 0.587, 0.114));
+vec3 muted = mix(vec3(l), c, 0.3) * vec3(1.04, 0.98, 0.9);
+c = mix(muted, c, uLife);
+vec3 parched = vec3(0.82, 0.66, 0.42) * (0.75 + 0.5 * l);
+c = mix(c, parched, uDry * 0.78);
+float bed = 1.0 - smoothstep(0.5, 1.6, vRiver);
+float crack = cellEdge(vWPos.xz * 5.5);
+c = mix(c, c * 0.55, uDry * crack * (bed + 0.12));
+diffuseColor.rgb = c;`,
+          );
+      };
+      const terrain = new THREE.Mesh(tGeo, tMat);
+      terrain.receiveShadow = true;
+      scene.add(terrain);
+
+      // ---------------- water shader (river, canals, ponds) ----------------
+      const waterVS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
+      const ribbonFS = `
+uniform float uTime; uniform float uA; uniform float uB; uniform float uW; uniform float uGlow; uniform float uOpacity; uniform float uLen;
+uniform vec3 uDeep; uniform vec3 uLight; varying vec2 vUv;
+void main(){
+  float u = vUv.x; float v = vUv.y;
+  if (u < uA || u > uB) discard;
+  float e = abs(v);
+  float taper = mix(0.08, 1.0, smoothstep(uB, uB - 0.012, u) * smoothstep(uA, uA + 0.012, u) + step(0.999, uB) * step(u, uB));
+  float w = uW * clamp(taper, 0.0, 1.0);
+  if (e > w) discard;
+  float soft = 1.0 - smoothstep(w * 0.55, w, e);
+  float f1 = sin(u * uLen * 4.0 - uTime * 6.5 + v * 2.5) * 0.5 + 0.5;
+  float f2 = sin(u * uLen * 9.0 - uTime * 10.0 - v * 4.0) * 0.5 + 0.5;
+  vec3 col = mix(uDeep, uLight, 0.15 + 0.45 * f1 * f2 + 0.25 * (1.0 - e / max(w, 0.001)));
+  float head = smoothstep(uB - 0.03, uB, u) * step(uB, 0.999);
+  col += vec3(0.6, 0.85, 1.0) * head * uGlow * 0.9;
+  col += vec3(0.3, 0.55, 0.8) * uGlow * 0.12;
+  gl_FragColor = vec4(col, soft * uOpacity);
+}`;
+      const pondFS = `
+uniform float uTime; uniform float uRip; uniform float uOpacity; uniform vec3 uDeep; uniform vec3 uLight; varying vec2 vUv;
+void main(){
+  vec2 q = vUv - 0.5; float r = length(q) * 2.0;
+  if (r > 1.0) discard;
+  float soft = 1.0 - smoothstep(0.86, 1.0, r);
+  float base = 0.5 + 0.5 * sin(r * 26.0 - uTime * 1.6) * 0.15;
+  float ring = 0.0;
+  if (uRip > 0.0) {
+    for (int k = 0; k < 4; k++) {
+      float c = uRip * 0.42 - float(k) * 0.07;
+      if (c > 0.0) ring += sin((r - c) * 70.0) * exp(-abs(r - c) * 26.0) * exp(-uRip * 0.17);
+    }
+  }
+  vec3 col = mix(uDeep, uLight, 0.25 + 0.2 * base + 0.6 * max(ring, 0.0)) - vec3(0.06) * max(-ring, 0.0);
+  gl_FragColor = vec4(col, soft * uOpacity);
+}`;
+      const DEEP = new THREE.Color(0x1d6aa3);
+      const LIGHT = new THREE.Color(0x6fbfec);
+      function waterMat(len, w) {
+        return new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          uniforms: {
+            uTime: { value: 0 }, uA: { value: 0 }, uB: { value: 0 }, uW: { value: w }, uGlow: { value: 0 },
+            uOpacity: { value: 1 }, uLen: { value: len }, uDeep: { value: DEEP.clone() }, uLight: { value: LIGHT.clone() },
+          },
+          vertexShader: waterVS,
+          fragmentShader: ribbonFS,
+        });
+      }
+      function ribbon(points2d, halfWidth, lift, len) {
+        const n = points2d.length;
+        const pos = new Float32Array(n * 2 * 3);
+        const uv = new Float32Array(n * 2 * 2);
+        const idx = [];
+        for (let i = 0; i < n; i++) {
+          const p = points2d[i];
+          const a = points2d[Math.max(0, i - 1)];
+          const b = points2d[Math.min(n - 1, i + 1)];
+          const tx = b.x - a.x;
+          const tz = b.y - a.y;
+          const tl = Math.hypot(tx, tz) || 1;
+          const nx = -tz / tl;
+          const nz = tx / tl;
+          const y = height(p.x, p.y) + lift;
+          for (let s = 0; s < 2; s++) {
+            const sg = s === 0 ? -1 : 1;
+            const k = (i * 2 + s) * 3;
+            pos[k] = p.x + nx * halfWidth * sg;
+            pos[k + 1] = y;
+            pos[k + 2] = p.y + nz * halfWidth * sg;
+            uv[(i * 2 + s) * 2] = i / (n - 1);
+            uv[(i * 2 + s) * 2 + 1] = sg;
+          }
+          if (i < n - 1) {
+            const q = i * 2;
+            idx.push(q, q + 1, q + 2, q + 1, q + 3, q + 2);
+          }
+        }
+        const g = new THREE.BufferGeometry();
+        g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+        g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+        g.setIndex(idx);
+        const m = new THREE.Mesh(g, waterMat(len, 1));
+        m.renderOrder = 3;
+        return m;
+      }
+      const riverMesh = ribbon(riverSamples, 0.75, 0.16, riverLen);
+      scene.add(riverMesh);
+      const RV = riverMesh.material.uniforms;
+
+      // canals from the river to the five roles
+      const ROLES = ["troupeaux", "vigne", "village", "champs", "mare"];
+      const canals = {};
+      ROLES.forEach((k) => {
+        const pl = PLACES[k];
+        const a = river2d.getPointAt(pl.u);
+        const b = pl.p.clone().add(a.clone().sub(pl.p).normalize().multiplyScalar(pl.r * 0.55));
+        const mid = a.clone().lerp(b, 0.5).add(new THREE.Vector2(b.y - a.y, a.x - b.x).normalize().multiplyScalar(0.8));
+        const curve = new THREE.QuadraticBezierCurve(a, mid, b);
+        const len = curve.getLength();
+        const mesh = ribbon(curve.getSpacedPoints(80), 0.16, 0.12, len);
+        scene.add(mesh);
+        canals[k] = mesh;
+      });
+
+      // ponds
+      function pond(key, radius) {
+        const pl = PLACES[key];
+        const m = new THREE.Mesh(
+          new THREE.CircleGeometry(radius, 64).rotateX(-Math.PI / 2),
+          new THREE.ShaderMaterial({
+            transparent: true,
+            depthWrite: false,
+            uniforms: {
+              uTime: { value: 0 }, uRip: { value: 0 }, uOpacity: { value: 1 },
+              uDeep: { value: DEEP.clone() }, uLight: { value: LIGHT.clone() },
+            },
+            vertexShader: waterVS,
+            fragmentShader: pondFS,
+          }),
+        );
+        m.position.set(pl.p.x, height(pl.p.x, pl.p.y) + 0.12, pl.p.y);
+        m.renderOrder = 3;
+        scene.add(m);
+        return m;
+      }
+      const poolMesh = pond("pool", 1.9);
+      const retH = pond("retH", 1.8);
+      const marePond = pond("mare", 1.3);
+      marePond.position.x -= 1.4;
+      marePond.position.z += 1.0;
+
+      // ---------------- low-poly props ----------------
+      const mats = {};
+      const MAT = (hex, rough = 0.85) => (mats[hex] = mats[hex] || new THREE.MeshStandardMaterial({ color: hex, roughness: rough, flatShading: true }));
+      function addShadow(o) {
+        o.traverse((c) => {
+          if (c.isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        return o;
+      }
+      const roofShape = new THREE.Shape([new THREE.Vector2(-0.55, 0), new THREE.Vector2(0.55, 0), new THREE.Vector2(0, 0.42)]);
+      const roofGeo = new THREE.ExtrudeGeometry(roofShape, { depth: 0.9, bevelEnabled: false }).translate(0, 0, -0.45);
+      function house(group, x, z, rot, s, wall = 0xf0e1c2, roof = 0xc0603e) {
+        const g = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.7, 0.85), MAT(wall));
+        body.position.y = 0.35;
+        const r = new THREE.Mesh(roofGeo, MAT(roof));
+        r.position.y = 0.7;
+        r.rotation.y = Math.PI / 2;
+        g.add(body, r);
+        g.position.set(x, height(x, z) - 0.02, z);
+        g.rotation.y = rot;
+        g.scale.setScalar(s);
+        group.add(addShadow(g));
+        return g;
+      }
+      function placeGroup(key) {
+        const g = new THREE.Group();
+        scene.add(g);
+        return g;
+      }
+
+      // village with a church
+      const village = placeGroup("village");
+      const VP = PLACES.village.p;
+      for (let i = 0; i < 15; i++) {
+        const a = i * 2.39996;
+        const rr = 0.6 + Math.sqrt(i) * 0.62;
+        house(village, VP.x + Math.cos(a) * rr * 1.25, VP.y + Math.sin(a) * rr * 0.9, a * 0.7, 0.85 + R() * 0.3);
+      }
+      const church = new THREE.Group();
+      const tower = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.8, 0.55), MAT(0xe8d6b2));
+      tower.position.y = 0.9;
+      const spire = new THREE.Mesh(new THREE.ConeGeometry(0.42, 0.9, 4), MAT(0xa9563a));
+      spire.position.y = 2.25;
+      spire.rotation.y = Math.PI / 4;
+      church.add(tower, spire);
+      church.position.set(VP.x + 0.2, height(VP.x + 0.2, VP.y - 0.2), VP.y - 0.2);
+      village.add(addShadow(church));
+
+      const village2 = placeGroup("village2");
+      const V2 = PLACES.village2.p;
+      for (let i = 0; i < 11; i++) {
+        const a = i * 2.39996 + 1;
+        const rr = 0.5 + Math.sqrt(i) * 0.6;
+        house(village2, V2.x + Math.cos(a) * rr * 1.2, V2.y + Math.sin(a) * rr * 0.9, a, 0.8 + R() * 0.25);
+      }
+
+      // farm + cattle
+      const farm = placeGroup("troupeaux");
+      const FP = PLACES.troupeaux.p;
+      house(farm, FP.x + 1.4, FP.y - 1.0, 0.2, 1.3);
+      house(farm, FP.x + 2.6, FP.y - 0.3, 1.4, 0.9, 0xe2cfa8, 0x9c4f35);
+      const cows = [];
+      for (let i = 0; i < 7; i++) {
+        const cow = new THREE.Group();
+        const col = i % 3 === 0 ? 0x7a4a2a : 0xf3eee4;
+        const b = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.22, 0.2), MAT(col));
+        b.position.y = 0.24;
+        const hd = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.13, 0.13), MAT(col));
+        hd.position.set(0.26, 0.3, 0);
+        const legs = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.14, 0.16), MAT(0x4a3a2a));
+        legs.position.y = 0.07;
+        cow.add(b, hd, legs);
+        const cx = FP.x - 1.2 + (i % 4) * 0.8 + R() * 0.3;
+        const cz = FP.y + 0.6 + Math.floor(i / 4) * 0.9 + R() * 0.3;
+        cow.position.set(cx, height(cx, cz), cz);
+        cow.rotation.y = R() * 6.28;
+        cow.userData.base = cow.position.clone();
+        cow.userData.ph = R() * 6.28;
+        farm.add(addShadow(cow));
+        cows.push(cow);
+      }
+
+      // vineyard: rows of vines
+      const vineGeo = new THREE.BoxGeometry(0.14, 0.4, 0.14).translate(0, 0.2, 0);
+      const vineMat = new THREE.MeshStandardMaterial({ color: 0x5e7a3a, roughness: 0.9, flatShading: true });
+      const vines = new THREE.InstancedMesh(vineGeo, vineMat, 9 * 18);
+      const GP = PLACES.vigne.p;
+      const m4 = new THREE.Matrix4();
+      let vi = 0;
+      for (let r = 0; r < 9; r++)
+        for (let c = 0; c < 18; c++) {
+          const x = GP.x - 2.6 + c * 0.31;
+          const z = GP.y - 1.3 + r * 0.33;
+          m4.makeTranslation(x, height(x, z), z);
+          vines.setMatrixAt(vi++, m4);
+        }
+      vines.castShadow = true;
+      vines.receiveShadow = true;
+      const vineyard = new THREE.Group();
+      vineyard.add(vines);
+      scene.add(vineyard);
+      house(vineyard, GP.x + 3.0, GP.y - 0.4, -0.3, 1.2, 0xf3e6c8, 0xb85a3a);
+
+      // fields: maize plots + sunflowers
+      const CP = PLACES.champs.p;
+      const cornGeo = new THREE.ConeGeometry(0.07, 0.6, 5).translate(0, 0.3, 0);
+      const cornMat = new THREE.MeshStandardMaterial({ color: 0x7e9a52, roughness: 0.9, flatShading: true });
+      const corn = new THREE.InstancedMesh(cornGeo, cornMat, 3 * 10 * 12);
+      let ci = 0;
+      for (let pl = 0; pl < 3; pl++)
+        for (let r = 0; r < 10; r++)
+          for (let c = 0; c < 12; c++) {
+            const x = CP.x - 3.2 + (pl % 2) * 3.4 + c * 0.24;
+            const z = CP.y - 2.4 + Math.floor(pl / 2) * 2.7 + r * 0.24;
+            m4.makeTranslation(x, height(x, z), z);
+            corn.setMatrixAt(ci++, m4);
+          }
+      corn.castShadow = true;
+      const sunGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.04, 6).translate(0, 0.42, 0);
+      const sunMat = new THREE.MeshStandardMaterial({ color: 0xe8b52e, roughness: 0.7, flatShading: true });
+      const sunflowers = new THREE.InstancedMesh(sunGeo, sunMat, 10 * 11);
+      let si = 0;
+      for (let r = 0; r < 10; r++)
+        for (let c = 0; c < 11; c++) {
+          const x = CP.x + 0.4 + c * 0.26;
+          const z = CP.y + 0.4 + r * 0.24;
+          m4.makeTranslation(x, height(x, z), z);
+          sunflowers.setMatrixAt(si++, m4);
+        }
+      const fields = new THREE.Group();
+      fields.add(corn, sunflowers);
+      scene.add(fields);
+      house(fields, CP.x - 3.9, CP.y + 2.0, 0.4, 1.2);
+
+      // duck pond farm
+      const MP = PLACES.mare.p;
+      const mareFarm = placeGroup("mare");
+      house(mareFarm, MP.x + 1.0, MP.y - 0.8, 0.1, 1.3, 0xe9d6b0, 0xa8553a);
+      house(mareFarm, MP.x + 2.3, MP.y + 0.2, 1.2, 0.9);
+      const ducks = [];
+      for (let i = 0; i < 6; i++) {
+        const d = new THREE.Mesh(new THREE.SphereGeometry(0.09, 6, 5), MAT(0xfaf7ef));
+        d.userData.ph = i * 1.1;
+        mareFarm.add(d);
+        ducks.push(d);
+      }
+
+      // trees
+      const cyp = new THREE.InstancedMesh(new THREE.ConeGeometry(0.22, 1.5, 6).translate(0, 0.75, 0), new THREE.MeshStandardMaterial({ color: 0x3f5f2e, roughness: 0.9, flatShading: true }), 140);
+      const oak = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(0.55, 0).translate(0, 0.75, 0), new THREE.MeshStandardMaterial({ color: 0x5b7a3a, roughness: 0.9, flatShading: true }), 160);
+      let nc = 0;
+      let no = 0;
+      const TR = rng(11);
+      for (let k = 0; k < 1400 && (nc < 140 || no < 160); k++) {
+        const x = (TR() - 0.5) * 44;
+        const z = (TR() - 0.5) * 26;
+        const d = riverDist(x, z);
+        let near = false;
+        for (const key in PLACES) if (Math.hypot(x - PLACES[key].p.x, z - PLACES[key].p.y) < PLACES[key].r + 0.6) near = true;
+        if (near || d < 1.5) continue;
+        const s = 0.7 + TR() * 0.6;
+        m4.compose(new THREE.Vector3(x, height(x, z, d) - 0.05, z), new THREE.Quaternion(), new THREE.Vector3(s, s, s));
+        if (d < 3.2 && nc < 140) cyp.setMatrixAt(nc++, m4);
+        else if (no < 160 && TR() < 0.55) oak.setMatrixAt(no++, m4);
+        else if (nc < 140 && TR() < 0.3) cyp.setMatrixAt(nc++, m4);
+      }
+      cyp.count = nc;
+      oak.count = no;
+      cyp.castShadow = oak.castShadow = true;
+      scene.add(cyp, oak);
+
+      // stone bridge
+      const bp = board(0.54, 0.61);
+      const bridge = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.18, 0.7), MAT(0xbfae8f));
+      bridge.position.set(bp.x, height(bp.x, bp.y) + 0.55, bp.y);
+      bridge.rotation.y = 0.5;
+      scene.add(addShadow(bridge));
+
+      // clouds
+      const clouds = new THREE.Group();
+      const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff6ea, emissiveIntensity: 0.6, roughness: 1, flatShading: true, transparent: true, opacity: 0.95 });
+      const CR = rng(5);
+      [[-7.5, 15.6, -11.5, 1.4], [-13, 11, -7, 1.0], [6, 12, -10, 1.1], [14, 11.5, -4, 0.9]].forEach(([x, y, z, s]) => {
+        const c = new THREE.Group();
+        for (let k = 0; k < 6; k++) {
+          const b = new THREE.Mesh(new THREE.IcosahedronGeometry(0.9 + CR() * 0.5, 0), cloudMat);
+          b.position.set((k - 2.5) * 0.75, CR() * 0.4, CR() * 0.6);
+          c.add(b);
+        }
+        c.position.set(x, y, z);
+        c.scale.set(s, s * 0.7, s);
+        clouds.add(c);
+      });
+      scene.add(clouds);
+
+      // ---------------- the drop ----------------
+      const dropProfile = [];
+      for (let k = 0; k <= 32; k++) {
+        const th = Math.PI * (k / 32);
+        let y = -Math.cos(th);
+        let x = Math.sin(th);
+        if (y > 0) {
+          x *= Math.pow(1 - y, 0.9);
+          y *= 1.7;
+        }
+        dropProfile.push(new THREE.Vector2(Math.max(0, x), y));
+      }
+      const drop = new THREE.Mesh(
+        new THREE.LatheGeometry(dropProfile, 32),
+        new THREE.MeshStandardMaterial({ color: 0x8fd0f6, emissive: 0x2c7fb8, emissiveIntensity: 0.55, roughness: 0.08, metalness: 0.1, transparent: true, opacity: 0.95 }),
+      );
+      scene.add(drop);
+      const glowTex = (() => {
+        const c = document.createElement("canvas");
+        c.width = c.height = 128;
+        const g = c.getContext("2d");
+        const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+        gr.addColorStop(0, "rgba(220,245,255,1)");
+        gr.addColorStop(0.3, "rgba(140,210,250,0.45)");
+        gr.addColorStop(1, "rgba(90,180,240,0)");
+        g.fillStyle = gr;
+        g.fillRect(0, 0, 128, 128);
+        const t = new THREE.CanvasTexture(c);
+        t.colorSpace = THREE.SRGBColorSpace;
+        return t;
+      })();
+      const glow = (s, o) => {
+        const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, opacity: o, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+        sp.scale.set(s, s, 1);
+        return sp;
+      };
+      const dropGlow = glow(1.2, 0.6);
+      scene.add(dropGlow);
+      const headGlow = glow(1.6, 0);
+      scene.add(headGlow);
+      const placeGlows = {};
+      ROLES.forEach((k) => {
+        const g = glow(4.5, 0);
+        g.position.set(PLACES[k].p.x, height(PLACES[k].p.x, PLACES[k].p.y) + 0.8, PLACES[k].p.y);
+        scene.add(g);
+        placeGlows[k] = g;
+      });
+      const splash = new THREE.Mesh(new THREE.TorusGeometry(1, 0.05, 6, 48).rotateX(Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xdff4ff, transparent: true, opacity: 0, depthWrite: false }));
+      scene.add(splash);
+
+      // ---------------- post ----------------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { samples: 4, type: THREE.HalfFloatType }));
+      composer.setPixelRatio(1);
+      composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.4, 0.5, 0.82));
+      composer.addPass(new OutputPass());
+
+      // ---------------- timeline ----------------
+      const T = {
+        dropStart: 0.3, impact: 3.5,
+        wide0: 11.0, wide1: 13.0,
+        dry0: 13.4, dry1: 18.6,
+        dilemma: 19.6,
+        collapse0: 23.4, collapse1: 25.0,
+        lift1: 26.1, fall0: 26.5, fall1: 27.2,
+        logo: 27.6, ask1: 28.0, ask2: 30.25, play: 32.6, partners: 33.2,
+      };
+      const HEAD_KEYS = [[3.5, 0.0], [5.1, 0.28], [8.8, 0.5], [11.3, 1.0]];
+      function headU(t) {
+        if (t <= HEAD_KEYS[0][0]) return 0;
+        for (let i = 1; i < HEAD_KEYS.length; i++) {
+          const [t0, u0] = HEAD_KEYS[i - 1];
+          const [t1, u1] = HEAD_KEYS[i];
+          if (t <= t1) return lerp(u0, u1, (t - t0) / (t1 - t0));
+        }
+        return 1;
+      }
+      const CANAL_T = { vigne: 5.0, troupeaux: 6.2, village: 7.45, champs: 8.75, mare: 11.1 };
+      const OUT_T = { troupeaux: 20.4, vigne: 21.2, champs: 22.0, village: 22.8, mare: 23.5 };
+      const POOL_U = 0.598;
+      const POOL = new THREE.Vector3(PLACES.pool.p.x, height(PLACES.pool.p.x, PLACES.pool.p.y) + 0.12, PLACES.pool.p.y);
+      const SRC = river2d.getPointAt(0.02);
+      const SRC3 = new THREE.Vector3(SRC.x, height(SRC.x, SRC.y) + 0.16, SRC.y);
+      const river3 = (u) => {
+        const p = river2d.getPointAt(clamp01(u));
+        return new THREE.Vector3(p.x, height(p.x, p.y) + 0.16, p.y);
+      };
+
+      // colour script: day → drought → dusk → the final pool
+      const CS = [
+        [0, 0xa9d1ea, 0xf4ead2, 0xfff1d8, 2.4, 0.95],
+        [13.0, 0xa9d1ea, 0xf4ead2, 0xfff1d8, 2.4, 0.95],
+        [18.6, 0xd9a868, 0xf3d29a, 0xffc983, 2.7, 0.75],
+        [24.0, 0x5c4a66, 0xd9925f, 0xff9a62, 1.5, 0.55],
+        [27.6, 0x0b2a3a, 0x174a62, 0x9fd0ff, 0.7, 0.45],
+      ];
+      const cA = new THREE.Color();
+      const cB = new THREE.Color();
+      function colourScript(t) {
+        let i = 0;
+        while (i < CS.length - 2 && t > CS[i + 1][0]) i++;
+        const a = CS[i];
+        const b = CS[i + 1];
+        const k = sineInOut((t - a[0]) / (b[0] - a[0]));
+        skyU.top.value.copy(cA.setHex(a[1])).lerp(cB.setHex(b[1]), k);
+        skyU.horizon.value.copy(cA.setHex(a[2])).lerp(cB.setHex(b[2]), k);
+        scene.fog.color.copy(skyU.horizon.value);
+        sun.color.copy(cA.setHex(a[3])).lerp(cB.setHex(b[3]), k);
+        sun.intensity = lerp(a[4], b[4], k);
+        hemi.intensity = lerp(a[5], b[5], k);
+        // the sun crosses the sky during the drought
+        const ang = lerp(0.95, 0.32, win(t, 12.5, 24));
+        sun.position.set(Math.cos(ang) * 30 - 6, Math.sin(ang) * 30, 14);
+      }
+
+      // camera: drop → follow the stream → wide → drought drift → dilemma → the last drop
+      const lagged = (t) => {
+        const acc = new THREE.Vector3();
+        for (let k = 0; k <= 10; k++) acc.add(river3(headU(Math.max(0, t - 0.8 + k * 0.08))));
+        return acc.multiplyScalar(1 / 11);
+      };
+      function dropPos(t) {
+        const k = clamp01((t - T.dropStart) / (T.impact - T.dropStart));
+        const y = lerp(14.6, SRC3.y + 0.3, k * k);
+        return new THREE.Vector3(SRC3.x, y, SRC3.z);
+      }
+      const P = new THREE.Vector3();
+      const L = new THREE.Vector3();
+      function cameraAt(t) {
+        // 1. riding down with the drop
+        const dp = dropPos(t);
+        const p1 = new THREE.Vector3(dp.x + 3.4, Math.max(dp.y + 1.0, 4.2), dp.z + 8.0);
+        const l1 = new THREE.Vector3(dp.x, lerp(SRC3.y, dp.y, 0.82), dp.z);
+        // 2. following the stream head
+        const hl = lagged(t);
+        const p2 = hl.clone().add(new THREE.Vector3(4.2, 8.6, 9.8));
+        const l2 = hl.clone().add(new THREE.Vector3(0, 0, 1.6));
+        // 3. wide reveal + drought drift
+        const kd = win(t, T.wide1, 19.0);
+        const p3 = new THREE.Vector3(lerp(4, -5, kd), lerp(19, 15.5, kd), lerp(21, 19, kd));
+        const l3 = new THREE.Vector3(0, -1, 1);
+        // 4. dilemma: over the valley, centred on the pool
+        const p4 = new THREE.Vector3(2.5, 12.5, 14.5);
+        const l4 = POOL.clone().add(new THREE.Vector3(0, 0, 1.0));
+        // 5. close on the last drop, then straight above the pool
+        const p5 = POOL.clone().add(new THREE.Vector3(1.6, 2.1, 3.4));
+        const l5 = POOL.clone().add(new THREE.Vector3(0, 0.8, 0));
+        const riseK = win(t, T.fall1, 31.5);
+        const p6 = POOL.clone().add(new THREE.Vector3(0, lerp(4.6, 11.5, riseK), 0.02));
+        const l6 = POOL.clone();
+
+        P.copy(p1).lerp(p2, sineInOut((t - 3.3) / 1.6));
+        L.copy(l1).lerp(l2, sineInOut((t - 3.3) / 1.6));
+        P.lerp(p3, sineInOut((t - T.wide0) / (T.wide1 - T.wide0)));
+        L.lerp(l3, sineInOut((t - T.wide0) / (T.wide1 - T.wide0)));
+        P.lerp(p4, sineInOut((t - 18.8) / 1.6));
+        L.lerp(l4, sineInOut((t - 18.8) / 1.6));
+        P.lerp(p5, sineInOut((t - 24.0) / 1.8));
+        L.lerp(l5, sineInOut((t - 24.0) / 1.8));
+        P.lerp(p6, sineInOut((t - 26.4) / 0.9));
+        L.lerp(l6, sineInOut((t - 26.4) / 0.9));
+        camera.position.copy(P);
+        camera.up.set(0, 1, 0);
+        if (t > 26.4) camera.up.set(0, lerp(1, 0, win(t, 26.4, 27.3)), lerp(0, -1, win(t, 26.4, 27.3))).normalize();
+        camera.lookAt(L);
+      }
+
+      const finalEl = document.getElementById("final");
+      const ask1 = document.getElementById("ask1");
+      const ask2 = document.getElementById("ask2");
+      const play = document.getElementById("play");
+      const logoEl = document.getElementById("logo");
+      const partners = document.getElementById("partners");
+      const grainEl = document.getElementById("grain");
+
+      function renderAt(t) {
+        t = Math.min(Math.max(t, 0), DURATION);
+        colourScript(t);
+
+        // life and drought
+        const dry = win(t, T.dry0, T.dry1);
+        U.life.value = lerp(0.15, 1, win(t, 3.6, 11.0));
+        U.dry.value = dry;
+
+        // the river: flows in, thins in the drought, collapses to one drop
+        const col = win(t, T.collapse0, T.collapse1);
+        RV.uTime.value = t;
+        RV.uA.value = lerp(0, POOL_U, col);
+        RV.uB.value = lerp(headU(t), POOL_U, col);
+        RV.uW.value = lerp(1, 0.38, dry) * (1 - 0.9 * col);
+        RV.uGlow.value = (1 - win(t, 11.3, 12.2)) * win(t, 3.4, 3.8) + 0.6 * win(t, 19.4, 19.8) * (1 - col);
+        RV.uOpacity.value = t < T.impact ? 0 : 1 - win(t, 24.6, 25.0);
+        RV.uDeep.value.copy(DEEP).lerp(new THREE.Color(0x5a6f6e), dry * 0.5);
+
+        // canals and the places they wake up
+        ROLES.forEach((k) => {
+          const cu = canals[k].material.uniforms;
+          const t0 = CANAL_T[k];
+          cu.uTime.value = t;
+          cu.uB.value = sineInOut((t - t0) / 0.7);
+          cu.uW.value = lerp(1, 0.55, dry);
+          const outK = win(t, OUT_T[k], OUT_T[k] + 0.5);
+          cu.uGlow.value = win(t, t0, t0 + 0.3) * (1 - win(t, t0 + 0.7, t0 + 1.4)) + win(t, T.dilemma, T.dilemma + 0.4) * (1 - outK);
+          cu.uOpacity.value = 1 - outK;
+          const pg = placeGlows[k];
+          pg.material.opacity = 0.55 * win(t, t0 + 0.5, t0 + 0.8) * (1 - win(t, t0 + 1.0, t0 + 2.0)) + 0.35 * win(t, T.dilemma, T.dilemma + 0.4) * (1 - outK);
+        });
+        const lifeOf = (k) => win(t, CANAL_T[k] + 0.5, CANAL_T[k] + 1.3) * (1 - 0.5 * dry) * (1 - 0.6 * win(t, OUT_T[k], OUT_T[k] + 0.8));
+        const lv = lifeOf("vigne");
+        vineyard.children[0].scale.y = 0.35 + 0.65 * lv;
+        vineMat.color.setHex(0x8a7a52).lerp(new THREE.Color(0x4f7a33), lv);
+        const lc = lifeOf("champs");
+        corn.scale.y = 0.3 + 0.7 * lc;
+        sunflowers.scale.y = 0.3 + 0.7 * lc;
+        cornMat.color.setHex(0xb5a06a).lerp(new THREE.Color(0x6f9a45), lc);
+        sunMat.color.setHex(0x9a8a55).lerp(new THREE.Color(0xf0b82a), lc);
+        const lt = lifeOf("troupeaux");
+        cows.forEach((cow, i) => {
+          const ph = cow.userData.ph;
+          cow.position.x = cow.userData.base.x + 0.25 * lt * Math.sin(t * 0.5 + ph);
+          cow.position.z = cow.userData.base.z + 0.15 * lt * Math.cos(t * 0.4 + ph);
+          cow.rotation.y = ph + 0.4 * lt * Math.sin(t * 0.5 + ph);
+        });
+        const lm = lifeOf("mare");
+        ducks.forEach((d, i) => {
+          const a = d.userData.ph + t * 0.6 * lm;
+          d.position.set(marePond.position.x + Math.cos(a) * 0.7, marePond.position.y + 0.05 + 0.02 * Math.sin(t * 3 + i), marePond.position.z + Math.sin(a) * 0.5);
+          d.visible = lm > 0.05;
+        });
+        const lvil = lifeOf("village");
+        village.children.forEach((h) => h.traverse && h.traverse(() => {}));
+        mats[0xc0603e] && mats[0xc0603e].color.setHex(0x9c8070).lerp(new THREE.Color(0xc0603e), lvil);
+
+        // ponds fill when the river arrives, shrink in the drought
+        const fillH = win(t, 4.4, 5.6);
+        retH.scale.setScalar(Math.max(0.001, fillH * lerp(1, 0.45, dry) * (1 - win(t, 22.5, 24.5))));
+        marePond.scale.setScalar(Math.max(0.001, win(t, 11.0, 11.8) * lerp(1, 0.4, dry) * (1 - win(t, 23.5, 24.6))));
+        [retH, marePond, poolMesh].forEach((m) => (m.material.uniforms.uTime.value = t));
+        const poolFill = win(t, 8.2, 9.2);
+        const finalGrow = win(t, T.fall1 + 0.05, T.fall1 + 1.1);
+        poolMesh.scale.setScalar(Math.max(0.001, poolFill * lerp(1, 0.42, dry) * (1 - 0.75 * col) + finalGrow * 6.5));
+        poolMesh.position.y = POOL.y + 3.5 * finalGrow;
+        [terrain, riverMesh, retH, marePond, village, village2, farm, vineyard, fields, mareFarm, cyp, oak, bridge].forEach((o) => (o.visible = true));
+        clouds.visible = t < 20;
+        const worldOn = t < T.fall1 + 0.35;
+        [terrain, riverMesh, retH, marePond, village, village2, farm, vineyard, fields, mareFarm, cyp, oak, bridge, clouds].forEach((o) => (o.visible = o.visible && worldOn));
+        Object.values(canals).forEach((c) => (c.visible = worldOn));
+        sky.visible = true;
+        poolMesh.material.uniforms.uRip.value = t > T.fall1 ? (t - T.fall1) * 1.15 : 0;
+        poolMesh.material.uniforms.uDeep.value.copy(DEEP).lerp(new THREE.Color(0x0e3a52), win(t, 24, 28));
+
+        // the drop: falls at the start, reforms at the end and falls into the pool
+        let dropVisible = false;
+        let dpos = new THREE.Vector3();
+        let dscale = 0.22;
+        if (t < T.impact) {
+          dropVisible = t >= T.dropStart - 0.2;
+          dpos = dropPos(t);
+          dscale = 0.22;
+        } else if (t >= T.collapse1 - 0.4 && t < T.fall1) {
+          dropVisible = true;
+          const form = win(t, T.collapse1 - 0.4, T.collapse1 + 0.3);
+          const lift = sineInOut((t - T.collapse1) / (T.lift1 - T.collapse1));
+          const fall = clamp01((t - T.fall0) / (T.fall1 - T.fall0));
+          const y = POOL.y + 0.1 + 1.5 * lift - 1.6 * fall * fall;
+          dpos.set(POOL.x, y, POOL.z);
+          dscale = 0.12 * form;
+          if (t > T.lift1 && t < T.fall0) dpos.y += 0.03 * Math.sin((t - T.lift1) * 14);
+        }
+        drop.visible = dropVisible;
+        drop.position.copy(dpos);
+        drop.scale.set(dscale, dscale * (t < T.impact ? 1.15 : 1), dscale);
+        dropGlow.visible = dropVisible;
+        dropGlow.position.copy(dpos);
+        dropGlow.material.opacity = 0.55;
+        headGlow.position.copy(river3(headU(t)));
+        headGlow.material.opacity = 0.7 * win(t, 3.45, 3.8) * (1 - win(t, 11.2, 11.6));
+        // splash ring at the first impact
+        const sk = clamp01((t - T.impact) / 0.8);
+        splash.position.copy(SRC3);
+        splash.scale.setScalar(0.1 + 1.6 * sk);
+        splash.material.opacity = t > T.impact ? 0.8 * (1 - sk) : 0;
+
+        clouds.children.forEach((c, i) => (c.position.x += 0));
+        clouds.visible = t < 20;
+        cloudMatOpacity(t);
+
+        cameraAt(t);
+        composer.render();
+
+        // the final title, born from the ripple
+        const fo = win(t, T.logo, T.logo + 0.8);
+        finalEl.style.opacity = String(fo);
+        logoEl.style.transform = "scale(" + (0.94 + 0.06 * fo).toFixed(4) + ")";
+        logoEl.style.filter = "blur(" + ((1 - fo) * 8).toFixed(2) + "px)";
+        ask1.style.opacity = String(win(t, T.ask1, T.ask1 + 0.6));
+        ask2.style.opacity = String(win(t, T.ask2, T.ask2 + 0.6));
+        play.style.opacity = String(win(t, T.play, T.play + 0.5));
+        partners.style.opacity = String(0.95 * win(t, T.partners, T.partners + 0.5));
+        partners.style.transform = "translateX(-50%) translateY(" + ((1 - win(t, T.partners, T.partners + 0.5)) * 14).toFixed(2) + "px)";
+
+        const f = Math.floor(t * FPS + 1e-6);
+        const h = Math.imul(f + 1, 2654435761) >>> 0;
+        grainEl.style.backgroundPosition = (h % 256) + "px " + ((h >>> 8) % 256) + "px";
+      }
+      function cloudMatOpacity(t) {
+        cloudMat.opacity = 0.95 * (1 - win(t, 13, 17));
+      }
+
+      const clock = gsap.timeline({ paused: true });
+      clock.set({}, {}, DURATION);
+      window.__timelines["main"] = clock;
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
