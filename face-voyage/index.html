@@ -67,17 +67,17 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="24"
+      data-duration="26"
       data-width="1080"
       data-height="1920"
     >
-      <div id="stage" class="clip" data-start="0" data-duration="24" data-track-index="0">
+      <div id="stage" class="clip" data-start="0" data-duration="26" data-track-index="0">
         <canvas id="gl" width="1080" height="1920"></canvas>
         <div id="heat" class="layer"></div>
         <div id="vignette" class="layer"></div>
         <div id="flash" class="layer"></div>
       </div>
-      <audio id="soundtrack" src="assets/soundtrack.mp3" data-start="0" data-duration="24" data-track-index="1" data-volume="1"></audio>
+      <audio id="soundtrack" src="assets/soundtrack-shooting-stars.mp3" data-start="0" data-duration="26" data-track-index="1" data-volume="1"></audio>
     </div>
 
     <script type="module">
@@ -89,9 +89,14 @@
 
       const W = 1080;
       const H = 1920;
-      const DURATION = 24;
-      const T_CITY = 17.0;
-      const T_LAND = 19.5;
+      const DURATION = 26;
+      // music cut: song 7.40 s → video 0; the drop lands at 15.85, 125 bpm
+      const DROP = 15.85;
+      const BEAT = 0.48;
+      const HOLD0 = 13.95;
+      const T_CITY = DROP + 4 * BEAT;
+      const T_LAND = DROP + 8 * BEAT;
+      const holdAt = (t) => win(t, HOLD0, HOLD0 + 0.45) * (1 - win(t, DROP - 0.02, DROP + 0.06));
 
       const clamp01 = (v) => Math.min(1, Math.max(0, v));
       const smooth = (v) => {
@@ -182,7 +187,7 @@
       starGeo.setAttribute("color", new THREE.BufferAttribute(starCol, 3));
       const stars = new THREE.LineSegments(starGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, toneMapped: false }));
       space.add(stars);
-      const speedAt = (t) => lerp(70, 26, win(t, 0, 2.2)) + 30 * win(t, 12, 15.5);
+      const speedAt = (t) => (lerp(70, 26, win(t, 0, 2.2)) + 30 * win(t, 12, 13.6)) * (1 - 0.97 * holdAt(t)) + 110 * win(t, DROP, DROP + 0.15);
       function travelled(t) {
         // integral of speedAt, sampled (deterministic)
         let d = 0;
@@ -328,7 +333,7 @@
         }
       });
       const earth = planet(26, earthTex, { roughness: 0.7 });
-      const clouds = new THREE.Mesh(new THREE.SphereGeometry(26.4, 96, 64), new THREE.MeshStandardMaterial({ map: cloudTex, transparent: true, depthWrite: false }));
+      const clouds = new THREE.Mesh(new THREE.SphereGeometry(26.4, 96, 64), new THREE.MeshStandardMaterial({ map: cloudTex, transparent: true, opacity: 0.45, depthWrite: false }));
       const atmo = glow(0x6fb6ff, 70, 0.55);
       const earthG = new THREE.Group();
       earthG.add(atmo, earth, clouds);
@@ -367,7 +372,7 @@
           a.visible = t > 9.6 && t < 13 && z < 5;
         });
         // Earth: grows from a dot to the whole screen
-        const ek = win(t, 11.4, 16.6);
+        const ek = win(t, 11.4, 14.3);
         earthG.position.set(lerp(6, 0, ek), lerp(-4, -18, ek), lerp(-700, -46, Math.pow(ek, 1.6)));
         earth.rotation.y = 1.2 + t * 0.05;
         clouds.rotation.y = 1.25 + t * 0.07;
@@ -377,19 +382,20 @@
         updateStars(t);
         placePasses(t);
         // camera: gentle drift + shake during the entry
-        const shake = win(t, 15.0, 16.0) * 0.06;
+        const shake = win(t, DROP, DROP + 0.2) * 0.08;
         camS.position.set(0.3 * Math.sin(t * 0.6) + shake * noise(t * 3, 1), 0.2 * Math.sin(t * 0.5) + shake * noise(t * 3, 2), 0);
         camS.rotation.set(0, 0, 0.05 * Math.sin(t * 0.4));
         // the face: arrives from the depth, then cruises, then dives
         const arrive = smooth((t - 0.1) / 1.6);
         const fz = lerp(-60, -4.2, arrive);
-        const dive = win(t, 14.5, 16.8);
-        const s = lerp(1.0, 1.25, dive);
-        faceS.position.set(0.12 * Math.sin(t * 1.3), -0.55 + 0.1 * Math.sin(t * 1.7) - 0.15 * dive, fz);
+        const dive = win(t, DROP, DROP + 1.7);
+        const hold = holdAt(t);
+        const s = lerp(1.0, 1.25, dive) * (1 + 0.18 * hold);
+        faceS.position.set(0.12 * Math.sin(t * 1.3) * (1 - hold), -0.55 + 0.1 * Math.sin(t * 1.7) * (1 - hold) + 0.12 * hold - 0.15 * dive, fz);
         faceS.scale.set(1.35 * FACE_ASPECT * s, 1.35 * s, 1);
-        faceS.material.rotation = 0.12 * Math.sin(t * 1.1) + 0.3 * Math.sin(t * 0.37) * (1 - dive) + 0.15 * win(t, 2, 4) * Math.sin(t * 2.3);
+        faceS.material.rotation = (0.12 * Math.sin(t * 1.1) + 0.3 * Math.sin(t * 0.37) * (1 - dive) + 0.15 * win(t, 2, 4) * Math.sin(t * 2.3)) * (1 - hold);
         // entry fire
-        const burn = win(t, 15.0, 15.8);
+        const burn = win(t, DROP, DROP + 0.25);
         faceGlow.position.copy(faceS.position).add(new THREE.Vector3(0, 0.3, -0.05));
         faceGlow.material.opacity = 0.8 * burn;
         fire.forEach((f, k) => {
@@ -635,16 +641,16 @@
       function renderCity(t) {
         const k = t - T_CITY;
         // camera: from high above the rooftops down to street level
-        const down = smooth(k / 2.6);
+        const down = smooth(k / 1.9);
         camC.position.set(0, lerp(46, 1.8, Math.pow(down, 0.8)), lerp(6, 4.6, down));
         const lookY = lerp(0, 3.0, down);
         // landing shake
-        const sh = t > T_LAND ? Math.exp(-(t - T_LAND) * 6) * 0.12 : 0;
+        const sh = t > T_LAND ? Math.exp(-(t - T_LAND) * 6) * 0.12 + 0.02 * Math.exp(-(((t - DROP) / BEAT) % 1) * 8) : 0;
         camC.position.x += sh * noise(t * 4, 1);
         camC.position.y += sh * noise(t * 4, 2);
         camC.lookAt(0, lookY, -4.5);
         // the face falls and lands, squash and stretch
-        const fall = clamp01((t - T_CITY - 0.4) / (T_LAND - T_CITY - 0.4));
+        const fall = clamp01((t - T_CITY - 0.15) / (T_LAND - T_CITY - 0.15));
         let y = lerp(40, 0.19 + FACE_H / 2, easeIn(fall));
         let sx = 1;
         let sy = 1;
@@ -657,13 +663,22 @@
           sx = 1 + 0.28 * sq;
           sy = 1 - 0.28 * sq;
           y = 0.19 + (FACE_H * sy) / 2 + Math.max(0, 0.35 * Math.sin(u * 9) * Math.exp(-u * 5));
-          // a happy little hop once settled
-          const hop = win(t, 21.6, 21.9) * (1 - win(t, 21.9, 22.3));
-          y += 0.25 * Math.sin(Math.PI * clamp01((t - 21.6) / 0.7));
+          // dance on every beat once settled
+          const dance = win(t, T_LAND + BEAT, T_LAND + 2 * BEAT);
+          const bp = (t - DROP) / BEAT;
+          const bf = bp - Math.floor(bp);
+          y += dance * 0.22 * Math.sin(Math.PI * bf);
+          sy *= 1 - dance * 0.1 * Math.exp(-bf * 7);
+          sx *= 1 + dance * 0.08 * Math.exp(-bf * 7);
         }
         faceC.position.set(0, y, -3.3);
         faceC.scale.set(FACE_H * FACE_ASPECT * sx, FACE_H * sy, 1);
-        faceC.material.rotation = t < T_LAND ? 0.2 * Math.sin(t * 6) : 0.08 * Math.sin((t - T_LAND) * 1.6) * win(t, 20.3, 21.0) + 0.15 * win(t, 22.6, 23.1) * Math.sin(Math.PI * clamp01((t - 22.6) / 1.2));
+        {
+          const bp = (t - DROP) / BEAT;
+          const n = Math.floor(bp);
+          const dance = win(t, T_LAND + BEAT, T_LAND + 2 * BEAT);
+          faceC.material.rotation = t < T_LAND ? 0.2 * Math.sin(t * 6) : dance * 0.16 * (n % 2 ? 1 : -1) * Math.sin(Math.PI * (bp - n));
+        }
         shadow.material.opacity = 0.55 * smooth(fall * 1.2 - 0.2);
         shadow.scale.setScalar(lerp(0.3, 1, fall) * sx);
         streak.position.set(0, y + 2.2, -3.32);
@@ -679,10 +694,12 @@
           d.scale.setScalar(0.8 + u * 0.9);
         });
         // neon flickers on after the landing
-        const fl = t < 19.8 ? 0.15 : t < 20.6 ? (Math.sin(t * 61) > 0.1 ? 1 : 0.1) : 1;
+        const bfN = (t - DROP) / BEAT - Math.floor((t - DROP) / BEAT);
+        const pulse = 0.75 + 0.35 * Math.exp(-bfN * 6);
+        const fl = t < T_LAND ? 0.15 : t < T_LAND + 0.45 ? (Math.sin(t * 61) > 0.1 ? 1 : 0.1) : pulse;
         neonMat.color.setScalar(1.7 * fl);
         neonGlow.material.opacity = 0.35 * fl;
-        lanterns.forEach((l) => (l.rotation.z = 0.06 * Math.sin(t * 1.3 + l.userData.ph)));
+        lanterns.forEach((l, i) => (l.rotation.z = t > T_LAND ? 0.1 * Math.sin(Math.PI * ((t - DROP) / BEAT) + i) : 0.06 * Math.sin(t * 1.3 + l.userData.ph)));
       }
 
       // ---------------- post ----------------
@@ -709,7 +726,7 @@
           renderCity(t);
           compCity.render();
         }
-        flash.style.opacity = String(win(t, 16.5, 17.0) * (1 - win(t, 17.0, 17.6)));
+        flash.style.opacity = String(win(t, T_CITY - 0.35, T_CITY) * (1 - win(t, T_CITY, T_CITY + 0.5)));
       }
 
       const clock = gsap.timeline({ paused: true });
