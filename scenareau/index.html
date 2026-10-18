@@ -184,6 +184,7 @@
       <audio id="sfx-stream" src="assets/sfx-stream.mp3" data-start="3.6" data-duration="8" data-track-index="4" data-volume="1"></audio>
       <audio id="sfx-wind" src="assets/sfx-wind.mp3" data-start="13.2" data-duration="5" data-track-index="3" data-volume="1"></audio>
       <audio id="sfx-crack" src="assets/sfx-crack.mp3" data-start="15.4" data-duration="3" data-track-index="4" data-volume="1"></audio>
+      <audio id="sfx-rain" src="assets/sfx-rain.mp3" data-start="23.9" data-duration="5.6" data-track-index="5" data-volume="1"></audio>
       <audio id="sfx-ripple" src="assets/sfx-ripple.mp3" data-start="27.15" data-duration="4" data-track-index="3" data-volume="1"></audio>
       <audio id="sfx-chime" src="assets/sfx-chime.mp3" data-start="27.9" data-duration="2.5" data-track-index="4" data-volume="1"></audio>
     </div>
@@ -731,7 +732,10 @@ float n2 = vnoise(p * 0.21 + 7.0);
 vec2 uvA = p / 3.4;
 // five states of the land: dormant, alive, yellowing, dry, cracked
 vec3 cDorm = satc(texture2D(tDorm, uvA).rgb, 0.9) * vec3(1.12, 1.0, 0.84);
-cDorm = mix(cDorm, satc(texture2D(tWither, uvA * 1.3).rgb, 0.6) * 0.72, 0.3);
+float n3 = vnoise(p * 0.09 + 3.0);
+cDorm = mix(cDorm, satc(texture2D(tWither, uvA * 1.3).rgb, 0.7) * vec3(0.8, 0.78, 0.62), 0.12 + 0.55 * smoothstep(0.35, 0.7, n2));
+cDorm = mix(cDorm, cDorm * vec3(0.92, 1.0, 0.8), smoothstep(0.55, 0.8, n3) * 0.6);
+cDorm *= 0.82 + 0.3 * n3 + 0.12 * (n1 - 0.5);
 vec3 cAlive = satc(texture2D(tGrass, uvA).rgb, 1.8) * vec3(0.72, 1.2, 0.45) * (0.82 + 0.34 * n2);
 vec3 cYell = satc(texture2D(tWither, uvA * 1.2).rgb, 1.4) * vec3(1.0, 0.9, 0.6);
 vec3 cDry = texture2D(tDry, uvA).rgb * vec3(1.16, 0.98, 0.76);
@@ -770,7 +774,8 @@ float refill = 1.0 - smoothstep(uRing - 1.5, uRing, dI);
 float keep = max(smoothstep(uFrag, uFrag + 0.12, pud), refill);
 float present = step(vU, uHead);
 float wh = uWHalf * keep * present;
-vec3 peb = mix(texture2D(tPeb, p / 1.8).rgb, cDorm, 0.45) * vec3(1.0, 0.97, 0.92);
+float present0 = step(vU, uHead);
+vec3 peb = mix(texture2D(tPeb, p / 1.8).rgb, cDorm, mix(0.7, 0.45, present0)) * vec3(1.0, 0.97, 0.92);
 vec3 mud = texture2D(tMud, p / 2.2).rgb * vec3(0.8, 0.74, 0.66);
 float camD = distance(cameraPosition, vWPos);
 float near = 1.0 - smoothstep(2.5, 7.0, camD);
@@ -781,8 +786,9 @@ float pudRecent = smoothstep(uFrag - 0.35, uFrag, pud) * (1.0 - smoothstep(0.0, 
 float wet = max(wetEdge * step(0.001, wh), pudRecent) * present;
 vec3 bed = mix(bedDry, mud, wet);
 bed = mix(bed, peb * 0.55, 1.0 - smoothstep(wh - 0.06, wh + 0.04, vRiver));
-float bedMask = 1.0 - smoothstep(0.88, 1.18, vRiver + (n1 - 0.5) * 0.25);
-float bank = (1.0 - smoothstep(1.05, 1.55, vRiver + (n2 - 0.5) * 0.4)) * (1.0 - bedMask);
+float bedW = mix(0.62, 0.88, present0);
+float bedMask = 1.0 - smoothstep(bedW, bedW + 0.3, vRiver + (n1 - 0.5) * 0.25);
+float bank = (1.0 - smoothstep(1.05, 1.55, vRiver + (n2 - 0.5) * 0.4)) * (1.0 - bedMask) * mix(0.3, 1.0, present0);
 g = mix(g, mix(g, peb * 0.95, 0.35), bank);
 g = mix(g, bed, bedMask);
 // the drop's ripple brings everything back
@@ -797,7 +803,7 @@ float wetAmt = max(wet * bedMask, spot);
 float ringGlow = 0.0;
 for (int k = 0; k < 3; k++) {
   float rr = uRing - float(k) * (0.3 + 0.16 * max(uRing, 0.0));
-  float wdt = 0.035 + 0.022 * max(rr, 0.0);
+  float wdt = 0.022 + 0.022 * max(rr, 0.0);
   if (rr > 0.0) ringGlow += exp(-pow((dI - rr) / wdt, 2.0)) * (1.0 - float(k) * 0.3);
 }
 ringGlow *= uRingAmp;
@@ -903,13 +909,13 @@ void main(){
         const treeSets = { MapleTree_1: [], MapleTree_2: [], MapleTree_3: [], BirchTree_1: [], BirchTree_2: [] };
         const treeNames = Object.keys(treeSets);
         let placed = 0;
-        for (let k = 0; k < 4000 && placed < 150; k++) {
+        for (let k = 0; k < 12000 && placed < 340; k++) {
           const x = (TR() - 0.5) * 46;
           const z = (TR() - 0.5) * 28;
           const near = riverNear(x, z);
           if (near.d < 1.7 || avoid(x, z, 0.5)) continue;
           // riparian belt + copses on the slopes
-          const want = near.d < 3.6 ? 0.55 : noise2(x * 0.25, z * 0.25) > 0.58 ? 0.45 : 0.06;
+          const want = near.d < 3.6 ? 0.75 : noise2(x * 0.25, z * 0.25) > 0.52 ? 0.6 : 0.1;
           if (TR() > want) continue;
           const nm = treeNames[Math.floor(TR() * treeNames.length)];
           treeSets[nm].push(item(x, z, TR() * 6.28, 0.8 + TR() * 0.5, 0.05));
@@ -922,24 +928,24 @@ void main(){
         const flowers = [];
         const rocks = [];
         const GR = rng(23);
-        for (let k = 0; k < 6000; k++) {
+        for (let k = 0; k < 24000; k++) {
           const x = (GR() - 0.5) * 46;
           const z = (GR() - 0.5) * 27;
           const near = riverNear(x, z);
           if (avoid(x, z, 0.2)) continue;
-          if (near.d > 1.15 && near.d < 2.8 && grass.length < 320 && GR() < 0.5) grass.push(item(x, z, GR() * 6.28, 0.7 + GR() * 0.6, 0.02));
-          else if (near.d > 1.6 && near.d < 4 && GR() < 0.05 && bushes.Bush.length + bushes.Bush_Large.length < 70)
+          if (((near.d > 1.15 && near.d < 3.2 && GR() < 0.5) || GR() < 0.05) && grass.length < 1200) grass.push(item(x, z, GR() * 6.28, 0.7 + GR() * 0.6, 0.02));
+          else if (near.d > 1.6 && (near.d < 5 || noise2(x * 0.25, z * 0.25) > 0.5) && GR() < 0.06 && bushes.Bush.length + bushes.Bush_Large.length < 240)
             (GR() < 0.5 ? bushes.Bush : bushes.Bush_Large).push(item(x, z, GR() * 6.28, 0.7 + GR() * 0.5, 0.04));
-          else if (near.d > 1.4 && near.d < 3.2 && GR() < 0.03 && flowers.length < 60) flowers.push(item(x, z, GR() * 6.28, 0.8 + GR() * 0.4, 0.02));
+          else if (near.d > 1.4 && GR() < 0.03 && flowers.length < 200) flowers.push(item(x, z, GR() * 6.28, 0.8 + GR() * 0.4, 0.02));
           else if ((near.d > 0.9 && near.d < 1.5 && GR() < 0.012) || (heightD(x, z, near.d) > 1.6 && GR() < 0.01))
-            if (rocks.length < 40) rocks.push(item(x, z, GR() * 6.28, 0.6 + GR() * 0.9, 0.08));
+            if (rocks.length < 80) rocks.push(item(x, z, GR() * 6.28, 0.6 + GR() * 0.9, 0.08));
         }
         scatter("Grass_Large", 0.32, grass, "grass");
         scatter("Flower_3_Clump", 0.26, flowers, "grass");
         scatter("Bush", 0.55, bushes.Bush, "grass");
         scatter("Bush_Large", 0.75, bushes.Bush_Large, "grass");
-        scatter("Rock_Group", 0.7, rocks.slice(0, 18), "solid", "footprint");
-        scatter("Rock", 0.45, rocks.slice(18), "solid", "footprint");
+        scatter("Rock_Group", 0.7, rocks.slice(0, 30), "solid", "footprint");
+        scatter("Rock", 0.45, rocks.slice(30), "solid", "footprint");
 
         // ---- the village with its church ----
         const HOUSES = ["Houses_SecondAge_1_Level1", "Houses_SecondAge_2_Level2", "Houses_SecondAge_3_Level1", "Houses_SecondAge_1_Level2"];
@@ -974,6 +980,23 @@ void main(){
         scatter("Crate_Stack1", 0.3, [item(MP.x - 0.3, MP.y + 0.2, 0.4, 1)], "solid", "footprint");
         scatter("Logs", 0.45, [item(FP.x + 0.4, FP.y - 1.8, 0.7, 1), item(MP.x + 1.4, MP.y + 0.6, 2.0, 1)], "solid", "footprint");
         for (const h of HOUSES) scatter(h, 0.95, houseSets[h], "build", "footprint");
+
+        // ---- hedges and orchards around each place ----
+        const hedge = [];
+        const HG = rng(57);
+        for (const k in PLACES) {
+          const pl = PLACES[k];
+          const nH = Math.round(pl.r * 9);
+          for (let i = 0; i < nH; i++) {
+            const a = (i / nH) * Math.PI * 2 + HG() * 0.1;
+            const rr = pl.r + 0.7 + HG() * 0.3;
+            const x = pl.p.x + Math.cos(a) * rr * 1.15;
+            const z = pl.p.y + Math.sin(a) * rr * 0.9;
+            if (riverNear(x, z).d < 1.5 || HG() < 0.25) continue;
+            hedge.push(item(x, z, HG() * 6.28, 0.7 + HG() * 0.4, 0.03));
+          }
+        }
+        scatter("Bush_Small", 0.42, hedge, "grass");
 
         // ---- the vineyard: rows of vines ----
         const vines = [];
@@ -1359,7 +1382,7 @@ void main(){
         const tw = tau(t);
         G.uTime.value = t;
         G.uRing.value = ringR(t);
-        G.uRingAmp.value = t > T.hit ? 1.3 * win(t, T.hit + 0.15, T.hit + 0.5) * (1 - 0.6 * win(t, T.hit + 3, T.hit + 8)) : 0;
+        G.uRingAmp.value = t > T.hit ? 0.8 * win(t, T.hit + 0.15, T.hit + 0.5) * (1 - 0.6 * win(t, T.hit + 3, T.hit + 8)) : 0;
 
         // ---- river ----
         const RV = W3.RV;
