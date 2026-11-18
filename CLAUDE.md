@@ -122,3 +122,7 @@ skills/                 → AI agent skill definitions
 
 - Docs: https://hyperframes.heygen.com/introduction
 - Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+
+## Projet en cours : Kidi-science
+
+Ce dépôt sert aussi à produire la série YouTube **Kidi-science** (sciences expliquées aux enfants, en français). Avant tout travail sur une vidéo de la série, lire `kidi-science/README.md` : les décisions (style validé, voix, générique, découpage de l'épisode 1) y sont déjà confirmées par l'utilisateur et ne sont pas à redemander.
