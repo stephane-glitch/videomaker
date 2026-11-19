@@ -86,3 +86,11 @@ jeu ne fassent qu'un (planche des diapositives : `brief-planche.jpg`).
 
 PDF de validation : `validation/Mission-Flow-video-briefing-validation.pdf`
 (source `validation/index.html`, généré par `validation/pdf.mjs`).
+
+## Production (19/11/2026)
+
+Vidéo v1 produite : projet HyperFrames dans `video/` (voir `video/BRIEF.md`).
+Durée 1 min 57, 1920×1080, 30 i/s, −13,3 LUFS. Voix ElevenLabs
+(`WQKwBV2Uzw1gSGr69N8I`, modèle eleven_v3, ton de dirigeante engagée) et huit
+bruitages ElevenLabs ; aucune image ni musique générée. Le MP4 n'est pas dans le
+dépôt (trop lourd) : le régénérer avec `npx hyperframes render` depuis `video/`.
