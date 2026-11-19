@@ -1,0 +1,2788 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: var(--fire);
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="285.1" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="285.1" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.6" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s01" class="clip" data-start="7.6" data-duration="40.9" data-track-index="1">
+        <div id="s01-in" class="in">
+          <style>
+            #s01-q {
+              position: absolute;
+              left: 880px;
+              top: 150px;
+              width: 160px;
+              height: 160px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 120px;
+              font-weight: 700;
+            }
+          </style>
+          <svg class="stage" viewBox="0 0 1920 1080">
+            <g id="s01-world">
+              <g id="s01-hills"></g>
+              <rect x="-20" y="827" width="1960" height="86" fill="#EADFCB" />
+              <path d="M-20 827 H1940" class="ink" stroke-width="5" />
+              <g id="s01-dash"></g>
+            </g>
+            <svg id="s01-car" x="260" y="300" width="1400" height="607" viewBox="0 0 1200 520"></svg>
+            <path id="s01-chain" d="M500 620 C 760 560, 1040 720, 1250 660 S 1400 640, 1345 734" fill="none" stroke="#1f2a44" stroke-width="6" stroke-dasharray="2 18" stroke-linecap="round" />
+          </svg>
+          <div id="s01-q">?</div>
+          <div class="logo-pill" id="s01-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap" id="s01-chap">Sous le capot</div>
+          <div id="s01-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="48.5" data-duration="67.2" data-track-index="1">
+        <div id="s2-in" class="in">
+          <style>
+            #s2-boum {
+              position: absolute;
+              left: 960px;
+              top: 250px;
+              font-size: 150px;
+              font-weight: 700;
+              color: var(--fire);
+              -webkit-text-stroke: 5px var(--ink);
+              paint-order: stroke fill;
+              white-space: nowrap;
+            }
+            #s2-bike {
+              left: 1240px;
+              top: 290px;
+              width: 560px;
+              height: 580px;
+            }
+            #s2-four {
+              left: 260px;
+              top: 200px;
+              width: 1400px;
+              height: 700px;
+            }
+            #s2-fourcap {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 925px;
+              text-align: center;
+              font-size: 46px;
+              font-weight: 600;
+            }
+          </style>
+          <div id="s2-engwrap" class="in">
+            <svg class="stage" viewBox="0 0 1920 1080">
+              <g id="eng-a"></g>
+              <g id="eng-g"></g>
+              <g id="eng-b"></g>
+              <g id="eng-f"></g>
+              <g id="eng-t"></g>
+              <g id="eng-x"></g>
+            </svg>
+            <div id="s2-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+            <div id="s2-boum">Boum !</div>
+            <div id="s2-bike" class="panel"><svg id="s2-bikesvg" width="560" height="580" viewBox="0 0 560 580"></svg></div>
+            <div class="steps" id="s2-steps">
+              <div class="stp" id="s2-st1"><b>1</b>Aspire</div>
+              <div class="stp" id="s2-st2"><b>2</b>Serre</div>
+              <div class="stp" id="s2-st3"><b>3</b>Boum !</div>
+              <div class="stp" id="s2-st4"><b>4</b>Recrache</div>
+            </div>
+          </div>
+          <div id="s2-four" class="panel"><svg id="s2-foursvg" width="1400" height="700" viewBox="0 0 1400 700"></svg></div>
+          <div id="s2-fourcap">Quatre cylindres : chacun fait « boum » à son tour</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Le moteur à essence</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="115.7" data-duration="42" data-track-index="1">
+        <div id="s3-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080">
+            <defs>
+              <radialGradient id="s3-glow"><stop offset="0" stop-color="#ffe14d" stop-opacity="0.9" /><stop offset="1" stop-color="#ffe14d" stop-opacity="0" /></radialGradient>
+            </defs>
+            <g id="s3-mag"></g>
+            <g id="s3-rig"></g>
+          </svg>
+          <div id="s3-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s3-n0" style="left: 800px; top: 300px; background: #ffe14d">Pas de feu : des aimants !</div>
+          <div class="note" id="s3-n1" style="left: 560px; top: 760px">Ils s’attirent…</div>
+          <div class="note" id="s3-n2" style="left: 1040px; top: 760px">… ou ils se repoussent !</div>
+          <div class="note" id="s3-n3" style="left: 150px; top: 760px; background: #ffe14d">Ça recharge !</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Le moteur électrique</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="157.7" data-duration="46.1" data-track-index="1">
+        <div id="s4-in" class="in">
+          <div id="s4-a" class="in">
+            <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-gears"></g></svg>
+            <div id="s4-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+            <div class="note" id="s4-n1" style="left: 330px; top: 880px">Pour démarrer : lent, mais costaud</div>
+            <div class="note" id="s4-n2" style="left: 330px; top: 880px; background: #ffe14d">Une fois lancé : ça file !</div>
+            <div class="note" id="s4-n3" style="left: 1010px; top: 180px">Voiture électrique : une seule vitesse suffit</div>
+          </div>
+          <div id="s4-b" class="in">
+            <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-diff"></g></svg>
+            <div id="s4b-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          </div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">La transmission</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="203.8" data-duration="25.2" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s5-rig"></g></svg>
+          <div id="s5-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">La direction</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="229" data-duration="28.7" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            #s6-cut {
+              left: 1040px;
+              top: 250px;
+              width: 760px;
+              height: 620px;
+            }
+          </style>
+          <svg class="stage" viewBox="0 0 1920 1080">
+            <defs>
+              <radialGradient id="s6-heat"><stop offset="0.45" stop-color="#ff8a1f" stop-opacity="0.75" /><stop offset="1" stop-color="#ff8a1f" stop-opacity="0" /></radialGradient>
+            </defs>
+            <g id="s6-wheel"></g>
+          </svg>
+          <div id="s6-cut" class="panel"><svg id="s6-cutsvg" width="760" height="620" viewBox="0 0 760 620"></svg></div>
+          <div id="s6-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s6-n1" style="left: 230px; top: 900px; background: #5f86f0; color: #fff">Vitesse</div>
+          <div class="note" id="s6-ar" style="left: 452px; top: 900px; border: none; background: none; font-size: 56px; padding: 4px 10px">→</div>
+          <div class="note" id="s6-n2" style="left: 550px; top: 900px; background: #ff8a1f; color: #fff">Chaleur</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Les freins</div>
+        </div>
+      </section>
+
+      <section id="s7" class="clip" data-start="257.7" data-duration="27.4" data-track-index="1">
+        <div id="s7-in" class="in">
+          <style>
+            #s7-head {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 170px;
+              text-align: center;
+              font-size: 64px;
+              font-weight: 700;
+            }
+            #s7-chain {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 925px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 18px;
+            }
+            #s7-chain .note {
+              position: static;
+            }
+            #s7-chain .ar {
+              font-size: 54px;
+              font-weight: 700;
+            }
+            #s7-q {
+              position: absolute;
+              left: 330px;
+              top: 330px;
+              width: 150px;
+              height: 150px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 110px;
+              font-weight: 700;
+            }
+            #s7-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s7-end .d {
+              color: var(--fire);
+            }
+            #s7-end .s {
+              color: var(--blue);
+            }
+            #s7-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s7-main" class="in">
+            <svg class="stage" viewBox="0 0 1920 1080">
+              <rect x="-20" y="827" width="1960" height="86" fill="#EADFCB" />
+              <path d="M-20 827 H1940" class="ink" stroke-width="5" />
+              <g id="s7-dash"></g>
+              <svg id="s7-car" x="260" y="300" width="1400" height="607" viewBox="0 0 1200 520"></svg>
+            </svg>
+            <div id="s7-head">Une chaîne qui transforme <span style="color: var(--fire)">l’énergie</span> en <span style="color: var(--blue)">mouvement</span></div>
+            <div id="s7-chain">
+              <div class="note c" style="background: #ff8a1f; color: #fff">Énergie</div>
+              <div class="ar c">→</div>
+              <div class="note c" style="background: #2f5bd3; color: #fff">Moteur</div>
+              <div class="ar c">→</div>
+              <div class="note c" style="background: #1e3f9e; color: #fff">Transmission</div>
+              <div class="ar c">→</div>
+              <div class="note c">Roues</div>
+            </div>
+            <div id="s7-q">?</div>
+            <div class="note" id="s7-next" style="left: 520px; top: 370px">La prochaine fois : d’où vient l’essence ?</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s7-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s7-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="9.2" data-duration="5.31" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="15.13" data-duration="4.5" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="21.45" data-duration="1.21" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="23.03" data-duration="17.92" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="41.57" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-4" src="assets/vo/s1-4.mp3" data-start="44.61" data-duration="2.33" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="49.5" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="52.69" data-duration="6.67" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="60.18" data-duration="4.42" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="66.02" data-duration="3.3" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="70.74" data-duration="7.37" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-6" src="assets/vo/s2-6.mp3" data-start="79.73" data-duration="4.26" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-7" src="assets/vo/s2-7.mp3" data-start="85.61" data-duration="2.91" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-8" src="assets/vo/s2-8.mp3" data-start="89.54" data-duration="4.26" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-9" src="assets/vo/s2-9.mp3" data-start="94.42" data-duration="11.53" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-10" src="assets/vo/s2-10.mp3" data-start="107.17" data-duration="6.33" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="116.7" data-duration="2.75" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="119.97" data-duration="6.98" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="127.32" data-duration="1.78" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="129.92" data-duration="15.13" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-5" src="assets/vo/s3-5.mp3" data-start="145.42" data-duration="2.83" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-6" src="assets/vo/s3-6.mp3" data-start="148.87" data-duration="7.22" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="158.7" data-duration="2.25" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="161.47" data-duration="13.7" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="176.59" data-duration="6.51" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="184.32" data-duration="2.82" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-5" src="assets/vo/s4-5.mp3" data-start="187.66" data-duration="14.35" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="204.8" data-duration="2.1" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="207.42" data-duration="14.74" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="222.98" data-duration="4.57" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="230" data-duration="2.41" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="232.93" data-duration="10.59" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="244.54" data-duration="5.12" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="250.48" data-duration="4.19" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-5" src="assets/vo/s6-5.mp3" data-start="255.04" data-duration="1.47" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s7-1" src="assets/vo/s7-1.mp3" data-start="258.7" data-duration="8.97" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s7-2" src="assets/vo/s7-2.mp3" data-start="268.49" data-duration="5.7" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s7-3" src="assets/vo/s7-3.mp3" data-start="275.41" data-duration="2.25" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s7-4" src="assets/vo/s7-4.mp3" data-start="278.03" data-duration="3.06" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-pop" src="assets/sfx/pop.mp3" data-start="3.02" data-duration="0.61" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-1-jingle" src="assets/sfx/jingle.mp3" data-start="4.02" data-duration="3.51" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-2-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.85" data-duration="1.39" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-3-putter" src="assets/sfx/putter.mp3" data-start="8" data-duration="5.02" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-4-pop" src="assets/sfx/pop.mp3" data-start="13.53" data-duration="0.61" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-5-whoosh" src="assets/sfx/whoosh.mp3" data-start="47.75" data-duration="1.39" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-6-zap" src="assets/sfx/zap.mp3" data-start="72.68" data-duration="0.5" data-track-index="5" data-volume="0.35"></audio>
+      <audio id="fx-7-boum" src="assets/sfx/boum.mp3" data-start="73.58" data-duration="0.89" data-track-index="6" data-volume="0.5"></audio>
+      <audio id="fx-8-boum" src="assets/sfx/boum.mp3" data-start="87.07" data-duration="0.89" data-track-index="7" data-volume="0.3"></audio>
+      <audio id="fx-9-putter" src="assets/sfx/putter.mp3" data-start="108.78" data-duration="5.02" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="115.45" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-pop" src="assets/sfx/pop.mp3" data-start="125.64" data-duration="0.61" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-12-ehum" src="assets/sfx/ehum.mp3" data-start="141.96" data-duration="4.03" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-13-chime" src="assets/sfx/chime.mp3" data-start="153.95" data-duration="1.21" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-14-whoosh" src="assets/sfx/whoosh.mp3" data-start="157.45" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-15-pop" src="assets/sfx/pop.mp3" data-start="172.06" data-duration="0.61" data-track-index="5" data-volume="0.35"></audio>
+      <audio id="fx-16-whoosh" src="assets/sfx/whoosh.mp3" data-start="203.55" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-17-whoosh" src="assets/sfx/whoosh.mp3" data-start="228.75" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-18-brake" src="assets/sfx/brake.mp3" data-start="240.72" data-duration="1.5" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-19-brake" src="assets/sfx/brake.mp3" data-start="251.93" data-duration="1.5" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-20-whoosh" src="assets/sfx/whoosh.mp3" data-start="257.45" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-21-putter" src="assets/sfx/putter.mp3" data-start="263.51" data-duration="3.48" data-track-index="5" data-volume="0.14"></audio>
+      <audio id="fx-22-brake" src="assets/sfx/brake.mp3" data-start="266.46" data-duration="1.5" data-track-index="6" data-volume="0.24"></audio>
+      <audio id="fx-23-pop" src="assets/sfx/pop.mp3" data-start="276.33" data-duration="0.61" data-track-index="7" data-volume="0.35"></audio>
+      <audio id="fx-24-jingle" src="assets/sfx/jingle.mp3" data-start="282.2" data-duration="2.83" data-track-index="5" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":285.1,"scenes":{"g":{"start":0,"end":7.6},"s01":{"start":7.6,"end":48.5},"s2":{"start":48.5,"end":115.7},"s3":{"start":115.7,"end":157.7},"s4":{"start":157.7,"end":203.8},"s5":{"start":203.8,"end":229},"s6":{"start":229,"end":257.7},"s7":{"start":257.7,"end":285.1}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":7.6,"end":19.65},"s1":{"start":19.65,"end":46.96},"s2":{"start":48.5,"end":113.52},"s3":{"start":115.7,"end":156.11},"s4":{"start":157.7,"end":202.03},"s5":{"start":203.8,"end":227.57},"s6":{"start":229,"end":256.53},"s7":{"start":257.7,"end":281.11}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.11,1.5],["comment",1.54,1.86],["ça",1.91,2.02],["marche",2.07,2.42],["?",2.5,2.58]]},"s0-1":{"start":9.2,"end":14.53,"who":"zoe","words":[["Max,",9.61,10.04],["quand",10.07,10.2],["Papa",10.25,10.44],["appuie",10.48,10.76],["sur",10.78,10.84],["la",10.89,11],["pédale,",11.04,11.56],["la",11.61,11.72],["voiture",11.76,12.04],["avance.",12.09,12.6],["Mais…",12.73,13.64],["qui",13.68,13.8],["la",13.88,14.04],["pousse",14.08,14.44],["?",14.48,14.52]]},"s0-2":{"start":15.13,"end":19.65,"who":"max","words":[["Personne",15.32,15.68],["ne",15.7,15.76],["la",15.81,15.92],["pousse",15.96,16.16],["de",16.18,16.24],["dehors.",16.29,16.84],["Tout",16.88,17.04],["se",17.06,17.12],["passe",17.16,17.36],["à",17.38,17.4],["l'intérieur.",17.42,18],["Viens,",18.13,18.56],["on",18.66,18.88],["va",18.93,19.04],["regarder",19.07,19.36],["dedans.",19.4,19.68]]},"s1-1":{"start":21.45,"end":22.68,"who":"zoe","words":[["Il",21.56,21.57],["y",21.59,21.61],["a",21.63,21.65],["quoi,",21.7,21.97],["sous",21.99,22.05],["le",22.08,22.13],["capot",22.19,22.53],["?",22.61,22.69]]},"s1-2":{"start":23.03,"end":40.97,"who":"max","words":[["Plein",23.16,23.26],["de",23.28,23.34],["pièces",23.4,23.66],["qui",23.7,23.82],["forment",23.86,24.06],["une",24.1,24.22],["chaîne.",24.26,24.62],["D'abord,",24.86,25.58],["l'énergie",25.78,26.46],[":",26.66,26.86],["de",26.88,26.94],["l'essence",26.98,27.42],["dans",27.45,27.58],["un",27.6,27.66],["réservoir,",27.7,28.46],["ou",28.59,28.86],["de",28.88,28.94],["l'électricité",28.98,29.58],["dans",29.61,29.74],["une",29.78,29.9],["batterie.",29.93,30.3],["Le",30.54,31.02],["moteur",31.08,31.42],["transforme",31.47,32.06],["cette",32.08,32.22],["énergie",32.3,32.7],["en",32.8,33.02],["mouvement.",33.06,33.86],["Ensuite,",34,34.62],["la",34.8,35.18],["transmission",35.23,35.82],["emmène",35.87,36.14],["ce",36.19,36.3],["mouvement",36.32,36.7],["jusqu'aux",36.76,37.18],["roues.",37.22,37.98],["Et",38.03,38.14],["pour",38.15,38.22],["conduire,",38.27,39.18],["il",39.2,39.26],["y",39.3,39.34],["a",39.38,39.42],["la",39.44,39.5],["direction",39.57,40.22],["et",40.32,40.54],["les",40.56,40.62],["freins.",40.66,41.02]]},"s1-3":{"start":41.57,"end":44.26,"who":"zoe","words":[["Une",42.14,42.15],["chaîne…",42.25,43.27],["On",43.3,43.35],["commence",43.4,43.75],["par",43.79,43.91],["où",43.97,44.07],["?",44.15,44.23]]},"s1-4":{"start":44.61,"end":46.96,"who":"max","words":[["Par",44.87,44.88],["le",44.93,45.04],["cœur",45.12,45.52],[":",45.84,46.16],["le",46.21,46.32],["moteur.",46.38,46.96]]},"s2-1":{"start":49.5,"end":52.19,"who":"zoe","words":[["Il",49.61,49.62],["paraît",49.67,49.94],["que",49.96,50.02],["dans",50.04,50.1],["le",50.13,50.18],["moteur,",50.23,50.58],["ça",50.63,50.74],["brûle.",50.79,51.22],["C'est",51.42,51.78],["vrai",51.83,52.02],["?",52.1,52.18]]},"s2-2":{"start":52.69,"end":59.38,"who":"max","words":[["C'est",52.81,52.84],["vrai",52.88,53.08],["!",53.24,53.4],["Regarde",53.44,53.72],["ce",53.74,53.8],["tube",53.86,54.12],[":",54.2,54.28],["c'est",54.32,54.44],["un",54.46,54.52],["cylindre.",54.58,55.24],["Dedans,",55.3,55.8],["il",55.85,55.96],["y",55.98,56.01],["a",56.04,56.06],["un",56.08,56.12],["piston",56.17,56.52],["qui",56.58,56.76],["peut",56.8,57],["monter",57.02,57.56],["et",57.58,57.64],["descendre.",57.69,58.36],["Ça",58.4,58.48],["se",58.49,58.52],["passe",58.54,58.68],["en",58.73,58.84],["quatre",58.87,59.08],["temps.",59.12,59.4]]},"s2-3":{"start":60.18,"end":64.62,"who":"max","words":[["Un",60.29,60.3],[":",60.54,60.78],["le",60.83,60.94],["piston",60.98,61.26],["descend",61.33,61.82],["et",61.9,62.06],["aspire",62.1,62.38],["de",62.4,62.46],["l'air",62.5,62.7],["mélangé",62.75,63.1],["à",63.14,63.18],["un",63.2,63.26],["peu",63.3,63.42],["d'essence.",63.46,64.62]]},"s2-4":{"start":66.02,"end":69.34,"who":"max","words":[["Deux",66.13,66.14],[":",66.42,66.7],["il",66.75,66.86],["remonte",66.94,67.34],["et",67.42,67.58],["serre",67.64,67.98],["ce",68,68.06],["mélange",68.14,68.54],["très",68.58,68.78],["fort.",68.86,69.34]]},"s2-5":{"start":70.74,"end":78.13,"who":"max","words":[["Trois",70.91,71.05],[":",71.45,71.85],["la",71.9,72.01],["bougie",72.07,72.41],["fait",72.44,72.57],["une",72.59,72.65],["étincelle…",72.73,73.53],["Boum",73.63,74.09],["!",74.41,74.73],["Le",74.75,74.81],["mélange",74.89,75.37],["brûle",75.45,75.69],["d'un",75.73,75.85],["coup",75.91,76.17],["et",76.33,76.65],["pousse",76.77,77.05],["le",77.07,77.13],["piston",77.2,77.61],["vers",77.64,77.77],["le",77.79,77.85],["bas.",77.91,78.17]]},"s2-6":{"start":79.73,"end":84.01,"who":"max","words":[["Et",79.9,79.96],["quatre",79.99,80.2],[":",80.36,80.52],["le",80.57,80.68],["piston",80.73,81.08],["remonte",81.14,81.56],["et",81.69,81.96],["recrache",82.02,82.36],["la",82.38,82.44],["fumée.",82.52,82.84],["Puis",83.04,83.32],["on",83.34,83.4],["recommence.",83.43,84.04]]},"s2-7":{"start":85.61,"end":88.54,"who":"zoe","words":[["Aspire,",86.02,86.45],["serre,",86.53,87.01],["boum,",87.07,87.41],["recrache",87.55,88.37],["!",88.45,88.53]]},"s2-8":{"start":89.54,"end":93.82,"who":"zoe","words":[["Mais",89.69,89.7],["le",89.73,89.78],["piston,",89.85,90.66],["il",90.69,90.74],["fait",90.77,90.9],["juste",90.95,91.22],["haut-bas.",91.27,92.22],["Les",92.29,92.5],["roues,",92.56,92.82],["elles",92.85,92.98],["tournent",93.06,93.54],["!",93.66,93.78]]},"s2-9":{"start":94.42,"end":105.97,"who":"max","words":[["Bien",94.61,94.8],["vu.",94.88,95.12],["Le",95.28,95.6],["piston",95.66,96],["est",96.04,96.16],["attaché",96.21,96.56],["à",96.6,96.64],["une",96.68,96.8],["tige,",96.84,97.36],["la",97.41,97.52],["bielle,",97.6,98],["qui",98.04,98.16],["fait",98.21,98.4],["tourner",98.43,98.64],["une",98.68,98.8],["sorte",98.84,99.04],["de",99.07,99.12],["manivelle",99.2,99.76],[":",99.92,100.08],["le",100.13,100.24],["vilebrequin.",100.3,101.04],["C'est",101.28,101.6],["comme",101.63,101.76],["tes",101.8,101.92],["jambes",102,102.24],["sur",102.28,102.4],["un",102.43,102.48],["vélo",102.53,102.8],[":",102.92,103.04],["elles",103.07,103.2],["poussent",103.26,103.6],["de",103.65,103.76],["haut",103.82,104.08],["en",104.13,104.24],["bas,",104.28,104.64],["et",104.67,104.72],["les",104.74,104.8],["pédales",104.88,105.2],["tournent",105.32,105.68],["en",105.71,105.76],["rond.",105.79,106]]},"s2-10":{"start":107.17,"end":113.52,"who":"max","words":[["Une",107.3,107.32],["voiture",107.39,107.88],["a",108,108.12],["souvent",108.16,108.44],["quatre",108.48,108.76],["cylindres,",108.84,109.48],["qui",109.5,109.56],["font",109.62,109.88],["«",109.92,109.96],["boum",110,110.2],["»",110.32,110.44],["chacun",110.47,110.68],["leur",110.72,110.92],["tour,",110.96,111.32],["des",111.38,111.56],["dizaines",111.62,112.04],["de",112.09,112.2],["fois",112.23,112.36],["par",112.4,112.52],["seconde",112.6,112.92],["!",113.24,113.56]]},"s3-1":{"start":116.7,"end":119.47,"who":"zoe","words":[["Et",116.89,116.9],["les",116.92,116.98],["voitures",117.03,117.38],["électriques",117.43,118.02],["?",118.14,118.26],["Elles",118.27,118.34],["n'ont",118.38,118.5],["pas",118.54,118.66],["de",118.68,118.74],["feu",118.78,118.9],["?",119.18,119.46]]},"s3-2":{"start":119.97,"end":126.97,"who":"max","words":[["Pas",120.06,120.12],["de",120.17,120.28],["feu,",120.34,120.84],["pas",120.88,121],["de",121.03,121.08],["boum",121.12,121.4],["!",121.6,121.8],["À",121.84,121.88],["la",121.91,121.96],["place,",122.04,122.6],["il",122.63,122.68],["y",122.72,122.76],["a",122.8,122.84],["des",122.88,123],["aimants.",123.06,124.2],["Tu",124.23,124.28],["sais",124.33,124.52],["que",124.54,124.6],["deux",124.65,124.84],["aimants",124.9,125.16],["peuvent",125.19,125.4],["s'attirer",125.44,125.96],["ou",126.07,126.28],["se",126.33,126.44],["repousser",126.5,126.92],["?",126.96,127]]},"s3-3":{"start":127.32,"end":129.12,"who":"zoe","words":[["Oui,",127.58,127.87],["comme",127.9,128.07],["les",128.11,128.23],["aimants",128.27,128.47],["du",128.49,128.55],["frigo.",128.6,129.11]]},"s3-4":{"start":129.92,"end":145.07,"who":"max","words":[["L'électricité",130.11,130.7],["de",130.73,130.78],["la",130.81,130.86],["batterie",130.91,131.26],["transforme",131.34,132.14],["des",132.18,132.3],["bobines",132.34,132.62],["de",132.65,132.7],["fil",132.78,133.02],["en",133.08,133.18],["aimants,",133.22,133.9],["allumés",133.94,134.38],["l'un",134.42,134.54],["après",134.6,134.86],["l'autre,",134.9,135.26],["tout",135.31,135.5],["autour.",135.56,136.54],["Au",136.57,136.62],["milieu,",136.67,137.34],["le",137.4,137.5],["rotor",137.58,137.98],["est",138.02,138.14],["attiré",138.18,138.62],["par",138.64,138.7],["l'aimant",138.74,139.02],["allumé…",139.06,139.42],["qui",139.58,140.06],["a",140.1,140.14],["déjà",140.19,140.38],["changé",140.42,140.66],["de",140.68,140.7],["place",140.77,141.1],["!",141.34,141.58],["Alors",141.64,141.82],["il",141.85,141.9],["court",141.96,142.22],["après,",142.28,142.86],["sans",142.91,143.1],["jamais",143.15,143.42],["le",143.45,143.5],["rattraper.",143.54,144.38],["Et",144.41,144.46],["il",144.52,144.62],["tourne.",144.67,145.1]]},"s3-5":{"start":145.42,"end":148.27,"who":"zoe","words":[["Il",145.68,145.69],["court",145.75,146.01],["après",146.07,146.33],["sa",146.41,146.57],["queue,",146.61,146.89],["comme",146.97,147.37],["un",147.43,147.53],["chien",147.61,147.93],["!",148.09,148.25]]},"s3-6":{"start":148.87,"end":156.11,"who":"max","words":[["Exactement.",149.25,149.73],["C'est",149.77,149.97],["plus",150.01,150.13],["simple",150.18,150.45],["et",150.53,150.69],["très",150.73,150.85],["silencieux.",150.91,151.89],["Et",151.92,151.97],["quand",152,152.13],["on",152.16,152.21],["freine,",152.27,152.77],["il",152.8,152.85],["marche",152.89,153.09],["à",153.13,153.17],["l'envers",153.21,153.57],[":",153.69,153.81],["il",153.84,153.89],["recharge",153.95,154.37],["un",154.4,154.45],["peu",154.47,154.53],["la",154.56,154.61],["batterie.",154.66,156.13]]},"s4-1":{"start":158.7,"end":160.97,"who":"zoe","words":[["Pourquoi",158.96,159.05],["on",159.1,159.21],["change",159.25,159.45],["de",159.5,159.61],["vitesse",159.65,160.01],["dans",160.04,160.17],["une",160.21,160.33],["voiture",160.39,160.81],["?",160.89,160.97]]},"s4-2":{"start":161.47,"end":175.19,"who":"max","words":[["Pour",161.6,161.62],["la",161.67,161.78],["même",161.82,162.02],["raison",162.05,162.26],["que",162.3,162.42],["sur",162.44,162.5],["ton",162.54,162.66],["vélo",162.71,162.9],["!",163.18,163.46],["Pour",163.47,163.54],["démarrer,",163.6,164.34],["un",164.42,164.58],["petit",164.63,164.9],["engrenage",164.94,165.46],["fait",165.52,165.78],["tourner",165.81,166.1],["un",166.15,166.26],["grand.",166.3,167.14],["Les",167.18,167.3],["roues",167.34,167.62],["tournent",167.66,168.02],["lentement,",168.06,168.74],["mais",168.77,168.9],["avec",168.94,169.14],["beaucoup",169.2,169.7],["de",169.75,169.86],["force.",169.91,170.26],["Une",170.46,171.06],["fois",171.09,171.22],["lancé,",171.26,171.86],["on",171.91,172.02],["change",172.06,172.34],[":",172.54,172.74],["les",172.78,172.9],["roues",172.94,173.14],["tournent",173.18,173.46],["plus",173.49,173.62],["vite,",173.66,174.1],["avec",174.16,174.42],["moins",174.46,174.66],["d'effort.",174.7,175.22]]},"s4-3":{"start":176.59,"end":183.12,"who":"max","words":[["D'ailleurs,",176.78,177.46],["la",177.51,177.62],["plupart",177.64,177.94],["des",177.98,178.1],["voitures",178.12,178.42],["électriques",178.46,178.82],["n'ont",178.86,178.98],["qu'une",179,179.22],["seule",179.24,179.38],["vitesse",179.42,179.86],[":",180.06,180.26],["leur",180.3,180.5],["moteur",180.56,180.9],["sait",180.95,181.14],["tourner",181.17,181.46],["doucement",181.52,182.02],["comme",182.1,182.5],["très",182.54,182.74],["vite.",182.8,183.14]]},"s4-4":{"start":184.32,"end":187.16,"who":"zoe","words":[["Et",184.51,184.52],["dans",184.55,184.68],["les",184.7,184.76],["virages,",184.84,185.68],["les",185.71,185.8],["deux",185.85,186.04],["roues",186.08,186.28],["tournent",186.32,186.6],["pareil",186.65,187],["?",187.08,187.16]]},"s4-5":{"start":187.66,"end":202.03,"who":"max","words":[["Non",187.97,188.05],["!",188.21,188.37],["Regarde",188.43,188.77],[":",188.97,189.17],["dans",189.2,189.33],["un",189.38,189.49],["virage,",189.55,190.05],["la",190.1,190.21],["roue",190.25,190.45],["de",190.47,190.53],["l'extérieur",190.61,191.33],["fait",191.37,191.57],["un",191.62,191.73],["plus",191.76,191.89],["grand",191.94,192.21],["chemin.",192.26,192.89],["Elle",192.94,193.17],["doit",193.2,193.33],["donc",193.37,193.57],["tourner",193.6,193.97],["plus",194,194.13],["vite",194.19,194.45],["que",194.53,194.77],["celle",194.81,195.01],["de",195.03,195.09],["l'intérieur.",195.13,195.81],["Une",195.99,196.53],["boîte",196.55,196.77],["d'engrenages,",196.81,197.49],["le",197.54,197.65],["différentiel,",197.69,198.45],["partage",198.56,199.17],["le",199.22,199.33],["mouvement",199.37,199.73],["pour",199.77,199.97],["que",200.01,200.13],["chaque",200.2,200.61],["roue",200.65,200.85],["tourne",200.91,201.25],["à",201.29,201.33],["sa",201.38,201.49],["vitesse.",201.59,202.05]]},"s5-1":{"start":204.8,"end":206.92,"who":"zoe","words":[["Et",204.99,204.99],["le",205.02,205.07],["volant,",205.15,205.63],["comment",205.65,205.79],["il",205.85,205.95],["fait",205.99,206.11],["tourner",206.15,206.43],["les",206.45,206.51],["roues",206.55,206.75],["?",206.83,206.91]]},"s5-2":{"start":207.42,"end":222.18,"who":"max","words":[["Le",207.59,207.65],["volant",207.71,207.97],["fait",208,208.13],["tourner",208.16,208.45],["une",208.49,208.61],["longue",208.64,208.89],["tige,",208.95,209.57],["avec",209.61,209.81],["au",209.86,209.97],["bout",210.01,210.21],["un",210.34,210.61],["petit",210.66,210.93],["engrenage",210.97,211.57],["posé",211.67,212.05],["sur",212.09,212.21],["une",212.25,212.37],["barre",212.41,212.69],["pleine",212.73,213.01],["de",213.06,213.17],["dents",213.21,213.33],[":",213.57,213.81],["la",213.86,213.97],["crémaillère.",214.03,215.01],["Quand",215.11,215.41],["tu",215.46,215.57],["tournes",215.61,215.81],["le",215.83,215.89],["volant,",215.93,216.61],["l'engrenage",216.65,217.25],["tourne",217.29,217.57],["et",217.65,217.81],["fait",217.84,217.97],["glisser",218.02,218.37],["la",218.42,218.53],["barre",218.57,218.77],["sur",218.81,218.93],["le",218.95,219.01],["côté.",219.07,219.41],["Et",219.54,219.81],["la",219.86,219.97],["barre",220.01,220.29],["pousse",220.37,220.61],["les",220.65,220.77],["roues",220.81,221.09],["avant,",221.11,221.49],["qui",221.51,221.57],["pivotent.",221.63,222.21]]},"s5-3":{"start":222.98,"end":227.57,"who":"zoe","words":[["Un",223.32,223.34],["rond",223.42,223.74],["qui",223.82,224.06],["pousse",224.18,224.46],["une",224.5,224.62],["barre",224.66,224.94],["droite.",225,225.5],["Malin",225.68,226.46],["!",227.02,227.58]]},"s6-1":{"start":230,"end":232.43,"who":"zoe","words":[["Et",230.12,230.12],["pour",230.17,230.36],["s'arrêter",230.4,230.84],["?",231.64,232.44]]},"s6-2":{"start":232.93,"end":243.54,"who":"max","words":[["Derrière",233.1,233.4],["chaque",233.44,233.72],["roue,",233.76,234.36],["il",234.41,234.52],["y",234.56,234.6],["a",234.64,234.68],["un",234.7,234.76],["disque",234.82,235.08],["qui",235.14,235.32],["tourne",235.35,235.56],["avec",235.6,235.8],["elle.",235.84,236.12],["Quand",236.3,236.76],["on",236.78,236.84],["appuie",236.9,237.16],["sur",237.2,237.32],["la",237.34,237.4],["pédale,",237.44,238.2],["un",238.25,238.36],["liquide",238.42,238.84],["pousse",238.96,239.32],["deux",239.35,239.48],["plaquettes",239.54,240.04],["qui",240.12,240.36],["pincent",240.42,240.76],["le",240.78,240.84],["disque,",240.9,241.72],["comme",241.74,241.88],["tes",241.94,242.12],["doigts",242.14,242.36],["qui",242.44,242.68],["serrent",242.72,242.92],["une",242.96,243.08],["roue",243.1,243.2],["de",243.21,243.24],["vélo.",243.26,243.56]]},"s6-3":{"start":244.54,"end":249.68,"who":"max","words":[["En",244.71,244.77],["frottant,",244.81,245.65],["le",245.7,245.81],["mouvement",245.85,246.13],["se",246.21,246.37],["transforme",246.41,246.85],["en",246.87,246.93],["chaleur.",246.95,247.73],["Le",247.75,247.81],["disque",247.89,248.21],["peut",248.25,248.45],["devenir",248.47,249.01],["brûlant",249.11,249.57],["!",249.65,249.73]]},"s6-4":{"start":250.48,"end":254.69,"who":"zoe","words":[["Donc",250.82,250.91],["freiner,",250.99,251.63],["c'est",251.67,251.87],["transformer",251.93,252.51],["la",252.54,252.59],["vitesse",252.63,252.99],["en",253.02,253.07],["chaleur",253.13,253.55],["?",254.11,254.67]]},"s6-5":{"start":255.04,"end":256.53,"who":"max","words":[["C'est",255.22,255.24],["exactement",255.3,255.8],["ça.",255.88,256.52]]},"s7-1":{"start":258.7,"end":267.69,"who":"zoe","words":[["Alors",258.81,258.9],["je",258.95,259.06],["résume",259.14,259.46],[":",259.66,259.86],["l'énergie",259.9,260.42],["va",260.47,260.58],["dans",260.62,260.82],["le",260.84,260.9],["moteur,",260.98,261.54],["le",261.59,261.7],["moteur",261.78,262.18],["fait",262.24,262.5],["tourner,",262.54,263.06],["la",263.19,263.46],["transmission",263.51,264.18],["envoie",264.23,264.58],["ça",264.66,264.82],["aux",264.88,265.06],["roues…",265.12,265.86],["et",265.91,266.02],["les",266.04,266.1],["freins,",266.16,266.5],["ils",266.62,266.98],["arrêtent",267.02,267.3],["tout",267.31,267.38],["!",267.54,267.7]]},"s7-2":{"start":268.49,"end":274.21,"who":"max","words":[["Tu",268.59,268.64],["as",268.67,268.72],["tout",268.75,268.88],["compris",268.92,269.2],[":",269.4,269.6],["une",269.62,269.68],["voiture,",269.76,270.56],["c'est",270.6,270.72],["une",270.76,270.88],["chaîne",270.96,271.36],["qui",271.44,271.68],["transforme",271.74,272.4],["l'énergie",272.44,273.04],["en",273.17,273.44],["mouvement.",273.48,274.24]]},"s7-3":{"start":275.41,"end":277.68,"who":"zoe","words":[["Dis,",275.75,275.97],["Max…",276.02,276.41],["et",276.43,276.49],["l'essence,",276.53,277.05],["elle",277.06,277.13],["vient",277.17,277.37],["d'où",277.41,277.53],["?",277.61,277.69]]},"s7-4":{"start":278.03,"end":281.11,"who":"max","words":[["Ça,",278.26,278.62],["c'est",278.64,278.82],["une",278.84,278.9],["autre",278.94,279.14],["histoire.",279.18,279.62],["On",279.72,279.94],["regardera",279.98,280.42],["la",280.44,280.5],["prochaine",280.54,280.82],["fois",280.85,280.98],["!",281.06,281.14]]}}};
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+const show = (sel, t, o = {}) =>
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+      // ===== car.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// La voiture en coupe (vue de côté), utilisée par les scènes 0, 1 et 7.
+// Repère « voiture » : 1200 × 520, avant à droite, roues centrées en (290, 372) et (930, 372).
+const CAR = {
+  body: "M70 360 L70 290 Q75 245 130 235 L250 215 Q330 115 430 110 L700 110 Q800 112 880 215 L1060 240 Q1128 252 1130 300 L1130 360 Z",
+  win: "M292 212 Q350 142 438 138 L560 138 L560 212 Z M590 138 L690 138 Q775 142 838 212 L590 212 Z",
+  wr: [290, 372],
+  wf: [930, 372],
+  R: 80,
+  // points visés par les étiquettes
+  at: {
+    tank: [205, 290],
+    batt: [600, 332],
+    eng: [980, 290],
+    gear: [855, 304],
+    steer: [742, 208],
+    brake: [930, 372],
+  },
+};
+const wheelSVG = (p, k, [cx, cy]) => {
+  let sp = "";
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * TAU;
+    sp += `<path d="M${cx} ${cy} L${f2(cx + 50 * Math.cos(a))} ${f2(cy + 50 * Math.sin(a))}" stroke="${C.ink}" stroke-width="9" stroke-linecap="round"/>`;
+  }
+  return (
+    `<circle cx="${cx}" cy="${cy}" r="${CAR.R}" fill="${C.ink}"/>` +
+    `<circle cx="${cx}" cy="${cy}" r="56" fill="#EEF2F8" class="ink"/>` +
+    `<g id="${p}-br${k}" class="part"><circle cx="${cx}" cy="${cy}" r="40" fill="${C.metal}" class="ink" stroke-width="3"/></g>` +
+    `<g id="${p}-w${k}">${sp}<circle cx="${cx}" cy="${cy}" r="13" fill="#fff" class="ink"/></g>`
+  );
+};
+const carSVG = (p) => `
+        <path d="${CAR.body}" fill="#ffffff" opacity="0.72"/>
+        <g id="${p}-parts">
+          <path d="M120 356 L1090 356" stroke="${C.inner}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M470 312 L470 250 Q470 232 490 232 L512 232 L512 300 L560 300 L560 312 Z M640 312 L640 250 Q640 232 660 232 L682 232 L682 300 L730 300 L730 312 Z" fill="${C.side}" class="ink" stroke-width="3"/>
+          <g id="${p}-tank" class="part">
+            <rect x="130" y="258" width="150" height="66" rx="16" fill="${C.fire}" class="ink"/>
+            <path d="M150 258 L150 240 L180 240 L180 258" fill="${C.fire}" class="ink"/>
+            <path d="M150 300 Q205 284 262 300" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+          </g>
+          <g id="${p}-batt" class="part">
+            <rect x="400" y="312" width="400" height="40" rx="10" fill="${C.spark}" class="ink"/>
+            <path d="M480 312 V352 M560 312 V352 M640 312 V352 M720 312 V352" stroke="${C.ink}" stroke-width="3"/>
+          </g>
+          <g id="${p}-gear" class="part">
+            <path d="M855 330 L930 372" stroke="${C.blueD}" stroke-width="14" stroke-linecap="round"/>
+            <rect x="812" y="272" width="86" height="64" rx="12" fill="${C.blueD}" class="ink"/>
+            <circle cx="840" cy="304" r="15" fill="none" stroke="#fff" stroke-width="5"/>
+            <circle cx="872" cy="304" r="9" fill="none" stroke="#fff" stroke-width="5"/>
+          </g>
+          <g id="${p}-eng" class="part">
+            <rect x="905" y="244" width="150" height="92" rx="14" fill="${C.blue}" class="ink"/>
+            <rect x="922" y="226" width="30" height="20" rx="5" fill="${C.blueL}" class="ink" stroke-width="3"/>
+            <rect x="965" y="226" width="30" height="20" rx="5" fill="${C.blueL}" class="ink" stroke-width="3"/>
+            <rect x="1008" y="226" width="30" height="20" rx="5" fill="${C.blueL}" class="ink" stroke-width="3"/>
+            <path d="M925 290 H1035" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+          </g>
+          <g id="${p}-steer" class="part">
+            <path d="M752 226 L905 326" stroke="${C.metal}" stroke-width="9" stroke-linecap="round"/>
+            <ellipse cx="742" cy="208" rx="15" ry="42" transform="rotate(-24 742 208)" fill="none" stroke="${C.ink}" stroke-width="11"/>
+            <ellipse cx="742" cy="208" rx="15" ry="42" transform="rotate(-24 742 208)" fill="none" stroke="${C.blueL}" stroke-width="5"/>
+          </g>
+        </g>
+        <g id="${p}-paint">
+          <path d="${CAR.body}" fill="#3DBE8B"/>
+          <path d="${CAR.win}" fill="#D6F1FF" class="ink" stroke-width="3"/>
+          <path d="M575 214 V352" stroke="${C.ink}" stroke-width="3" opacity="0.5"/>
+          <rect x="610" y="236" width="44" height="12" rx="6" fill="${C.ink}" opacity="0.6"/>
+          <path d="M1092 262 Q1124 268 1126 296 L1096 296 Z" fill="${C.hot}" class="ink" stroke-width="3"/>
+          <rect x="72" y="270" width="16" height="40" rx="6" fill="#F0556A" class="ink" stroke-width="3"/>
+        </g>
+        <path d="${CAR.body}" fill="none" class="ink" stroke-width="5"/>
+        ${wheelSVG(p, "r", CAR.wr)}
+        ${wheelSVG(p, "f", CAR.wf)}`;
+// Fait tourner les roues (angle en radians).
+const carWheels = (p, ang) => {
+  const d = f2((ang * 180) / Math.PI);
+  document
+    .getElementById(`${p}-wr`)
+    .setAttribute("transform", `rotate(${d} ${CAR.wr[0]} ${CAR.wr[1]})`);
+  document
+    .getElementById(`${p}-wf`)
+    .setAttribute("transform", `rotate(${d} ${CAR.wf[0]} ${CAR.wf[1]})`);
+};
+// Place de la voiture dans l'image : coin haut-gauche (260, 300), échelle 7/6.
+const CARPOS = { x: 260, y: 300, k: 1400 / 1200 };
+const carPt = ([x, y]) => [
+  Math.round(CARPOS.x + x * CARPOS.k),
+  Math.round(CARPOS.y + y * CARPOS.k),
+];
+
+// « Pulsation » d'un organe quand on le nomme : grossit sur place puis revient.
+// list = [[organe, instant, amplitude, durée], …] ; calculé à chaque image (pas de transformation GSAP sur le SVG).
+const PARTC = {
+  tank: [205, 290],
+  batt: [600, 332],
+  eng: [980, 285],
+  gear: [855, 304],
+  steer: [742, 208],
+  brf: [930, 372],
+  brr: [290, 372],
+};
+const carPulses = (p, list, t) => {
+  const acc = {};
+  for (const [k, t0, amp = 0.22, d = 0.5] of list) {
+    const u = (t - t0) / d;
+    if (u > 0 && u < 1) acc[k] = Math.max(acc[k] ?? 0, amp * Math.sin(Math.PI * u));
+  }
+  for (const k in PARTC) {
+    const s = 1 + (acc[k] ?? 0),
+      [cx, cy] = PARTC[k];
+    document
+      .getElementById(`${p}-${k}`)
+      .setAttribute(
+        "transform",
+        s === 1 ? "" : `translate(${cx} ${cy}) scale(${f2(s)}) translate(${-cx} ${-cy})`,
+      );
+  }
+};
+
+      // ===== engine.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Le cylindre en coupe (vue isométrique), redessiné à chaque image à partir de l'angle du vilebrequin.
+// Toute la cinématique vient de la vraie relation bielle-manivelle.
+const ENG = (() => {
+  const A = (-28 * Math.PI) / 180,
+    E = (24 * Math.PI) / 180;
+  const ca = Math.cos(A),
+    sa = Math.sin(A),
+    ce = Math.cos(E),
+    se = Math.sin(E);
+  const K = { S: 1.04, OX: 650, OY: 800 };
+  const P = ([x, y, z]) => {
+    const xr = x * ca - y * sa,
+      yr = x * sa + y * ca;
+    return [K.OX + K.S * xr, K.OY - K.S * (z * ce + yr * se)];
+  };
+  const pathOf = (pts, close = true) =>
+    pts.map((p, i) => `${i ? "L" : "M"}${f2(p[0])} ${f2(p[1])}`).join("") + (close ? "Z" : "");
+  const poly3 = (pts, close = true) => pathOf(pts.map(P), close);
+  const circle = (c, u, v, r, n = 40, t0 = 0, t1 = TAU) => {
+    const o = [];
+    for (let i = 0; i <= n; i++) {
+      const t = t0 + ((t1 - t0) * i) / n,
+        cs = Math.cos(t),
+        sn = Math.sin(t);
+      o.push([
+        c[0] + r * (cs * u[0] + sn * v[0]),
+        c[1] + r * (cs * u[1] + sn * v[1]),
+        c[2] + r * (cs * u[2] + sn * v[2]),
+      ]);
+    }
+    return o;
+  };
+  const hull = (pts) => {
+    const p = [...pts].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [],
+      up = [];
+    for (const q of p) {
+      while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop();
+      lo.push(q);
+    }
+    for (const q of p.reverse()) {
+      while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop();
+      up.push(q);
+    }
+    return lo.slice(0, -1).concat(up.slice(0, -1));
+  };
+  const circ2 = (cx, cz, r, n = 28) => {
+    const o = [];
+    for (let i = 0; i < n; i++)
+      o.push([cx + r * Math.cos((i / n) * TAU), cz + r * Math.sin((i / n) * TAU)]);
+    return o;
+  };
+  const xz = (pts) => pts.map(([x, z]) => [x, 0, z]);
+  const stroke = (w = 3) =>
+    `stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+  const X = [1, 0, 0],
+    Y = [0, 1, 0],
+    Z = [0, 0, 1];
+
+  // Un calque = une liste de fragments SVG + ses dégradés.
+  const layer = (pre) => {
+    const out = [],
+      defs = [];
+    let n = 0;
+    const L = {
+      add: (s) => out.push(s),
+      lin: (x1, y1, x2, y2, stops) => {
+        const id = `${pre}${n++}`;
+        defs.push(
+          `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${f2(x1)}" y1="${f2(y1)}" x2="${f2(x2)}" y2="${f2(y2)}">${stops.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join("")}</linearGradient>`,
+        );
+        return `url(#${id})`;
+      },
+      rad: (cx, cy, r, stops) => {
+        const id = `${pre}${n++}`;
+        defs.push(
+          `<radialGradient id="${id}" gradientUnits="userSpaceOnUse" cx="${f2(cx)}" cy="${f2(cy)}" r="${f2(r)}">${stops.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join("")}</radialGradient>`,
+        );
+        return `url(#${id})`;
+      },
+      html: () => `<defs>${defs.join("")}</defs>${out.join("")}`,
+    };
+    // cylindre plein entre c0 et c1 ; cap = extrémité visible
+    L.cyl = ({ c0, c1, u, v, r, light, mid, dark, capFill, cap = 1, w = 3 }) => {
+      const a = circle(c0, u, v, r, 28).map(P),
+        b = circle(c1, u, v, r, 28).map(P);
+      const h = hull([...a, ...b]);
+      const p0 = P(c0),
+        p1 = P(c1);
+      const dx = p1[0] - p0[0],
+        dy = p1[1] - p0[1],
+        len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len,
+        ny = dx / len;
+      const pr = h.map((q) => q[0] * nx + q[1] * ny);
+      const mn = Math.min(...pr),
+        mx = Math.max(...pr);
+      const cx = (p0[0] + p1[0]) / 2,
+        cy = (p0[1] + p1[1]) / 2,
+        base = cx * nx + cy * ny;
+      const g = L.lin(
+        cx + nx * (mn - base),
+        cy + ny * (mn - base),
+        cx + nx * (mx - base),
+        cy + ny * (mx - base),
+        [
+          [0, dark],
+          [0.35, mid],
+          [0.62, light],
+          [0.85, mid],
+          [1, dark],
+        ],
+      );
+      L.add(`<path d="${pathOf(h)}" fill="${g}" ${stroke(w)}/>`);
+      const capPts = cap ? b : a;
+      L.add(`<path d="${pathOf(capPts)}" fill="${capFill ?? light}" ${stroke(w)}/>`);
+      return capPts;
+    };
+    // pièce plate extrudée le long de y (profil dans le plan x-z)
+    L.slab = (prof, y0, y1, front, back) => {
+      const fr = prof.map(([x, z]) => [x, y0, z]),
+        bk = prof.map(([x, z]) => [x, y1, z]);
+      L.add(`<path d="${pathOf(hull([...fr.map(P), ...bk.map(P)]))}" fill="${back}" ${stroke()}/>`);
+      L.add(`<path d="${poly3(fr)}" fill="${front}" ${stroke()}/>`);
+    };
+    return L;
+  };
+  const frontArc = (r, z) => {
+    const pts = [];
+    for (let i = 0; i <= 30; i++) {
+      const t = Math.PI + (Math.PI * i) / 30;
+      pts.push([r * Math.cos(t), r * Math.sin(t), z]);
+    }
+    return poly3(pts, false);
+  };
+  const halfBand = (z0, z1) => {
+    const pts = [];
+    for (let i = 0; i <= 30; i++)
+      pts.push([R * Math.cos((Math.PI * i) / 30), R * Math.sin((Math.PI * i) / 30), z0]);
+    for (let i = 30; i >= 0; i--)
+      pts.push([R * Math.cos((Math.PI * i) / 30), R * Math.sin((Math.PI * i) / 30), z1]);
+    return pts;
+  };
+
+  // --- Dimensions ---
+  const R = 90,
+    crankZ = 20,
+    crankR = 60,
+    rodL = 290;
+  const BW = 150,
+    BD = 150,
+    B0 = 120,
+    B1 = 420,
+    HW = 172,
+    HD = 160,
+    H1 = 500,
+    KW = 192,
+    KD = 150,
+    K0 = -90,
+    KT = 20;
+  const dome = [
+    [-R, B1],
+    [-R + 10, B1 + 30],
+    [-40, B1 + 46],
+    [40, B1 + 46],
+    [R - 10, B1 + 30],
+    [R, B1],
+  ];
+  const intake = [
+    [-HW, H1 - 58],
+    [-HW, H1 - 22],
+    [-70, H1 - 22],
+    [-28, B1 + 46],
+    [-66, B1 + 44],
+    [-100, H1 - 58],
+  ];
+  const exhaust = [
+    [HW, H1 - 58],
+    [HW, H1 - 22],
+    [70, H1 - 22],
+    [28, B1 + 46],
+    [66, B1 + 44],
+    [100, H1 - 58],
+  ];
+  const kin = (th) => {
+    const pinX = crankR * Math.sin(th),
+      pinZ = crankZ + crankR * Math.cos(th);
+    const pz = pinZ + Math.sqrt(rodL * rodL - pinX * pinX);
+    return { pinX, pinZ, pz, top: pz + 42 };
+  };
+
+  // --- Calque fixe arrière : carter, bloc, culasse, fond du cylindre ---
+  const back = () => {
+    const L = layer("ea");
+    const [sx, sy] = P([0, 60, K0]);
+    L.add(
+      `<ellipse cx="${f2(sx + 30)}" cy="${f2(sy + 18)}" rx="${f2(330 * K.S)}" ry="${f2(70 * K.S)}" fill="${C.ink}" opacity="0.08"/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [-KW, 0, B0],
+        [KW, 0, B0],
+        [KW, KD, B0],
+        [-KW, KD, B0],
+      ])}" fill="${C.top}" ${stroke()}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [KW, 0, K0],
+        [KW, KD, K0],
+        [KW, KD, B0],
+        [KW, 0, B0],
+      ])}" fill="${C.side}" ${stroke()}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [-KW + KT, KD - KT, K0 + KT],
+        [KW - KT, KD - KT, K0 + KT],
+        [KW - KT, KD - KT, B0],
+        [-KW + KT, KD - KT, B0],
+      ])}" fill="#C4CCDA" ${stroke(2)}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [-KW + KT, 0, K0 + KT],
+        [KW - KT, 0, K0 + KT],
+        [KW - KT, KD - KT, K0 + KT],
+        [-KW + KT, KD - KT, K0 + KT],
+      ])}" fill="#C7CFDC" ${stroke(2)}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [-KW + KT, 0, K0 + KT],
+        [-KW + KT, KD - KT, K0 + KT],
+        [-KW + KT, KD - KT, B0],
+        [-KW + KT, 0, B0],
+      ])}" fill="#DCE2EC" ${stroke(2)}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [-KW + KT, 0, K0 + KT + 14],
+        [KW - KT, 0, K0 + KT + 14],
+        [KW - KT, KD - KT, K0 + KT + 14],
+        [-KW + KT, KD - KT, K0 + KT + 14],
+      ])}" fill="#F2C266" opacity="0.55"/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [BW, 0, B0],
+        [BW, BD, B0],
+        [BW, BD, B1],
+        [BW, 0, B1],
+      ])}" fill="${C.side}" ${stroke()}/>`,
+    );
+    for (let z = B0 + 40; z < B1 - 10; z += 44)
+      L.add(
+        `<path d="${poly3(
+          [
+            [BW, 8, z],
+            [BW, BD - 8, z],
+          ],
+          false,
+        )}" fill="none" stroke="${C.ink}" stroke-opacity="0.35" stroke-width="2"/>`,
+      );
+    L.add(
+      `<path d="${poly3([
+        [-HW, 0, H1],
+        [HW, 0, H1],
+        [HW, HD, H1],
+        [-HW, HD, H1],
+      ])}" fill="${C.top}" ${stroke()}/>`,
+    );
+    L.add(
+      `<path d="${poly3([
+        [HW, 0, B1],
+        [HW, HD, B1],
+        [HW, HD, H1],
+        [HW, 0, H1],
+      ])}" fill="${C.side}" ${stroke()}/>`,
+    );
+    for (const [x, y] of [
+      [-140, 30],
+      [-140, 130],
+      [140, 130],
+      [140, 30],
+      [-70, 135],
+      [70, 135],
+    ])
+      L.add(
+        `<path d="${pathOf(circle([x, y, H1], X, Y, 9, 16).map(P))}" fill="${C.side}" ${stroke(2)}/>`,
+      );
+    const [lx] = P([-R, 0, 0]),
+      [rx] = P([R, 0, 0]);
+    L.add(
+      `<path d="${poly3(halfBand(B0, B1))}" fill="${L.lin(lx, 0, rx, 0, [
+        [0, "#A9B4C7"],
+        [0.5, "#C9D1DE"],
+        [1, "#9EAABF"],
+      ])}" ${stroke(2)}/>`,
+    );
+    L.add(`<path d="${poly3(xz(dome))}" fill="#C9D1DE"/>`);
+    L.add(
+      `<path d="${poly3(xz(intake))}" fill="#E6ECF4"/><path d="${poly3(xz(exhaust))}" fill="#E6ECF4"/>`,
+    );
+    return L.html();
+  };
+  // --- Calque fixe milieu : les faces coupées (sable hachuré) ---
+  const cut = () => {
+    const face = (outer, holes = []) =>
+      `<path d="${[outer, ...holes].map((h) => poly3(xz(h))).join("")}" fill="url(#eng-hatch)" fill-rule="evenodd" ${stroke()}/>`;
+    return (
+      `<defs><pattern id="eng-hatch" patternUnits="userSpaceOnUse" width="14" height="14" patternTransform="rotate(45)"><rect width="14" height="14" fill="${C.cut}"/><line x1="0" y1="0" x2="0" y2="14" stroke="${C.hatch}" stroke-width="5"/></pattern></defs>` +
+      face(
+        [
+          [-KW, K0],
+          [KW, K0],
+          [KW, B0],
+          [-KW, B0],
+        ],
+        [
+          [
+            [-KW + KT, K0 + KT],
+            [KW - KT, K0 + KT],
+            [KW - KT, B0],
+            [-KW + KT, B0],
+          ],
+        ],
+      ) +
+      face([
+        [-BW, B0],
+        [-R, B0],
+        [-R, B1],
+        [-BW, B1],
+      ]) +
+      face([
+        [R, B0],
+        [BW, B0],
+        [BW, B1],
+        [R, B1],
+      ]) +
+      face(
+        [
+          [-HW, B1],
+          [HW, B1],
+          [HW, H1],
+          [-HW, H1],
+        ],
+        [dome, intake, exhaust],
+      ) +
+      `<path d="${poly3(xz(intake))}" fill="none" ${stroke()}/><path d="${poly3(xz(exhaust))}" fill="none" ${stroke()}/>`
+    );
+  };
+  // --- Calque fixe haut : la bougie et son câble ---
+  const plug = () => {
+    const L = layer("ep");
+    const g = { light: "#E3E8F0", mid: C.metal, dark: "#6C7890" };
+    L.cyl({ c0: [0, 0, B1 + 30], c1: [0, 0, B1 + 52], u: X, v: Y, r: 6, ...g, w: 2 });
+    L.cyl({ c0: [0, 0, B1 + 46], c1: [0, 0, H1 + 6], u: X, v: Y, r: 12, ...g, w: 2.5 });
+    const hex = (z) =>
+      Array.from({ length: 6 }, (_, i) => [
+        22 * Math.cos((i / 6) * TAU + 0.3),
+        22 * Math.sin((i / 6) * TAU + 0.3),
+        z,
+      ]);
+    const lo = hex(H1 + 6),
+      hi = hex(H1 + 24);
+    L.add(
+      `<path d="${pathOf(hull([...lo.map(P), ...hi.map(P)]))}" fill="${C.metal}" ${stroke(2.5)}/><path d="${poly3(hi)}" fill="#E3E8F0" ${stroke(2.5)}/>`,
+    );
+    L.cyl({
+      c0: [0, 0, H1 + 24],
+      c1: [0, 0, H1 + 84],
+      u: X,
+      v: Y,
+      r: 13,
+      light: "#FFFFFF",
+      mid: "#FBFBFD",
+      dark: "#C9CFDA",
+      w: 2.5,
+    });
+    for (const z of [H1 + 44, H1 + 56, H1 + 68])
+      L.add(
+        `<path d="${frontArc(13, z)}" fill="none" stroke="${C.ink}" stroke-opacity="0.35" stroke-width="2"/>`,
+      );
+    L.cyl({ c0: [0, 0, H1 + 84], c1: [0, 0, H1 + 100], u: X, v: Y, r: 7, ...g, w: 2 });
+    const c = [
+      P([0, 0, H1 + 96]),
+      P([40, 0, H1 + 150]),
+      P([150, 0, H1 + 150]),
+      P([230, 0, H1 + 172]),
+    ];
+    const d = `M${f2(c[0][0])} ${f2(c[0][1])} C${f2(c[1][0])} ${f2(c[1][1])} ${f2(c[2][0])} ${f2(c[2][1])} ${f2(c[3][0])} ${f2(c[3][1])}`;
+    L.add(
+      `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="13" stroke-linecap="round"/><path id="eng-wire" d="${d}" fill="none" stroke="${C.spark}" stroke-width="7" stroke-linecap="round"/>`,
+    );
+    return L.html();
+  };
+
+  // --- Calque mobile 1 : les gaz (derrière les faces coupées) ---
+  // st = { iv, ev (levée des soupapes 0..1), gas: null | "mix" | "fire" | "smoke", dens 0..1, flow (temps, pour les bulles) }
+  const gas = (th, st) => {
+    const L = layer("eg");
+    const k = kin(th);
+    // conduits : l'air entre (bleu), la fumée sort (gris)
+    if (st.iv > 0.02)
+      L.add(`<path d="${poly3(xz(intake))}" fill="${C.air}" opacity="${f2(clamp(st.iv * 1.6))}"/>`);
+    if (st.ev > 0.02)
+      L.add(
+        `<path d="${poly3(xz(exhaust))}" fill="${C.smoke}" opacity="${f2(clamp(st.ev * 1.6))}"/>`,
+      );
+    if (st.iv > 0.05)
+      for (let i = 0; i < 5; i++) {
+        const u = (st.flow * 0.9 + i / 5) % 1;
+        const x = lerp(-165, -58, u),
+          z = H1 - 40 - Math.max(0, u - 0.62) * 70;
+        const [px, py] = P([x, 0, z]);
+        L.add(
+          `<circle cx="${f2(px)}" cy="${f2(py)}" r="${i % 2 ? 6 : 5}" fill="${i % 2 ? C.fire : "#fff"}" opacity="${f2(st.iv)}"/>`,
+        );
+      }
+    if (st.ev > 0.05)
+      for (let i = 0; i < 4; i++) {
+        const u = (st.flow * 0.8 + i / 4) % 1;
+        const x = lerp(58, 165, u),
+          z = H1 - 40 - Math.max(0, 0.38 - u) * 70;
+        const [px, py] = P([x, 0, z]);
+        L.add(
+          `<circle cx="${f2(px)}" cy="${f2(py)}" r="${7 - i}" fill="#7C8592" opacity="${f2(st.ev * 0.8)}"/>`,
+        );
+      }
+    if (st.gas) {
+      const [tx, ty] = P([0, 0, B1 + 40]);
+      let fill,
+        op = 1;
+      if (st.gas === "fire")
+        fill = L.rad(tx, ty, 200 * K.S, [
+          [0, "#FFFBE0"],
+          [0.25, C.hot],
+          [0.6, C.fire],
+          [1, "#F05A14"],
+        ]);
+      else if (st.gas === "mix") {
+        fill = mixHex("#BFE6FF", "#3FA9F5", st.dens);
+        op = 0.75 + 0.25 * st.dens;
+      } else {
+        fill = C.smoke;
+        op = 0.35 + 0.55 * st.dens;
+      }
+      L.add(
+        `<g opacity="${f2(op)}"><path d="${poly3(halfBand(k.top, B1))}" fill="${fill}"/><path d="${poly3(xz(dome))}" fill="${fill}"/></g>`,
+      );
+      if (st.gas === "mix") {
+        // gouttelettes d'essence dans l'air : elles se resserrent quand le piston remonte
+        const hgt = B1 + 30 - k.top;
+        for (let i = 0; i < 7; i++) {
+          const [px, py] = P([
+            -62 + i * 21,
+            40,
+            k.top + 12 + ((i * 37) % 100) * 0.01 * Math.max(8, hgt - 24),
+          ]);
+          L.add(`<circle cx="${f2(px)}" cy="${f2(py)}" r="6" fill="${C.fire}"/>`);
+        }
+      }
+    }
+    return L.html();
+  };
+
+  // --- Calque mobile 2 : vilebrequin, bielle, piston, soupapes ---
+  const front = (th, st) => {
+    const L = layer("ef");
+    const k = kin(th);
+    const bl = { light: C.blueL, mid: C.blue, dark: C.blueD };
+    L.cyl({
+      c0: [0, KD + 10, crankZ],
+      c1: [0, -110, crankZ],
+      u: X,
+      v: Z,
+      r: 22,
+      ...bl,
+      capFill: C.blueL,
+    });
+    // bras de manivelle et contrepoids
+    const ang = Math.atan2(k.pinZ - crankZ, k.pinX);
+    const web = [...circ2(k.pinX, k.pinZ, 32, 16), ...circ2(0, crankZ, 38, 16)];
+    for (let i = 0; i <= 14; i++) {
+      const t = ang + Math.PI * 0.55 + (Math.PI * 0.9 * i) / 14;
+      web.push([86 * Math.cos(t), crankZ + 86 * Math.sin(t)]);
+    }
+    L.slab(hull(web), 22, 48, C.blue, C.blueD);
+    // bielle
+    L.slab(
+      hull([...circ2(k.pinX, k.pinZ, 38, 20), ...circ2(0, k.pz, 24, 16)]),
+      -16,
+      16,
+      C.blueL,
+      C.blueD,
+    );
+    const dx = -k.pinX,
+      dz = k.pz - k.pinZ,
+      len = Math.hypot(dx, dz),
+      ux = dx / len,
+      uz = dz / len;
+    const rib = [
+      [52, 9],
+      [len - 40, 6],
+      [len - 40, -6],
+      [52, -9],
+    ].map(([s, w]) => [k.pinX + ux * s - uz * w, -16, k.pinZ + uz * s + ux * w]);
+    L.add(`<path d="${poly3(rib)}" fill="${C.blue}" ${stroke(2)}/>`);
+    L.add(
+      `<path d="${pathOf(circle([k.pinX, -16, k.pinZ], X, Z, 18, 20).map(P))}" fill="${C.blueD}" ${stroke(2)}/>`,
+    );
+    L.add(
+      `<path d="${pathOf(circle([k.pinX, -16, k.pinZ], X, Z, 9, 14).map(P))}" fill="${C.blueL}"/>`,
+    );
+    // poulie avant, avec un repère qui montre la rotation
+    L.cyl({
+      c0: [0, -70, crankZ],
+      c1: [0, -100, crankZ],
+      u: X,
+      v: Z,
+      r: 46,
+      ...bl,
+      capFill: C.blueL,
+    });
+    L.add(
+      `<path d="${pathOf(circle([0, -100, crankZ], X, Z, 30, 24).map(P))}" fill="none" stroke="${C.blueD}" stroke-width="3"/>`,
+    );
+    const [mx, my] = P([34 * Math.sin(th), -100, crankZ + 34 * Math.cos(th)]);
+    const [hx, hy] = P([0, -100, crankZ]);
+    L.add(
+      `<path d="M${f2(hx)} ${f2(hy)} L${f2(mx)} ${f2(my)}" stroke="#fff" stroke-width="7" stroke-linecap="round"/><circle cx="${f2(hx)}" cy="${f2(hy)}" r="9" fill="${C.ink}"/>`,
+    );
+    // piston
+    const hot = st.gas === "fire";
+    const cap = L.cyl({ c0: [0, 0, k.top - 118], c1: [0, 0, k.top], u: X, v: Y, r: R - 3, ...bl });
+    for (const d of [14, 26, 38])
+      L.add(
+        `<path d="${frontArc(R - 3, k.top - d)}" fill="none" stroke="${C.blueD}" stroke-width="3"/>`,
+      );
+    if (hot) {
+      const [cx, cy] = P([0, 0, k.top]);
+      L.add(
+        `<path d="${pathOf(cap)}" fill="${L.rad(cx, cy, 120 * K.S, [
+          [0, "#FFE7A0"],
+          [1, C.fire],
+        ])}" ${stroke()}/>`,
+      );
+      // flammes devant la coupe
+      const [bx, by] = P([0, -2, k.top]);
+      const hgt = (B1 + 36 - k.top) * K.S * ce;
+      let fl = "";
+      for (let i = 0; i < 6; i++) {
+        const x = bx + (-80 + i * 32) * K.S,
+          w = 22 * K.S,
+          h = hgt * (0.55 + 0.4 * Math.abs(Math.sin(st.flow * 9 + i * 1.7)));
+        fl += `<path d="M${f2(x - w)} ${f2(by)} Q${f2(x - w * 0.6)} ${f2(by - h * 0.6)} ${f2(x)} ${f2(by - h)} Q${f2(x + w * 0.6)} ${f2(by - h * 0.6)} ${f2(x + w)} ${f2(by)}Z" fill="${C.hot}" opacity="0.85"/>`;
+      }
+      L.add(fl);
+    }
+    // soupapes (elles descendent quand elles s'ouvrent)
+    for (const [x, lift] of [
+      [-48, st.iv],
+      [48, st.ev],
+    ]) {
+      const dz = -18 * lift;
+      L.cyl({ c0: [x, 0, B1 + 46 + dz], c1: [x, 0, H1 + 52 + dz], u: X, v: Y, r: 6, ...bl, w: 2 });
+      L.cyl({
+        c0: [x, 0, B1 + 40 + dz],
+        c1: [x, 0, B1 + 48 + dz],
+        u: X,
+        v: Y,
+        r: 26,
+        ...bl,
+        w: 2.5,
+      });
+      const coil = [];
+      const top = H1 + 44 + dz;
+      for (let i = 0; i <= 80; i++) {
+        const t = (i / 20) * TAU;
+        coil.push([x + 16 * Math.cos(t), 16 * Math.sin(t), H1 + 4 + (i / 80) * (top - H1 - 4)]);
+      }
+      L.add(`<path d="${poly3(coil, false)}" fill="none" stroke="${C.ink}" stroke-width="3.5"/>`);
+      L.cyl({
+        c0: [x, 0, top],
+        c1: [x, 0, top + 8],
+        u: X,
+        v: Y,
+        r: 20,
+        light: "#E3E8F0",
+        mid: C.metal,
+        dark: "#6C7890",
+        w: 2.5,
+      });
+    }
+    return L.html();
+  };
+  // --- Calque mobile 3 : l'étincelle ---
+  const spark = (amt) => {
+    if (amt <= 0.01) return "";
+    const [sx, sy] = P([0, 0, B1 + 26]);
+    let star = "";
+    for (let i = 0; i < 20; i++) {
+      const r = (i % 2 ? 10 : 34) * (0.6 + 0.4 * amt) * K.S,
+        t = (i / 20) * TAU - Math.PI / 2;
+      star += `${i ? "L" : "M"}${f2(sx + r * Math.cos(t))} ${f2(sy + r * Math.sin(t))}`;
+    }
+    return `<path d="${star}Z" fill="${C.spark}" stroke="${C.ink}" stroke-width="2.5" stroke-linejoin="round" opacity="${f2(amt)}"/><circle cx="${f2(sx)}" cy="${f2(sy)}" r="7" fill="#fff" opacity="${f2(amt)}"/>`;
+  };
+  return { K, P, kin, back, cut, plug, gas, front, spark, dims: { R, B0, B1, H1, HW, BW, crankZ } };
+})();
+
+      // ===== g.js =====
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  const items = [
+    ["#gi-gear", 330, 250, -200],
+    ["#gi-atom", 610, 130, 160],
+    ["#gi-drop", 1160, 130, -120],
+    ["#gi-apple", 1440, 250, 220],
+    ["#gi-pollen", 250, 560, 140],
+    ["#gi-car", 1520, 560, 0],
+  ];
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // La petite voiture vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag", "#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen"],
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to("#gi-car", { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to("#gi-car", { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s01-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s01").start,
+  );
+})();
+
+      // ===== s01.js =====
+// ---------- Scènes 0 et 1 : la voiture roule, devient transparente, puis on nomme ses organes ----------
+(() => {
+  const S = scn("s01");
+  document.getElementById("s01-car").innerHTML = carSVG("c1");
+  // collines et nuages qui défilent (motif répété tous les 1920 px)
+  let hills = "";
+  for (let k = 0; k < 3; k++) {
+    const x = k * 1920;
+    hills +=
+      `<path d="M${x} 827 Q${x + 300} 640 ${x + 620} 827 Z" fill="#DDEBCB"/>` +
+      `<path d="M${x + 520} 827 Q${x + 900} 560 ${x + 1320} 827 Z" fill="#CFE3BE"/>` +
+      `<path d="M${x + 1200} 827 Q${x + 1560} 680 ${x + 1920} 827 Z" fill="#DDEBCB"/>` +
+      `<g fill="#fff" opacity="0.9"><ellipse cx="${x + 380}" cy="330" rx="110" ry="34"/><ellipse cx="${x + 450}" cy="304" rx="70" ry="34"/><ellipse cx="${x + 1380}" cy="250" rx="130" ry="38"/><ellipse cx="${x + 1300}" cy="226" rx="74" ry="34"/></g>`;
+  }
+  document.getElementById("s01-hills").innerHTML = hills;
+  let dash = "";
+  for (let i = -1; i < 14; i++)
+    dash += `<rect x="${i * 160}" y="864" width="90" height="12" rx="6" fill="#fff"/>`;
+  document.getElementById("s01-dash").innerHTML = dash;
+
+  // La voiture ralentit puis s'arrête quand Max dit « Viens, on va regarder dedans ».
+  const V = 560,
+    t1 = cue("s0-2", "Viens"),
+    t2 = t1 + 1.8;
+  const dist = (t) => {
+    const a = Math.max(0, Math.min(t, t1) - S.start + 2);
+    if (t <= t1) return V * a;
+    const u = Math.min(t, t2) - t1;
+    return V * a + V * (u - (u * u) / (2 * (t2 - t1)));
+  };
+  const PUL = [];
+  const paintEl = () => document.getElementById("c1-paint");
+  const tGhost = cue("s0-2", "Tout") - 0.2;
+  onDraw("s01", (t) => {
+    const d = dist(t);
+    carWheels("c1", d / (CAR.R * CARPOS.k));
+    document.getElementById("s01-dash").setAttribute("transform", `translate(${f2(-(d % 160))} 0)`);
+    document
+      .getElementById("s01-hills")
+      .setAttribute("transform", `translate(${f2(-((d * 0.3) % 1920))} 0)`);
+    paintEl().setAttribute("opacity", f2(1 - 0.94 * ramp(t, tGhost, tGhost + 1.1)));
+    carPulses("c1", PUL, t);
+  });
+
+  // Scène 0
+  show("#s01-logo", S.start + 0.5, { y: -20 });
+  pop("#s01-q", cue("s0-1", "qui") - 0.15);
+  tl.to(
+    "#s01-q",
+    { opacity: 0, scale: 0.4, duration: 0.25, ease: INN },
+    SCHED.lines["s0-2"].start + 0.3,
+  );
+  tl.fromTo(
+    "#s01-chap",
+    { opacity: 0, x: 60 },
+    { opacity: 1, x: 0, duration: 0.45, ease: OUT },
+    SCHED.parts.s1.start + 0.6,
+  );
+
+  // Scène 1 : chaque organe s'allume quand on le nomme
+  const L = (key, id, t, title, sub, o) => label("s01", id, carPt(CAR.at[key]), t, title, sub, o);
+  const labs = {
+    tank: L("tank", "s01-l-tank", [150, 190], "Réservoir", "l’essence", { color: "#C25E00" }),
+    batt: L("batt", "s01-l-batt", [760, 930], "Batterie", "l’électricité", { color: "#9A7400" }),
+    eng: L("eng", "s01-l-eng", [1500, 190], "Moteur", "transforme l’énergie en mouvement", {
+      color: C.blue,
+      align: "r",
+    }),
+    gear: L("gear", "s01-l-gear", [1240, 930], "Transmission", "emmène le mouvement aux roues", {
+      color: C.blueD,
+    }),
+    steer: L("steer", "s01-l-steer", [640, 170], "Direction", null),
+    brake: L("brake", "s01-l-brake", [1690, 690], "Freins", null),
+  };
+  tl.fromTo(
+    "#s01-chain",
+    { opacity: 0 },
+    { opacity: 0.55, duration: 0.5 },
+    cue("s1-2", "chaîne") - 0.2,
+  );
+  const beats = [
+    ["tank", ["tank"], cue("s1-2", "essence")],
+    ["batt", ["batt"], cue("s1-2", "électricité")],
+    ["eng", ["eng"], cue("s1-2", "moteur")],
+    ["gear", ["gear"], cue("s1-2", "transmission")],
+    ["steer", ["steer"], cue("s1-2", "direction")],
+    ["brake", ["brf", "brr"], cue("s1-2", "freins")],
+  ];
+  beats.forEach(([k, parts, t]) => {
+    showLabel(labs[k], t - 0.2);
+    parts.forEach((q) => PUL.push([q, t - 0.15, 0.24, 0.55]));
+  });
+  tl.to(
+    "#c1-brf circle, #c1-brr circle",
+    { fill: C.fire, duration: 0.3 },
+    cue("s1-2", "freins") - 0.15,
+  );
+
+  // « Par le cœur : le moteur » → tout s'efface sauf le moteur, puis on plonge dedans.
+  const tHeart = cue("s1-4", "moteur") - 0.25;
+  const all = Object.values(labs).flat();
+  tl.to(
+    all.concat(["#s01-chain", "#s01-chap", "#s01-logo"]),
+    { opacity: 0, duration: 0.3, ease: INN },
+    tHeart - 0.3,
+  );
+  tl.to("#c1-tank, #c1-batt, #c1-gear, #c1-steer", { opacity: 0.25, duration: 0.3 }, tHeart - 0.3);
+  PUL.push(["eng", tHeart, 0.32, 0.45], ["eng", tHeart + 0.45, 0.32, 0.45]);
+  const [ex, ey] = carPt(CAR.at.eng);
+  const tZoom = S.end - 0.75;
+  tl.to(
+    "#s01-in",
+    { scale: 7, opacity: 0, duration: 0.75, ease: "power3.in", transformOrigin: `${ex}px ${ey}px` },
+    tZoom,
+  );
+  tl.fromTo(
+    "#s2-in",
+    { scale: 0.7, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "760px 560px" },
+    scn("s2").start,
+  );
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : le moteur à essence ----------
+(() => {
+  const { H1, crankZ } = ENG.dims;
+  $("#eng-a").innerHTML = ENG.back();
+  $("#eng-b").innerHTML = ENG.cut();
+  $("#eng-t").innerHTML = ENG.plug();
+
+  // --- Angle du vilebrequin (en degrés cumulés) en fonction du temps ---
+  // 0 = piston en haut, début de l'admission. Un cycle complet = 720°.
+  const tDemo = cue("s2-2", "monter") - 0.3;
+  const t1 = cue("s2-3", "descend") - 0.15;
+  const t2 = cue("s2-4", "remonte") - 0.15;
+  const tSpark = cue("s2-5", "étincelle") - 0.1;
+  const tBoum = cue("s2-5", "Boum") - 0.05;
+  const t4 = cue("s2-6", "remonte") - 0.15;
+  const tRe = cue("s2-6", "recommence") - 0.1;
+  const z1 = cue("s2-7", "Aspire"),
+    z2 = cue("s2-7", "serre"),
+    z3 = cue("s2-7", "boum"),
+    z4 = cue("s2-7", "recrache");
+  const tFour = cue("s2-10", "quatre") - 0.5;
+  // [temps, angle, lissage ?]
+  const KF = [
+    [tDemo, -360, 1],
+    [tDemo + 2.6, 0, 1],
+    [t1, 0, 1],
+    [t1 + 2.4, 180, 1],
+    [t2, 180, 1],
+    [t2 + 2.2, 360, 1],
+    [tBoum, 360, 2],
+    [tBoum + 0.9, 540, 1],
+    [t4, 540, 1],
+    [t4 + 2.4, 720, 1],
+    [tRe, 720, 1],
+    [z1, 1440, 0],
+    [z2, 1620, 0],
+    [z3, 1800, 0],
+    [z4, 1980, 0],
+    [z4 + 0.7, 2160, 0],
+  ];
+  const RATE = 330; // degrés par seconde une fois le moteur lancé
+  const deg = (t) => {
+    if (t <= KF[0][0]) return KF[0][1];
+    for (let i = 1; i < KF.length; i++) {
+      if (t <= KF[i][0]) {
+        const [ta, a] = KF[i - 1],
+          [tb, b, m] = KF[i];
+        const u = lin(t, ta, tb);
+        return lerp(a, b, m === 1 ? easeIO(u) : m === 2 ? easeO(u) : u);
+      }
+    }
+    const [tl0, a0] = KF[KF.length - 1];
+    return a0 + (t - tl0) * RATE;
+  };
+  // État des gaz et des soupapes à partir de l'angle.
+  const bump = (m, a, b) => clamp(Math.min((m - a) / 22, (b - m) / 22));
+  const state = (t) => {
+    const D = deg(t);
+    const st = { iv: 0, ev: 0, gas: null, dens: 0, flow: t, spark: 0, stroke: 0 };
+    if (D < 0) return { D, st };
+    const m = ((D % 720) + 720) % 720;
+    if (m < 180) {
+      st.stroke = 1;
+      st.iv = bump(m, 0, 180);
+      st.gas = "mix";
+      st.dens = 0.05;
+      if (D === 0 && t < t1) st.gas = null; // avant le premier temps : cylindre vide
+    } else if (m < 360) {
+      st.stroke = 2;
+      st.gas = "mix";
+      st.dens = (m - 180) / 180;
+    } else if (m < 540) {
+      st.stroke = 3;
+      st.gas = "fire";
+      st.dens = 1;
+      st.spark = clamp(1 - (m - 360) / 40);
+    } else {
+      st.stroke = 4;
+      st.ev = bump(m, 540, 720);
+      st.gas = "smoke";
+      st.dens = 1 - (m - 540) / 180;
+    }
+    // Au ralenti : on attend l'étincelle au point mort haut, mélange serré.
+    if (D === 360 && t < tBoum) {
+      st.stroke = t >= tSpark - 0.6 ? 3 : 2;
+      st.gas = "mix";
+      st.dens = 1;
+      st.spark = t >= tSpark ? 0.6 + 0.4 * Math.abs(Math.sin((t - tSpark) * 14)) : 0;
+    }
+    // Entre deux temps du ralenti, on reste sur le temps qui vient de finir.
+    if (D === 180 && t < t2) {
+      st.stroke = 1;
+      st.dens = 0.05;
+    }
+    if (D === 540 && t < t4) {
+      st.stroke = 3;
+      st.gas = "fire";
+      st.ev = 0;
+    }
+    if (D === 720 && t < tRe) st.gas = null;
+    return { D, st };
+  };
+
+  // --- Encart « comme sur un vélo » : la jambe pousse de haut en bas, la pédale tourne ---
+  const bike = (D) => {
+    const a = (D * Math.PI) / 180,
+      cx = 300,
+      cy = 395,
+      r = 96;
+    const px = cx + r * Math.sin(a),
+      py = cy - r * Math.cos(a);
+    // jambe : hanche fixe, genou calculé pour que le pied reste sur la pédale
+    const hx = 150,
+      hy = 150,
+      l1 = 205,
+      l2 = 215;
+    const dx = px - hx,
+      dy = py - 34 - hy,
+      d = Math.min(Math.hypot(dx, dy), l1 + l2 - 1);
+    const base = Math.atan2(dy, dx),
+      k = Math.acos((l1 * l1 + d * d - l2 * l2) / (2 * l1 * d));
+    const kx = hx + l1 * Math.cos(base - k),
+      ky = hy + l1 * Math.sin(base - k);
+    const leg = `M${hx} ${hy} L${f2(kx)} ${f2(ky)} L${f2(px)} ${f2(py - 34)}`;
+    return (
+      `<text x="280" y="62" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="40" fill="${C.ink}">Comme sur un vélo !</text>` +
+      `<path d="M40 545 H520" class="ink" stroke-width="5"/>` +
+      `<path d="${gearPath(cx, cy, 64, 14, a, 16)}" fill="${C.blue}" class="ink"/>` +
+      `<path d="M${cx} ${cy} L${f2(px)} ${f2(py)}" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M${cx} ${cy} L${f2(px)} ${f2(py)}" stroke="${C.blueL}" stroke-width="11" stroke-linecap="round"/>` +
+      `<circle cx="${cx}" cy="${cy}" r="14" fill="#fff" class="ink"/>` +
+      `<rect x="${f2(px - 50)}" y="${f2(py - 8)}" width="100" height="18" rx="9" fill="${C.ink}"/>` +
+      `<path d="${leg}" fill="none" stroke="${C.ink}" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/><path d="${leg}" fill="none" stroke="#6E7FA6" stroke-width="37" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<path d="M${f2(px - 44)} ${f2(py - 12)} h78 q22 0 22 -18 q0 -12 -26 -16 l-34 -6 q-40 0 -40 22 Z" fill="#F0556A" class="ink"/>` +
+      `<path d="M470 250 V470 M452 272 L470 250 L488 272 M452 448 L470 470 L488 448" fill="none" stroke="${C.fire}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<text x="470" y="225" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="30" fill="${C.fire}">haut-bas</text>`
+    );
+  };
+
+  // --- Vue « quatre cylindres » (de côté, le long du vilebrequin) ---
+  const four = (D) => {
+    const offs = [0, 540, 180, 360]; // ordre d'allumage 1-3-4-2
+    const axis = 520,
+      r = 46,
+      L = 150,
+      w = 200;
+    let s = `<path d="M60 ${axis} H1270" stroke="${C.blueD}" stroke-width="26" stroke-linecap="round"/>`;
+    let crank = "",
+      cyl = "";
+    for (let i = 0; i < 4; i++) {
+      const x = 190 + i * 290,
+        Di = D + offs[i],
+        th = (Di * Math.PI) / 180,
+        m = ((Di % 720) + 720) % 720;
+      const pinY = axis - r * Math.cos(th),
+        pz = axis - (r * Math.cos(th) + Math.sqrt(L * L - Math.pow(r * Math.sin(th), 2)));
+      const top = pz - 46;
+      const col =
+        m < 180
+          ? "#BFE6FF"
+          : m < 360
+            ? mixHex("#BFE6FF", "#3FA9F5", (m - 180) / 180)
+            : m < 540
+              ? mixHex(C.hot, C.fire, (m - 360) / 180)
+              : mixHex("#8A93A0", "#D9DEE5", (m - 540) / 180);
+      cyl +=
+        `<rect x="${x - w / 2}" y="110" width="${w}" height="${f2(top - 110)}" fill="${col}"/>` +
+        `<path d="M${x - w / 2 - 22} 96 H${x + w / 2 + 22} V110 H${x + w / 2} V330 H${x + w / 2 + 22} V96 M${x - w / 2 - 22} 96 V330 H${x - w / 2} V110" fill="url(#eng-hatch)" class="ink"/>` +
+        `<rect x="${x - w / 2 - 22}" y="74" width="${w + 44}" height="36" rx="8" fill="${C.side}" class="ink"/>` +
+        (m >= 355 && m < 400
+          ? `<path d="M${x} 118 l10 22 24 4 -18 16 6 24 -22 -12 -22 12 6 -24 -18 -16 24 -4Z" fill="${C.spark}" class="ink" stroke-width="3"/>`
+          : "") +
+        `<path d="M${x} ${f2(pz)} L${x} ${f2(pinY)}" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M${x} ${f2(pz)} L${x} ${f2(pinY)}" stroke="${C.blueL}" stroke-width="22" stroke-linecap="round"/>` +
+        `<rect x="${x - w / 2 + 4}" y="${f2(top)}" width="${w - 8}" height="92" rx="12" fill="${C.blue}" class="ink"/>` +
+        `<path d="M${x - w / 2 + 4} ${f2(top + 22)} H${x + w / 2 - 4} M${x - w / 2 + 4} ${f2(top + 36)} H${x + w / 2 - 4}" stroke="${C.blueD}" stroke-width="4"/>` +
+        `<text x="${x}" y="52" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="44" fill="${m >= 360 && m < 540 ? C.fire : "#C9CFDA"}">Boum !</text>`;
+      crank += `<path d="M${x - 60} ${axis} V${f2(pinY)} H${x + 60} V${axis}" fill="none" stroke="${C.ink}" stroke-width="34" stroke-linejoin="round"/><path d="M${x - 60} ${axis} V${f2(pinY)} H${x + 60} V${axis}" fill="none" stroke="${C.blue}" stroke-width="26" stroke-linejoin="round"/>`;
+    }
+    const a = (D * Math.PI) / 180;
+    const fly = `<circle cx="1272" cy="${axis}" r="84" fill="${C.blue}" class="ink"/><path d="M1272 ${axis} L${f2(1272 + 60 * Math.sin(a))} ${f2(axis - 60 * Math.cos(a))}" stroke="#fff" stroke-width="12" stroke-linecap="round"/><circle cx="1272" cy="${axis}" r="16" fill="${C.ink}"/>`;
+    return s + cyl + crank + fly;
+  };
+  // le quatre-cylindres accélère : « des dizaines de fois par seconde »
+  const tFast = cue("s2-10", "dizaines") - 0.2;
+  const deg4 = (t) => {
+    const u = Math.max(0, t - tFour);
+    const v = Math.max(0, t - tFast);
+    return u * 300 + v * v * 520;
+  };
+
+  const stepEl = [1, 2, 3, 4].map((i) => document.getElementById(`s2-st${i}`));
+  const stepCol = [C.air, "#3FA9F5", C.fire, C.smoke];
+  onDraw("s2", (t) => {
+    if (t < tFour + 0.6) {
+      const { D, st } = state(t);
+      const th = (D * Math.PI) / 180;
+      $("#eng-g").innerHTML = ENG.gas(th, st);
+      $("#eng-f").innerHTML = ENG.front(th, st);
+      $("#eng-x").innerHTML = ENG.spark(st.spark);
+      stepEl.forEach((el, i) => {
+        const on = st.stroke === i + 1;
+        el.style.background = on ? stepCol[i] : "#ffffff";
+        el.style.transform = on ? "scale(1.08)" : "scale(1)";
+      });
+      $("#s2-bikesvg").innerHTML = bike(D);
+    }
+    if (t > tFour - 0.6) $("#s2-foursvg").innerHTML = four(deg4(t));
+  });
+
+  // --- Étiquettes et révélations ---
+  const pt = (p) => ENG.P(p).map(Math.round);
+  const k0 = ENG.kin(0);
+  const lab = {
+    cyl: label(
+      "s2",
+      "s2-l-cyl",
+      pt([122, 0, 280]),
+      [1020, 520],
+      "Le cylindre",
+      "un tube bien solide",
+    ),
+    pis: label(
+      "s2",
+      "s2-l-pis",
+      pt([60, -62, k0.top - 70]),
+      [1020, 330],
+      "Le piston",
+      "il monte et il descend",
+      { color: C.blue },
+    ),
+    in: label(
+      "s2",
+      "s2-l-in",
+      pt([-150, 0, H1 - 40]),
+      [400, 300],
+      "L’air et l’essence",
+      "entrent par ici",
+      { color: "#1A7FC4", align: "r" },
+    ),
+    plug: label(
+      "s2",
+      "s2-l-plug",
+      pt([0, 0, H1 + 60]),
+      [400, 180],
+      "La bougie",
+      "fait une étincelle",
+      { align: "r" },
+    ),
+    out: label("s2", "s2-l-out", pt([150, 0, H1 - 40]), [1020, 300], "La fumée", "sort par là", {
+      color: "#6B7380",
+    }),
+    rod: label("s2", "s2-l-rod", pt([22, -16, 190]), [400, 600], "La bielle", "une tige", {
+      color: C.blue,
+      align: "r",
+    }),
+    crank: label(
+      "s2",
+      "s2-l-crank",
+      pt([0, -100, crankZ]),
+      [940, 800],
+      "Le vilebrequin",
+      "une manivelle",
+      { color: C.blue },
+    ),
+  };
+  showLabel(lab.cyl, cue("s2-2", "cylindre") - 0.25);
+  showLabel(lab.pis, cue("s2-2", "piston") - 0.25);
+  hideLabel(lab.cyl.concat(lab.pis), t1 - 0.5);
+  pop("#s2-steps .stp", cue("s2-2", "quatre") - 0.2, { st: 0.09 });
+  showLabel(lab.in, t1 + 0.2);
+  hideLabel(lab.in, t2 - 0.3);
+  showLabel(lab.plug, cue("s2-5", "bougie") - 0.25);
+  tl.fromTo(
+    "#s2-boum",
+    { opacity: 0, scale: 0.3, rotation: -8 },
+    { opacity: 1, scale: 1, rotation: -8, duration: 0.25, ease: "back.out(2.5)" },
+    tBoum,
+  );
+  tl.to(
+    "#s2-engwrap",
+    {
+      keyframes: { x: [0, -12, 10, -7, 4, 0], y: [0, 8, -6, 4, -2, 0] },
+      duration: 0.45,
+      ease: "none",
+    },
+    tBoum,
+  );
+  tl.to("#s2-boum", { opacity: 0, scale: 1.3, duration: 0.4, ease: INN }, tBoum + 1.3);
+  hideLabel(lab.plug, t4 - 0.3);
+  showLabel(lab.out, t4 + 0.2);
+  hideLabel(lab.out, tRe);
+  showLabel(lab.rod, cue("s2-9", "bielle") - 0.25);
+  showLabel(lab.crank, cue("s2-9", "vilebrequin") - 0.25);
+  tl.fromTo(
+    "#s2-bike",
+    { opacity: 0, x: 120 },
+    { opacity: 1, x: 0, duration: 0.5, ease: OUT },
+    cue("s2-9", "jambes") - 0.5,
+  );
+  // Passage aux quatre cylindres
+  tl.to("#s2-engwrap", { x: -300, opacity: 0, duration: 0.4, ease: INN }, tFour - 0.1);
+  tl.fromTo(
+    "#s2-four",
+    { opacity: 0, x: 300 },
+    { opacity: 1, x: 0, duration: 0.55, ease: "power4.out" },
+    tFour + 0.3,
+  );
+  show("#s2-fourcap", cue("s2-10", "chacun") - 0.2);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : le moteur électrique ----------
+(() => {
+  const S = scn("s3");
+  const RED = "#F0556A",
+    SOUTH = "#DDE3EC";
+  // --- Deux aimants : ils s'attirent, puis l'un se retourne et ils se repoussent ---
+  const tAtt = cue("s3-2", "attirer") - 0.3,
+    tRep = cue("s3-2", "repousser") - 0.4,
+    tRig = SCHED.lines["s3-4"].start - 0.5;
+  const magnet = (cx, cy, ang) => {
+    const g = `transform="rotate(${f2(ang)} ${f2(cx)} ${cy})"`;
+    return (
+      `<g ${g}><rect x="${f2(cx - 150)}" y="${cy - 60}" width="300" height="120" rx="22" fill="${SOUTH}" class="ink" stroke-width="5"/>` +
+      `<path d="M${f2(cx)} ${cy - 60} H${f2(cx + 128)} a22 22 0 0 1 22 22 V${cy + 38} a22 22 0 0 1 -22 22 H${f2(cx)} Z" fill="${RED}" class="ink" stroke-width="5"/>` +
+      `<text x="${f2(cx + 75)}" y="${cy + 24}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="70" fill="#fff">N</text>` +
+      `<text x="${f2(cx - 75)}" y="${cy + 24}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="70" fill="${C.ink}">S</text></g>`
+    );
+  };
+  const magDraw = (t) => {
+    // écart entre les aimants, puis retournement de celui de droite
+    const close = ramp(t, tAtt, tAtt + 0.55),
+      flip = ramp(t, tRep, tRep + 0.5),
+      push = rampO(t, tRep + 0.45, tRep + 1.0);
+    const gap = lerp(260, 0, close) + 300 * push;
+    const jit =
+      t > tRep + 0.45 && t < tRep + 1.6
+        ? 5 * Math.sin((t - tRep) * 40) * (1 - lin(t, tRep + 0.45, tRep + 1.6))
+        : 0;
+    return magnet(960 - 150 - gap / 2, 560, 0) + magnet(960 + 150 + gap / 2 + jit, 560, 180 * flip);
+  };
+
+  // --- Le moteur : six bobines autour d'un rotor aimanté ---
+  const tFlow = cue("s3-4", "batterie") - 0.2,
+    tCoil = cue("s3-4", "allumés") - 0.3;
+  const tFast = cue("s3-4", "court") - 0.2,
+    tBrake = cue("s3-6", "freine") - 0.1,
+    tRev = cue("s3-6", "envers") - 0.1,
+    tChg = cue("s3-6", "recharge") - 0.1;
+  // vitesse du champ tournant (degrés par seconde)
+  const W = [
+    [tCoil, 0],
+    [tCoil + 0.3, 75],
+    [tFast, 110],
+    [tFast + 2.5, 460],
+    [tBrake, 460],
+    [tBrake + 1.6, 120],
+  ];
+  const MX = 1150,
+    MY = 560;
+  const wire = (d, off, on) =>
+    `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="22" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${on ? C.spark : "#E6ECF4"}" stroke-width="13" stroke-linecap="round"/>` +
+    (on
+      ? `<path d="${d}" fill="none" stroke="#fff" stroke-width="7" stroke-dasharray="14 34" stroke-dashoffset="${f2(off)}" stroke-linecap="round"/>`
+      : "");
+  const rigDraw = (t) => {
+    const Ac = integ(W, t),
+      on = t >= tFlow,
+      rev = t >= tRev;
+    const lit = t >= tCoil && t < tBrake + 0.3 ? ((Math.round(Ac / 60) % 6) + 6) % 6 : -1;
+    const phi = Ac - 38;
+    const flow = (rev ? 1 : -1) * (t - tFlow) * 150;
+    const lvl = t >= tChg ? 4 : 3;
+    let s = "";
+    // batterie
+    s += `<rect x="150" y="430" width="360" height="250" rx="30" fill="${C.spark}" class="ink" stroke-width="5"/><rect x="230" y="404" width="60" height="30" rx="8" fill="${C.metal}" class="ink"/><rect x="370" y="404" width="60" height="30" rx="8" fill="${C.metal}" class="ink"/>`;
+    for (let i = 0; i < 4; i++)
+      s += `<rect x="${182 + i * 76}" y="480" width="56" height="150" rx="12" fill="${i < lvl ? "#3DBE8B" : "#fff"}" class="ink" stroke-width="3"/>`;
+    // fils
+    s +=
+      wire("M510 490 C 640 490, 700 430, 868 430", flow, on) +
+      wire("M510 620 C 640 620, 700 690, 868 690", -flow, on);
+    // stator
+    s += `<circle cx="${MX}" cy="${MY}" r="310" fill="${C.side}" class="ink" stroke-width="5"/><circle cx="${MX}" cy="${MY}" r="236" fill="#FFF8EC" class="ink"/>`;
+    for (let i = 0; i < 6; i++) {
+      const a = rad(i * 60),
+        x = MX + 262 * Math.cos(a),
+        y = MY + 262 * Math.sin(a);
+      const is = lit >= 0 && (i === lit || i === (lit + 3) % 6);
+      if (is) s += `<circle cx="${f2(x)}" cy="${f2(y)}" r="110" fill="url(#s3-glow)"/>`;
+      s += `<g transform="rotate(${i * 60} ${f2(x)} ${f2(y)})"><rect x="${f2(x - 34)}" y="${f2(y - 58)}" width="68" height="116" rx="16" fill="${is ? C.spark : "#EEF2F8"}" class="ink"/>`;
+      for (let k = -2; k <= 2; k++)
+        s += `<path d="M${f2(x - 34)} ${f2(y + k * 20)} H${f2(x + 34)}" stroke="${C.ink}" stroke-width="3" opacity="0.45"/>`;
+      if (is)
+        s += `<text x="${f2(x)}" y="${f2(y + 14)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="40" fill="${C.ink}" transform="rotate(${-i * 60} ${f2(x)} ${f2(y)})">${i === lit ? "S" : "N"}</text>`;
+      s += `</g>`;
+    }
+    // rotor : un aimant qui tourne
+    s +=
+      `<g transform="rotate(${f2(phi)} ${MX} ${MY})"><circle cx="${MX}" cy="${MY}" r="150" fill="${C.blue}" class="ink" stroke-width="5"/>` +
+      `<rect x="${MX - 190}" y="${MY - 54}" width="380" height="108" rx="24" fill="${SOUTH}" class="ink" stroke-width="5"/>` +
+      `<path d="M${MX} ${MY - 54} H${MX + 166} a24 24 0 0 1 24 24 V${MY + 30} a24 24 0 0 1 -24 24 H${MX} Z" fill="${RED}" class="ink" stroke-width="5"/>` +
+      `<text x="${MX + 118}" y="${MY + 22}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="62" fill="#fff">N</text>` +
+      `<text x="${MX - 118}" y="${MY + 22}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="62" fill="${C.ink}">S</text></g>` +
+      `<circle cx="${MX}" cy="${MY}" r="30" fill="${C.blueD}" class="ink"/><circle cx="${MX}" cy="${MY}" r="9" fill="#fff"/>`;
+    return s;
+  };
+  onDraw("s3", (t) => {
+    if (t < tRig + 0.6) $("#s3-mag").innerHTML = magDraw(t);
+    if (t > tRig - 0.2) $("#s3-rig").innerHTML = rigDraw(t);
+  });
+
+  tl.fromTo(
+    "#s3-mag",
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.5, ease: OUT },
+    S.start + 0.6,
+  );
+  pop("#s3-n0", cue("s3-2", "feu") - 0.2);
+  show("#s3-n1", tAtt + 0.3);
+  show("#s3-n2", tRep + 0.6);
+  tl.to(
+    ["#s3-mag", "#s3-n0", "#s3-n1", "#s3-n2"],
+    { opacity: 0, x: -200, duration: 0.35, ease: INN },
+    tRig,
+  );
+  tl.fromTo(
+    "#s3-rig",
+    { opacity: 0, x: 200 },
+    { opacity: 1, x: 0, duration: 0.5, ease: "power4.out" },
+    tRig + 0.3,
+  );
+  const lab = {
+    batt: label("s3", "s3-l-batt", [330, 404], [150, 250], "La batterie", "pleine d’électricité", {
+      color: "#9A7400",
+    }),
+    coil: label(
+      "s3",
+      "s3-l-coil",
+      [1300, 340],
+      [1500, 200],
+      "Les bobines",
+      "deviennent des aimants",
+    ),
+    rot: label("s3", "s3-l-rot", [1250, 640], [1500, 760], "Le rotor", "il court après", {
+      color: C.blue,
+    }),
+  };
+  showLabel(lab.batt, tFlow);
+  showLabel(lab.coil, cue("s3-4", "bobines") - 0.25);
+  showLabel(lab.rot, cue("s3-4", "rotor") - 0.25);
+  pop("#s3-n3", tChg);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : la transmission (boîte de vitesses, puis différentiel) ----------
+(() => {
+  const S = scn("s4");
+  // --- A. Deux engrenages : le rapport change, la roue va plus ou moins vite ---
+  const tShift = cue("s4-2", "change") - 0.2,
+    tB = SCHED.lines["s4-4"].start - 0.5;
+  const WIN = 210; // vitesse de l'engrenage moteur, en degrés par seconde
+  const AX = 600,
+    BX = 840,
+    GY = 560,
+    WX = 1400;
+  const meter = (x, y, name, v, col) =>
+    `<text x="${x}" y="${y - 14}" font-family="Fredoka" font-weight="600" font-size="34" fill="${C.ink}">${name}</text>` +
+    `<rect x="${x}" y="${y}" width="320" height="34" rx="17" fill="#fff" class="ink" stroke-width="3"/><rect x="${x + 4}" y="${y + 4}" width="${f2(312 * v)}" height="26" rx="13" fill="${col}"/>`;
+  const gearsDraw = (t) => {
+    const sh = ramp(t, tShift, tShift + 0.6);
+    const a = rad(WIN * (t - S.start));
+    // angle de la roue : intégrale de la vitesse d'entrée × rapport (½ puis 2)
+    const wheel = rad(
+      integ(
+        [
+          [S.start, WIN * 0.5],
+          [tShift, WIN * 0.5],
+          [tShift + 0.6, WIN * 2],
+        ],
+        t,
+      ),
+    );
+    const pair = (nA, nB, op) => {
+      const rA = nA * 8,
+        rB = nB * 8;
+      return `<g opacity="${f2(op)}">${gearSVG(BX, GY, rB, nB, meshRot(a, nA, nB, 0), C.blueL, C.blue)}${gearSVG(AX, GY, rA, nA, a, C.blue, C.blueD)}</g>`;
+    };
+    let s = `<rect x="130" y="470" width="200" height="180" rx="26" fill="${C.blueD}" class="ink" stroke-width="5"/><text x="230" y="575" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="38" fill="#fff">Moteur</text>`;
+    s += `<path d="M330 ${GY} H${AX}" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M330 ${GY} H${AX}" stroke="${C.metal}" stroke-width="20" stroke-linecap="round"/>`;
+    s += `<path d="M${BX} ${GY} H${WX}" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M${BX} ${GY} H${WX}" stroke="${C.metal}" stroke-width="20" stroke-linecap="round"/>`;
+    if (sh < 1) s += pair(10, 20, 1 - sh);
+    if (sh > 0) s += pair(20, 10, sh);
+    // la roue
+    let sp = "";
+    for (let i = 0; i < 5; i++)
+      sp += `<path d="M${WX} ${GY} L${f2(WX + 105 * Math.cos(wheel + (i / 5) * TAU))} ${f2(GY + 105 * Math.sin(wheel + (i / 5) * TAU))}" stroke="${C.ink}" stroke-width="16" stroke-linecap="round"/>`;
+    s += `<circle cx="${WX}" cy="${GY}" r="170" fill="${C.ink}"/><circle cx="${WX}" cy="${GY}" r="118" fill="#EEF2F8" class="ink"/>${sp}<circle cx="${WX}" cy="${GY}" r="24" fill="#fff" class="ink"/>`;
+    s +=
+      meter(1240, 800, "Force", lerp(0.92, 0.34, sh), C.fire) +
+      meter(1240, 900, "Vitesse", lerp(0.28, 0.95, sh), C.blue);
+    return s;
+  };
+
+  // --- B. Le différentiel : dans un virage, la roue extérieure fait plus de chemin ---
+  const tTurn = cue("s4-5", "virage") - 0.3;
+  const CX = 760,
+    AXY = 700,
+    OX = 1560; // centre de la voiture, essieu arrière, centre du virage
+  const tread = (x, y, off, ang = 0) => {
+    let st = "";
+    for (let k = -3; k <= 3; k++) {
+      const yy = y + k * 26 + (((off % 26) + 26) % 26) - 13;
+      if (Math.abs(yy - y) < 62)
+        st += `<path d="M${x - 26} ${f2(yy)} H${x + 26}" stroke="#7C8AA8" stroke-width="7" stroke-linecap="round"/>`;
+    }
+    return `<g transform="rotate(${f2(ang)} ${x} ${y})"><rect x="${x - 36}" y="${y - 72}" width="72" height="144" rx="18" fill="${C.ink}"/>${st}</g>`;
+  };
+  const diffDraw = (t) => {
+    const turn = ramp(t, tTurn, tTurn + 1.0);
+    const v = 190;
+    const base = v * (t - tB);
+    const extra = integ(
+      [
+        [tTurn, 0],
+        [tTurn + 1, 1],
+      ],
+      t,
+    ); // « quantité de virage » accumulée
+    const dL = base + v * 0.3 * extra,
+      dR = base - v * 0.26 * extra;
+    const rL = OX - (CX - 170),
+      rR = OX - (CX + 170);
+    let s = "";
+    // traces au sol : droites, puis deux arcs de rayons différents
+    const arc = (r) => {
+      const a0 = rad(180 - 46),
+        a1 = rad(180 + 30);
+      return `M${f2(OX + r * Math.cos(a0))} ${f2(AXY - r * Math.sin(a0))} A${r} ${r} 0 0 0 ${f2(OX + r * Math.cos(a1))} ${f2(AXY - r * Math.sin(a1))}`;
+    };
+    const lane = (d, col, off, op) =>
+      `<path d="${d}" fill="none" stroke="${col}" stroke-width="14" stroke-dasharray="34 30" stroke-dashoffset="${f2(-off)}" stroke-linecap="round" opacity="${f2(op)}"/>`;
+    s +=
+      lane(`M${CX - 170} 180 V1000`, C.blueL, dL, 1 - turn) +
+      lane(`M${CX + 170} 180 V1000`, C.blueL, dR, 1 - turn);
+    s += lane(arc(rL), C.blue, dL, turn) + lane(arc(rR), C.fire, dR, turn);
+    // la voiture vue de dessus
+    const st = 14 * turn;
+    s +=
+      tread(CX - 170, 380, dL, st) +
+      tread(CX + 170, 380, dR, st) +
+      tread(CX - 170, AXY, dL) +
+      tread(CX + 170, AXY, dR);
+    s += `<path d="M${CX - 134} ${AXY} H${CX + 134}" stroke="${C.ink}" stroke-width="24" stroke-linecap="round"/><path d="M${CX - 134} ${AXY} H${CX + 134}" stroke="${C.metal}" stroke-width="14" stroke-linecap="round"/>`;
+    s += `<rect x="${CX - 120}" y="290" width="240" height="500" rx="70" fill="#3DBE8B" fill-opacity="0.35" class="ink" stroke-width="5"/><path d="M${CX - 84} 420 Q${CX} 380 ${CX + 84} 420 L${CX + 70} 470 H${CX - 70} Z" fill="#D6F1FF" class="ink" stroke-width="3"/>`;
+    // le différentiel : ses petits engrenages ne tournent que dans le virage
+    const sp = rad((dL - dR) * 1.6);
+    s +=
+      `<rect x="${CX - 64}" y="${AXY - 52}" width="128" height="104" rx="22" fill="${C.blueD}" class="ink" stroke-width="5"/>` +
+      gearSVG(CX - 26, AXY, 26, 8, sp, C.blueL, C.blue) +
+      gearSVG(CX + 26, AXY, 26, 8, meshRot(sp, 8, 8, 0), C.blueL, C.blue);
+    return s;
+  };
+  onDraw("s4", (t) => {
+    if (t < tB + 0.6) $("#s4-gears").innerHTML = gearsDraw(t);
+    if (t > tB - 0.2) $("#s4-diff").innerHTML = diffDraw(t);
+  });
+
+  const la = {
+    small: label(
+      "s4",
+      "s4-l-small",
+      [AX, GY - 96],
+      [420, 250],
+      "Petit engrenage",
+      "il tourne vite",
+      { color: C.blue },
+    ),
+    big: label(
+      "s4",
+      "s4-l-big",
+      [BX + 60, GY - 150],
+      [900, 300],
+      "Grand engrenage",
+      "il tourne lentement",
+      { color: C.blue },
+    ),
+  };
+  showLabel(la.small, cue("s4-2", "petit") - 0.25);
+  showLabel(la.big, cue("s4-2", "grand") - 0.25);
+  show("#s4-n1", cue("s4-2", "lentement") - 0.3);
+  hideLabel(la.small.concat(la.big, ["#s4-n1"]), tShift - 0.15);
+  show("#s4-n2", cue("s4-2", "vite") - 0.3);
+  show("#s4-n3", cue("s4-3", "électriques") - 0.3, { x: 60, y: 0 });
+  // passage au différentiel
+  tl.to("#s4-a", { x: -260, opacity: 0, duration: 0.35, ease: INN }, tB);
+  tl.fromTo(
+    "#s4-b",
+    { x: 260, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    tB + 0.3,
+  );
+  const lb = {
+    out: label(
+      "s4b",
+      "s4-l-out",
+      [CX - 300, 470],
+      [80, 300],
+      "Roue extérieure",
+      "grand chemin : elle tourne plus vite",
+      { color: C.blue },
+    ),
+    inn: label(
+      "s4b",
+      "s4-l-in",
+      [CX + 250, 560],
+      [1060, 380],
+      "Roue intérieure",
+      "petit chemin : elle tourne moins vite",
+      { color: "#C25E00" },
+    ),
+    diff: label(
+      "s4b",
+      "s4-l-diff",
+      [CX + 40, AXY + 30],
+      [1060, 800],
+      "Le différentiel",
+      "il partage le mouvement",
+      { color: C.blueD },
+    ),
+  };
+  showLabel(lb.out, cue("s4-5", "extérieur") - 0.25);
+  showLabel(lb.inn, cue("s4-5", "intérieur") - 0.25);
+  showLabel(lb.diff, cue("s4-5", "différentiel") - 0.25);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : la direction (volant, pignon, crémaillère) ----------
+(() => {
+  const PX = 960,
+    PY = 650,
+    PR = 50,
+    PN = 10; // le pignon
+  const pitch = (TAU * PR) / PN;
+  // Angle du volant (radians) : images clés lissées
+  const k = [
+    [cue("s5-2", "tourner") - 0.2, 0],
+    [cue("s5-2", "tourner") + 0.6, 0.55],
+    [cue("s5-2", "tige") + 0.6, 0],
+    [cue("s5-2", "tournes") - 0.1, 0],
+    [cue("s5-2", "tournes") + 1.0, 1.15],
+    [cue("s5-2", "pousse") - 0.3, 1.15],
+    [cue("s5-2", "pousse") + 1.2, -1.15],
+    [lineEnd("s5-2") + 0.6, 0],
+    [cue("s5-3", "rond") + 0.5, 0.9],
+    [cue("s5-3", "barre") + 0.6, -0.9],
+    [lineEnd("s5-3") + 0.7, 0],
+  ];
+  const alpha = (t) => {
+    if (t <= k[0][0]) return 0;
+    for (let i = 1; i < k.length; i++)
+      if (t <= k[i][0]) return lerp(k[i - 1][1], k[i][1], easeIO(lin(t, k[i - 1][0], k[i][0])));
+    return k[k.length - 1][1];
+  };
+  const wheelTop = (x, y, ang) =>
+    `<g transform="rotate(${f2(ang)} ${x} ${y})"><rect x="${x - 62}" y="${y - 130}" width="124" height="260" rx="30" fill="${C.ink}"/>` +
+    [-80, -40, 0, 40, 80]
+      .map(
+        (d) =>
+          `<path d="M${x - 44} ${y + d} H${x + 44}" stroke="#7C8AA8" stroke-width="9" stroke-linecap="round"/>`,
+      )
+      .join("") +
+    `</g>`;
+  const draw = (t) => {
+    const a = alpha(t),
+      dx = -PR * a,
+      del = -dx * 0.46; // la barre glisse, les roues pivotent
+    let s = "";
+    // roues avant et biellettes
+    const LX = 330,
+      RX = 1590,
+      WY = 700,
+      ry = PY + PR + 30;
+    for (const [wx, side] of [
+      [LX, 1],
+      [RX, -1],
+    ]) {
+      const cs = Math.cos(rad(del)),
+        sn = Math.sin(rad(del)),
+        vx = side * 130,
+        vy = 36;
+      const tip = [wx + vx * cs - vy * sn, WY + vx * sn + vy * cs];
+      const end = side === 1 ? 560 + dx : 1360 + dx;
+      s += `<path d="M${f2(end)} ${ry} L${f2(tip[0])} ${f2(tip[1])}" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M${f2(end)} ${ry} L${f2(tip[0])} ${f2(tip[1])}" stroke="${C.metal}" stroke-width="11" stroke-linecap="round"/>`;
+      s +=
+        wheelTop(wx, WY, del) +
+        `<circle cx="${f2(tip[0])}" cy="${f2(tip[1])}" r="13" fill="#fff" class="ink"/>`;
+    }
+    // la crémaillère : une barre avec des dents sur le dessus
+    let teeth = "";
+    const y0 = PY + PR + 6;
+    for (let i = -13; i <= 13; i++) {
+      const x = PX + dx + (i + 0.5) * pitch;
+      teeth += `M${f2(x - pitch * 0.27)} ${y0 + 14} L${f2(x - pitch * 0.13)} ${y0 - 8} L${f2(x + pitch * 0.13)} ${y0 - 8} L${f2(x + pitch * 0.27)} ${y0 + 14} Z`;
+    }
+    s += `<rect x="${f2(560 + dx)}" y="${y0 + 10}" width="800" height="46" rx="18" fill="${C.blueL}" class="ink"/><path d="${teeth}" fill="${C.blueL}" class="ink"/>`;
+    // la colonne et le pignon
+    s += `<path d="M${PX} 330 V${PY}" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M${PX} 330 V${PY}" stroke="${C.metal}" stroke-width="20" stroke-linecap="round"/>`;
+    s += gearSVG(PX, PY, PR, PN, a + Math.PI / 2 + Math.PI / PN, C.blue, C.blueD);
+    // le volant
+    s +=
+      `<g transform="rotate(${f2((a * 180) / Math.PI)} ${PX} 300)"><circle cx="${PX}" cy="300" r="130" fill="none" stroke="${C.ink}" stroke-width="40"/><circle cx="${PX}" cy="300" r="130" fill="none" stroke="${C.blue}" stroke-width="28"/>` +
+      `<path d="M${PX - 118} 300 H${PX + 118} M${PX} 300 V418" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M${PX - 118} 300 H${PX + 118} M${PX} 300 V418" stroke="${C.blue}" stroke-width="20" stroke-linecap="round"/>` +
+      `<circle cx="${PX}" cy="300" r="34" fill="${C.blueD}" class="ink"/><circle cx="${PX}" cy="184" r="9" fill="#fff"/></g>`;
+    return s;
+  };
+  onDraw("s5", (t) => {
+    $("#s5-rig").innerHTML = draw(t);
+  });
+  const lab = {
+    wheel: label("s5", "s5-l-wheel", [1080, 250], [1250, 190], "Le volant", null),
+    rod: label("s5", "s5-l-rod", [PX - 12, 500], [520, 430], "Une longue tige", null, {
+      align: "r",
+    }),
+    pin: label(
+      "s5",
+      "s5-l-pin",
+      [PX + 40, PY - 20],
+      [1250, 500],
+      "Le petit engrenage",
+      "il est rond",
+      { color: C.blue },
+    ),
+    rack: label(
+      "s5",
+      "s5-l-rack",
+      [1200, PY + PR + 40],
+      [1120, 880],
+      "La crémaillère",
+      "une barre pleine de dents",
+      { color: C.blue },
+    ),
+    wh: label("s5", "s5-l-wh", [330, 840], [150, 930], "Les roues avant", "elles pivotent"),
+  };
+  showLabel(lab.wheel, cue("s5-2", "volant") - 0.25);
+  showLabel(lab.rod, cue("s5-2", "tige") - 0.25);
+  showLabel(lab.pin, cue("s5-2", "engrenage") - 0.25);
+  showLabel(lab.rack, cue("s5-2", "crémaillère") - 0.25);
+  showLabel(lab.wh, cue("s5-2", "roues") - 0.25);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : les freins ----------
+(() => {
+  const S = scn("s6");
+  const tPed = cue("s6-2", "pédale") - 0.2,
+    tPinch = cue("s6-2", "pincent") - 0.2;
+  const tRel = SCHED.lines["s6-4"].start - 0.2,
+    tAgain = cue("s6-4", "chaleur") - 1.3;
+  const W0 = 520; // degrés par seconde
+  // vitesse de la roue : elle ralentit quand les plaquettes pincent, repart, puis freine encore
+  const W = [
+    [S.start, W0],
+    [tPinch, W0],
+    [tPinch + 3.4, 0],
+    [tRel, 0],
+    [tRel + 1.0, W0],
+    [tAgain, W0],
+    [tAgain + 1.6, 0],
+  ];
+  const press = (t) =>
+    Math.max(
+      ramp(t, tPed, tPed + 0.5) * (1 - ramp(t, tRel - 0.3, tRel)),
+      ramp(t, tAgain - 0.2, tAgain + 0.2),
+    );
+  const heat = (t) =>
+    Math.max(
+      ramp(t, tPinch + 0.2, tPinch + 2.6) * (1 - ramp(t, tRel - 0.2, tRel + 1.0)),
+      ramp(t, tAgain + 0.1, tAgain + 1.4),
+    );
+  const CXW = 560,
+    CYW = 570;
+  const wheelDraw = (t) => {
+    const a = integ(W, t),
+      h = heat(t),
+      p = press(t);
+    const disc = mixHex("#B4BECC", "#FF8A1F", h);
+    let holes = "";
+    for (let i = 0; i < 10; i++) {
+      const an = rad(a + i * 36);
+      holes += `<circle cx="${f2(CXW + 150 * Math.cos(an))}" cy="${f2(CYW + 150 * Math.sin(an))}" r="13" fill="${C.ink}" opacity="0.55"/>`;
+    }
+    let bolts = "";
+    for (let i = 0; i < 5; i++) {
+      const an = rad(a + i * 72);
+      bolts += `<circle cx="${f2(CXW + 44 * Math.cos(an))}" cy="${f2(CYW + 44 * Math.sin(an))}" r="9" fill="${C.ink}"/>`;
+    }
+    let s = `<circle cx="${CXW}" cy="${CYW}" r="282" fill="none" stroke="${C.ink}" stroke-width="72"/>`;
+    if (h > 0.02)
+      s += `<circle cx="${CXW}" cy="${CYW}" r="290" fill="url(#s6-heat)" opacity="${f2(h)}"/>`;
+    s += `<circle cx="${CXW}" cy="${CYW}" r="200" fill="${disc}" class="ink" stroke-width="5"/>${holes}<circle cx="${CXW}" cy="${CYW}" r="74" fill="#EEF2F8" class="ink"/>${bolts}`;
+    // l'étrier (fixe) : il se resserre légèrement quand on freine
+    const sq = 10 * p;
+    s += `<path d="M${CXW + 96} ${CYW - 150 + sq} Q${CXW + 250} ${CYW - 190} ${CXW + 250} ${CYW} Q${CXW + 250} ${CYW + 190} ${CXW + 96} ${CYW + 150 - sq} L${CXW + 120} ${CYW + 96 - sq} Q${CXW + 176} ${CYW} ${CXW + 120} ${CYW - 96 + sq} Z" fill="${C.blue}" class="ink" stroke-width="5"/>`;
+    // ondes de chaleur
+    if (h > 0.25)
+      for (let i = 0; i < 3; i++) {
+        const u = (t * 0.7 + i / 3) % 1,
+          x = CXW - 120 + i * 120,
+          y = CYW - 320 - u * 90;
+        s += `<path d="M${x} ${f2(y)} q18 -20 0 -40 q-18 -20 0 -40" fill="none" stroke="${C.fire}" stroke-width="9" stroke-linecap="round" opacity="${f2(h * (1 - u))}"/>`;
+      }
+    return s;
+  };
+  // Encart : le frein vu de dessus (le disque est une tranche ; deux plaquettes le pincent)
+  const cutDraw = (t) => {
+    const a = integ(W, t),
+      h = heat(t),
+      p = press(t);
+    const gap = lerp(34, 0, p),
+      DX = 470,
+      top = 110,
+      bot = 470;
+    let s = `<text x="380" y="64" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="40" fill="${C.ink}">Le frein, vu de dessus</text>`;
+    // tranche du disque, avec des stries qui défilent quand il tourne
+    s += `<rect x="${DX - 20}" y="${top}" width="40" height="${bot - top}" rx="8" fill="${mixHex("#B4BECC", "#FF8A1F", h)}" class="ink"/>`;
+    for (let i = 0; i < 9; i++) {
+      const y = top + ((((a * 0.9 + i * 40) % 360) + 360) % 360);
+      if (y > top + 8 && y < bot - 8)
+        s += `<path d="M${DX - 14} ${f2(y)} H${DX + 14}" stroke="${C.ink}" stroke-width="5" opacity="0.4" stroke-linecap="round"/>`;
+    }
+    // étrier en « C » et plaquettes
+    s += `<path d="M${DX - 150} 190 H${DX - 96} V390 H${DX - 150} Z M${DX + 96} 190 H${DX + 190} V390 H${DX + 96} Z M${DX - 150} 150 H${DX + 190} V190 H${DX - 150} Z" fill="${C.side}" class="ink"/>`;
+    s += `<rect x="${f2(DX - 20 - gap - 56)}" y="200" width="56" height="180" rx="10" fill="${C.blue}" class="ink"/><rect x="${f2(DX + 20 + gap)}" y="200" width="56" height="180" rx="10" fill="${C.blue}" class="ink"/>`;
+    // le liquide pousse un petit piston derrière la plaquette de droite
+    const TEAL = "#35C2B1";
+    s += `<rect x="${f2(DX + 76 + gap)}" y="250" width="${f2(100 - gap)}" height="80" rx="8" fill="${TEAL}" class="ink" stroke-width="3"/>`;
+    const pipe = `M${DX + 176} 290 H690 V540 H250`;
+    s += `<path d="${pipe}" fill="none" stroke="${C.ink}" stroke-width="24" stroke-linejoin="round"/><path d="${pipe}" fill="none" stroke="${TEAL}" stroke-width="14" stroke-linejoin="round"/>`;
+    if (p > 0.05 && p < 0.98)
+      s += `<path d="${pipe}" fill="none" stroke="#fff" stroke-width="7" stroke-dasharray="12 30" stroke-dashoffset="${f2(t * 160)}" stroke-linejoin="round"/>`;
+    // la pédale et son petit piston
+    const pa = -34 + 22 * p;
+    s += `<rect x="${f2(150 + 26 * p)}" y="510" width="110" height="60" rx="10" fill="${TEAL}" class="ink"/>`;
+    s += `<g transform="rotate(${f2(pa)} 110 420)"><path d="M110 420 V560" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M110 420 V560" stroke="${C.metal}" stroke-width="16" stroke-linecap="round"/><rect x="70" y="548" width="80" height="34" rx="12" fill="${C.ink}"/></g><circle cx="110" cy="420" r="13" fill="#fff" class="ink"/>`;
+    return s;
+  };
+  onDraw("s6", (t) => {
+    $("#s6-wheel").innerHTML = wheelDraw(t);
+    $("#s6-cutsvg").innerHTML = cutDraw(t);
+  });
+  const lab = {
+    disc: label(
+      "s6",
+      "s6-l-disc",
+      [CXW - 110, CYW - 150],
+      [130, 190],
+      "Le disque",
+      "il tourne avec la roue",
+    ),
+  };
+  showLabel(lab.disc, cue("s6-2", "disque") - 0.25);
+  tl.fromTo(
+    "#s6-cut",
+    { opacity: 0, x: 160 },
+    { opacity: 1, x: 0, duration: 0.5, ease: OUT },
+    cue("s6-2", "Quand") - 0.5,
+  );
+  const lc = {
+    ped: label("s6", "s6-l-ped", [1130, 760], [1080, 890], "La pédale", null),
+    liq: label("s6", "s6-l-liq", [1730, 700], [1560, 890], "Le liquide", "il pousse", {
+      color: "#1E8F82",
+    }),
+    pad: label("s6", "s6-l-pad", [1450, 480], [1100, 380], "Les plaquettes", "elles pincent", {
+      color: C.blue,
+      align: "r",
+    }),
+  };
+  showLabel(lc.ped, cue("s6-2", "pédale") - 0.25);
+  showLabel(lc.liq, cue("s6-2", "liquide") - 0.25);
+  showLabel(lc.pad, cue("s6-2", "plaquettes") - 0.25);
+  hideLabel(lab.disc, tRel);
+  pop("#s6-n1", cue("s6-4", "vitesse") - 0.2);
+  pop("#s6-ar", cue("s6-4", "en") - 0.1);
+  pop("#s6-n2", cue("s6-4", "chaleur") - 0.2);
+})();
+
+      // ===== s7.js =====
+// ---------- Scène 7 : le récapitulatif ----------
+(() => {
+  const S = scn("s7");
+  const flows =
+    `<g id="s7-f1"><path d="M280 286 C 480 190, 780 190, 930 262" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path class="fl" d="M280 286 C 480 190, 780 190, 930 262" fill="none" stroke="${C.fire}" stroke-width="12" stroke-dasharray="26 22" stroke-linecap="round"/></g>` +
+    `<g id="s7-f2"><path d="M800 318 C 850 300, 880 296, 908 292" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path class="fl" d="M800 318 C 850 300, 880 296, 908 292" fill="none" stroke="${C.spark}" stroke-width="12" stroke-dasharray="26 22" stroke-linecap="round"/></g>` +
+    `<g id="s7-f3"><path class="fl" d="M905 300 L855 304 L930 372" fill="none" stroke="#fff" stroke-width="8" stroke-dasharray="14 18" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  document.getElementById("s7-car").innerHTML = carSVG("c2") + flows;
+  document.getElementById("c2-paint").setAttribute("opacity", "0.06");
+  let dash = "";
+  for (let i = -1; i < 14; i++)
+    dash += `<rect x="${i * 160}" y="864" width="90" height="12" rx="6" fill="#fff"/>`;
+  document.getElementById("s7-dash").innerHTML = dash;
+
+  const tE = cue("s7-1", "énergie") - 0.2,
+    tM = cue("s7-1", "tourner") - 0.5,
+    tT = cue("s7-1", "transmission") - 0.2,
+    tF = cue("s7-1", "freins") - 0.1;
+  // vitesse de la voiture (pixels par seconde) : elle démarre avec la transmission, les freins l'arrêtent
+  const V = [
+    [tT, 0],
+    [tT + 0.9, 520],
+    [tF + 0.3, 520],
+    [tF + 1.5, 0],
+  ];
+  const fl = [...document.querySelectorAll("#s7-car .fl")];
+  onDraw("s7", (t) => {
+    const d = integ(V, t);
+    carWheels("c2", d / (CAR.R * CARPOS.k));
+    document.getElementById("s7-dash").setAttribute("transform", `translate(${f2(-(d % 160))} 0)`);
+    fl.forEach((p) => p.setAttribute("stroke-dashoffset", f2(-(t - S.start) * 90)));
+    carPulses("c2", PUL, t);
+  });
+  const PUL = [];
+  const pulse = (keys, t) => keys.forEach((k) => PUL.push([k, t, 0.25, 0.55]));
+  tl.fromTo("#s7-f1, #s7-f2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tE);
+  pulse(["tank", "batt"], tE);
+  pulse(["eng"], tM);
+  tl.fromTo("#s7-f3", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tT);
+  pulse(["gear"], tT);
+  tl.to("#c2-brf circle, #c2-brr circle", { fill: C.fire, duration: 0.3 }, tF + 0.3);
+  pulse(["brf", "brr"], tF + 0.3);
+  tl.to("#s7-f1, #s7-f2, #s7-f3", { opacity: 0, duration: 0.4 }, tF + 1.4);
+  show("#s7-head", cue("s7-2", "chaîne") - 0.4, { y: -30 });
+  tl.fromTo(
+    "#s7-chain .c",
+    { opacity: 0, x: -30 },
+    { opacity: 1, x: 0, duration: 0.35, ease: OUT, stagger: 0.16 },
+    cue("s7-2", "transforme") - 0.3,
+  );
+  // « et l'essence, elle vient d'où ? »
+  pop("#s7-q", cue("s7-3", "essence") - 0.2);
+  pulse(["tank"], cue("s7-3", "essence") - 0.1);
+  tl.to("#s7-head", { opacity: 0, duration: 0.3 }, cue("s7-4", "prochaine") - 0.5);
+  pop("#s7-next", cue("s7-4", "prochaine") - 0.3);
+  // fin : tout s'élève, le logo revient
+  const tEnd = S.end - 3.2;
+  tl.to("#s7-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo(
+    "#s7-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
+  show("#s7-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (g → s01 et s01 → s2 sont des zooms, gérés dans leurs scènes).
+seam("s2", "s3");
+seam("s3", "s4");
+seam("s4", "s5");
+seam("s5", "s6");
+seam("s6", "s7");
+
+// Un seul « tic » sur toute la durée : redessine les mécanismes à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>
