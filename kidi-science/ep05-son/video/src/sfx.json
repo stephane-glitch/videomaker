@@ -1,0 +1,15 @@
+[
+  { "file": "pop", "at": ["g-1", "marche"], "offset": 0.95, "volume": 0.4 },
+  { "file": "jingle", "at": ["g-1", "marche"], "offset": 1.95, "volume": 0.45 },
+  { "file": "whoosh", "at": ["@g", "end"], "offset": -0.75, "volume": 0.4 },
+  { "file": "whoosh", "at": ["@s1", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "pop", "at": ["s1-1", "pince"], "offset": -0.1, "volume": 0.4 },
+  { "file": "whoosh", "at": ["@s2", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "zap", "at": ["s2-3", "éclair"], "offset": -0.4, "volume": 0.4 },
+  { "file": "whoosh", "at": ["@s3", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s4", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s5", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s6", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "pop", "at": ["s6-4", "fausses"], "offset": -0.2, "volume": 0.35 },
+  { "file": "jingle", "at": ["@s6", "end"], "offset": -2.9, "volume": 0.45, "dur": 2.85 }
+]

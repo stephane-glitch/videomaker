@@ -59,7 +59,7 @@
   const from = { x: 885, y: 560 };
   // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
   const SUBJECT = CFG_SUBJECT;
-  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-note"];
   const OTHERS = ICONS.filter((i) => i !== SUBJECT);
   const SLOTS = [
     [330, 250, -200],

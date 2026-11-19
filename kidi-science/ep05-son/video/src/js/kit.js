@@ -277,3 +277,30 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
   const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
   return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
 };
+
+// --- Formes de l'épisode « son » ---
+// arcs d'onde sonore partant de (x, y) vers la direction dir (en degrés), décalés par la phase ph
+const waves = (x, y, dir, ph, o = {}) => {
+  const n = o.n ?? 4,
+    gap = o.gap ?? 60,
+    r0 = o.r0 ?? 40,
+    half = o.half ?? 38,
+    col = o.col ?? C.blueL,
+    max = o.max ?? n * gap + r0;
+  let s = "";
+  for (let i = 0; i < n + 1; i++) {
+    const r = r0 + (i + (((ph % 1) + 1) % 1)) * gap;
+    if (r > max) continue;
+    const a0 = rad(dir - half),
+      a1 = rad(dir + half);
+    s += `<path d="M${f2(x + r * Math.cos(a0))} ${f2(y + r * Math.sin(a0))} A${f2(r)} ${f2(r)} 0 0 1 ${f2(x + r * Math.cos(a1))} ${f2(y + r * Math.sin(a1))}" fill="none" stroke="${col}" stroke-width="${o.w ?? 9}" stroke-linecap="round" opacity="${f2((o.op ?? 1) * (1 - (r - r0) / (max - r0 + 1)))}"/>`;
+  }
+  return s;
+};
+// courbe sinusoïdale entre x0 et x1 : amplitude amp, longueur d'onde lam, phase ph
+const sineD = (x0, x1, y, amp, lam, ph) => {
+  let d = "";
+  for (let x = x0; x <= x1; x += 6)
+    d += `${x === x0 ? "M" : "L"}${x} ${f2(y + amp * Math.sin(((x - x0) / lam) * TAU - ph))}`;
+  return d;
+};
