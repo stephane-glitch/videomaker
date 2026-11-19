@@ -18,14 +18,16 @@ confirmées.
 - Recherche technique : faite (voir `TECHNIQUE.md`).
 - Style visuel : **validé** par l'utilisateur sur `ep01-voiture/style-test/style-test.jpg`.
 - Découpage de l'épisode 1 : validé dans ses grandes lignes (8 scènes, voir `EPISODE.md`).
+- Dialogue de l'épisode 1 : écrit le 19/11 (`ep01-voiture/DIALOGUE.md`), avec repères visuels.
 - Personnages, voix, générique : décidés (voir `SERIE.md`).
 - **Production : pas commencée.** L'utilisateur lance lui-même la création
   (session suivante). Ne rien rendre ni générer de payant sans son signal.
 
 ## Prochaine étape prévue
 
-1. Écrire le texte complet du dialogue (Zoé / Max) scène par scène, ~650 mots,
-   et le faire relire **avant** de produire la voix.
+1. Le dialogue complet est écrit : [`ep01-voiture/DIALOGUE.md`](ep01-voiture/DIALOGUE.md)
+   (version 1, 664 mots, ≈ 4 min 50). La production de la vidéo est confiée à la
+   session suivante ; signaler à l'utilisateur toute réplique modifiée.
 2. Choisir les deux voix ElevenLabs (écoute de quelques échantillons courts).
 3. Puis `/hyperframes` → workflow `/general-video` (5 min dépasse le plafond
    ~3 min des workflows spécialisés), avec storyboard relu avant le build.
@@ -33,5 +35,4 @@ confirmées.
 
 ## Branche
 
-Ce travail vit sur la branche `claude/kind-bell-fnlopb`. Une nouvelle session
-qui démarre sur `main` ne le verra pas : partir de cette branche (ou la fusionner).
+Ce travail est sur `main` (fusionné le 19/11 depuis `claude/kind-bell-fnlopb`).

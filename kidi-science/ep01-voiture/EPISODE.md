@@ -24,6 +24,10 @@ Scène la plus lourde : la 2 (la plus spectaculaire et la plus dure à expliquer
 Son état « Boum » existe déjà en image fixe : `style-test/` (angle vilebrequin 60°
 après le point mort haut, piston calculé par bielle-manivelle).
 
+Le texte complet est dans [`DIALOGUE.md`](DIALOGUE.md). La question finale de
+Zoé (« l'essence, elle vient d'où ? ») est une proposition de teaser : à adapter
+au sujet réellement prévu pour l'épisode 2.
+
 ## Brouillon de `BRIEF.md`
 
 À écrire dans le projet HyperFrames **juste après** `hyperframes init` (init refuse
@@ -67,5 +71,5 @@ Max (adulte bienveillant, répond). On doit voir les pièces de la voiture en mo
 - Personnages jamais visibles, pas de bulles de dialogue : tout l'effort sur l'animation des pièces.
 - Style et palette : `kidi-science/SERIE.md` (validé, ne pas réinventer).
 - Découpage : `kidi-science/ep01-voiture/EPISODE.md`.
-- Texte du dialogue à faire relire avant de générer les voix.
+- Texte du dialogue : `kidi-science/ep01-voiture/DIALOGUE.md` (repères visuels entre crochets).
 ```
