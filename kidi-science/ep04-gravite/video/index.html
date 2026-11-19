@@ -815,12 +815,14 @@ const toastSVG = (x, y, rot, k = 1) =>
   `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
 // la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
 const earthSVG = (x, y, r, rot = 0) => {
-  const blob = (a, d, w, h) => `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  const blob = (a, d, w, h) =>
+    `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
   return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
 };
 // flèche droite de (x1, y1) vers (x2, y2)
 const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
-  const a = Math.atan2(y2 - y1, x2 - x1), h = w * 2.2;
+  const a = Math.atan2(y2 - y1, x2 - x1),
+    h = w * 2.2;
   const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
   return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
 };
@@ -942,8 +944,13 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
 // ---------- Scène 0 : la tartine tombe toujours par terre, jamais au plafond ----------
 (() => {
   const S = scn("s0");
-  const tFall = cue("s0-1", "tombe") - 0.5, tUp = cue("s0-1", "plafond") - 0.6, tG = cue("s0-2", "attire") - 0.5, tJam = cue("s0-3", "confiture") - 0.4;
-  const G = 1500, Y0 = 470, FLOOR = 880; // pixels par seconde carrée : la chute suit y = ½ g t²
+  const tFall = cue("s0-1", "tombe") - 0.5,
+    tUp = cue("s0-1", "plafond") - 0.6,
+    tG = cue("s0-2", "attire") - 0.5,
+    tJam = cue("s0-3", "confiture") - 0.4;
+  const G = 1500,
+    Y0 = 470,
+    FLOOR = 880; // pixels par seconde carrée : la chute suit y = ½ g t²
   const tLand = Math.sqrt((2 * (FLOOR - Y0)) / G);
   // deuxième chute, pour revoir l'effet quand Max explique
   const drops = [tFall, tG + 0.3, tJam - 1.2];
@@ -953,26 +960,45 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
     s += `<rect x="160" y="500" width="520" height="40" rx="14" fill="#D9A66B" class="ink" stroke-width="5"/><path d="M220 540 V900 M620 540 V900" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M220 540 V900 M620 540 V900" stroke="#D9A66B" stroke-width="16" stroke-linecap="round"/>`;
     // la tartine : elle glisse du bord, tombe en tournant, atterrit côté confiture
     let k = -1;
-    drops.forEach((d, i) => { if (t >= d) k = i; });
+    drops.forEach((d, i) => {
+      if (t >= d) k = i;
+    });
     if (k < 0) s += toastSVG(560, 478, 0);
     else {
-      const u = t - drops[k], slide = Math.min(1, u / 0.35);
-      const tf = Math.max(0, u - 0.35), y = Math.min(FLOOR - 10, Y0 + 0.5 * G * tf * tf), land = tf >= tLand;
-      const x = 560 + slide * 150 + Math.min(tf, tLand) * 90, rot = Math.min(180, (tf / tLand) * 180);
+      const u = t - drops[k],
+        slide = Math.min(1, u / 0.35);
+      const tf = Math.max(0, u - 0.35),
+        y = Math.min(FLOOR - 10, Y0 + 0.5 * G * tf * tf),
+        land = tf >= tLand;
+      const x = 560 + slide * 150 + Math.min(tf, tLand) * 90,
+        rot = Math.min(180, (tf / tLand) * 180);
       s += toastSVG(x, land ? FLOOR - 4 : y, rot);
-      if (land) s += `<path d="M${x - 150} ${FLOOR + 22} q30 -26 60 -4 q40 -30 80 2 q40 -28 80 0 q30 -20 60 6 Z" fill="#E0455E"/>`;
+      if (land)
+        s += `<path d="M${x - 150} ${FLOOR + 22} q30 -26 60 -4 q40 -30 80 2 q40 -28 80 0 q30 -20 60 6 Z" fill="#E0455E"/>`;
     }
     // la tartine fantôme qui monterait au plafond : barrée
     const up = lin(t, tUp, tUp + 0.5) * (1 - lin(t, tG - 0.3, tG));
     if (up > 0) {
-      s += `<g opacity="${f2(up * 0.6)}">${toastSVG(960, 330, 0, 0.8)}</g>` + arrowSVG(960, 470, 960, 400, C.smoke, 12, up) + `<path d="M900 270 L1020 390 M1020 270 L900 390" stroke="#E0455E" stroke-width="18" stroke-linecap="round" opacity="${f2(up)}"/>`;
+      s +=
+        `<g opacity="${f2(up * 0.6)}">${toastSVG(960, 330, 0, 0.8)}</g>` +
+        arrowSVG(960, 470, 960, 400, C.smoke, 12, up) +
+        `<path d="M900 270 L1020 390 M1020 270 L900 390" stroke="#E0455E" stroke-width="18" stroke-linecap="round" opacity="${f2(up)}"/>`;
     }
     // la Terre attire : de grandes flèches vers le bas
     const g = lin(t, tG, tG + 0.4);
-    if (g > 0) for (let i = 0; i < 3; i++) {
-      const ph = (t * 0.8 + i / 3) % 1;
-      s += arrowSVG(880 + i * 90, 300 + ph * 260, 880 + i * 90, 420 + ph * 260, C.fire, 14, g * Math.sin(ph * Math.PI));
-    }
+    if (g > 0)
+      for (let i = 0; i < 3; i++) {
+        const ph = (t * 0.8 + i / 3) % 1;
+        s += arrowSVG(
+          880 + i * 90,
+          300 + ph * 260,
+          880 + i * 90,
+          420 + ph * 260,
+          C.fire,
+          14,
+          g * Math.sin(ph * Math.PI),
+        );
+      }
     $("#s0-draw").innerHTML = s;
   });
   show("#s0-logo", S.start + 0.5, { y: -20 });
@@ -985,8 +1011,14 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
       // ===== s1.js =====
 // ---------- Scène 1 : la Terre attire tout vers son centre ; « le bas » n'est pas le même pour tout le monde ----------
 (() => {
-  const CX = 960, CY = 580, R = 250;
-  const tArr = cue("s1-1", "centre") - 0.6, tAus = cue("s1-2", "Australie") - 0.6, tFlip = cue("s1-2", "notre") - 0.7, tBack = cue("s1-3", "Personne") - 0.2, tKang = cue("s1-4", "kangourous") - 0.5;
+  const CX = 960,
+    CY = 580,
+    R = 250;
+  const tArr = cue("s1-1", "centre") - 0.6,
+    tAus = cue("s1-2", "Australie") - 0.6,
+    tFlip = cue("s1-2", "notre") - 0.7,
+    tBack = cue("s1-3", "Personne") - 0.2,
+    tKang = cue("s1-4", "kangourous") - 0.5;
   // objets posés sur la Terre : [angle (0 = en haut), apparition, type]
   const items = [
     [0, cue("s1-1", "Toi") - 0.3, "fig", C.blue],
@@ -995,29 +1027,46 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
     [180, tAus, "fig", C.fire],
   ];
   // un kangourou très simplifié, pieds en (0, 0)
-  const kang = (col) => `<path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round"/><ellipse cx="0" cy="-58" rx="46" ry="62" fill="${col}" class="ink"/><circle cx="26" cy="-136" r="28" fill="${col}" class="ink"/><path d="M14 -158 L10 -196 L32 -166 Z M36 -160 L44 -198 L52 -160 Z" fill="${col}" class="ink"/><circle cx="36" cy="-140" r="5" fill="${C.ink}"/><path d="M-8 0 H40" stroke="${C.ink}" stroke-width="16" stroke-linecap="round"/>`;
+  const kang = (col) =>
+    `<path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round"/><ellipse cx="0" cy="-58" rx="46" ry="62" fill="${col}" class="ink"/><circle cx="26" cy="-136" r="28" fill="${col}" class="ink"/><path d="M14 -158 L10 -196 L32 -166 Z M36 -160 L44 -198 L52 -160 Z" fill="${col}" class="ink"/><circle cx="36" cy="-140" r="5" fill="${C.ink}"/><path d="M-8 0 H40" stroke="${C.ink}" stroke-width="16" stroke-linecap="round"/>`;
   onDraw("s1", (t) => {
     // la Terre pivote d'un demi-tour pour montrer que l'Australien est bien debout chez lui
     const rot = 180 * (ramp(t, tFlip, tFlip + 1.4) - ramp(t, tBack, tBack + 1.4));
     let s = "";
     const arr = lin(t, tArr, tArr + 0.5);
-    if (arr > 0) for (let i = 0; i < 8; i++) {
-      const a = rad(i * 45 + 22 + rot), ph = (t * 0.7 + i / 8) % 1, r1 = R + 250 - ph * 90, r2 = r1 - 100;
-      s += arrowSVG(CX + r1 * Math.sin(a), CY - r1 * Math.cos(a), CX + r2 * Math.sin(a), CY - r2 * Math.cos(a), C.fire, 12, arr * Math.sin(ph * Math.PI) * 0.9);
-    }
+    if (arr > 0)
+      for (let i = 0; i < 8; i++) {
+        const a = rad(i * 45 + 22 + rot),
+          ph = (t * 0.7 + i / 8) % 1,
+          r1 = R + 250 - ph * 90,
+          r2 = r1 - 100;
+        s += arrowSVG(
+          CX + r1 * Math.sin(a),
+          CY - r1 * Math.cos(a),
+          CX + r2 * Math.sin(a),
+          CY - r2 * Math.cos(a),
+          C.fire,
+          12,
+          arr * Math.sin(ph * Math.PI) * 0.9,
+        );
+      }
     s += earthSVG(CX, CY, R, rot) + `<circle cx="${CX}" cy="${CY}" r="14" fill="${C.ink}"/>`;
     items.forEach(([ang, t0, kind, col]) => {
       const op = lin(t, t0, t0 + 0.4);
       if (op <= 0) return;
-      const a = ang + rot, drop = kind === "toast" ? (1 - rampO(t, t0, t0 + 0.8)) * 160 : 0;
-      const px = CX + (R + drop) * Math.sin(rad(a)), py = CY - (R + drop) * Math.cos(rad(a));
+      const a = ang + rot,
+        drop = kind === "toast" ? (1 - rampO(t, t0, t0 + 0.8)) * 160 : 0;
+      const px = CX + (R + drop) * Math.sin(rad(a)),
+        py = CY - (R + drop) * Math.cos(rad(a));
       const inner = kind === "fig" ? figSVG(0, 0, 0.85, col) : toastSVG(0, -18, 180, 0.42);
       const isK = kind === "fig" && ang === 180 && t > tKang && t < tKang + 3.2;
       s += `<g opacity="${f2(op)}" transform="translate(${f2(px)} ${f2(py)}) rotate(${f2(a)})">${isK ? `<g transform="scale(0.8)">${kang("#D98B4A")}</g>` : inner}</g>`;
     });
     $("#s1-draw").innerHTML = s;
   });
-  const lab = { c: label("s1", "s1-l-c", [CX + 8, CY + 6], [1380, 760], "Le centre de la Terre", null) };
+  const lab = {
+    c: label("s1", "s1-l-c", [CX + 8, CY + 6], [1380, 760], "Le centre de la Terre", null),
+  };
   showLabel(lab.c, tArr + 0.3);
   hideLabel(lab.c, tFlip - 0.2);
   show("#s1-n1", cue("s1-2", "bas") - 0.3);
@@ -1027,35 +1076,63 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
       // ===== s2.js =====
 // ---------- Scène 2 : tout attire tout ; plus il y a de matière, plus ça attire ----------
 (() => {
-  const tA = cue("s2-2", "matière") - 0.5, tMore = cue("s2-2", "Plus") - 0.4, tBig = cue("s2-2", "gigantesque") - 0.8;
-  const tB = cue("s2-3", "moi") - 0.7, tNum = cue("s2-4", "six") - 0.3, tWin = cue("s2-4", "gagne") - 0.6;
+  const tA = cue("s2-2", "matière") - 0.5,
+    tMore = cue("s2-2", "Plus") - 0.4,
+    tBig = cue("s2-2", "gigantesque") - 0.8;
+  const tB = cue("s2-3", "moi") - 0.7,
+    tNum = cue("s2-4", "six") - 0.3,
+    tWin = cue("s2-4", "gagne") - 0.6;
   const numEl = document.getElementById("s2-num");
   const N = ["6", "6 000", "6 000 milliards", "6 000 milliards de milliards"];
   // lignes d'attraction autour d'un objet : d'autant plus nombreuses et longues qu'il est massif
   const pull = (x, y, r, n, len, t, op) => {
     let s = "";
     for (let i = 0; i < n; i++) {
-      const a = (i / n) * TAU, ph = (t * 0.8 + i * 0.37) % 1, r1 = r + len - ph * len * 0.5, r2 = r1 - len * 0.4;
-      s += arrowSVG(x + r1 * Math.cos(a), y + r1 * Math.sin(a), x + r2 * Math.cos(a), y + r2 * Math.sin(a), C.fire, 8, op * Math.sin(ph * Math.PI));
+      const a = (i / n) * TAU,
+        ph = (t * 0.8 + i * 0.37) % 1,
+        r1 = r + len - ph * len * 0.5,
+        r2 = r1 - len * 0.4;
+      s += arrowSVG(
+        x + r1 * Math.cos(a),
+        y + r1 * Math.sin(a),
+        x + r2 * Math.cos(a),
+        y + r2 * Math.sin(a),
+        C.fire,
+        8,
+        op * Math.sin(ph * Math.PI),
+      );
     }
     return s;
   };
   onDraw("s2", (t) => {
     let s = "";
-    const a = lin(t, tA, tA + 0.4) * (1 - ramp(t, tB - 0.3, tB + 0.1)), b = ramp(t, tB, tB + 0.5);
+    const a = lin(t, tA, tA + 0.4) * (1 - ramp(t, tB - 0.3, tB + 0.1)),
+      b = ramp(t, tB, tB + 0.5);
     if (a > 0) {
       // trois objets de plus en plus massifs
-      const m = lin(t, tMore, tMore + 0.4), big = lin(t, tBig, tBig + 0.5);
-      let g = pull(380, 540, 40, 6, 60, t, 1) + ball(380, 540, 40, "#B9772E") + txt(380, 680, "un caillou", 36);
-      if (m > 0) g += `<g opacity="${f2(m)}">${pull(840, 540, 96, 10, 100, t, 1)}${ball(840, 540, 96, "#9AA6B8")}${txt(840, 740, "un rocher", 36)}</g>`;
-      if (big > 0) g += `<g opacity="${f2(big)}">${pull(1440, 540, 210, 16, 170, t, 1)}${earthSVG(1440, 540, 210)}${txt(1440, 880, "la Terre", 40)}</g>`;
+      const m = lin(t, tMore, tMore + 0.4),
+        big = lin(t, tBig, tBig + 0.5);
+      let g =
+        pull(380, 540, 40, 6, 60, t, 1) +
+        ball(380, 540, 40, "#B9772E") +
+        txt(380, 680, "un caillou", 36);
+      if (m > 0)
+        g += `<g opacity="${f2(m)}">${pull(840, 540, 96, 10, 100, t, 1)}${ball(840, 540, 96, "#9AA6B8")}${txt(840, 740, "un rocher", 36)}</g>`;
+      if (big > 0)
+        g += `<g opacity="${f2(big)}">${pull(1440, 540, 210, 16, 170, t, 1)}${earthSVG(1440, 540, 210)}${txt(1440, 880, "la Terre", 40)}</g>`;
       s += `<g opacity="${f2(a)}">${g}</g>`;
     }
     if (b > 0) {
       // Zoé et la Terre s'attirent avec la même force : c'est Zoé qui fait presque tout le chemin
-      const go = ramp(t, tWin, tWin + 1.6), zx = lerp(420, 1010, go), ex = 1430 - 2 * go, ey = 640;
+      const go = ramp(t, tWin, tWin + 1.6),
+        zx = lerp(420, 1010, go),
+        ex = 1430 - 2 * go,
+        ey = 640;
       let g = earthSVG(ex, ey, 230) + figSVG(zx, ey + 60, 1.1, C.blue);
-      if (go < 0.9) g += arrowSVG(zx + 60, ey - 40, zx + 250, ey - 40, C.fire, 14, 1 - go) + arrowSVG(ex - 250, ey + 40, ex - 440, ey + 40, C.fire, 14, 1 - go);
+      if (go < 0.9)
+        g +=
+          arrowSVG(zx + 60, ey - 40, zx + 250, ey - 40, C.fire, 14, 1 - go) +
+          arrowSVG(ex - 250, ey + 40, ex - 440, ey + 40, C.fire, 14, 1 - go);
       s += `<g opacity="${f2(b)}">${g}</g>`;
     }
     $("#s2-draw").innerHTML = s;
@@ -1072,52 +1149,91 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
 // ---------- Scène 3 : le marteau et la plume, sur la Terre (avec air) puis sur la Lune (sans air) ----------
 (() => {
   const S = scn("s3");
-  const tDrop = cue("s3-1", "lâche") - 0.2, tMoon = cue("s3-3", "sans") - 0.6, tMoonDrop = cue("s3-5", "marteau") - 1.0;
-  const H = 400, GE = 1400, GM = GE / 6; // la gravité de la Lune est six fois plus faible
-  const hammer = (x, y, rot = 0) => `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${rot})"><rect x="-10" y="-70" width="20" height="120" rx="8" fill="#D9A66B" class="ink"/><rect x="-46" y="-96" width="92" height="44" rx="10" fill="${C.metal}" class="ink"/></g>`;
-  const feather = (x, y, rot = 0, light = false) => `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><path d="M0 60 C -44 20, -40 -50, 0 -90 C 40 -50, 44 20, 0 60 Z" fill="${light ? "#fff" : "#fff"}" class="ink"/><path d="M0 76 V-70 M0 20 L-22 0 M0 20 L22 0 M0 -16 L-22 -36 M0 -16 L22 -36" class="ink" stroke-width="3"/></g>`;
+  const tDrop = cue("s3-1", "lâche") - 0.2,
+    tMoon = cue("s3-3", "sans") - 0.6,
+    tMoonDrop = cue("s3-5", "marteau") - 1.0;
+  const H = 400,
+    GE = 1400,
+    GM = GE / 6; // la gravité de la Lune est six fois plus faible
+  const hammer = (x, y, rot = 0) =>
+    `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${rot})"><rect x="-10" y="-70" width="20" height="120" rx="8" fill="#D9A66B" class="ink"/><rect x="-46" y="-96" width="92" height="44" rx="10" fill="${C.metal}" class="ink"/></g>`;
+  const feather = (x, y, rot = 0, light = false) =>
+    `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><path d="M0 60 C -44 20, -40 -50, 0 -90 C 40 -50, 44 20, 0 60 Z" fill="${light ? "#fff" : "#fff"}" class="ink"/><path d="M0 76 V-70 M0 20 L-22 0 M0 20 L22 0 M0 -16 L-22 -36 M0 -16 L22 -36" class="ink" stroke-width="3"/></g>`;
   // un cycle de chute qui se répète : [instant dans le cycle] → hauteur tombée
-  const fallE = (u) => Math.min(H, 0.5 * GE * u * u), fallF = (u) => Math.min(H, 105 * u), fallM = (u) => Math.min(H, 0.5 * GM * u * u);
+  const fallE = (u) => Math.min(H, 0.5 * GE * u * u),
+    fallF = (u) => Math.min(H, 105 * u),
+    fallM = (u) => Math.min(H, 0.5 * GM * u * u);
   onDraw("s3", (t) => {
-    const y0 = 130, gy = 560;
+    const y0 = 130,
+      gy = 560;
     // --- Terre ---
     const u = t < tDrop ? 0 : (t - tDrop) % 5.6;
     let a = `<rect x="0" y="${gy}" width="760" height="80" fill="#6CC98A"/><path d="M0 ${gy} H760" class="ink" stroke-width="5"/>`;
-    a += hammer(250, y0 + fallE(u)) + feather(510 + 34 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0), y0 + 20 + fallF(u) * 0.99, 18 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0));
+    a +=
+      hammer(250, y0 + fallE(u)) +
+      feather(
+        510 + 34 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0),
+        y0 + 20 + fallF(u) * 0.99,
+        18 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0),
+      );
     $("#s3-s1").innerHTML = a;
     // --- Lune ---
     const um = t < tMoonDrop ? 0 : (t - tMoonDrop) % 4.6;
     let b = "";
-    for (let i = 0; i < 26; i++) b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 470)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
-    b += earthSVG(610, 110, 52) + `<rect x="0" y="${gy}" width="760" height="80" fill="#C9D1DE"/><ellipse cx="150" cy="${gy + 40}" rx="70" ry="16" fill="#9AA6B8"/><ellipse cx="560" cy="${gy + 50}" rx="90" ry="18" fill="#9AA6B8"/><path d="M0 ${gy} H760" stroke="#EEF2F8" stroke-width="5"/>`;
+    for (let i = 0; i < 26; i++)
+      b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 470)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+    b +=
+      earthSVG(610, 110, 52) +
+      `<rect x="0" y="${gy}" width="760" height="80" fill="#C9D1DE"/><ellipse cx="150" cy="${gy + 40}" rx="70" ry="16" fill="#9AA6B8"/><ellipse cx="560" cy="${gy + 50}" rx="90" ry="18" fill="#9AA6B8"/><path d="M0 ${gy} H760" stroke="#EEF2F8" stroke-width="5"/>`;
     b += hammer(250, y0 + fallM(um)) + feather(510, y0 + 20 + fallM(um), 0);
     $("#s3-s2").innerHTML = b;
   });
   show("#s3-t1", S.start + 0.6, { y: -20 });
-  tl.fromTo("#s3-p1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: OUT }, S.start + 0.5);
+  tl.fromTo(
+    "#s3-p1",
+    { opacity: 0, y: 60 },
+    { opacity: 1, y: 0, duration: 0.5, ease: OUT },
+    S.start + 0.5,
+  );
   show("#s3-n1", cue("s3-2", "air") - 0.3);
   show("#s3-t2", tMoon, { y: -20 });
-  tl.fromTo("#s3-p2", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.5, ease: OUT }, tMoon);
+  tl.fromTo(
+    "#s3-p2",
+    { opacity: 0, x: 120 },
+    { opacity: 1, x: 0, duration: 0.5, ease: OUT },
+    tMoon,
+  );
   show("#s3-n2", cue("s3-5", "exactement") - 0.4);
 })();
 
       // ===== s4.js =====
 // ---------- Scène 4 : le canon de Newton ; la Lune tombe sans arrêt autour de la Terre ----------
 (() => {
-  const CX = 960, CY = 640, R = 210, H = 60; // Terre, et hauteur de la montagne
+  const CX = 960,
+    CY = 640,
+    R = 210,
+    H = 60; // Terre, et hauteur de la montagne
   const GMc = 4.0e6; // constante de gravitation de la simulation (pixels³ / s²)
-  const r0 = R + H, vOrb = Math.sqrt(GMc / r0); // vitesse exacte de l'orbite circulaire
+  const r0 = R + H,
+    vOrb = Math.sqrt(GMc / r0); // vitesse exacte de l'orbite circulaire
   // Simulation : on tire horizontalement depuis le sommet, la gravité varie en 1/d² (vraie loi)
   const shoot = (v) => {
     const pts = [];
-    let x = 0, y = -r0, vx = v, vy = 0;
+    let x = 0,
+      y = -r0,
+      vx = v,
+      vy = 0;
     const dt = 0.004;
     for (let i = 0; i < 6000; i++) {
       const d = Math.hypot(x, y);
       if (d < R - 1 && i > 3) break;
       if (i % 5 === 0) pts.push([CX + x, CY + y]);
-      const ax = (-GMc * x) / (d * d * d), ay = (-GMc * y) / (d * d * d);
-      vx += ax * dt; vy += ay * dt; x += vx * dt; y += vy * dt;
+      const ax = (-GMc * x) / (d * d * d),
+        ay = (-GMc * y) / (d * d * d);
+      vx += ax * dt;
+      vy += ay * dt;
+      x += vx * dt;
+      y += vy * dt;
     }
     return pts; // un point toutes les 0,02 s
   };
@@ -1127,8 +1243,13 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
     { t: cue("s4-2", "fort", 1) + 0.1, pts: null, col: C.fire }, // orbite : mouvement circulaire exact
   ];
   const wOrb = vOrb / r0; // vitesse angulaire
-  const tWhy = cue("s4-4", "dérobe") - 1.6, tMoon = cue("s4-4", "Lune") - 0.8;
-  const pathD = (pts, n) => pts.slice(0, n).map((p, i) => `${i ? "L" : "M"}${f2(p[0])} ${f2(p[1])}`).join("");
+  const tWhy = cue("s4-4", "dérobe") - 1.6,
+    tMoon = cue("s4-4", "Lune") - 0.8;
+  const pathD = (pts, n) =>
+    pts
+      .slice(0, n)
+      .map((p, i) => `${i ? "L" : "M"}${f2(p[0])} ${f2(p[1])}`)
+      .join("");
   onDraw("s4", (t) => {
     const far = ramp(t, tMoon, tMoon + 1.0); // on recule pour voir la Lune
     const k = lerp(1, 0.3, far);
@@ -1140,21 +1261,30 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
       if (t < sh.t) return;
       const u = t - sh.t;
       if (sh.pts) {
-        const n = Math.min(sh.pts.length, Math.floor(u / 0.02) + 1), p = sh.pts[n - 1];
-        s += `<path d="${pathD(sh.pts, n)}" fill="none" stroke="${sh.col}" stroke-width="7" stroke-dasharray="4 14" stroke-linecap="round"/>` + ball(p[0], p[1], 15, sh.col, { w: 3 });
+        const n = Math.min(sh.pts.length, Math.floor(u / 0.02) + 1),
+          p = sh.pts[n - 1];
+        s +=
+          `<path d="${pathD(sh.pts, n)}" fill="none" stroke="${sh.col}" stroke-width="7" stroke-dasharray="4 14" stroke-linecap="round"/>` +
+          ball(p[0], p[1], 15, sh.col, { w: 3 });
       } else {
-        const a = -Math.PI / 2 + wOrb * u, done = Math.min(TAU, wOrb * u);
-        const x = CX + r0 * Math.cos(a), y = CY + r0 * Math.sin(a);
+        const a = -Math.PI / 2 + wOrb * u,
+          done = Math.min(TAU, wOrb * u);
+        const x = CX + r0 * Math.cos(a),
+          y = CY + r0 * Math.sin(a);
         s += `<path d="M${CX} ${CY - r0} A${r0} ${r0} 0 ${done > Math.PI ? 1 : 0} 1 ${f2(CX + r0 * Math.cos(-Math.PI / 2 + done * 0.999))} ${f2(CY + r0 * Math.sin(-Math.PI / 2 + done * 0.999))}" fill="none" stroke="${sh.col}" stroke-width="7" stroke-dasharray="4 14" stroke-linecap="round"/>`;
         // « il tombe, mais le sol se dérobe » : sa vitesse (tout droit) et sa chute (vers le centre)
         const why = lin(t, tWhy, tWhy + 0.4) * (1 - far);
-        if (why > 0) s += arrowSVG(x, y, x - 120 * Math.sin(a), y + 120 * Math.cos(a), C.blue, 10, why) + arrowSVG(x, y, x - 80 * Math.cos(a), y - 80 * Math.sin(a), "#E0455E", 10, why);
+        if (why > 0)
+          s +=
+            arrowSVG(x, y, x - 120 * Math.sin(a), y + 120 * Math.cos(a), C.blue, 10, why) +
+            arrowSVG(x, y, x - 80 * Math.cos(a), y - 80 * Math.sin(a), "#E0455E", 10, why);
         s += ball(x, y, 16, sh.col, { w: 3 });
       }
     });
     // la Lune, beaucoup plus loin, qui fait la même chose
     if (far > 0) {
-      const rm = 1500, am = (t - tMoon) * 0.5 - 0.6;
+      const rm = 1500,
+        am = (t - tMoon) * 0.5 - 0.6;
       s += `<circle cx="${CX}" cy="${CY}" r="${rm}" fill="none" stroke="${C.ink}" stroke-width="12" stroke-dasharray="14 40" opacity="${f2(far * 0.5)}"/><g opacity="${f2(far)}">${ball(CX + rm * Math.cos(am), CY + rm * Math.sin(am), 120, "#C9D1DE", { w: 12 })}</g>`;
     }
     $("#s4-draw").innerHTML = s + `</g>`;
@@ -1170,8 +1300,12 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
       // ===== s5.js =====
 // ---------- Scène 5 : la station spatiale tombe autour de la Terre, et tout flotte à l'intérieur ----------
 (() => {
-  const tIn = cue("s5-1", "flottent") - 0.6, tFall = cue("s5-2", "tombe") - 0.4;
-  const EX = 620, EY = 1560, ER = 1000, RO = 1230; // la Terre (grande, en bas) et le rayon de l'orbite
+  const tIn = cue("s5-1", "flottent") - 0.6,
+    tFall = cue("s5-2", "tombe") - 0.4;
+  const EX = 620,
+    EY = 1560,
+    ER = 1000,
+    RO = 1230; // la Terre (grande, en bas) et le rayon de l'orbite
   const station = (x, y, rot, k = 1) =>
     `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${k})"><rect x="-150" y="-12" width="300" height="24" rx="8" fill="${C.metal}" class="ink"/><rect x="-160" y="-70" width="70" height="140" rx="8" fill="${C.blue}" class="ink"/><rect x="90" y="-70" width="70" height="140" rx="8" fill="${C.blue}" class="ink"/><path d="M-160 -24 H-90 M-160 24 H-90 M90 -24 H160 M90 24 H160" stroke="#fff" stroke-width="3"/><rect x="-44" y="-34" width="88" height="68" rx="22" fill="#fff" class="ink"/></g>`;
   // un astronaute qui flotte, centré en (x, y)
@@ -1180,18 +1314,33 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
   onDraw("s5", (t) => {
     let s = earthSVG(EX, EY, ER, t * 0.6);
     // la trajectoire et la station
-    const a = -100 + ((t * 4.2) % 60), ar = rad(a), sx = EX + RO * Math.cos(ar), sy = EY + RO * Math.sin(ar);
-    s += `<circle cx="${EX}" cy="${EY}" r="${RO}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-dasharray="6 22" opacity="0.5"/>` + station(sx, sy, a + 90, 0.6);
+    const a = -100 + ((t * 4.2) % 60),
+      ar = rad(a),
+      sx = EX + RO * Math.cos(ar),
+      sy = EY + RO * Math.sin(ar);
+    s +=
+      `<circle cx="${EX}" cy="${EY}" r="${RO}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-dasharray="6 22" opacity="0.5"/>` +
+      station(sx, sy, a + 90, 0.6);
     const f = lin(t, tFall, tFall + 0.4);
-    if (f > 0) s += arrowSVG(sx, sy, sx - 110 * Math.cos(ar), sy - 110 * Math.sin(ar), "#E0455E", 10, f) + arrowSVG(sx, sy, sx - 130 * Math.sin(ar), sy + 130 * Math.cos(ar), C.blue, 10, f);
+    if (f > 0)
+      s +=
+        arrowSVG(sx, sy, sx - 110 * Math.cos(ar), sy - 110 * Math.sin(ar), "#E0455E", 10, f) +
+        arrowSVG(sx, sy, sx - 130 * Math.sin(ar), sy + 130 * Math.cos(ar), C.blue, 10, f);
     // la loupe : l'intérieur de la station
     const inn = ramp(t, tIn, tIn + 0.5);
     if (inn > 0) {
-      const cx = 1400, cy = 520;
+      const cx = 1400,
+        cy = 520;
       let g = `<circle cx="${cx}" cy="${cy}" r="270" fill="#EAF6FF"/><g clip-path="url(#s5-clip)"><path d="M${cx - 270} ${cy + 180} H${cx + 270} M${cx - 270} ${cy - 180} H${cx + 270}" stroke="${C.side}" stroke-width="40"/>`;
-      g += astro(cx - 40 + 40 * Math.sin(t * 0.7), cy + 10 + 30 * Math.cos(t * 0.9), 20 * Math.sin(t * 0.5) - 10);
+      g += astro(
+        cx - 40 + 40 * Math.sin(t * 0.7),
+        cy + 10 + 30 * Math.cos(t * 0.9),
+        20 * Math.sin(t * 0.5) - 10,
+      );
       // une pomme et une goutte d'eau qui flottent avec lui
-      g += ball(cx + 150 + 20 * Math.sin(t * 0.8 + 1), cy - 110 + 24 * Math.cos(t * 0.6), 30, C.fire) + ball(cx - 170 + 16 * Math.cos(t * 0.7), cy + 130 + 20 * Math.sin(t * 0.9 + 2), 24, C.air);
+      g +=
+        ball(cx + 150 + 20 * Math.sin(t * 0.8 + 1), cy - 110 + 24 * Math.cos(t * 0.6), 30, C.fire) +
+        ball(cx - 170 + 16 * Math.cos(t * 0.7), cy + 130 + 20 * Math.sin(t * 0.9 + 2), 24, C.air);
       g += `</g><circle cx="${cx}" cy="${cy}" r="270" fill="none" stroke="${C.ink}" stroke-width="12"/>`;
       s += `<g opacity="${f2(inn)}"><path d="M${f2(sx)} ${f2(sy)} L${cx - 250} ${cy + 100}" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 12"/>${g}</g>`;
     }
@@ -1208,19 +1357,33 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
   const S = scn("s6");
   const tJ = cue("s6-2", "Lune") - 0.8;
   // même élan sur la Terre et sur la Lune : la hauteur et la durée du saut sont multipliées par 6
-  const V0 = 520, GE = 3000, GM = GE / 6, TE = (2 * V0) / GE, TM = (2 * V0) / GM;
+  const V0 = 520,
+    GE = 3000,
+    GM = GE / 6,
+    TE = (2 * V0) / GE,
+    TM = (2 * V0) / GM;
   const hop = (u, g, T) => (u < T ? V0 * u - 0.5 * g * u * u : 0);
   onDraw("s6", (t) => {
     if (t < tJ - 0.3) return;
-    const u = Math.max(0, t - tJ - 0.6), gy = 560;
-    const ue = u % (TE + 1.0), um = u % (TM + 1.0);
-    $("#s6-s1").innerHTML = `<rect x="0" y="${gy}" width="760" height="80" fill="#6CC98A"/><path d="M0 ${gy} H760" class="ink" stroke-width="5"/>` + figSVG(380, gy - hop(ue, GE, TE), 1.3, C.blue) + `<path d="M560 ${gy} V${gy - 45} M540 ${gy - 45} H580" class="ink" stroke-width="5"/>` + txt(660, gy - 34, "45 cm", 34);
+    const u = Math.max(0, t - tJ - 0.6),
+      gy = 560;
+    const ue = u % (TE + 1.0),
+      um = u % (TM + 1.0);
+    $("#s6-s1").innerHTML =
+      `<rect x="0" y="${gy}" width="760" height="80" fill="#6CC98A"/><path d="M0 ${gy} H760" class="ink" stroke-width="5"/>` +
+      figSVG(380, gy - hop(ue, GE, TE), 1.3, C.blue) +
+      `<path d="M560 ${gy} V${gy - 45} M540 ${gy - 45} H580" class="ink" stroke-width="5"/>` +
+      txt(660, gy - 34, "45 cm", 34);
     let b = "";
-    for (let i = 0; i < 22; i++) b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 300)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+    for (let i = 0; i < 22; i++)
+      b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 300)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
     b += `<rect x="0" y="${gy}" width="760" height="80" fill="#C9D1DE"/><path d="M0 ${gy} H760" stroke="#EEF2F8" stroke-width="5"/>`;
     // un panier de basket, tout là-haut
     b += `<path d="M640 ${gy} V${gy - 330}" stroke="#EEF2F8" stroke-width="12"/><rect x="560" y="${gy - 400}" width="100" height="80" rx="8" fill="#fff" stroke="#EEF2F8" stroke-width="4"/><ellipse cx="540" cy="${gy - 320}" rx="50" ry="12" fill="none" stroke="${C.fire}" stroke-width="8"/>`;
-    b += figSVG(380, gy - hop(um, GM, TM), 1.3, C.fire) + `<path d="M180 ${gy} V${gy - 270} M160 ${gy - 270} H200" stroke="#EEF2F8" stroke-width="5"/>` + txt(110, gy - 280, "2,70 m", 34, { fill: "#fff" });
+    b +=
+      figSVG(380, gy - hop(um, GM, TM), 1.3, C.fire) +
+      `<path d="M180 ${gy} V${gy - 270} M160 ${gy - 270} H200" stroke="#EEF2F8" stroke-width="5"/>` +
+      txt(110, gy - 280, "2,70 m", 34, { fill: "#fff" });
     $("#s6-s2").innerHTML = b;
   });
   show("#s6-k1", cue("s6-1", "attire") - 0.5, { y: 50 });
@@ -1231,7 +1394,12 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
   pop("#s6-next", cue("s6-6", "son") - 0.3);
   const tEnd = S.end - 3.2;
   tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
-  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  tl.fromTo(
+    "#s6-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
   show("#s6-bye", tEnd + 0.9);
 })();
 
