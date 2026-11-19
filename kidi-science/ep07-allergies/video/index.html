@@ -848,13 +848,15 @@ const virusSVG = (x, y, r, rot = 0, k = 1) => {
 };
 // un globule blanc, « garde » du corps : mood 0 = tranquille, 1 = en alerte ; look = -1…1 (direction du regard)
 const guardSVG = (x, y, r, t, mood = 0, look = 0) => {
-  const w = 0.05 * Math.sin(t * 3 + x * 0.01), ex = look * r * 0.14;
+  const w = 0.05 * Math.sin(t * 3 + x * 0.01),
+    ex = look * r * 0.14;
   let s = `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * (1 + w))}" ry="${f2(r * (1 - w))}" fill="#fff" class="ink" stroke-width="5"/><ellipse cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.5)}" rx="${f2(r * 0.22)}" ry="${f2(r * 0.12)}" fill="#DCE6F5"/>`;
   s += `<circle cx="${f2(x - r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/>`;
   if (mood > 0.5) {
     s += `<path d="M${f2(x - r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x - r * 0.14 + ex)} ${f2(y - r * 0.26)} M${f2(x + r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x + r * 0.14 + ex)} ${f2(y - r * 0.26)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/><path d="M${f2(x - r * 0.22 + ex)} ${f2(y + r * 0.4)} H${f2(x + r * 0.22 + ex)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
     s += `<g transform="translate(${f2(x)} ${f2(y - r * 1.55)})"><circle r="${f2(r * 0.36)}" fill="#E0455E" class="ink" stroke-width="4"/><text y="${f2(r * 0.2)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${f2(r * 0.56)}" fill="#fff">!</text></g>`;
-  } else s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+  } else
+    s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
   return s;
 };
 // un anticorps : une antenne en Y, pied en (x, y), tournée de rot degrés
@@ -867,11 +869,18 @@ const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
   let s = "";
   for (let i = 0; i < nAnt; i++) {
     const a = (i / nAnt) * TAU + 0.4;
-    s += antibodySVG(x + (r - 6) * Math.cos(a), y + (r - 6) * Math.sin(a), (a * 180) / Math.PI + 90, antK);
+    s += antibodySVG(
+      x + (r - 6) * Math.cos(a),
+      y + (r - 6) * Math.sin(a),
+      (a * 180) / Math.PI + 90,
+      antK,
+    );
   }
   s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#EBDDFB" class="ink" stroke-width="6"/><circle cx="${f2(x + r * 0.1)}" cy="${f2(y + r * 0.05)}" r="${f2(r * 0.3)}" fill="#C9B1EE" class="ink" stroke-width="4"/>`;
   for (let i = 0; i < 16; i++) {
-    const a = (i / 16) * TAU + rnd(i) * 0.3, d0 = r * (0.5 + 0.3 * rnd(i + 20)), d1 = r + 60 + rnd(i + 40) * 190;
+    const a = (i / 16) * TAU + rnd(i) * 0.3,
+      d0 = r * (0.5 + 0.3 * rnd(i + 20)),
+      d1 = r + 60 + rnd(i + 40) * 190;
     const d = lerp(d0, d1, burst) + (burst > 0 ? 10 * Math.sin(t * 2 + i) : 0);
     s += `<circle cx="${f2(x + d * Math.cos(a))}" cy="${f2(y + d * Math.sin(a))}" r="${f2(lerp(r * 0.1, 13, burst))}" fill="${C.fire}" stroke="${C.ink}" stroke-width="3"/>`;
   }
@@ -881,16 +890,22 @@ const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
 const vesselSVG = (t, id) => {
   let s = `<defs><clipPath id="${id}"><rect x="130" y="270" width="1660" height="520"/></clipPath></defs><rect x="130" y="270" width="1660" height="520" fill="#FFE9E6"/><g clip-path="url(#${id})">`;
   for (let i = 0; i < 16; i++) {
-    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800), y = 330 + rnd(i + 9) * 400;
+    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800),
+      y = 330 + rnd(i + 9) * 400;
     s += `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="36" ry="26" fill="#F29AA6" opacity="0.75"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="16" ry="11" fill="#E77888" opacity="0.75"/>`;
   }
-  return s + `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`;
+  return (
+    s +
+    `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`
+  );
 };
 // une fleur toute simple, pied en (x, y)
 const flowerSVG = (x, y, k = 1) => {
   let s = `<path d="M0 0 V-300" stroke="#3DBE8B" stroke-width="20" stroke-linecap="round"/><path d="M0 -140 q-90 -20 -110 -90 q90 0 110 90 Z" fill="#3DBE8B" class="ink"/>`;
   for (let i = 0; i < 7; i++) {
-    const a = (i / 7) * TAU + 0.2, px = 96 * Math.cos(a), py = -360 + 96 * Math.sin(a);
+    const a = (i / 7) * TAU + 0.2,
+      px = 96 * Math.cos(a),
+      py = -360 + 96 * Math.sin(a);
     s += `<ellipse cx="${f2(px)}" cy="${f2(py)}" rx="62" ry="40" transform="rotate(${f2((a * 180) / Math.PI)} ${f2(px)} ${f2(py)})" fill="#F7A8B8" class="ink"/>`;
   }
   return `<g transform="translate(${x} ${y}) scale(${k})">${s}<circle cx="0" cy="-360" r="56" fill="${C.hot}" class="ink" stroke-width="5"/></g>`;
@@ -1012,16 +1027,23 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s0.js =====
 // ---------- Scène 0 : le printemps, un peu de pollen… et Zoé qui éternue ----------
 (() => {
-  const tA = cue("s0-1", "éternuer") - 0.2, tZ = cue("s0-4", "armée") - 0.6;
+  const tA = cue("s0-1", "éternuer") - 0.2,
+    tZ = cue("s0-4", "armée") - 0.6;
   onDraw("s0", (t) => {
-    let s = `<path d="M130 850 H1790" class="ink" stroke-width="6"/>` + flowerSVG(420, 848, 1) + flowerSVG(660, 848, 0.7);
+    let s =
+      `<path d="M130 850 H1790" class="ink" stroke-width="6"/>` +
+      flowerSVG(420, 848, 1) +
+      flowerSVG(660, 848, 0.7);
     // quelques grains de pollen dérivent vers le personnage
     for (let i = 0; i < 6; i++) {
-      const u = (t * 0.16 + rnd(i)) % 1, x = 460 + u * 900, y = 470 - 110 * Math.sin(u * Math.PI) + rnd(i + 30) * 160;
+      const u = (t * 0.16 + rnd(i)) % 1,
+        x = 460 + u * 900,
+        y = 470 - 110 * Math.sin(u * Math.PI) + rnd(i + 30) * 160;
       s += pollenSVG(x, y, 15, t + i, Math.sin(u * Math.PI));
     }
     // le personnage sursaute à chaque éternuement
-    const k = t - tA, sn = k > 0 ? Math.exp(-((k % 2.6) * 4)) : 0;
+    const k = t - tA,
+      sn = k > 0 ? Math.exp(-((k % 2.6) * 4)) : 0;
     s += figSVG(1420 + sn * 26, 848, 2.4, C.blue);
     if (k > 0 && k % 2.6 < 1.4) {
       const u = (k % 2.6) / 1.4;
@@ -1033,7 +1055,8 @@ const flowerSVG = (x, y, k = 1) => {
     }
     // la loupe : on va regarder à l'intérieur
     const z = ramp(t, tZ, tZ + 0.6);
-    if (z > 0) s += `<g opacity="${f2(z)}"><circle cx="1420" cy="650" r="${f2(60 + 50 * z)}" fill="#FFE9E6" class="ink" stroke-width="8"/>${guardSVG(1420, 650, 44 * z + 10, t)}</g>`;
+    if (z > 0)
+      s += `<g opacity="${f2(z)}"><circle cx="1420" cy="650" r="${f2(60 + 50 * z)}" fill="#FFE9E6" class="ink" stroke-width="8"/>${guardSVG(1420, 650, 44 * z + 10, t)}</g>`;
     $("#s0-draw").innerHTML = s;
   });
   show("#s0-n1", cue("s0-2", "corps") - 0.3);
@@ -1042,35 +1065,56 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s1.js =====
 // ---------- Scène 1 : dans le sang, les globules blancs attrapent les intrus… et s'en souviennent ----------
 (() => {
-  const tV = cue("s1-1", "virus") - 0.5, tC = cue("s1-1", "attrapent") - 0.1, tE = cue("s1-1", "éliminent") + 0.5;
-  const tM = cue("s1-3", "mémoire") - 0.3, tV2 = cue("s1-3", "reconnu") - 1.0, tC2 = tV2 + 1.1;
+  const tV = cue("s1-1", "virus") - 0.5,
+    tC = cue("s1-1", "attrapent") - 0.1,
+    tE = cue("s1-1", "éliminent") + 0.5;
+  const tM = cue("s1-3", "mémoire") - 0.3,
+    tV2 = cue("s1-3", "reconnu") - 1.0,
+    tC2 = tV2 + 1.1;
   onDraw("s1", (t) => {
     let s = vesselSVG(t, "s1-clip");
     // deux autres gardes qui patrouillent
-    s += guardSVG(380 + 40 * Math.sin(t * 0.5), 640 + 20 * Math.sin(t * 0.8), 62, t) + guardSVG(1500 + 50 * Math.sin(t * 0.4 + 2), 400 + 24 * Math.sin(t * 0.7), 62, t + 1, 0, -1);
+    s +=
+      guardSVG(380 + 40 * Math.sin(t * 0.5), 640 + 20 * Math.sin(t * 0.8), 62, t) +
+      guardSVG(1500 + 50 * Math.sin(t * 0.4 + 2), 400 + 24 * Math.sin(t * 0.7), 62, t + 1, 0, -1);
     // le garde principal va à la rencontre du virus
-    const go = ramp(t, tV + 0.4, tC), back = ramp(t, tE, tE + 1), go2 = ramp(t, tV2 + 0.5, tC2);
-    const px = 980 + 50 * Math.sin(t * 0.6), py = 540 + 26 * Math.sin(t * 0.9);
-    const gx = lerp(lerp(px, 760, go * (1 - back)), 620, go2), gy = lerp(py, 520, Math.max(go * (1 - back), go2));
+    const go = ramp(t, tV + 0.4, tC),
+      back = ramp(t, tE, tE + 1),
+      go2 = ramp(t, tV2 + 0.5, tC2);
+    const px = 980 + 50 * Math.sin(t * 0.6),
+      py = 540 + 26 * Math.sin(t * 0.9);
+    const gx = lerp(lerp(px, 760, go * (1 - back)), 620, go2),
+      gy = lerp(py, 520, Math.max(go * (1 - back), go2));
     // premier virus
     if (t >= tV && t < tE + 0.2) {
-      const u = ramp(t, tV, tC), vx = lerp(150, 700, u), vy = 520 + 30 * Math.sin(t * 3);
+      const u = ramp(t, tV, tC),
+        vx = lerp(150, 700, u),
+        vy = 520 + 30 * Math.sin(t * 3);
       const eat = ramp(t, tC, tE);
       s += virusSVG(lerp(vx, gx, eat), lerp(vy, gy, eat), 40, t, 1 - eat);
     }
     // second virus : reconnu, attrapé aussitôt
     if (t >= tV2 && t < tC2 + 0.7) {
-      const u = ramp(t, tV2, tC2), eat = ramp(t, tC2, tC2 + 0.6);
+      const u = ramp(t, tV2, tC2),
+        eat = ramp(t, tC2, tC2 + 0.6);
       s += virusSVG(lerp(lerp(150, 560, u), gx, eat), lerp(520, gy, eat), 40, t, 1 - eat);
     }
     const alert = (t > tV + 0.3 && t < tE) || (t > tV2 + 0.2 && t < tC2 + 0.6) ? 1 : 0;
     s += guardSVG(gx, gy, 84, t, alert, -1);
     // l'avis de recherche : la mémoire des gardes
     const m = ramp(t, tM, tM + 0.5);
-    if (m > 0) s += `<g opacity="${f2(m)}" transform="translate(1440 ${f2(300 - 30 * (1 - m))}) rotate(4)"><rect x="0" y="0" width="290" height="250" rx="18" fill="#fff" class="ink" stroke-width="5"/>${txt(145, 50, "DÉJÀ VU", 38, { w: 700, fill: "#E0455E" })}${virusSVG(145, 150, 42, 0.3)}</g>`;
+    if (m > 0)
+      s += `<g opacity="${f2(m)}" transform="translate(1440 ${f2(300 - 30 * (1 - m))}) rotate(4)"><rect x="0" y="0" width="290" height="250" rx="18" fill="#fff" class="ink" stroke-width="5"/>${txt(145, 50, "DÉJÀ VU", 38, { w: 700, fill: "#E0455E" })}${virusSVG(145, 150, 42, 0.3)}</g>`;
     $("#s1-draw").innerHTML = s;
   });
-  const lab = label("s1", "s1-l-g", [1040, 470], [1100, 150], "Un globule blanc", "un garde du corps");
+  const lab = label(
+    "s1",
+    "s1-l-g",
+    [1040, 470],
+    [1100, 150],
+    "Un globule blanc",
+    "un garde du corps",
+  );
   showLabel(lab, cue("s1-1", "globules") - 0.3);
   hideLabel(lab, tV);
   show("#s1-n1", tC + 0.3);
@@ -1080,32 +1124,65 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s2.js =====
 // ---------- Scène 2 : le pollen pris pour un ennemi ; les gardes fabriquent des antennes (anticorps) ----------
 (() => {
-  const tP = cue("s2-1", "pollen") - 0.4, tE = cue("s2-2", "ennemi") - 0.4, tA = cue("s2-2", "antennes") - 0.4, tS = cue("s2-4", "accrochées") - 0.8;
-  const GX = 1000, GY = 530, MX = 1500, MY = 530, MR = 150;
+  const tP = cue("s2-1", "pollen") - 0.4,
+    tE = cue("s2-2", "ennemi") - 0.4,
+    tA = cue("s2-2", "antennes") - 0.4,
+    tS = cue("s2-4", "accrochées") - 0.8;
+  const GX = 1000,
+    GY = 530,
+    MX = 1500,
+    MY = 530,
+    MR = 150;
   onDraw("s2", (t) => {
     let s = vesselSVG(t, "s2-clip");
     // le grain de pollen arrive tranquillement
     const u = ramp(t, tP, tP + 2.4);
     if (t >= tP) s += pollenSVG(lerp(150, 560, u), 520 + 26 * Math.sin(t * 1.4), 46, t * 0.4);
     // la cellule pleine de sacs
-    const mIn = ramp(t, tS, tS + 0.6), stick = ramp(t, tS + 0.5, tS + 1.8);
+    const mIn = ramp(t, tS, tS + 0.6),
+      stick = ramp(t, tS + 0.5, tS + 1.8);
     if (mIn > 0) s += `<g opacity="${f2(mIn)}">${mastSVG(MX, MY, MR, t, 0, 0)}</g>`;
     // les antennes sortent du garde, puis vont se planter sur la cellule
     const out = ramp(t, tA, tA + 1.0);
-    if (out > 0) for (let i = 0; i < 8; i++) {
-      const a0 = (i / 8) * TAU + t * 0.5, a1 = (i / 8) * TAU + 0.4;
-      const x0 = GX + (70 + 90 * out) * Math.cos(a0), y0 = GY + (70 + 90 * out) * Math.sin(a0);
-      const x1 = MX + (MR - 6) * Math.cos(a1), y1 = MY + (MR - 6) * Math.sin(a1);
-      const r0 = (a0 * 180) / Math.PI + 90, r1 = (a1 * 180) / Math.PI + 90;
-      s += antibodySVG(lerp(x0, x1, stick), lerp(y0, y1, stick), lerp(r0 % 360, r1, stick), 1, out);
-    }
+    if (out > 0)
+      for (let i = 0; i < 8; i++) {
+        const a0 = (i / 8) * TAU + t * 0.5,
+          a1 = (i / 8) * TAU + 0.4;
+        const x0 = GX + (70 + 90 * out) * Math.cos(a0),
+          y0 = GY + (70 + 90 * out) * Math.sin(a0);
+        const x1 = MX + (MR - 6) * Math.cos(a1),
+          y1 = MY + (MR - 6) * Math.sin(a1);
+        const r0 = (a0 * 180) / Math.PI + 90,
+          r1 = (a1 * 180) / Math.PI + 90;
+        s += antibodySVG(
+          lerp(x0, x1, stick),
+          lerp(y0, y1, stick),
+          lerp(r0 % 360, r1, stick),
+          1,
+          out,
+        );
+      }
     s += guardSVG(GX, GY, 84, t, t > tE ? 1 : 0, -1);
     $("#s2-draw").innerHTML = s;
   });
-  const lA = label("s2", "s2-l-a", [GX + 120, GY - 130], [860, 150], "Les anticorps", "des antennes réglées sur le pollen");
+  const lA = label(
+    "s2",
+    "s2-l-a",
+    [GX + 120, GY - 130],
+    [860, 150],
+    "Les anticorps",
+    "des antennes réglées sur le pollen",
+  );
   showLabel(lA, cue("s2-2", "anticorps") - 0.3);
   hideLabel(lA, tS);
-  const lM = label("s2", "s2-l-m", [MX + 40, MY + 100], [1380, 900], "Une cellule pleine de sacs", "avec les antennes plantées dessus");
+  const lM = label(
+    "s2",
+    "s2-l-m",
+    [MX + 40, MY + 100],
+    [1380, 900],
+    "Une cellule pleine de sacs",
+    "avec les antennes plantées dessus",
+  );
   showLabel(lM, cue("s2-4", "sacs") - 0.5);
   pop("#s2-n1", cue("s2-3", "alerte") - 0.3);
 })();
@@ -1113,42 +1190,65 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s3.js =====
 // ---------- Scène 3 : le pollen touche les antennes, les sacs éclatent : l'histamine ----------
 (() => {
-  const tT = cue("s3-1", "touche") - 0.1, tB = cue("s3-1", "éclatent") - 0.2, tF = cue("s3-2", "histamine") - 0.4;
-  const tN = cue("s3-3", "nez") - 0.3, tY = cue("s3-3", "yeux") - 0.3, tS = cue("s3-3", "éternuer") - 0.3;
-  const MX = 560, MY = 540, MR = 190, FX = 1260, FY = 500;
+  const tT = cue("s3-1", "touche") - 0.1,
+    tB = cue("s3-1", "éclatent") - 0.2,
+    tF = cue("s3-2", "histamine") - 0.4;
+  const tN = cue("s3-3", "nez") - 0.3,
+    tY = cue("s3-3", "yeux") - 0.3,
+    tS = cue("s3-3", "éternuer") - 0.3;
+  const MX = 560,
+    MY = 540,
+    MR = 190,
+    FX = 1260,
+    FY = 500;
   onDraw("s3", (t) => {
     const burst = ramp(t, tB, tB + 1.4);
     let s = mastSVG(MX, MY, MR, t, burst, 10, 1.3);
     // trois grains de pollen viennent toucher les antennes
     [150, 185, 222].forEach((deg, i) => {
-      const a = rad(deg), u = ramp(t, tT - 2.0 + i * 0.15, tT + i * 0.1);
-      const x1 = MX + (MR + 104) * Math.cos(a), y1 = MY + (MR + 104) * Math.sin(a);
+      const a = rad(deg),
+        u = ramp(t, tT - 2.0 + i * 0.15, tT + i * 0.1);
+      const x1 = MX + (MR + 104) * Math.cos(a),
+        y1 = MY + (MR + 104) * Math.sin(a);
       s += pollenSVG(lerp(-80, x1, u), lerp(y1 - 80 + i * 60, y1, u), 34, t * 0.3 + i);
     });
     // l'éclair au moment où ça éclate
     const fl = t - tB;
-    if (fl > 0 && fl < 0.4) s += `<circle cx="${MX}" cy="${MY}" r="${f2(MR + fl * 500)}" fill="none" stroke="${C.fire}" stroke-width="14" opacity="${f2(1 - fl / 0.4)}"/>`;
+    if (fl > 0 && fl < 0.4)
+      s += `<circle cx="${MX}" cy="${MY}" r="${f2(MR + fl * 500)}" fill="none" stroke="${C.fire}" stroke-width="14" opacity="${f2(1 - fl / 0.4)}"/>`;
     // le visage : nez qui coule, yeux qui grattent, éternuement
     const f = ramp(t, tF, tF + 0.5);
     if (f > 0) {
-      const red = ramp(t, tY, tY + 0.5), sn = t > tS ? Math.exp(-(((t - tS) % 1.8) * 4)) : 0;
+      const red = ramp(t, tY, tY + 0.5),
+        sn = t > tS ? Math.exp(-(((t - tS) % 1.8) * 4)) : 0;
       let g = `<circle cx="${FX}" cy="${f2(FY + sn * 14)}" r="170" fill="#FFD9B8" class="ink" stroke-width="6"/>`;
       g += `<circle cx="${FX - 62}" cy="${FY - 30}" r="30" fill="${mixHex("#FFFFFF", "#F7A8B8", red)}" class="ink" stroke-width="4"/><circle cx="${FX + 62}" cy="${FY - 30}" r="30" fill="${mixHex("#FFFFFF", "#F7A8B8", red)}" class="ink" stroke-width="4"/><circle cx="${FX - 62}" cy="${FY - 26}" r="11" fill="${C.ink}"/><circle cx="${FX + 62}" cy="${FY - 26}" r="11" fill="${C.ink}"/>`;
       g += `<path d="M${FX - 14} ${FY + 34} Q${FX} ${FY + 60} ${FX + 14} ${FY + 34}" fill="#F3B48E" class="ink" stroke-width="5"/>`;
-      g += sn > 0.2 ? `<ellipse cx="${FX}" cy="${FY + 104}" rx="34" ry="${f2(14 + sn * 24)}" fill="${C.ink}"/>` : `<path d="M${FX - 40} ${FY + 100} Q${FX} ${FY + 84} ${FX + 40} ${FY + 100}" fill="none" class="ink" stroke-width="7" stroke-linecap="round"/>`;
+      g +=
+        sn > 0.2
+          ? `<ellipse cx="${FX}" cy="${FY + 104}" rx="34" ry="${f2(14 + sn * 24)}" fill="${C.ink}"/>`
+          : `<path d="M${FX - 40} ${FY + 100} Q${FX} ${FY + 84} ${FX + 40} ${FY + 100}" fill="none" class="ink" stroke-width="7" stroke-linecap="round"/>`;
       if (t > tN) {
         const d = ((t - tN) * 0.7) % 1;
         g += `<path d="M${FX + 6} ${f2(FY + 64 + d * 60)} q-12 18 0 26 q12 -8 0 -26 Z" fill="${C.air}" class="ink" stroke-width="3" opacity="${f2(1 - d * 0.6)}"/>`;
       }
-      if (sn > 0.05) for (let i = 0; i < 5; i++) {
-        const a = rad(60 + i * 15);
-        g += `<path d="M${f2(FX + (60 + (1 - sn) * 90) * Math.cos(a))} ${f2(FY + 110 + (60 + (1 - sn) * 90) * Math.sin(a))} l${f2(36 * Math.cos(a))} ${f2(36 * Math.sin(a))}" stroke="${C.air}" stroke-width="9" stroke-linecap="round" opacity="${f2(sn)}"/>`;
-      }
+      if (sn > 0.05)
+        for (let i = 0; i < 5; i++) {
+          const a = rad(60 + i * 15);
+          g += `<path d="M${f2(FX + (60 + (1 - sn) * 90) * Math.cos(a))} ${f2(FY + 110 + (60 + (1 - sn) * 90) * Math.sin(a))} l${f2(36 * Math.cos(a))} ${f2(36 * Math.sin(a))}" stroke="${C.air}" stroke-width="9" stroke-linecap="round" opacity="${f2(sn)}"/>`;
+        }
       s += `<g opacity="${f2(f)}">${g}</g>`;
     }
     $("#s3-draw").innerHTML = s;
   });
-  const lH = label("s3", "s3-l-h", [MX + 250, MY - 170], [900, 200], "L’histamine", "le produit qui donne l’alerte");
+  const lH = label(
+    "s3",
+    "s3-l-h",
+    [MX + 250, MY - 170],
+    [900, 200],
+    "L’histamine",
+    "le produit qui donne l’alerte",
+  );
   showLabel(lH, cue("s3-1", "histamine") - 0.3);
   show("#s3-c1", tN + 0.2, { x: 30, y: 0 });
   show("#s3-c2", tY + 0.2, { x: 30, y: 0 });
@@ -1159,26 +1259,41 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s4.js =====
 // ---------- Scène 4 : les autres faux ennemis (acariens, poils de chat, cacahuètes, guêpes) ----------
 (() => {
-  const T = [cue("s4-2", "acariens"), cue("s4-2", "chat"), cue("s4-2", "cacahuètes"), cue("s4-2", "guêpe")].map((x) => x - 0.3);
+  const T = [
+    cue("s4-2", "acariens"),
+    cue("s4-2", "chat"),
+    cue("s4-2", "cacahuètes"),
+    cue("s4-2", "guêpe"),
+  ].map((x) => x - 0.3);
   const tG = cue("s4-4", "graves") - 0.3;
   const NAMES = ["Les acariens", "Les poils de chat", "Les cacahuètes", "Les piqûres de guêpe"];
   const mite = () => {
     let s = "";
-    for (let i = 0; i < 4; i++) s += `<path d="M${-50 + i * 14} ${-10 + i * 12} l-50 ${-20 + i * 22} M${50 - i * 14} ${-10 + i * 12} l50 ${-20 + i * 22}" class="ink" stroke-width="8" stroke-linecap="round" fill="none"/>`;
-    return s + `<ellipse rx="70" ry="54" fill="#D9B48A" class="ink" stroke-width="5"/><circle cx="-20" cy="-22" r="7" fill="${C.ink}"/><circle cx="20" cy="-22" r="7" fill="${C.ink}"/>`;
+    for (let i = 0; i < 4; i++)
+      s += `<path d="M${-50 + i * 14} ${-10 + i * 12} l-50 ${-20 + i * 22} M${50 - i * 14} ${-10 + i * 12} l50 ${-20 + i * 22}" class="ink" stroke-width="8" stroke-linecap="round" fill="none"/>`;
+    return (
+      s +
+      `<ellipse rx="70" ry="54" fill="#D9B48A" class="ink" stroke-width="5"/><circle cx="-20" cy="-22" r="7" fill="${C.ink}"/><circle cx="20" cy="-22" r="7" fill="${C.ink}"/>`
+    );
   };
-  const peanut = () => `<path d="M-70 0 C -70 -56, -14 -56, 0 -24 C 14 -56, 70 -56, 70 0 C 70 56, 14 56, 0 24 C -14 56, -70 56, -70 0 Z" fill="#E2B56D" class="ink" stroke-width="5" transform="rotate(-24)"/><path d="M-44 -6 l14 14 M-30 -24 l14 14 M24 2 l14 14 M38 -16 l14 14" class="ink" stroke-width="5" stroke-linecap="round" transform="rotate(-24)"/>`;
-  const wasp = (t) => `<ellipse cx="-14" cy="-44" rx="40" ry="20" fill="#CFEFFF" class="ink" stroke-width="4" transform="rotate(${f2(-30 + 12 * Math.sin(t * 20))} -14 -30)"/><path d="M70 6 l34 8 l-34 8 Z" fill="${C.ink}"/><ellipse rx="74" ry="40" fill="${C.hot}" class="ink" stroke-width="5"/><path d="M-10 -39 V39 M26 -36 V36" stroke="${C.ink}" stroke-width="16"/><circle cx="-80" cy="-4" r="30" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="-90" cy="-10" r="7" fill="${C.ink}"/>`;
+  const peanut = () =>
+    `<path d="M-70 0 C -70 -56, -14 -56, 0 -24 C 14 -56, 70 -56, 70 0 C 70 56, 14 56, 0 24 C -14 56, -70 56, -70 0 Z" fill="#E2B56D" class="ink" stroke-width="5" transform="rotate(-24)"/><path d="M-44 -6 l14 14 M-30 -24 l14 14 M24 2 l14 14 M38 -16 l14 14" class="ink" stroke-width="5" stroke-linecap="round" transform="rotate(-24)"/>`;
+  const wasp = (t) =>
+    `<ellipse cx="-14" cy="-44" rx="40" ry="20" fill="#CFEFFF" class="ink" stroke-width="4" transform="rotate(${f2(-30 + 12 * Math.sin(t * 20))} -14 -30)"/><path d="M70 6 l34 8 l-34 8 Z" fill="${C.ink}"/><ellipse rx="74" ry="40" fill="${C.hot}" class="ink" stroke-width="5"/><path d="M-10 -39 V39 M26 -36 V36" stroke="${C.ink}" stroke-width="16"/><circle cx="-80" cy="-4" r="30" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="-90" cy="-10" r="7" fill="${C.ink}"/>`;
   onDraw("s4", (t) => {
     const g = ramp(t, tG, tG + 0.5);
     let s = "";
     for (let i = 0; i < 4; i++) {
       const k = ramp(t, T[i], T[i] + 0.4);
       if (k <= 0) continue;
-      const x = 150 + i * 420 + 180, y = 520, hot = i === 2 ? g : 0, dim = i === 2 ? 1 : 1 - 0.6 * g;
+      const x = 150 + i * 420 + 180,
+        y = 520,
+        hot = i === 2 ? g : 0,
+        dim = i === 2 ? 1 : 1 - 0.6 * g;
       const icon = i === 0 ? mite() : i === 1 ? catSVG(0, 80, 0.7) : i === 2 ? peanut() : wasp(t);
       s += `<g transform="translate(${x} ${f2(y + 40 * (1 - k))}) scale(${f2(1 + 0.08 * hot)})" opacity="${f2(k * dim)}"><rect x="-180" y="-190" width="360" height="380" rx="34" fill="#fff" stroke="${hot > 0.5 ? C.fire : C.ink}" stroke-width="${f2(3.5 + 5 * hot)}"/><g transform="translate(0 -40)">${icon}</g>${txt(0, 140, NAMES[i], 34)}`;
-      if (hot > 0) s += `<g transform="translate(150 -170) scale(${f2(hot)})"><path d="M0 -44 L46 36 H-46 Z" fill="${C.hot}" class="ink" stroke-width="5" stroke-linejoin="round"/>${txt(0, 26, "!", 46, { w: 700 })}</g>`;
+      if (hot > 0)
+        s += `<g transform="translate(150 -170) scale(${f2(hot)})"><path d="M0 -44 L46 36 H-46 Z" fill="${C.hot}" class="ink" stroke-width="5" stroke-linejoin="round"/>${txt(0, 26, "!", 46, { w: 700 })}</g>`;
       s += `</g>`;
     }
     $("#s4-draw").innerHTML = s;
@@ -1189,10 +1304,16 @@ const flowerSVG = (x, y, k = 1) => {
       // ===== s5.js =====
 // ---------- Scène 5 : bloquer l'histamine (médicament), puis l'école des globules blancs (désensibilisation) ----------
 (() => {
-  const tMed = cue("s5-2", "médicament") - 0.5, tTr = cue("s5-2", "entraîne") - 0.6;
-  const t1 = cue("s5-2", "petit") - 0.3, t2 = cue("s5-2", "plus") - 0.3, t3 = cue("s5-2", "années") - 0.3, tOK = cue("s5-2", "comprendre");
+  const tMed = cue("s5-2", "médicament") - 0.5,
+    tTr = cue("s5-2", "entraîne") - 0.6;
+  const t1 = cue("s5-2", "petit") - 0.3,
+    t2 = cue("s5-2", "plus") - 0.3,
+    t3 = cue("s5-2", "années") - 0.3,
+    tOK = cue("s5-2", "comprendre");
   const tSch = cue("s5-3", "école") - 0.3;
-  const MX = 640, MY = 520, MR = 150;
+  const MX = 640,
+    MY = 520,
+    MR = 150;
   onDraw("s5", (t) => {
     const b = ramp(t, tTr, tTr + 0.6);
     let s = "";
@@ -1201,7 +1322,10 @@ const flowerSVG = (x, y, k = 1) => {
       const med = ramp(t, tMed, tMed + 0.6);
       let g = mastSVG(MX, MY, MR, t, 0, 8);
       for (let i = 0; i < 22; i++) {
-        const u = (t * 0.35 + rnd(i)) % 1, a = rnd(i + 50) * TAU, far = MR + 20 + u * 420, lim = MR + 130;
+        const u = (t * 0.35 + rnd(i)) % 1,
+          a = rnd(i + 50) * TAU,
+          far = MR + 20 + u * 420,
+          lim = MR + 130;
         const d = med > 0 ? Math.min(far, lerp(far, lim, med)) : far;
         g += `<circle cx="${f2(MX + d * Math.cos(a))}" cy="${f2(MY + d * Math.sin(a))}" r="12" fill="${C.fire}" stroke="${C.ink}" stroke-width="3" opacity="${f2((1 - u) * (far > lim ? 1 - 0.8 * med : 1))}"/>`;
       }
@@ -1213,19 +1337,34 @@ const flowerSVG = (x, y, k = 1) => {
     }
     if (b > 0) {
       // la classe : trois gardes regardent le tableau, où l'on montre de plus en plus de pollen
-      const calm = ramp(t, t2, tOK), n = t < t1 ? 0 : t < t2 ? 1 : t < t3 ? 3 : 6;
+      const calm = ramp(t, t2, tOK),
+        n = t < t1 ? 0 : t < t2 ? 1 : t < t3 ? 3 : 6;
       let g = `<rect x="1020" y="270" width="700" height="400" rx="18" fill="#2E6B4F" stroke="#B9772E" stroke-width="16"/>`;
       if (t > tSch) g += txt(1370, 340, "École des globules blancs", 40, { fill: "#fff" });
       for (let i = 0; i < n; i++) {
-        const k = ramp(t, [t1, t2, t2, t3, t3, t3][i] + (i % 3) * 0.12, [t1, t2, t2, t3, t3, t3][i] + 0.4 + (i % 3) * 0.12);
+        const k = ramp(
+          t,
+          [t1, t2, t2, t3, t3, t3][i] + (i % 3) * 0.12,
+          [t1, t2, t2, t3, t3, t3][i] + 0.4 + (i % 3) * 0.12,
+        );
         g += `<g transform="translate(${1170 + (i % 3) * 200} ${440 + Math.floor(i / 3) * 140}) scale(${f2(k)})">${pollenSVG(0, 0, 36, 0.3 * i)}</g>`;
       }
-      for (let i = 0; i < 3; i++) g += guardSVG(330 + i * 220, 560 + 6 * Math.sin(t * 2 + i), 84, t + i, calm < 0.4 + i * 0.25 ? 1 : 0, 1);
+      for (let i = 0; i < 3; i++)
+        g += guardSVG(
+          330 + i * 220,
+          560 + 6 * Math.sin(t * 2 + i),
+          84,
+          t + i,
+          calm < 0.4 + i * 0.25 ? 1 : 0,
+          1,
+        );
       g += `<path d="M150 660 H920" class="ink" stroke-width="6"/>`;
       // la frise des années
       const yr = ramp(t, t1, tOK);
       g += `<rect x="330" y="760" width="1260" height="26" rx="13" fill="#fff" class="ink" stroke-width="4"/><rect x="330" y="760" width="${f2(1260 * yr)}" height="26" rx="13" fill="${C.blue}"/>`;
-      ["Année 1", "Année 2", "Année 3"].forEach((l, i) => (g += txt(330 + 210 + i * 420, 830, l, 30, { op: yr > (i + 0.3) / 3 ? 1 : 0.3 })));
+      ["Année 1", "Année 2", "Année 3"].forEach(
+        (l, i) => (g += txt(330 + 210 + i * 420, 830, l, 30, { op: yr > (i + 0.3) / 3 ? 1 : 0.3 })),
+      );
       s += `<g opacity="${f2(b)}">${g}</g>`;
     }
     $("#s5-draw").innerHTML = s;
@@ -1244,7 +1383,8 @@ const flowerSVG = (x, y, k = 1) => {
   onDraw("s6", (t) => {
     if (t < tSp - 0.3) return;
     // le garde en super-héros : une cape, une médaille
-    const x = 600, y = 560 + 10 * Math.sin(t * 2);
+    const x = 600,
+      y = 560 + 10 * Math.sin(t * 2);
     let s = `<path d="M${x - 110} ${y - 60} Q${x - 300 - 20 * Math.sin(t * 3)} ${y + 120} ${x - 190} ${y + 250} L${x + 60} ${y + 120} Z" fill="#E0455E" class="ink" stroke-width="5"/>`;
     s += guardSVG(x, y, 160, t, 0, 1);
     s += `<g transform="translate(${x + 60} ${y + 110})"><circle r="34" fill="${C.hot}" class="ink" stroke-width="5"/>${txt(0, 14, "★", 38)}</g>`;
@@ -1256,11 +1396,21 @@ const flowerSVG = (x, y, k = 1) => {
   show("#s6-k3", cue("s6-1", "éternue") - 0.4, { y: 50 });
   tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
   tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
-  tl.fromTo("#s6-atch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: OUT }, cue("s6-3", "fort") - 0.3);
+  tl.fromTo(
+    "#s6-atch",
+    { opacity: 0, x: 60 },
+    { opacity: 1, x: 0, duration: 0.4, ease: OUT },
+    cue("s6-3", "fort") - 0.3,
+  );
   pop("#s6-next", cue("s6-6", "Envoie") - 0.3);
   const tEnd = S.end - 3.2;
   tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
-  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  tl.fromTo(
+    "#s6-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
   show("#s6-bye", tEnd + 0.9);
 })();
 
