@@ -1,5 +1,7 @@
 # Kidi-science — à lire en premier
 
+> **En pause depuis le 19/11/2026** à la demande de l'utilisateur (autre projet prioritaire : `mission-flow/`). Ne pas reprendre sans son accord.
+
 Chaîne YouTube de sciences expliquées aux enfants (~10 ans), en français.
 Ce dossier contient tout ce qui a été décidé avec l'utilisateur avant la
 production. **Rien n'est à redemander** : les décisions ci-dessous sont
