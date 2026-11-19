@@ -763,12 +763,18 @@ const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
 // --- Formes de l'épisode « son » ---
 // arcs d'onde sonore partant de (x, y) vers la direction dir (en degrés), décalés par la phase ph
 const waves = (x, y, dir, ph, o = {}) => {
-  const n = o.n ?? 4, gap = o.gap ?? 60, r0 = o.r0 ?? 40, half = o.half ?? 38, col = o.col ?? C.blueL, max = o.max ?? n * gap + r0;
+  const n = o.n ?? 4,
+    gap = o.gap ?? 60,
+    r0 = o.r0 ?? 40,
+    half = o.half ?? 38,
+    col = o.col ?? C.blueL,
+    max = o.max ?? n * gap + r0;
   let s = "";
   for (let i = 0; i < n + 1; i++) {
-    const r = r0 + ((i + (((ph % 1) + 1) % 1)) * gap);
+    const r = r0 + (i + (((ph % 1) + 1) % 1)) * gap;
     if (r > max) continue;
-    const a0 = rad(dir - half), a1 = rad(dir + half);
+    const a0 = rad(dir - half),
+      a1 = rad(dir + half);
     s += `<path d="M${f2(x + r * Math.cos(a0))} ${f2(y + r * Math.sin(a0))} A${f2(r)} ${f2(r)} 0 0 1 ${f2(x + r * Math.cos(a1))} ${f2(y + r * Math.sin(a1))}" fill="none" stroke="${col}" stroke-width="${o.w ?? 9}" stroke-linecap="round" opacity="${f2((o.op ?? 1) * (1 - (r - r0) / (max - r0 + 1)))}"/>`;
   }
   return s;
@@ -776,7 +782,8 @@ const waves = (x, y, dir, ph, o = {}) => {
 // courbe sinusoïdale entre x0 et x1 : amplitude amp, longueur d'onde lam, phase ph
 const sineD = (x0, x1, y, amp, lam, ph) => {
   let d = "";
-  for (let x = x0; x <= x1; x += 6) d += `${x === x0 ? "M" : "L"}${x} ${f2(y + amp * Math.sin(((x - x0) / lam) * TAU - ph))}`;
+  for (let x = x0; x <= x1; x += 6)
+    d += `${x === x0 ? "M" : "L"}${x} ${f2(y + amp * Math.sin(((x - x0) / lam) * TAU - ph))}`;
   return d;
 };
 
@@ -897,15 +904,20 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
 // ---------- Scène 0 : crier dans l'espace (silence) ou à la maison (ça traverse trois étages) ----------
 (() => {
   const S = scn("s0");
-  const tSp = cue("s0-1", "espace") - 0.5, tHome = cue("s0-2", "voix") - 0.5, tAir = cue("s0-4", "air") - 0.5;
+  const tSp = cue("s0-1", "espace") - 0.5,
+    tHome = cue("s0-2", "voix") - 0.5,
+    tAir = cue("s0-4", "air") - 0.5;
   onDraw("s0", (t) => {
     let s = "";
     // --- l'espace : un panneau sombre, un cri qui ne part pas ---
     const sp = lin(t, tSp, tSp + 0.4);
     if (sp > 0) {
       let g = `<rect x="130" y="280" width="760" height="560" rx="34" fill="${C.ink}" class="ink" stroke-width="5"/>`;
-      for (let i = 0; i < 26; i++) g += `<circle cx="${f2(150 + rnd(i) * 720)}" cy="${f2(300 + rnd(i + 60) * 520)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
-      g += figSVG(400, 700 + 10 * Math.sin(t * 1.2), 1.6, "#fff") + `<circle cx="400" cy="${f2(486 + 10 * Math.sin(t * 1.2))}" r="66" fill="none" stroke="#fff" stroke-width="8" opacity="0.8"/>`;
+      for (let i = 0; i < 26; i++)
+        g += `<circle cx="${f2(150 + rnd(i) * 720)}" cy="${f2(300 + rnd(i + 60) * 520)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+      g +=
+        figSVG(400, 700 + 10 * Math.sin(t * 1.2), 1.6, "#fff") +
+        `<circle cx="400" cy="${f2(486 + 10 * Math.sin(t * 1.2))}" r="66" fill="none" stroke="#fff" stroke-width="8" opacity="0.8"/>`;
       // les ondes essaient de partir… et s'éteignent tout de suite
       g += waves(480, 490, 0, t * 1.2, { n: 2, gap: 34, r0: 30, col: "#8FD3FF", max: 110, w: 7 });
       g += `<path d="M640 430 L740 530 M740 430 L640 530" stroke="#E0455E" stroke-width="18" stroke-linecap="round"/>`;
@@ -930,23 +942,32 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       // ===== s1.js =====
 // ---------- Scène 1 : la corde vibre, l'air se pousse de proche en proche, comme une ola ----------
 (() => {
-  const tPl = cue("s1-1", "pince") - 0.1, tAir = cue("s1-2", "air") - 0.5, tWave = cue("s1-3", "pousse") - 0.3, tOla = cue("s1-4", "ola") - 0.7;
+  const tPl = cue("s1-1", "pince") - 0.1,
+    tAir = cue("s1-2", "air") - 0.5,
+    tWave = cue("s1-3", "pousse") - 0.3,
+    tOla = cue("s1-4", "ola") - 0.7;
   const SX = 330; // position de la corde (verticale)
   onDraw("s1", (t) => {
     const ola = ramp(t, tOla, tOla + 0.6);
-    const k = lerp(1, 0.7, ola), ty = lerp(0, -110, ola);
+    const k = lerp(1, 0.7, ola),
+      ty = lerp(0, -110, ola);
     let s = `<g transform="translate(960 ${f2(540 + ty)}) scale(${f2(k)}) translate(-960 -540)">`;
     // la corde : pincée, elle vibre en s'amortissant puis reste entretenue
-    const u = t - tPl, amp = u < 0 ? 0 : 46 * Math.max(0.45, Math.exp(-u * 0.5)), ph = Math.sin(u * 26);
+    const u = t - tPl,
+      amp = u < 0 ? 0 : 46 * Math.max(0.45, Math.exp(-u * 0.5)),
+      ph = Math.sin(u * 26);
     let d = "";
-    for (let y = 280; y <= 800; y += 10) d += `${y === 280 ? "M" : "L"}${f2(SX + amp * ph * Math.sin(((y - 280) / 520) * Math.PI))} ${y}`;
+    for (let y = 280; y <= 800; y += 10)
+      d += `${y === 280 ? "M" : "L"}${f2(SX + amp * ph * Math.sin(((y - 280) / 520) * Math.PI))} ${y}`;
     s += `<rect x="${SX - 60}" y="250" width="120" height="34" rx="12" fill="#D9A66B" class="ink"/><rect x="${SX - 60}" y="796" width="120" height="34" rx="12" fill="#D9A66B" class="ink"/><path d="${d}" fill="none" stroke="${C.ink}" stroke-width="10" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${C.fire}" stroke-width="5" stroke-linecap="round"/>`;
     // l'air : des grains qui se serrent et s'écartent ; l'onde avance, les grains restent sur place
-    const air = lin(t, tAir, tAir + 0.5), go = t >= tWave ? 1 : 0;
+    const air = lin(t, tAir, tAir + 0.5),
+      go = t >= tWave ? 1 : 0;
     if (air > 0)
       for (let j = 0; j < 9; j++)
         for (let i = 0; i < 26; i++) {
-          const bx = 470 + i * 52 + (j % 2) * 26, by = 300 + j * 60;
+          const bx = 470 + i * 52 + (j % 2) * 26,
+            by = 300 + j * 60;
           const front = (t - tWave) * 520 + 470; // l'onde part de la corde et avance
           const dx = go && bx < front ? 20 * Math.sin((bx / 190) * TAU - (t - tWave) * 17) : 0;
           const red = i === 12 && j === 4;
@@ -957,8 +978,11 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
     if (ola > 0) {
       let g = `<rect x="150" y="900" width="1620" height="18" rx="9" fill="${C.side}" class="ink"/>`;
       for (let i = 0; i < 16; i++) {
-        const up = Math.max(0, Math.sin((t - tOla) * 4.2 - i * 0.55)), x = 210 + i * 100;
-        g += figSVG(x, 900 - up * 34, 0.62, i === 8 ? "#E0455E" : C.blue) + `<path d="M${x - 16} ${f2(842 - up * 34)} L${x - 34} ${f2(836 - up * 80)} M${x + 16} ${f2(842 - up * 34)} L${x + 34} ${f2(836 - up * 80)}" stroke="${C.ink}" stroke-width="9" stroke-linecap="round"/>`;
+        const up = Math.max(0, Math.sin((t - tOla) * 4.2 - i * 0.55)),
+          x = 210 + i * 100;
+        g +=
+          figSVG(x, 900 - up * 34, 0.62, i === 8 ? "#E0455E" : C.blue) +
+          `<path d="M${x - 16} ${f2(842 - up * 34)} L${x - 34} ${f2(836 - up * 80)} M${x + 16} ${f2(842 - up * 34)} L${x + 34} ${f2(836 - up * 80)}" stroke="${C.ink}" stroke-width="9" stroke-linecap="round"/>`;
       }
       s += `<g opacity="${f2(ola)}">${g}</g>`;
     }
@@ -973,22 +997,33 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       // ===== s2.js =====
 // ---------- Scène 2 : la vitesse du son (l'éclair d'abord, le tonnerre trois secondes après pour un kilomètre) ----------
 (() => {
-  const tFlash = cue("s2-3", "éclair") - 0.4, tAgain = cue("s2-4", "Compte") - 0.3;
-  const CX = 330, CY = 420, OX = 1560, D = OX - CX; // le nuage, l'observateur : 1 km à l'échelle
+  const tFlash = cue("s2-3", "éclair") - 0.4,
+    tAgain = cue("s2-4", "Compte") - 0.3;
+  const CX = 330,
+    CY = 420,
+    OX = 1560,
+    D = OX - CX; // le nuage, l'observateur : 1 km à l'échelle
   const secEl = document.getElementById("s2-sec");
   onDraw("s2", (t) => {
     // deux orages successifs : le son met exactement 3 secondes pour parcourir la distance
-    const t0 = t >= tAgain ? tAgain : tFlash, u = t - t0, r = (u / 3) * D;
+    const t0 = t >= tAgain ? tAgain : tFlash,
+      u = t - t0,
+      r = (u / 3) * D;
     let s = `<path d="M120 840 H1800" class="ink" stroke-width="8"/>`;
-    s += `<path d="M${CX} 840 H${OX} M${CX} 820 V860 M${OX} 820 V860" class="ink" stroke-width="4"/>` + txt((CX + OX) / 2, 890, "1 kilomètre", 40);
+    s +=
+      `<path d="M${CX} 840 H${OX} M${CX} 820 V860 M${OX} 820 V860" class="ink" stroke-width="4"/>` +
+      txt((CX + OX) / 2, 890, "1 kilomètre", 40);
     // les fronts d'onde du tonnerre
-    if (u > 0 && u < 3.6) for (let i = 0; i < 3; i++) {
-      const rr = r - i * 46;
-      if (rr > 60 && rr < D + 40) s += `<path d="M${f2(CX + rr * Math.cos(rad(-34)))} ${f2(CY + 120 + rr * Math.sin(rad(-34)))} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(CX + rr * Math.cos(rad(22)))} ${f2(CY + 120 + rr * Math.sin(rad(22)))}" fill="none" stroke="${C.blueL}" stroke-width="12" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
-    }
+    if (u > 0 && u < 3.6)
+      for (let i = 0; i < 3; i++) {
+        const rr = r - i * 46;
+        if (rr > 60 && rr < D + 40)
+          s += `<path d="M${f2(CX + rr * Math.cos(rad(-34)))} ${f2(CY + 120 + rr * Math.sin(rad(-34)))} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(CX + rr * Math.cos(rad(22)))} ${f2(CY + 120 + rr * Math.sin(rad(22)))}" fill="none" stroke="${C.blueL}" stroke-width="12" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
+      }
     // l'éclair : sa lumière arrive tout de suite
     const fl = u >= 0 && u < 0.5 ? 1 - u / 0.5 : 0;
-    if (fl > 0) s += `<rect x="0" y="0" width="1920" height="1080" fill="#FFF7C2" opacity="${f2(fl * 0.55)}"/><path d="M${CX + 30} ${CY + 60} L${CX - 30} ${CY + 220} H${CX + 20} L${CX - 40} ${CY + 400}" fill="none" stroke="${C.hot}" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/><path d="M${CX + 80} ${CY + 40} L${OX - 40} ${640}" stroke="${C.hot}" stroke-width="8" stroke-dasharray="6 18" opacity="${f2(fl)}"/>`;
+    if (fl > 0)
+      s += `<rect x="0" y="0" width="1920" height="1080" fill="#FFF7C2" opacity="${f2(fl * 0.55)}"/><path d="M${CX + 30} ${CY + 60} L${CX - 30} ${CY + 220} H${CX + 20} L${CX - 40} ${CY + 400}" fill="none" stroke="${C.hot}" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/><path d="M${CX + 80} ${CY + 40} L${OX - 40} ${640}" stroke="${C.hot}" stroke-width="8" stroke-dasharray="6 18" opacity="${f2(fl)}"/>`;
     s += `<path d="M${CX - 170} ${CY + 40} a80 80 0 0 1 60 -130 a110 110 0 0 1 200 -20 a90 90 0 0 1 100 150 Z" fill="#9AA6B8" class="ink" stroke-width="5"/>`;
     // l'observateur ; il sursaute quand le tonnerre arrive
     const hit = u >= 3 && u < 3.5 ? Math.sin(((u - 3) / 0.5) * Math.PI) : 0;
@@ -1005,9 +1040,13 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       // ===== s3.js =====
 // ---------- Scène 3 : l'oreille (le tympan, les trois osselets, l'escargot, le cerveau) ----------
 (() => {
-  const tDrum = cue("s3-2", "tympan") - 0.4, tBones = cue("s3-2", "trois") - 0.4, tSnail = cue("s3-2", "escargot") - 0.4, tBrain = cue("s3-2", "cerveau") - 0.5;
+  const tDrum = cue("s3-2", "tympan") - 0.4,
+    tBones = cue("s3-2", "trois") - 0.4,
+    tSnail = cue("s3-2", "escargot") - 0.4,
+    tBrain = cue("s3-2", "cerveau") - 0.5;
   onDraw("s3", (t) => {
-    const v = Math.sin(t * 22), on = t >= tDrum ? 1 : 0;
+    const v = Math.sin(t * 22),
+      on = t >= tDrum ? 1 : 0;
     let s = "";
     // le pavillon et le conduit
     s += `<path d="M330 330 C 180 330, 150 520, 230 640 C 280 720, 300 800, 380 800 C 440 800, 440 720, 400 680 C 340 620, 380 520, 430 520 H760 V600 H470 C 430 600, 430 660, 470 700" fill="#FFD9B8" class="ink" stroke-width="6"/>`;
@@ -1018,8 +1057,10 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
     const dx = on * 12 * v;
     s += `<path d="M770 500 Q${f2(770 + dx * 2)} 560 770 620" fill="none" stroke="${C.ink}" stroke-width="14" stroke-linecap="round"/><path d="M770 500 Q${f2(770 + dx * 2)} 560 770 620" fill="none" stroke="#E0455E" stroke-width="7" stroke-linecap="round"/>`;
     // les trois osselets, articulés, qui transmettent la vibration
-    const b = t >= tBones ? 1 : 0.25, w = on * 7 * v;
-    s += `<g opacity="${f2(b)}"><path d="M${f2(780 + w)} 560 L${f2(860 + w)} 500 L${f2(900 + w * 0.8)} 560" fill="none" stroke="${C.ink}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/><path d="M${f2(780 + w)} 560 L${f2(860 + w)} 500 L${f2(900 + w * 0.8)} 560" fill="none" stroke="#FFF8EC" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>` +
+    const b = t >= tBones ? 1 : 0.25,
+      w = on * 7 * v;
+    s +=
+      `<g opacity="${f2(b)}"><path d="M${f2(780 + w)} 560 L${f2(860 + w)} 500 L${f2(900 + w * 0.8)} 560" fill="none" stroke="${C.ink}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/><path d="M${f2(780 + w)} 560 L${f2(860 + w)} 500 L${f2(900 + w * 0.8)} 560" fill="none" stroke="#FFF8EC" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>` +
       `<path d="M${f2(900 + w * 0.8)} 560 L${f2(960 + w * 0.6)} 520" stroke="${C.ink}" stroke-width="24" stroke-linecap="round"/><path d="M${f2(900 + w * 0.8)} 560 L${f2(960 + w * 0.6)} 520" stroke="#FFF8EC" stroke-width="14" stroke-linecap="round"/>` +
       `<path d="M${f2(960 + w * 0.6)} 520 L${f2(1010 + w * 0.5)} 560 M${f2(996 + w * 0.5)} 540 a22 26 0 1 0 28 40" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M${f2(960 + w * 0.6)} 520 L${f2(1010 + w * 0.5)} 560" stroke="#FFF8EC" stroke-width="10" stroke-linecap="round"/></g>`;
     // l'escargot (la cochlée) rempli de liquide, où la vibration devient un signal
@@ -1029,17 +1070,29 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       const r = 26 + a * 13;
       sp += `${a === 0 ? "M" : "L"}${f2(1200 + r * Math.cos(a))} ${f2(580 + r * Math.sin(a))}`;
     }
-    s += `<g opacity="${f2(c)}"><path d="${sp}" fill="none" stroke="${C.ink}" stroke-width="44" stroke-linecap="round"/><path d="${sp}" fill="none" stroke="#8FD3FF" stroke-width="32" stroke-linecap="round"/>` + (t >= tSnail ? `<path d="${sp}" fill="none" stroke="#fff" stroke-width="10" stroke-dasharray="14 40" stroke-dashoffset="${f2(-t * 120)}" stroke-linecap="round"/>` : "") + `</g>`;
+    s +=
+      `<g opacity="${f2(c)}"><path d="${sp}" fill="none" stroke="${C.ink}" stroke-width="44" stroke-linecap="round"/><path d="${sp}" fill="none" stroke="#8FD3FF" stroke-width="32" stroke-linecap="round"/>` +
+      (t >= tSnail
+        ? `<path d="${sp}" fill="none" stroke="#fff" stroke-width="10" stroke-dasharray="14 40" stroke-dashoffset="${f2(-t * 120)}" stroke-linecap="round"/>`
+        : "") +
+      `</g>`;
     // le nerf et le cerveau
     const br = lin(t, tBrain, tBrain + 0.4);
-    if (br > 0) s += `<g opacity="${f2(br)}"><path d="M1330 560 C 1420 520, 1460 460, 1520 420" fill="none" stroke="${C.ink}" stroke-width="18" stroke-linecap="round"/><path d="M1330 560 C 1420 520, 1460 460, 1520 420" fill="none" stroke="${C.spark}" stroke-width="9" stroke-dasharray="12 22" stroke-dashoffset="${f2(-t * 160)}" stroke-linecap="round"/><path d="M1500 420 C 1470 330, 1560 250, 1650 290 C 1740 240, 1830 320, 1790 400 C 1830 470, 1760 540, 1680 510 C 1600 550, 1510 500, 1500 420 Z" fill="#F7A8B8" class="ink" stroke-width="6"/><path d="M1580 330 q30 40 0 80 M1680 320 q-30 60 20 110 M1620 440 q50 20 90 -10" fill="none" class="ink" stroke-width="4"/></g>`;
+    if (br > 0)
+      s += `<g opacity="${f2(br)}"><path d="M1330 560 C 1420 520, 1460 460, 1520 420" fill="none" stroke="${C.ink}" stroke-width="18" stroke-linecap="round"/><path d="M1330 560 C 1420 520, 1460 460, 1520 420" fill="none" stroke="${C.spark}" stroke-width="9" stroke-dasharray="12 22" stroke-dashoffset="${f2(-t * 160)}" stroke-linecap="round"/><path d="M1500 420 C 1470 330, 1560 250, 1650 290 C 1740 240, 1830 320, 1790 400 C 1830 470, 1760 540, 1680 510 C 1600 550, 1510 500, 1500 420 Z" fill="#F7A8B8" class="ink" stroke-width="6"/><path d="M1580 330 q30 40 0 80 M1680 320 q-30 60 20 110 M1620 440 q50 20 90 -10" fill="none" class="ink" stroke-width="4"/></g>`;
     $("#s3-draw").innerHTML = s;
   });
   const lab = {
-    drum: label("s3", "s3-l-drum", [772, 510], [560, 330], "Le tympan", "une peau qui vibre", { color: "#C2334C" }),
+    drum: label("s3", "s3-l-drum", [772, 510], [560, 330], "Le tympan", "une peau qui vibre", {
+      color: "#C2334C",
+    }),
     bones: label("s3", "s3-l-bones", [900, 580], [760, 780], "Trois petits os", "ils transmettent"),
-    snail: label("s3", "s3-l-snail", [1230, 690], [1130, 860], "L’escargot", "rempli de liquide", { color: "#1A7FC4" }),
-    brain: label("s3", "s3-l-brain", [1700, 500], [1500, 640], "Le cerveau", "il comprend le son", { color: "#C2334C" }),
+    snail: label("s3", "s3-l-snail", [1230, 690], [1130, 860], "L’escargot", "rempli de liquide", {
+      color: "#1A7FC4",
+    }),
+    brain: label("s3", "s3-l-brain", [1700, 500], [1500, 640], "Le cerveau", "il comprend le son", {
+      color: "#C2334C",
+    }),
   };
   showLabel(lab.drum, tDrum);
   showLabel(lab.bones, tBones);
@@ -1050,18 +1103,24 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       // ===== s4.js =====
 // ---------- Scène 4 : grave ou aigu (la vitesse de vibration), fort ou faible (la hauteur de la vague) ----------
 (() => {
-  const tLow = cue("s4-1", "lentement") - 0.8, tHigh = cue("s4-1", "vite") - 0.6, tLoud = cue("s4-3", "haute") - 0.6, tTsu = cue("s4-5", "tsunami") - 0.3;
+  const tLow = cue("s4-1", "lentement") - 0.8,
+    tHigh = cue("s4-1", "vite") - 0.6,
+    tLoud = cue("s4-3", "haute") - 0.6,
+    tTsu = cue("s4-5", "tsunami") - 0.3;
   onDraw("s4", (t) => {
-    const loud = ramp(t, tLoud, tLoud + 0.8), tsu = ramp(t, tTsu, tTsu + 0.5);
+    const loud = ramp(t, tLoud, tLoud + 0.8),
+      tsu = ramp(t, tTsu, tTsu + 0.5);
     const amp = 46 * (1 + 0.8 * loud + 0.55 * tsu);
     let s = "";
     const row = (y, lam, speed, col, thick, on) => {
       if (on <= 0) return "";
       // la corde à gauche (grosse = lente, fine = rapide) et l'onde qu'elle envoie
-      const ph = t * speed, a = amp;
+      const ph = t * speed,
+        a = amp;
       let r = `<rect x="150" y="${y - 12}" width="46" height="24" rx="8" fill="#D9A66B" class="ink"/><rect x="620" y="${y - 12}" width="46" height="24" rx="8" fill="#D9A66B" class="ink"/>`;
       let d = "";
-      for (let x = 196; x <= 620; x += 8) d += `${x === 196 ? "M" : "L"}${x} ${f2(y + 20 * Math.sin(ph) * Math.sin(((x - 196) / 424) * Math.PI))}`;
+      for (let x = 196; x <= 620; x += 8)
+        d += `${x === 196 ? "M" : "L"}${x} ${f2(y + 20 * Math.sin(ph) * Math.sin(((x - 196) / 424) * Math.PI))}`;
       r += `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${thick + 6}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${thick}" stroke-linecap="round"/>`;
       const w = sineD(760, 1780, y, a, lam, ph);
       r += `<path d="${w}" fill="none" stroke="${C.ink}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/><path d="${w}" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`;
@@ -1079,17 +1138,26 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
       // ===== s5.js =====
 // ---------- Scène 5 : l'écho (le son rebondit sur la paroi), puis la chauve-souris ----------
 (() => {
-  const tShout = cue("s5-1", "crie") - 0.3, tGo = cue("s5-2", "file") - 0.4, tBat = cue("s5-4", "chauves") - 0.7;
-  const PX = 330, WX = 1560, Y = 600, V = 620; // la personne, la paroi, la vitesse du front d'onde à l'écran
-  const arc = (x, r, dir, col, op) => `<path d="M${f2(x + r * Math.cos(rad(dir - 30)))} ${f2(Y + r * Math.sin(rad(dir - 30)))} A${f2(r)} ${f2(r)} 0 0 1 ${f2(x + r * Math.cos(rad(dir + 30)))} ${f2(Y + r * Math.sin(rad(dir + 30)))}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" opacity="${f2(op)}"/>`;
+  const tShout = cue("s5-1", "crie") - 0.3,
+    tGo = cue("s5-2", "file") - 0.4,
+    tBat = cue("s5-4", "chauves") - 0.7;
+  const PX = 330,
+    WX = 1560,
+    Y = 600,
+    V = 620; // la personne, la paroi, la vitesse du front d'onde à l'écran
+  const arc = (x, r, dir, col, op) =>
+    `<path d="M${f2(x + r * Math.cos(rad(dir - 30)))} ${f2(Y + r * Math.sin(rad(dir - 30)))} A${f2(r)} ${f2(r)} 0 0 1 ${f2(x + r * Math.cos(rad(dir + 30)))} ${f2(Y + r * Math.sin(rad(dir + 30)))}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" opacity="${f2(op)}"/>`;
   onDraw("s5", (t) => {
     const bat = ramp(t, tBat, tBat + 0.5);
     let s = "";
     if (bat < 1) {
-      let g = `<path d="M100 860 H1820" class="ink" stroke-width="8"/><path d="M${WX} 860 V260 L${WX + 90} 220 L${WX + 200} 300 L1820 280 V860 Z" fill="#9AA6B8" class="ink" stroke-width="6"/>` + figSVG(PX, 856, 1.5, C.blue);
+      let g =
+        `<path d="M100 860 H1820" class="ink" stroke-width="8"/><path d="M${WX} 860 V260 L${WX + 90} 220 L${WX + 200} 300 L1820 280 V860 Z" fill="#9AA6B8" class="ink" stroke-width="6"/>` +
+        figSVG(PX, 856, 1.5, C.blue);
       // un cri part toutes les 4,4 s : aller (bleu), rebond, retour (orange)
       for (const t0 of [tShout, tGo + 0.2, tGo + 4.6]) {
-        const u = t - t0, d = WX - PX - 60;
+        const u = t - t0,
+          d = WX - PX - 60;
         if (u < 0 || u > (2 * d) / V + 0.4) continue;
         for (let i = 0; i < 3; i++) {
           const r = u * V - i * 50;
@@ -1102,15 +1170,23 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
     }
     if (bat > 0) {
       // la nuit : une chauve-souris envoie des cris, un papillon les renvoie
-      const bx = 420 + 60 * Math.sin(t * 0.8), by = 520 + 40 * Math.sin(t * 1.3), mx = 1420, my = 500 + 30 * Math.sin(t * 1.7);
+      const bx = 420 + 60 * Math.sin(t * 0.8),
+        by = 520 + 40 * Math.sin(t * 1.3),
+        mx = 1420,
+        my = 500 + 30 * Math.sin(t * 1.7);
       let g = `<rect x="0" y="0" width="1920" height="1080" fill="${C.ink}"/>`;
-      for (let i = 0; i < 30; i++) g += `<circle cx="${f2(rnd(i) * 1920)}" cy="${f2(rnd(i + 60) * 700)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
-      const u = ((t - tBat) % 2.6), d = mx - bx - 80, r = u * 760;
+      for (let i = 0; i < 30; i++)
+        g += `<circle cx="${f2(rnd(i) * 1920)}" cy="${f2(rnd(i + 60) * 700)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+      const u = (t - tBat) % 2.6,
+        d = mx - bx - 80,
+        r = u * 760;
       for (let i = 0; i < 3; i++) {
         const rr = r - i * 44;
-        if (rr > 30 && rr <= d) g += `<path d="M${f2(bx + 60 + rr * Math.cos(rad(-28)))} ${f2(by + rr * Math.sin(rad(-28)))} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(bx + 60 + rr * Math.cos(rad(28)))} ${f2(by + rr * Math.sin(rad(28)))}" fill="none" stroke="#8FD3FF" stroke-width="10" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
+        if (rr > 30 && rr <= d)
+          g += `<path d="M${f2(bx + 60 + rr * Math.cos(rad(-28)))} ${f2(by + rr * Math.sin(rad(-28)))} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(bx + 60 + rr * Math.cos(rad(28)))} ${f2(by + rr * Math.sin(rad(28)))}" fill="none" stroke="#8FD3FF" stroke-width="10" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
         const rb = rr - d;
-        if (rb > 0 && rb < d) g += `<path d="M${f2(mx - 40 + rb * Math.cos(rad(152)))} ${f2(my + rb * Math.sin(rad(152)))} A${f2(rb)} ${f2(rb)} 0 0 1 ${f2(mx - 40 + rb * Math.cos(rad(208)))} ${f2(my + rb * Math.sin(rad(208)))}" fill="none" stroke="${C.fire}" stroke-width="10" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
+        if (rb > 0 && rb < d)
+          g += `<path d="M${f2(mx - 40 + rb * Math.cos(rad(152)))} ${f2(my + rb * Math.sin(rad(152)))} A${f2(rb)} ${f2(rb)} 0 0 1 ${f2(mx - 40 + rb * Math.cos(rad(208)))} ${f2(my + rb * Math.sin(rad(208)))}" fill="none" stroke="${C.fire}" stroke-width="10" stroke-linecap="round" opacity="${f2(1 - i * 0.3)}"/>`;
       }
       const fl = 30 * Math.sin(t * 14);
       g += `<g transform="translate(${f2(bx)} ${f2(by)})"><path d="M0 0 C -60 ${f2(-80 - fl)}, -150 ${f2(-60 - fl)}, -190 ${f2(10 - fl)} C -150 0, -120 20, -100 40 C -70 10, -40 20, 0 30 Z M0 0 C 60 ${f2(-80 - fl)}, 150 ${f2(-60 - fl)}, 190 ${f2(10 - fl)} C 150 0, 120 20, 100 40 C 70 10, 40 20, 0 30 Z" fill="#6E7FA6" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><ellipse cx="0" cy="14" rx="30" ry="42" fill="#55607A" stroke="#fff" stroke-width="4"/><path d="M-20 -18 L-26 -50 L-6 -26 Z M20 -18 L26 -50 L6 -26 Z" fill="#55607A" stroke="#fff" stroke-width="4"/><circle cx="-10" cy="0" r="5" fill="#fff"/><circle cx="10" cy="0" r="5" fill="#fff"/></g>`;
@@ -1128,38 +1204,47 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
 // ---------- Scène 6 : le résumé (la ola a besoin de monde), puis la question sur la lumière ----------
 (() => {
   const S = scn("s6");
-  const tOla = cue("s6-1", "ola") - 0.6, tSp = cue("s6-1", "espace") - 0.5, tBoom = cue("s6-3", "explosions") - 0.5, tLight = cue("s6-5", "lumière") - 0.5;
+  const tOla = cue("s6-1", "ola") - 0.6,
+    tSp = cue("s6-1", "espace") - 0.5,
+    tBoom = cue("s6-3", "explosions") - 0.5,
+    tLight = cue("s6-5", "lumière") - 0.5;
   onDraw("s6", (t) => {
     let s = "";
     // en haut : des grains d'air, la vague passe
     const o = lin(t, tOla, tOla + 0.4);
     if (o > 0) {
       let g = "";
-      for (let j = 0; j < 3; j++) for (let i = 0; i < 30; i++) {
-        const bx = 150 + i * 56, dx = 18 * Math.sin((bx / 200) * TAU - t * 12);
-        g += `<circle cx="${f2(bx + dx)}" cy="${330 + j * 60}" r="11" fill="${C.blueL}"/>`;
-      }
+      for (let j = 0; j < 3; j++)
+        for (let i = 0; i < 30; i++) {
+          const bx = 150 + i * 56,
+            dx = 18 * Math.sin((bx / 200) * TAU - t * 12);
+          g += `<circle cx="${f2(bx + dx)}" cy="${330 + j * 60}" r="11" fill="${C.blueL}"/>`;
+        }
       s += `<g opacity="${f2(o)}">${g}</g>`;
     }
     // en bas : l'espace, vide ; la vague s'arrête net
     const sp = lin(t, tSp, tSp + 0.4);
     if (sp > 0) {
       let g = `<rect x="130" y="690" width="1660" height="220" rx="34" fill="${C.ink}" class="ink" stroke-width="5"/>`;
-      for (let i = 0; i < 40; i++) g += `<circle cx="${f2(150 + rnd(i) * 1620)}" cy="${f2(705 + rnd(i + 60) * 190)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+      for (let i = 0; i < 40; i++)
+        g += `<circle cx="${f2(150 + rnd(i) * 1620)}" cy="${f2(705 + rnd(i + 60) * 190)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
       // une explosion muette
       const b = lin(t, tBoom, tBoom + 0.4);
       if (b > 0) {
         const k = 1 + 0.12 * Math.sin(t * 9);
         let st = "";
         for (let i = 0; i < 16; i++) {
-          const r = (i % 2 ? 46 : 100) * k, a = (i / 16) * TAU;
+          const r = (i % 2 ? 46 : 100) * k,
+            a = (i / 16) * TAU;
           st += `${i ? "L" : "M"}${f2(1440 + r * Math.cos(a))} ${f2(800 + r * Math.sin(a))}`;
         }
         g += `<path d="${st}Z" fill="${C.fire}" stroke="${C.hot}" stroke-width="8" stroke-linejoin="round" opacity="${f2(b)}"/>`;
       }
       // les rayons de lumière, eux, traversent
       const l = lin(t, tLight, tLight + 0.5);
-      if (l > 0) for (let i = 0; i < 3; i++) g += `<path d="M150 ${760 + i * 40} H1770" stroke="${C.spark}" stroke-width="8" stroke-dasharray="40 30" stroke-dashoffset="${f2(-t * 900)}" stroke-linecap="round" opacity="${f2(l)}"/>`;
+      if (l > 0)
+        for (let i = 0; i < 3; i++)
+          g += `<path d="M150 ${760 + i * 40} H1770" stroke="${C.spark}" stroke-width="8" stroke-dasharray="40 30" stroke-dashoffset="${f2(-t * 900)}" stroke-linecap="round" opacity="${f2(l)}"/>`;
       s += `<g opacity="${f2(sp)}">${g}</g>`;
     }
     $("#s6-draw").innerHTML = s;
@@ -1170,7 +1255,12 @@ const sineD = (x0, x1, y, amp, lam, ph) => {
   pop("#s6-next", cue("s6-6", "prochaine") - 0.3);
   const tEnd = S.end - 3.2;
   tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
-  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  tl.fromTo(
+    "#s6-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
   show("#s6-bye", tEnd + 0.9);
 })();
 
