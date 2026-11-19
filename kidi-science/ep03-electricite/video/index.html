@@ -789,7 +789,9 @@ const tri = (x) => {
 // boule avec contour et reflet
 const ball = (x, y, r, fill, o = {}) =>
   `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
-  (o.plain ? "" : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
 const txt = (x, y, s, size, o = {}) =>
   `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
 const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
@@ -806,17 +808,24 @@ const mkPath = (pts, closed = true) => {
   }
   const at = (s) => {
     const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
-    for (const [a, d, p, q] of seg) if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
     return P[P.length - 1];
   };
-  return { L, at, d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : "") };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
 };
 // fil électrique : gaine sombre + âme claire
 const wireSVG = (d, col = "#F2C9A0", w = 26) =>
   `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
 // ampoule : on = 0 (éteinte) à 1 (allumée)
 const bulbSVG = (x, y, on, k = 1) =>
-  (on > 0.02 ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>` : "") +
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
   `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
   `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
   `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
@@ -838,7 +847,7 @@ const bulbSVG = (x, y, on, k = 1) =>
   if (pg)
     pg.innerHTML =
       pol +
-    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+      `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
 
   // La boîte s'agite pendant la question, puis le couvercle saute.
   tl.fromTo(
@@ -887,7 +896,14 @@ const bulbSVG = (x, y, on, k = 1) =>
   const SUBJECT = CFG_SUBJECT;
   const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-bulb", "#gi-car"];
   const OTHERS = ICONS.filter((i) => i !== SUBJECT);
-  const SLOTS = [[330, 250, -200], [610, 130, 160], [1160, 130, -120], [1440, 250, 220], [250, 560, 140], [1520, 560, 0]];
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
   const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
   items.forEach(([sel, x, y, rot], i) => {
     const t = tOpen + 0.08 + i * 0.11;
@@ -933,30 +949,38 @@ const bulbSVG = (x, y, on, k = 1) =>
 // ---------- Scène 0 : l'interrupteur, la lampe, et ce qui court dans le fil ----------
 (() => {
   const S = scn("s0");
-  const tOn = cue("s0-1", "paf") - 0.1, tLens = cue("s0-1", "fil") - 0.9, tAnts = cue("s0-3", "fourmis") - 0.5, tEl = cue("s0-4", "électrons") - 0.5;
+  const tOn = cue("s0-1", "paf") - 0.1,
+    tLens = cue("s0-1", "fil") - 0.9,
+    tAnts = cue("s0-3", "fourmis") - 0.5,
+    tEl = cue("s0-4", "électrons") - 0.5;
   const WIRE = "M330 640 V250 H1380 V330";
   onDraw("s0", (t) => {
     const on = ramp(t, tOn, tOn + 0.25);
     let s = "";
     // le mur : interrupteur à gauche, fil apparent, lampe au plafond
     s += wireSVG(WIRE, "#F2C9A0", 22);
-    s += `<path d="M1300 330 H1460 L1520 470 H1240 Z" fill="${C.blue}" class="ink" stroke-width="5"/>` + bulbSVG(1380, 590, on, 0.85).replace(/<rect[^>]*\/>$/, "");
+    s +=
+      `<path d="M1300 330 H1460 L1520 470 H1240 Z" fill="${C.blue}" class="ink" stroke-width="5"/>` +
+      bulbSVG(1380, 590, on, 0.85).replace(/<rect[^>]*\/>$/, "");
     s += `<rect x="1338" y="452" width="84" height="40" rx="8" fill="${C.metal}" class="ink"/>`;
     s += `<rect x="240" y="560" width="180" height="230" rx="26" fill="#fff" class="ink" stroke-width="5"/><g transform="rotate(${f2(lerp(-9, 9, on))} 330 675)"><rect x="290" y="605" width="80" height="140" rx="16" fill="${on > 0.5 ? C.blueL : C.side}" class="ink"/></g>`;
     // la loupe : ce qu'on verrait dans le fil
     const lens = ramp(t, tLens, tLens + 0.5);
     if (lens > 0) {
-      const ants = ramp(t, tAnts, tAnts + 0.4) * (1 - ramp(t, tEl, tEl + 0.4)), el = ramp(t, tEl, tEl + 0.4);
+      const ants = ramp(t, tAnts, tAnts + 0.4) * (1 - ramp(t, tEl, tEl + 0.4)),
+        el = ramp(t, tEl, tEl + 0.4);
       let inner = `<rect x="640" y="560" width="520" height="160" fill="#F2C9A0"/><path d="M640 560 H1160 M640 720 H1160" stroke="${C.ink}" stroke-width="6"/>`;
       for (let i = 0; i < 6; i++) {
-        const x = 660 + ((((t * 70 + i * 96) % 576) + 576) % 576), y = 640 + (i % 2 ? 26 : -26);
+        const x = 660 + ((((t * 70 + i * 96) % 576) + 576) % 576),
+          y = 640 + (i % 2 ? 26 : -26);
         if (ants > 0) {
           const lg = 6 * Math.sin(t * 16 + i);
           inner += `<g opacity="${f2(ants)}"><path d="M${f2(x - 16)} ${y + 8} l${f2(-6 + lg)} 14 M${f2(x)} ${y + 8} l${f2(lg)} 14 M${f2(x + 16)} ${y + 8} l${f2(6 - lg)} 14" stroke="${C.ink}" stroke-width="4" stroke-linecap="round"/><circle cx="${f2(x - 18)}" cy="${y}" r="11" fill="${C.ink}"/><circle cx="${f2(x)}" cy="${y}" r="9" fill="${C.ink}"/><circle cx="${f2(x + 20)}" cy="${y}" r="13" fill="${C.spark}" stroke="${C.ink}" stroke-width="3"/></g>`;
         }
         if (el > 0) inner += ball(x, y, 20, C.spark, { op: el, w: 3 });
       }
-      s += `<g opacity="${f2(lens)}"><path d="M860 440 L700 262" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 12"/><circle cx="700" cy="250" r="26" fill="none" stroke="${C.ink}" stroke-width="5"/>` +
+      s +=
+        `<g opacity="${f2(lens)}"><path d="M860 440 L700 262" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 12"/><circle cx="700" cy="250" r="26" fill="none" stroke="${C.ink}" stroke-width="5"/>` +
         `<circle cx="900" cy="640" r="210" fill="#FFFDF7"/><g clip-path="url(#s0-lens)">${inner}</g><circle cx="900" cy="640" r="210" fill="none" stroke="${C.ink}" stroke-width="12"/><path d="M1050 790 L1150 900" stroke="${C.ink}" stroke-width="34" stroke-linecap="round"/></g>`;
     }
     $("#s0-draw").innerHTML = s;
@@ -970,21 +994,35 @@ const bulbSVG = (x, y, on, k = 1) =>
       // ===== s1.js =====
 // ---------- Scène 1 : les électrons dans le fil, puis le tuyau plein de billes ----------
 (() => {
-  const tEl = cue("s1-1", "électrons") - 0.4, tFlow = cue("s1-3", "sens") - 0.6, tSnail = cue("s1-5", "escargot") - 0.8;
-  const tTube = cue("s1-6", "tuyau") - 0.7, pushes = [cue("s1-6", "pousse") - 0.1, cue("s1-6", "sort") - 0.4, lineEnd("s1-6") + 0.5];
+  const tEl = cue("s1-1", "électrons") - 0.4,
+    tFlow = cue("s1-3", "sens") - 0.6,
+    tSnail = cue("s1-5", "escargot") - 0.8;
+  const tTube = cue("s1-6", "tuyau") - 0.7,
+    pushes = [cue("s1-6", "pousse") - 0.1, cue("s1-6", "sort") - 0.4, lineEnd("s1-6") + 0.5];
   // dérive des électrons : vitesse en pixels par seconde (lente : « plus lentement qu'un escargot »)
-  const V = [[tFlow, 0], [tFlow + 1.2, 46]];
+  const V = [
+    [tFlow, 0],
+    [tFlow + 1.2, 46],
+  ];
   onDraw("s1", (t) => {
-    const up = ramp(t, tTube, tTube + 0.6), wy = lerp(540, 380, up), k = lerp(1, 0.72, up);
+    const up = ramp(t, tTube, tTube + 0.6),
+      wy = lerp(540, 380, up),
+      k = lerp(1, 0.72, up);
     let s = `<g transform="translate(960 ${f2(wy)}) scale(${f2(k)}) translate(-960 -540)">`;
     s += `<rect x="120" y="400" width="1680" height="280" rx="60" fill="#F2C9A0" class="ink" stroke-width="6"/>`;
-    for (let j = 0; j < 2; j++) for (let i = 0; i < 9; i++) s += ball(220 + i * 185 + j * 92, 470 + j * 140, 50, "#D98B4A");
-    const el = lin(t, tEl, tEl + 0.5), drift = integ(V, t), calm = ramp(t, tFlow, tFlow + 1.2);
+    for (let j = 0; j < 2; j++)
+      for (let i = 0; i < 9; i++) s += ball(220 + i * 185 + j * 92, 470 + j * 140, 50, "#D98B4A");
+    const el = lin(t, tEl, tEl + 0.5),
+      drift = integ(V, t),
+      calm = ramp(t, tFlow, tFlow + 1.2);
     if (el > 0)
       for (let i = 0; i < 16; i++) {
-        const bx = 160 + rnd(i) * 1600, by = 440 + rnd(i + 40) * 200;
+        const bx = 160 + rnd(i) * 1600,
+          by = 440 + rnd(i + 40) * 200;
         // agitation désordonnée, qui se calme quand tout le monde part dans le même sens
-        const jx = (1 - calm * 0.75) * (70 * Math.sin(t * (1.1 + rnd(i + 3)) + i) + 40 * Math.sin(t * 2.3 + i * 2));
+        const jx =
+          (1 - calm * 0.75) *
+          (70 * Math.sin(t * (1.1 + rnd(i + 3)) + i) + 40 * Math.sin(t * 2.3 + i * 2));
         const jy = (1 - calm * 0.6) * (40 * Math.cos(t * (1.3 + rnd(i + 5)) + i * 1.7));
         const x = 140 + ((((bx + jx + drift - 140) % 1640) + 1640) % 1640);
         s += ball(x, clamp(by + jy, 430, 650), 17, C.spark, { op: el, w: 3 });
@@ -998,13 +1036,17 @@ const bulbSVG = (x, y, on, k = 1) =>
     s += `</g>`;
     // le tuyau plein de billes : on en pousse une, une autre sort tout de suite à l'autre bout
     if (up > 0) {
-      const y = 740, r = 44, n = 14, x0 = 330;
+      const y = 740,
+        r = 44,
+        n = 14,
+        x0 = 330;
       let shift = 0;
       for (const p of pushes) shift += ramp(t, p, p + 0.45);
       let tube = `<rect x="${x0 - r - 8}" y="${y - r - 14}" width="${n * 2 * r + 16}" height="${2 * r + 28}" rx="30" fill="#EAF6FF" class="ink" stroke-width="5"/>`;
       for (let i = -3; i < n + 3; i++) {
         const x = x0 + (i + shift) * 2 * r;
-        const out = x > x0 + n * 2 * r - r, fall = out ? Math.pow((x - (x0 + n * 2 * r - r)) / (2 * r), 2) * 70 : 0;
+        const out = x > x0 + n * 2 * r - r,
+          fall = out ? Math.pow((x - (x0 + n * 2 * r - r)) / (2 * r), 2) * 70 : 0;
         if (x > x0 - 2 * r * 3.2) tube += ball(x, y + fall, r - 3, i < 0 ? C.spark : C.blueL);
       }
       s += `<g opacity="${f2(up)}">${tube}<path d="M150 ${y} H240 M214 ${y - 22} L242 ${y} L214 ${y + 22}" fill="none" stroke="${C.fire}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></g>`;
@@ -1012,8 +1054,18 @@ const bulbSVG = (x, y, on, k = 1) =>
     $("#s1-draw").innerHTML = s;
   });
   const lab = {
-    at: label("s1", "s1-l-at", [405, 470], [180, 250], "Les atomes du métal", "ils ne bougent pas", { color: "#B5642A" }),
-    el: label("s1", "s1-l-el", [1420, 600], [1300, 790], "Les électrons", "des grains minuscules", { color: "#9A7400" }),
+    at: label(
+      "s1",
+      "s1-l-at",
+      [405, 470],
+      [180, 250],
+      "Les atomes du métal",
+      "ils ne bougent pas",
+      { color: "#B5642A" },
+    ),
+    el: label("s1", "s1-l-el", [1420, 600], [1300, 790], "Les électrons", "des grains minuscules", {
+      color: "#9A7400",
+    }),
   };
   showLabel(lab.at, cue("s1-1", "métal") - 0.2);
   showLabel(lab.el, tEl + 0.2);
@@ -1029,8 +1081,13 @@ const bulbSVG = (x, y, on, k = 1) =>
 // ---------- Scène 2 : le circuit (une boucle complète), le fil coupé, l'interrupteur ----------
 (() => {
   const S = scn("s2");
-  const tCut = cue("s2-1", "coupe") - 0.2, tHeal = cue("s2-3", "boucle") - 0.5, tSw = cue("s2-3", "interrupteur") - 0.5;
-  const tDown = cue("s2-3", "baissé") - 0.3, tUp = cue("s2-3", "Levé") - 0.3, tZ1 = cue("s2-4", "éteins") - 0.9, tZ2 = cue("s2-4", "lève") - 0.2;
+  const tCut = cue("s2-1", "coupe") - 0.2,
+    tHeal = cue("s2-3", "boucle") - 0.5,
+    tSw = cue("s2-3", "interrupteur") - 0.5;
+  const tDown = cue("s2-3", "baissé") - 0.3,
+    tUp = cue("s2-3", "Levé") - 0.3,
+    tZ1 = cue("s2-4", "éteins") - 0.9,
+    tZ2 = cue("s2-4", "lève") - 0.2;
   // ouverture du circuit : 0 = fermé (le courant passe), 1 = ouvert
   const open = (t) => {
     if (t < tHeal) return ramp(t, tCut, tCut + 0.4);
@@ -1041,21 +1098,34 @@ const bulbSVG = (x, y, on, k = 1) =>
     if (t < tZ2) return 1 - ramp(t, tZ1, tZ1 + 0.4);
     return ramp(t, tZ2, tZ2 + 0.4);
   };
-  const X0 = 460, X1 = 1460, Y0 = 300, Y1 = 800;
-  const loop = mkPath([[X0, Y1], [X0, Y0], [X1, Y0], [X1, Y1]]);
+  const X0 = 460,
+    X1 = 1460,
+    Y0 = 300,
+    Y1 = 800;
+  const loop = mkPath([
+    [X0, Y1],
+    [X0, Y0],
+    [X1, Y0],
+    [X1, Y1],
+  ]);
   // vitesse des électrons : proportionnelle à « fermé »
   const steps = [];
   for (let t = S.start; t <= S.end + 0.2; t += 0.1) steps.push([t, 150 * (1 - open(t))]);
   onDraw("s2", (t) => {
-    const o = open(t), on = 1 - o, sw = t >= tSw - 0.1;
+    const o = open(t),
+      on = 1 - o,
+      sw = t >= tSw - 0.1;
     let s = wireSVG(loop.d);
     // la coupure (ou l'interrupteur) au milieu du fil du bas
-    const gx = 960, gap = 150;
+    const gx = 960,
+      gap = 150;
     s += `<rect x="${gx - gap / 2}" y="${Y1 - 22}" width="${gap}" height="44" fill="#FFF8EC"/>`;
     if (!sw) {
       // deux bouts de fil qui s'écartent
       const d = o * 46;
-      s += wireSVG(`M${gx - gap / 2 - 4} ${Y1} L${gx - 6} ${f2(Y1 + d)}`) + wireSVG(`M${gx + gap / 2 + 4} ${Y1} L${gx + 6} ${f2(Y1 - d)}`);
+      s +=
+        wireSVG(`M${gx - gap / 2 - 4} ${Y1} L${gx - 6} ${f2(Y1 + d)}`) +
+        wireSVG(`M${gx + gap / 2 + 4} ${Y1} L${gx + 6} ${f2(Y1 - d)}`);
     } else {
       // le pont-levis : il pivote autour de son extrémité gauche
       const a = -38 * o;
@@ -1070,7 +1140,10 @@ const bulbSVG = (x, y, on, k = 1) =>
       s += ball(x, y, 13, C.spark, { w: 3 });
     }
     // la pile, à gauche
-    s += `<rect x="${X0 - 70}" y="440" width="140" height="240" rx="24" fill="${C.blue}" class="ink" stroke-width="5"/><rect x="${X0 - 70}" y="440" width="140" height="80" rx="24" fill="${C.fire}" class="ink" stroke-width="5"/><rect x="${X0 - 26}" y="410" width="52" height="34" rx="8" fill="${C.metal}" class="ink"/>` + txt(X0, 496, "+", 60, { fill: "#fff", w: 700 }) + txt(X0, 650, "−", 60, { fill: "#fff", w: 700 });
+    s +=
+      `<rect x="${X0 - 70}" y="440" width="140" height="240" rx="24" fill="${C.blue}" class="ink" stroke-width="5"/><rect x="${X0 - 70}" y="440" width="140" height="80" rx="24" fill="${C.fire}" class="ink" stroke-width="5"/><rect x="${X0 - 26}" y="410" width="52" height="34" rx="8" fill="${C.metal}" class="ink"/>` +
+      txt(X0, 496, "+", 60, { fill: "#fff", w: 700 }) +
+      txt(X0, 650, "−", 60, { fill: "#fff", w: 700 });
     // l'ampoule, à droite
     s += `<g transform="rotate(90 ${X1} 550)">${bulbSVG(X1, 480, on, 0.8)}</g>`;
     $("#s2-draw").innerHTML = s;
@@ -1088,19 +1161,35 @@ const bulbSVG = (x, y, on, k = 1) =>
       // ===== s3.js =====
 // ---------- Scène 3 : la pile est une pompe ; les volts mesurent la force de la poussée ----------
 (() => {
-  const tPump = cue("s3-2", "pompe") - 0.4, tV = cue("s3-3", "virgule") - 0.6, tPlug = cue("s3-3", "prise") - 0.6;
-  const tBig = cue("s3-4", "trente") - 0.6, tX = cue("s3-4", "cinquante") - 0.6, tNo = cue("s3-4", "jamais") - 0.4;
+  const tPump = cue("s3-2", "pompe") - 0.4,
+    tV = cue("s3-3", "virgule") - 0.6,
+    tPlug = cue("s3-3", "prise") - 0.6;
+  const tBig = cue("s3-4", "trente") - 0.6,
+    tX = cue("s3-4", "cinquante") - 0.6,
+    tNo = cue("s3-4", "jamais") - 0.4;
   onDraw("s3", (t) => {
     let s = "";
     // --- la pile, vue en coupe : des flèches poussent les électrons de + vers − à l'intérieur ---
-    const bx = 480, by = 600, pump = lin(t, tPump, tPump + 0.4);
-    const loop = mkPath([[bx + 230, by], [bx + 330, by], [bx + 330, by + 180], [bx - 330, by + 180], [bx - 330, by], [bx - 230, by]]);
+    const bx = 480,
+      by = 600,
+      pump = lin(t, tPump, tPump + 0.4);
+    const loop = mkPath([
+      [bx + 230, by],
+      [bx + 330, by],
+      [bx + 330, by + 180],
+      [bx - 330, by + 180],
+      [bx - 330, by],
+      [bx - 230, by],
+    ]);
     s += wireSVG(`M${bx + 230} ${by} H${bx + 330} V${by + 180} H${bx - 330} V${by} H${bx - 230}`);
     s += `<rect x="${bx - 230}" y="${by - 90}" width="460" height="180" rx="34" fill="${C.blueL}" class="ink" stroke-width="5"/><rect x="${bx + 120}" y="${by - 90}" width="110" height="180" rx="34" fill="${C.fire}" class="ink" stroke-width="5"/><rect x="${bx + 228}" y="${by - 34}" width="30" height="68" rx="8" fill="${C.metal}" class="ink"/>`;
-    s += txt(bx + 176, by + 22, "+", 70, { fill: "#fff", w: 700 }) + txt(bx - 180, by + 22, "−", 70, { fill: "#fff", w: 700 });
+    s +=
+      txt(bx + 176, by + 22, "+", 70, { fill: "#fff", w: 700 }) +
+      txt(bx - 180, by + 22, "−", 70, { fill: "#fff", w: 700 });
     if (pump > 0)
       for (let i = 0; i < 3; i++) {
-        const u = (t * 0.9 + i / 3) % 1, x = bx + 80 - u * 230;
+        const u = (t * 0.9 + i / 3) % 1,
+          x = bx + 80 - u * 230;
         s += `<path d="M${f2(x + 26)} ${by - 30} L${f2(x - 14)} ${by} L${f2(x + 26)} ${by + 30}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="${f2(pump * Math.sin(u * Math.PI))}"/>`;
       }
     for (let i = 0; i < 12; i++) {
@@ -1110,15 +1199,20 @@ const bulbSVG = (x, y, on, k = 1) =>
     // --- la prise du mur ---
     const pl = lin(t, tPlug, tPlug + 0.4);
     if (pl > 0) {
-      const px = 1440, py = 600;
+      const px = 1440,
+        py = 600;
       s += `<g opacity="${f2(pl)}"><rect x="${px - 170}" y="${py - 170}" width="340" height="340" rx="46" fill="#fff" class="ink" stroke-width="5"/><circle cx="${px}" cy="${py}" r="118" fill="${C.side}" class="ink" stroke-width="5"/><circle cx="${px - 46}" cy="${py + 14}" r="17" fill="${C.ink}"/><circle cx="${px + 46}" cy="${py + 14}" r="17" fill="${C.ink}"/><circle cx="${px}" cy="${py - 58}" r="13" fill="${C.metal}" class="ink"/></g>`;
       const no = ramp(t, tNo, tNo + 0.4);
-      if (no > 0) s += `<g opacity="${f2(no)}"><circle cx="${px}" cy="${py}" r="190" fill="none" stroke="#E0455E" stroke-width="26"/><path d="M${px - 134} ${py - 134} L${px + 134} ${py + 134}" stroke="#E0455E" stroke-width="26" stroke-linecap="round"/></g>`;
+      if (no > 0)
+        s += `<g opacity="${f2(no)}"><circle cx="${px}" cy="${py}" r="190" fill="none" stroke="#E0455E" stroke-width="26"/><path d="M${px - 134} ${py - 134} L${px + 134} ${py + 134}" stroke="#E0455E" stroke-width="26" stroke-linecap="round"/></g>`;
     }
     // --- les deux « forces de poussée », à l'échelle : 1,5 contre 230 ---
-    const b1 = ramp(t, tV, tV + 0.5), b2 = ramp(t, tBig, tBig + 0.9);
-    if (b1 > 0) s += `<rect x="130" y="380" width="${f2(4.6 * b1 + 6)}" height="40" rx="8" fill="${C.blue}" class="ink" stroke-width="3" opacity="${f2(b1)}"/>`;
-    if (b2 > 0) s += `<rect x="1090" y="380" width="${f2(700 * b2)}" height="40" rx="14" fill="#E0455E" class="ink" stroke-width="3"/>`;
+    const b1 = ramp(t, tV, tV + 0.5),
+      b2 = ramp(t, tBig, tBig + 0.9);
+    if (b1 > 0)
+      s += `<rect x="130" y="380" width="${f2(4.6 * b1 + 6)}" height="40" rx="8" fill="${C.blue}" class="ink" stroke-width="3" opacity="${f2(b1)}"/>`;
+    if (b2 > 0)
+      s += `<rect x="1090" y="380" width="${f2(700 * b2)}" height="40" rx="14" fill="#E0455E" class="ink" stroke-width="3"/>`;
     $("#s3-draw").innerHTML = s;
   });
   show("#s3-n0", tPump + 0.3);
@@ -1140,32 +1234,53 @@ const bulbSVG = (x, y, on, k = 1) =>
     [cue("s4-5", "mine") - 0.4, cue("s4-7", "si") - 0.1, S.end + 5],
   ];
   const PASS = [1, 0, 0.75];
-  const X0 = 460, X1 = 1460, Y0 = 320, Y1 = 760, gx = 960, gap = 380;
-  const loop = mkPath([[X0, Y1], [X0, Y0], [X1, Y0], [X1, Y1]]);
+  const X0 = 460,
+    X1 = 1460,
+    Y0 = 320,
+    Y1 = 760,
+    gx = 960,
+    gap = 380;
+  const loop = mkPath([
+    [X0, Y1],
+    [X0, Y0],
+    [X1, Y0],
+    [X1, Y1],
+  ]);
   const cur = (t) => {
     let c = 0;
-    T.forEach(([, v, out], i) => (c = Math.max(c, PASS[i] * ramp(t, v, v + 0.3) * (1 - ramp(t, out, out + 0.3)))));
+    T.forEach(
+      ([, v, out], i) =>
+        (c = Math.max(c, PASS[i] * ramp(t, v, v + 0.3) * (1 - ramp(t, out, out + 0.3)))),
+    );
     return c;
   };
   const steps = [];
   for (let t = S.start; t <= S.end + 0.2; t += 0.1) steps.push([t, 150 * cur(t)]);
   const obj = [
     // cuillère en métal
-    (x, y) => `<ellipse cx="${x - 110}" cy="${y}" rx="78" ry="50" fill="#D5DCE8" class="ink" stroke-width="5"/><ellipse cx="${x - 118}" cy="${y - 8}" rx="44" ry="24" fill="#fff" opacity="0.7"/><rect x="${x - 40}" y="${y - 15}" width="230" height="30" rx="15" fill="#D5DCE8" class="ink" stroke-width="5"/>`,
+    (x, y) =>
+      `<ellipse cx="${x - 110}" cy="${y}" rx="78" ry="50" fill="#D5DCE8" class="ink" stroke-width="5"/><ellipse cx="${x - 118}" cy="${y - 8}" rx="44" ry="24" fill="#fff" opacity="0.7"/><rect x="${x - 40}" y="${y - 15}" width="230" height="30" rx="15" fill="#D5DCE8" class="ink" stroke-width="5"/>`,
     // gomme
-    (x, y) => `<rect x="${x - 170}" y="${y - 56}" width="340" height="112" rx="22" fill="#F7A8B8" class="ink" stroke-width="5"/><rect x="${x - 170}" y="${y - 56}" width="140" height="112" rx="22" fill="#5F86F0" class="ink" stroke-width="5"/>`,
+    (x, y) =>
+      `<rect x="${x - 170}" y="${y - 56}" width="340" height="112" rx="22" fill="#F7A8B8" class="ink" stroke-width="5"/><rect x="${x - 170}" y="${y - 56}" width="140" height="112" rx="22" fill="#5F86F0" class="ink" stroke-width="5"/>`,
     // crayon vu en coupe : la mine de graphite traverse tout le crayon
-    (x, y) => `<path d="M${x - 190} ${y - 44} H${x + 110} L${x + 190} ${y} L${x + 110} ${y + 44} H${x - 190} Z" fill="${C.hot}" class="ink" stroke-width="5"/><path d="M${x + 110} ${y - 44} L${x + 190} ${y} L${x + 110} ${y + 44} Z" fill="#F2D9A0" class="ink" stroke-width="5"/><rect x="${x - 190}" y="${y - 11}" width="380" height="22" rx="6" fill="#3A4256"/>`,
+    (x, y) =>
+      `<path d="M${x - 190} ${y - 44} H${x + 110} L${x + 190} ${y} L${x + 110} ${y + 44} H${x - 190} Z" fill="${C.hot}" class="ink" stroke-width="5"/><path d="M${x + 110} ${y - 44} L${x + 190} ${y} L${x + 110} ${y + 44} Z" fill="#F2D9A0" class="ink" stroke-width="5"/><rect x="${x - 190}" y="${y - 11}" width="380" height="22" rx="6" fill="#3A4256"/>`,
   ];
   onDraw("s4", (t) => {
     const c = cur(t);
-    let s = wireSVG(loop.d) + `<rect x="${gx - gap / 2}" y="${Y1 - 22}" width="${gap}" height="44" fill="#FFF8EC"/>`;
+    let s =
+      wireSVG(loop.d) +
+      `<rect x="${gx - gap / 2}" y="${Y1 - 22}" width="${gap}" height="44" fill="#FFF8EC"/>`;
     // deux pinces de chaque côté du trou
-    for (const sx of [-1, 1]) s += `<rect x="${gx + sx * (gap / 2) - 26}" y="${Y1 - 46}" width="52" height="92" rx="14" fill="${C.metal}" class="ink"/>`;
+    for (const sx of [-1, 1])
+      s += `<rect x="${gx + sx * (gap / 2) - 26}" y="${Y1 - 46}" width="52" height="92" rx="14" fill="${C.metal}" class="ink"/>`;
     T.forEach(([a, , out], i) => {
-      const inn = rampO(t, a, a + 0.5), go = ramp(t, out, out + 0.4);
+      const inn = rampO(t, a, a + 0.5),
+        go = ramp(t, out, out + 0.4);
       if (inn <= 0 || go >= 1) return;
-      const y = Y1 + (1 - inn) * 360 - go * 0, x = gx + go * 900;
+      const y = Y1 + (1 - inn) * 360 - go * 0,
+        x = gx + go * 900;
       s += `<g opacity="${f2(Math.min(1, inn * 2) * (1 - go))}">${obj[i](x, y)}</g>`;
     });
     const d = integ(steps, t);
@@ -1174,7 +1289,10 @@ const bulbSVG = (x, y, on, k = 1) =>
       if (Math.abs(x - gx) < gap / 2 + 20 && Math.abs(y - Y1) < 4) continue;
       s += ball(x, y, 13, C.spark, { w: 3 });
     }
-    s += `<rect x="${X0 - 70}" y="420" width="140" height="240" rx="24" fill="${C.blue}" class="ink" stroke-width="5"/><rect x="${X0 - 70}" y="420" width="140" height="80" rx="24" fill="${C.fire}" class="ink" stroke-width="5"/>` + txt(X0, 476, "+", 60, { fill: "#fff", w: 700 }) + txt(X0, 630, "−", 60, { fill: "#fff", w: 700 });
+    s +=
+      `<rect x="${X0 - 70}" y="420" width="140" height="240" rx="24" fill="${C.blue}" class="ink" stroke-width="5"/><rect x="${X0 - 70}" y="420" width="140" height="80" rx="24" fill="${C.fire}" class="ink" stroke-width="5"/>` +
+      txt(X0, 476, "+", 60, { fill: "#fff", w: 700 }) +
+      txt(X0, 630, "−", 60, { fill: "#fff", w: 700 });
     s += `<g transform="rotate(90 ${X1} 540)">${bulbSVG(X1, 470, c, 0.8)}</g>`;
     $("#s4-draw").innerHTML = s;
   });
@@ -1188,19 +1306,35 @@ const bulbSVG = (x, y, on, k = 1) =>
       // ===== s5.js =====
 // ---------- Scène 5 : la centrale (un aimant qui tourne au milieu de bobines, comme un moteur à l'envers) ----------
 (() => {
-  const tMot = cue("s5-2", "moteur") - 0.5, tRev = cue("s5-3", "envers") - 0.3, tWind = cue("s5-4", "vent") - 0.5, tHome = cue("s5-4", "jusque") - 0.6;
-  const W = [[tRev, 0], [tRev + 0.8, 130], [tWind, 130], [tWind + 1.2, 250]];
-  const GX = 900, GY = 540, RED = "#F0556A", SOUTH = "#DDE3EC";
+  const tMot = cue("s5-2", "moteur") - 0.5,
+    tRev = cue("s5-3", "envers") - 0.3,
+    tWind = cue("s5-4", "vent") - 0.5,
+    tHome = cue("s5-4", "jusque") - 0.6;
+  const W = [
+    [tRev, 0],
+    [tRev + 0.8, 130],
+    [tWind, 130],
+    [tWind + 1.2, 250],
+  ];
+  const GX = 900,
+    GY = 540,
+    RED = "#F0556A",
+    SOUTH = "#DDE3EC";
   onDraw("s5", (t) => {
-    const a = integ(W, t), gen = rateAt(W, t) / 250, app = lin(t, tMot, tMot + 0.4);
+    const a = integ(W, t),
+      gen = rateAt(W, t) / 250,
+      app = lin(t, tMot, tMot + 0.4);
     let s = "";
     // --- l'éolienne et son arbre, à gauche ---
     const wd = lin(t, tWind, tWind + 0.5);
     if (wd > 0) {
-      const hx = 330, hy = 430;
+      const hx = 330,
+        hy = 430;
       let bl = "";
-      for (let i = 0; i < 3; i++) bl += `<path d="M0 0 C 30 -60, 26 -200, 0 -250 C -14 -200, -22 -60, 0 0 Z" transform="translate(${hx} ${hy}) rotate(${f2(a * 0.8 + i * 120)})" fill="#fff" class="ink" stroke-width="4"/>`;
-      s += `<g opacity="${f2(wd)}"><path d="M${hx - 22} 840 L${hx - 8} ${hy} H${hx + 8} L${hx + 22} 840 Z" fill="${C.side}" class="ink"/>` +
+      for (let i = 0; i < 3; i++)
+        bl += `<path d="M0 0 C 30 -60, 26 -200, 0 -250 C -14 -200, -22 -60, 0 0 Z" transform="translate(${hx} ${hy}) rotate(${f2(a * 0.8 + i * 120)})" fill="#fff" class="ink" stroke-width="4"/>`;
+      s +=
+        `<g opacity="${f2(wd)}"><path d="M${hx - 22} 840 L${hx - 8} ${hy} H${hx + 8} L${hx + 22} 840 Z" fill="${C.side}" class="ink"/>` +
         `<path d="M${hx} ${hy} H${GX}" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M${hx} ${hy} H${GX}" stroke="${C.metal}" stroke-width="16" stroke-linecap="round" stroke-dasharray="30 22" stroke-dashoffset="${f2(-a * 0.6)}"/>${bl}<circle cx="${hx}" cy="${hy}" r="24" fill="${C.blue}" class="ink"/></g>`;
       for (let i = 0; i < 3; i++) {
         const u = (t * 0.6 + i / 3) % 1;
@@ -1211,20 +1345,28 @@ const bulbSVG = (x, y, on, k = 1) =>
     const hm = lin(t, tHome, tHome + 0.5);
     if (hm > 0) {
       const line = `M${GX + 250} ${GY - 60} C ${GX + 330} 330, 1300 330, 1360 330 Q 1470 380 1580 330 L 1700 560`;
-      s += `<g opacity="${f2(hm)}">` + wireSVG(line, C.spark, 18) + `<path d="${line}" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14 30" stroke-dashoffset="${f2(-t * 170)}" stroke-linecap="round"/>`;
-      for (const x of [1360, 1580]) s += `<path d="M${x - 34} 840 L${x} 300 L${x + 34} 840 M${x - 60} 350 H${x + 60} M${x - 22} 660 L${x + 16} 520 M${x + 22} 660 L${x - 16} 520" fill="none" class="ink" stroke-width="6"/>`;
+      s +=
+        `<g opacity="${f2(hm)}">` +
+        wireSVG(line, C.spark, 18) +
+        `<path d="${line}" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14 30" stroke-dashoffset="${f2(-t * 170)}" stroke-linecap="round"/>`;
+      for (const x of [1360, 1580])
+        s += `<path d="M${x - 34} 840 L${x} 300 L${x + 34} 840 M${x - 60} 350 H${x + 60} M${x - 22} 660 L${x + 16} 520 M${x + 22} 660 L${x - 16} 520" fill="none" class="ink" stroke-width="6"/>`;
       s += `<path d="M1640 620 L1760 520 L1880 620 Z" fill="#E0455E" class="ink" stroke-width="5"/><rect x="1660" y="620" width="200" height="220" fill="#fff" class="ink" stroke-width="5"/><rect x="1720" y="670" width="80" height="80" rx="8" fill="${mixHex("#C9D1DE", "#FFE14D", ramp(t, tHome + 0.5, tHome + 0.9))}" class="ink"/></g>`;
     }
     // --- le générateur : quatre bobines, un aimant qui tourne ---
     if (app > 0) {
       let g = `<circle cx="${GX}" cy="${GY}" r="280" fill="${C.side}" class="ink" stroke-width="5"/><circle cx="${GX}" cy="${GY}" r="206" fill="#FFF8EC" class="ink"/>`;
       for (let i = 0; i < 4; i++) {
-        const ca = i * 90, x = GX + 242 * Math.cos(rad(ca)), y = GY + 242 * Math.sin(rad(ca));
+        const ca = i * 90,
+          x = GX + 242 * Math.cos(rad(ca)),
+          y = GY + 242 * Math.sin(rad(ca));
         // une bobine s'allume quand un pôle de l'aimant passe devant elle
         const lit = gen * Math.pow(Math.abs(Math.cos(rad(a - ca))), 6);
-        if (lit > 0.05) g += `<circle cx="${f2(x)}" cy="${f2(y)}" r="120" fill="url(#s5-glow)" opacity="${f2(lit)}"/>`;
+        if (lit > 0.05)
+          g += `<circle cx="${f2(x)}" cy="${f2(y)}" r="120" fill="url(#s5-glow)" opacity="${f2(lit)}"/>`;
         g += `<g transform="rotate(${ca} ${f2(x)} ${f2(y)})"><rect x="${f2(x - 34)}" y="${f2(y - 64)}" width="68" height="128" rx="16" fill="${mixHex("#EEF2F8", "#FFE14D", lit)}" class="ink"/>`;
-        for (let k = -2; k <= 2; k++) g += `<path d="M${f2(x - 34)} ${f2(y + k * 22)} H${f2(x + 34)}" stroke="${C.ink}" stroke-width="3" opacity="0.45"/>`;
+        for (let k = -2; k <= 2; k++)
+          g += `<path d="M${f2(x - 34)} ${f2(y + k * 22)} H${f2(x + 34)}" stroke="${C.ink}" stroke-width="3" opacity="0.45"/>`;
         g += `</g>`;
       }
       g += `<g transform="rotate(${f2(a)} ${GX} ${GY})"><circle cx="${GX}" cy="${GY}" r="130" fill="${C.blue}" class="ink" stroke-width="5"/><rect x="${GX - 172}" y="${GY - 50}" width="344" height="100" rx="22" fill="${SOUTH}" class="ink" stroke-width="5"/><path d="M${GX} ${GY - 50} H${GX + 150} a22 22 0 0 1 22 22 V${GY + 28} a22 22 0 0 1 -22 22 H${GX} Z" fill="${RED}" class="ink" stroke-width="5"/>${txt(GX + 106, GY + 20, "N", 56, { fill: "#fff", w: 700 })}${txt(GX - 106, GY + 20, "S", 56, { w: 700 })}</g><circle cx="${GX}" cy="${GY}" r="28" fill="${C.blueD}" class="ink"/>`;
@@ -1234,7 +1376,10 @@ const bulbSVG = (x, y, on, k = 1) =>
   });
   const lab = {
     coil: label("s5", "s5-l-coil", [GX + 150, GY + 200], [1250, 800], "Des bobines de fil", null),
-    mag: label("s5", "s5-l-mag", [GX - 110, GY + 60], [560, 860], "Un aimant", "qui tourne", { color: "#C2334C", align: "r" }),
+    mag: label("s5", "s5-l-mag", [GX - 110, GY + 60], [560, 860], "Un aimant", "qui tourne", {
+      color: "#C2334C",
+      align: "r",
+    }),
   };
   showLabel(lab.mag, cue("s5-3", "aimants") - 0.2);
   showLabel(lab.coil, cue("s5-3", "bobines") - 0.2);
@@ -1249,7 +1394,10 @@ const bulbSVG = (x, y, on, k = 1) =>
 // ---------- Scène 6 : le résumé, les oiseaux sur le câble, puis la tartine qui tombe (annonce de la gravité) ----------
 (() => {
   const S = scn("s6");
-  const tBird = cue("s6-3", "oiseaux") - 0.7, tWhy = cue("s6-4", "seul") - 0.4, tFall = cue("s6-5", "tartine") - 0.6, tG = cue("s6-6", "gravité") - 0.3;
+  const tBird = cue("s6-3", "oiseaux") - 0.7,
+    tWhy = cue("s6-4", "seul") - 0.4,
+    tFall = cue("s6-5", "tartine") - 0.6,
+    tG = cue("s6-6", "gravité") - 0.3;
   const bird = (x, y, flip, hop) =>
     `<g transform="translate(${f2(x)} ${f2(y - hop)}) scale(${flip ? -1 : 1} 1)"><path d="M-14 46 V78 M14 46 V78" class="ink"/><path d="M-70 10 L-130 -10 L-80 34 Z" fill="#5F86F0" class="ink"/><ellipse cx="0" cy="0" rx="78" ry="56" fill="#7C97E8" class="ink" stroke-width="5"/><circle cx="62" cy="-48" r="40" fill="#7C97E8" class="ink" stroke-width="5"/><path d="M96 -52 L132 -40 L96 -28 Z" fill="${C.fire}" class="ink"/><circle cx="72" cy="-56" r="8" fill="${C.ink}"/><path d="M-30 -4 Q10 30 44 0" fill="none" stroke="${C.blueD}" stroke-width="5" stroke-linecap="round"/></g>`;
   onDraw("s6", (t) => {
@@ -1257,23 +1405,34 @@ const bulbSVG = (x, y, on, k = 1) =>
     const fall = lin(t, tFall, tFall + 1.1);
     if (t > tBird - 0.3 && fall < 1.4) {
       // deux câbles entre deux poteaux ; les électrons filent dans celui du haut
-      for (const x of [170, 1750]) s += `<path d="M${x} 300 V900 M${x - 90} 380 H${x + 90} M${x - 90} 560 H${x + 90}" fill="none" class="ink" stroke-width="12"/>`;
-      s += wireSVG("M170 380 Q960 470 1750 380", "#F2C9A0", 20) + wireSVG("M170 560 Q960 650 1750 560", "#F2C9A0", 20);
+      for (const x of [170, 1750])
+        s += `<path d="M${x} 300 V900 M${x - 90} 380 H${x + 90} M${x - 90} 560 H${x + 90}" fill="none" class="ink" stroke-width="12"/>`;
+      s +=
+        wireSVG("M170 380 Q960 470 1750 380", "#F2C9A0", 20) +
+        wireSVG("M170 560 Q960 650 1750 560", "#F2C9A0", 20);
       for (let i = 0; i < 14; i++) {
-        const u = (((t * 0.12 + i / 14) % 1) + 1) % 1, x = 170 + u * 1580, y = 380 + 180 * u * (1 - u) * 2 * 0.99;
+        const u = (((t * 0.12 + i / 14) % 1) + 1) % 1,
+          x = 170 + u * 1580,
+          y = 380 + 180 * u * (1 - u) * 2 * 0.99;
         s += ball(x, y, 11, C.spark, { w: 3 });
       }
       const yw = (x) => 380 + 180 * ((x - 170) / 1580) * (1 - (x - 170) / 1580) * 2 * 0.99;
-      s += bird(700, yw(700) - 78, false, 8 * Math.max(0, Math.sin(t * 5))) + bird(1150, yw(1150) - 78, true, 0);
+      s +=
+        bird(700, yw(700) - 78, false, 8 * Math.max(0, Math.sin(t * 5))) +
+        bird(1150, yw(1150) - 78, true, 0);
     }
     // la tartine qui tombe, côté confiture
     if (t > tFall) {
-      const u = Math.min(1, fall), y = -160 + 1020 * u * u, rot = 180 * Math.min(1, u * 1.05);
+      const u = Math.min(1, fall),
+        y = -160 + 1020 * u * u,
+        rot = 180 * Math.min(1, u * 1.05);
       s += `<rect x="0" y="0" width="1920" height="1080" fill="#FFF8EC" opacity="${f2(Math.min(1, lin(t, tFall, tFall + 0.3)))}"/><path d="M200 900 H1720" class="ink" stroke-width="8"/>`;
       s += `<g transform="translate(960 ${f2(Math.min(y, 860))}) rotate(${f2(rot)})"><rect x="-150" y="-26" width="300" height="52" rx="20" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-140" y="-40" width="280" height="24" rx="12" fill="#E0455E"/></g>`;
-      if (u >= 1) s += `<path d="M830 896 q20 -30 50 -6 q40 -34 80 0 q40 -30 80 2 q30 -22 60 6 Z" fill="#E0455E"/>`;
+      if (u >= 1)
+        s += `<path d="M830 896 q20 -30 50 -6 q40 -34 80 0 q40 -30 80 2 q30 -22 60 6 Z" fill="#E0455E"/>`;
       const g = ramp(t, tG, tG + 0.4);
-      if (g > 0) s += `<g opacity="${f2(g)}"><path d="M1360 330 V700 M1300 640 L1360 720 L1420 640" fill="none" stroke="${C.fire}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+      if (g > 0)
+        s += `<g opacity="${f2(g)}"><path d="M1360 330 V700 M1300 640 L1360 720 L1420 640" fill="none" stroke="${C.fire}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/></g>`;
     }
     $("#s6-draw").innerHTML = s;
   });
@@ -1287,7 +1446,12 @@ const bulbSVG = (x, y, on, k = 1) =>
   pop("#s6-next", tG + 0.5);
   const tEnd = S.end - 3.2;
   tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
-  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  tl.fromTo(
+    "#s6-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
   show("#s6-bye", tEnd + 0.9);
 })();
 
