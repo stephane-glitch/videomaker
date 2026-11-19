@@ -1,0 +1,242 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, quand Papa appuie sur la pédale, la voiture avance. Mais… qui la pousse ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Personne ne la pousse de dehors. Tout se passe à l'intérieur. Viens, on va regarder dedans."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Il y a quoi, sous le capot ?"
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "max",
+    "text": "Plein de pièces qui forment une chaîne. D'abord, l'énergie : de l'essence dans un réservoir, ou de l'électricité dans une batterie. Le moteur transforme cette énergie en mouvement. Ensuite, la transmission emmène ce mouvement jusqu'aux roues. Et pour conduire, il y a la direction et les freins."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Une chaîne… On commence par où ?"
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "max",
+    "text": "Par le cœur : le moteur."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Il paraît que dans le moteur, ça brûle. C'est vrai ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "C'est vrai ! Regarde ce tube : c'est un cylindre. Dedans, il y a un piston qui peut monter et descendre. Ça se passe en quatre temps."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Un : le piston descend et aspire de l'air mélangé à un peu d'essence."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Deux : il remonte et serre ce mélange très fort."
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Trois : la bougie fait une étincelle… Boum ! Le mélange brûle d'un coup et pousse le piston vers le bas."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "max",
+    "text": "Et quatre : le piston remonte et recrache la fumée. Puis on recommence."
+  },
+  {
+    "id": "s2-7",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Aspire, serre, boum, recrache !"
+  },
+  {
+    "id": "s2-8",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Mais le piston, il fait juste haut-bas. Les roues, elles tournent !"
+  },
+  {
+    "id": "s2-9",
+    "scene": "s2",
+    "who": "max",
+    "text": "Bien vu. Le piston est attaché à une tige, la bielle, qui fait tourner une sorte de manivelle : le vilebrequin. C'est comme tes jambes sur un vélo : elles poussent de haut en bas, et les pédales tournent en rond."
+  },
+  {
+    "id": "s2-10",
+    "scene": "s2",
+    "who": "max",
+    "text": "Une voiture a souvent quatre cylindres, qui font « boum » chacun leur tour, des dizaines de fois par seconde !"
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et les voitures électriques ? Elles n'ont pas de feu ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Pas de feu, pas de boum ! À la place, il y a des aimants. Tu sais que deux aimants peuvent s'attirer ou se repousser ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Oui, comme les aimants du frigo."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "L'électricité de la batterie transforme des bobines de fil en aimants, allumés l'un après l'autre, tout autour. Au milieu, le rotor est attiré par l'aimant allumé… qui a déjà changé de place ! Alors il court après, sans jamais le rattraper. Et il tourne."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Il court après sa queue, comme un chien !"
+  },
+  {
+    "id": "s3-6",
+    "scene": "s3",
+    "who": "max",
+    "text": "Exactement. C'est plus simple et très silencieux. Et quand on freine, il marche à l'envers : il recharge un peu la batterie."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Pourquoi on change de vitesse dans une voiture ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Pour la même raison que sur ton vélo ! Pour démarrer, un petit engrenage fait tourner un grand. Les roues tournent lentement, mais avec beaucoup de force. Une fois lancé, on change : les roues tournent plus vite, avec moins d'effort."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "D'ailleurs, la plupart des voitures électriques n'ont qu'une seule vitesse : leur moteur sait tourner doucement comme très vite."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et dans les virages, les deux roues tournent pareil ?"
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "max",
+    "text": "Non ! Regarde : dans un virage, la roue de l'extérieur fait un plus grand chemin. Elle doit donc tourner plus vite que celle de l'intérieur. Une boîte d'engrenages, le différentiel, partage le mouvement pour que chaque roue tourne à sa vitesse."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et le volant, comment il fait tourner les roues ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Le volant fait tourner une longue tige, avec au bout un petit engrenage posé sur une barre pleine de dents : la crémaillère. Quand tu tournes le volant, l'engrenage tourne et fait glisser la barre sur le côté. Et la barre pousse les roues avant, qui pivotent."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Un rond qui pousse une barre droite. Malin !"
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Et pour s'arrêter ?"
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Derrière chaque roue, il y a un disque qui tourne avec elle. Quand on appuie sur la pédale, un liquide pousse deux plaquettes qui pincent le disque, comme tes doigts qui serrent une roue de vélo."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "max",
+    "text": "En frottant, le mouvement se transforme en chaleur. Le disque peut devenir brûlant !"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Donc freiner, c'est transformer la vitesse en chaleur ?"
+  },
+  {
+    "id": "s6-5",
+    "scene": "s6",
+    "who": "max",
+    "text": "C'est exactement ça."
+  },
+  {
+    "id": "s7-1",
+    "scene": "s7",
+    "who": "zoe",
+    "text": "Alors je résume : l'énergie va dans le moteur, le moteur fait tourner, la transmission envoie ça aux roues… et les freins, ils arrêtent tout !"
+  },
+  {
+    "id": "s7-2",
+    "scene": "s7",
+    "who": "max",
+    "text": "Tu as tout compris : une voiture, c'est une chaîne qui transforme l'énergie en mouvement."
+  },
+  {
+    "id": "s7-3",
+    "scene": "s7",
+    "who": "zoe",
+    "text": "Dis, Max… et l'essence, elle vient d'où ?"
+  },
+  {
+    "id": "s7-4",
+    "scene": "s7",
+    "who": "max",
+    "text": "Ça, c'est une autre histoire. On regardera la prochaine fois !"
+  }
+]

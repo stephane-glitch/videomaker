@@ -1,6 +1,6 @@
 # Kidi-science — à lire en premier
 
-> **En pause depuis le 19/11/2026** à la demande de l'utilisateur (autre projet prioritaire : `mission-flow/`). Ne pas reprendre sans son accord.
+> **Reprise le 19/11/2026** à la demande de l'utilisateur : la vidéo de l'épisode 1 est produite dans `ep01-voiture/video/` (voir sa section ci-dessous).
 
 Chaîne YouTube de sciences expliquées aux enfants (~10 ans), en français.
 Ce dossier contient tout ce qui a été décidé avec l'utilisateur avant la
@@ -38,3 +38,21 @@ confirmées.
 ## Branche
 
 Ce travail est sur `main` (fusionné le 19/11 depuis `claude/kind-bell-fnlopb`).
+
+## Vidéo de l'épisode 1 (19/11/2026)
+
+Projet HyperFrames : `ep01-voiture/video/`. Durée 4 min 46, 1920×1080, 30 i/s.
+
+- **Assemblage** : `node scripts/build.mjs` reconstruit `index.html` à partir de `src/`
+  (scènes dans `src/scenes/`, scripts dans `src/js/`). Le calendrier du film est calculé
+  d'après la durée réelle de chaque réplique ; les animations sont calées sur les mots
+  (`cue("réplique", "mot")`). **Ne pas modifier `index.html` à la main.**
+- **Voix** : ElevenLabs, modèle eleven_v3, une réplique par fichier (`scripts/vo.mjs`,
+  à lancer avec `NODE_USE_ENV_PROXY=1`). Zoé = « Morgane » (`ZYOBieLaunTiQrTrvNQq`),
+  Max = « Antoine » (`nbiTBaMRdSobTQJDzIWm`). Choisies sans écoute : à faire valider.
+- **Bruitages et jingle** : ElevenLabs (`scripts/sfx.sh`), placés dans `src/sfx.json`.
+  Pas de musique de fond.
+- **Mécanismes** : dessinés image par image à partir du temps (fonctions pures), avec la
+  vraie cinématique (bielle-manivelle, rapports d'engrenages, crémaillère).
+  Seul le cylindre est en vue isométrique ; les autres mécanismes sont en coupe à plat.
+- **Rendu** : `npx hyperframes render` depuis `ep01-voiture/video/` (le MP4 n'est pas dans le dépôt).

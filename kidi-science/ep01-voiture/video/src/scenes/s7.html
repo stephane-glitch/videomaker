@@ -1,0 +1,94 @@
+          <style>
+            #s7-head {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 170px;
+              text-align: center;
+              font-size: 64px;
+              font-weight: 700;
+            }
+            #s7-chain {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 925px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 18px;
+            }
+            #s7-chain .note {
+              position: static;
+            }
+            #s7-chain .ar {
+              font-size: 54px;
+              font-weight: 700;
+            }
+            #s7-q {
+              position: absolute;
+              left: 330px;
+              top: 330px;
+              width: 150px;
+              height: 150px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 110px;
+              font-weight: 700;
+            }
+            #s7-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s7-end .d {
+              color: var(--fire);
+            }
+            #s7-end .s {
+              color: var(--blue);
+            }
+            #s7-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s7-main" class="in">
+            <svg class="stage" viewBox="0 0 1920 1080">
+              <rect x="-20" y="827" width="1960" height="86" fill="#EADFCB" />
+              <path d="M-20 827 H1940" class="ink" stroke-width="5" />
+              <g id="s7-dash"></g>
+              <svg id="s7-car" x="260" y="300" width="1400" height="607" viewBox="0 0 1200 520"></svg>
+            </svg>
+            <div id="s7-head">Une chaîne qui transforme <span style="color: var(--fire)">l’énergie</span> en <span style="color: var(--blue)">mouvement</span></div>
+            <div id="s7-chain">
+              <div class="note c" style="background: #ff8a1f; color: #fff">Énergie</div>
+              <div class="ar c">→</div>
+              <div class="note c" style="background: #2f5bd3; color: #fff">Moteur</div>
+              <div class="ar c">→</div>
+              <div class="note c" style="background: #1e3f9e; color: #fff">Transmission</div>
+              <div class="ar c">→</div>
+              <div class="note c">Roues</div>
+            </div>
+            <div id="s7-q">?</div>
+            <div class="note" id="s7-next" style="left: 520px; top: 370px">La prochaine fois : d’où vient l’essence ?</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s7-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s7-bye">À bientôt !</div>
