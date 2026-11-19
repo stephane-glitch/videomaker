@@ -584,7 +584,10 @@ const rampO = (t, a, b) => easeO(lin(t, a, b));
 const f2 = (n) => Math.round(n * 100) / 100;
 const TAU = Math.PI * 2;
 const mixHex = (a, b, u) => {
-  const p = (h) => (h[0] === "#" ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)) : h.match(/\d+/g).map(Number));
+  const p = (h) =>
+    h[0] === "#"
+      ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      : h.match(/\d+/g).map(Number);
   const A = p(a),
     B = p(b);
   return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
@@ -847,14 +850,20 @@ const sunSVG = (x, y, r, t = 0) => {
 // un rayon : trait coloré bordé de sombre, dessiné jusqu'à la fraction u de sa longueur
 const raySVG = (x1, y1, x2, y2, col, u = 1, w = 14) => {
   if (u <= 0) return "";
-  const x = lerp(x1, x2, Math.min(1, u)), y = lerp(y1, y2, Math.min(1, u));
+  const x = lerp(x1, x2, Math.min(1, u)),
+    y = lerp(y1, y2, Math.min(1, u));
   return `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${C.ink}" stroke-width="${w + 6}" stroke-linecap="round"/><path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
 };
 // un rayon installé, avec des petits traits blancs qui filent dedans pour montrer le sens
 const beamSVG = (x1, y1, x2, y2, col, t, u = 1, w = 14) => {
   if (u <= 0) return "";
-  const k = Math.min(1, u), x = lerp(x1, x2, k), y = lerp(y1, y2, k);
-  return raySVG(x1, y1, x2, y2, col, u, w) + `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`;
+  const k = Math.min(1, u),
+    x = lerp(x1, x2, k),
+    y = lerp(y1, y2, k);
+  return (
+    raySVG(x1, y1, x2, y2, col, u, w) +
+    `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`
+  );
 };
 // un œil vu de face, centré en (x, y)
 const eyeSVG = (x, y, k = 1, iris = "#3DBE8B") =>
@@ -980,17 +989,24 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
 // ---------- Scène 0 : la lumière file tout droit, et très vite (7 tours et demi de la Terre en une seconde) ----------
 (() => {
   const S = scn("s0");
-  const tPk = cue("s0-2", "paquets") - 0.4, tRun = cue("s0-4", "seconde") - 0.2, tSlow = tRun + 1.6;
-  const EX = 1440, EY = 600, ER = 170, RO = 250;
+  const tPk = cue("s0-2", "paquets") - 0.4,
+    tRun = cue("s0-4", "seconde") - 0.2,
+    tSlow = tRun + 1.6;
+  const EX = 1440,
+    EY = 600,
+    ER = 170,
+    RO = 250;
   const tEl = document.getElementById("s0-turns");
   onDraw("s0", (t) => {
     let s = sunSVG(330, 500, 120, t);
     // des paquets de lumière partent du Soleil
     const pk = lin(t, tPk, tPk + 0.4);
-    if (pk > 0) for (let i = 0; i < 5; i++) {
-      const u = (t * 1.4 + i / 5) % 1, x = 500 + u * 640;
-      s += `<rect x="${f2(x)}" y="${488 + (i % 2) * 24}" width="60" height="14" rx="7" fill="${C.spark}" stroke="${C.ink}" stroke-width="3" opacity="${f2(pk * Math.sin(u * Math.PI))}"/>`;
-    }
+    if (pk > 0)
+      for (let i = 0; i < 5; i++) {
+        const u = (t * 1.4 + i / 5) % 1,
+          x = 500 + u * 640;
+        s += `<rect x="${f2(x)}" y="${488 + (i % 2) * 24}" width="60" height="14" rx="7" fill="${C.spark}" stroke="${C.ink}" stroke-width="3" opacity="${f2(pk * Math.sin(u * Math.PI))}"/>`;
+      }
     s += earthSVG(EX, EY, ER, t * 4);
     // 1) en vrai : 7,5 tours en une seconde (on ne voit qu'un anneau) ; 2) au ralenti
     let turns = 0;
@@ -1001,11 +1017,14 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       turns = 7.5;
       if (t >= tSlow) {
         const a = (t - tSlow) * 2.4 - Math.PI / 2;
-        s += `<circle cx="${EX}" cy="${EY}" r="${RO}" fill="none" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 16" opacity="0.5"/>` + ball(EX + RO * Math.cos(a), EY + RO * Math.sin(a), 20, C.spark, { w: 4 });
+        s +=
+          `<circle cx="${EX}" cy="${EY}" r="${RO}" fill="none" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 16" opacity="0.5"/>` +
+          ball(EX + RO * Math.cos(a), EY + RO * Math.sin(a), 20, C.spark, { w: 4 });
       }
     }
     $("#s0-draw").innerHTML = s;
-    tEl.textContent = turns >= 7.5 ? "7 tours et demi" : `${Math.floor(turns)} tour${turns >= 2 ? "s" : ""}`;
+    tEl.textContent =
+      turns >= 7.5 ? "7 tours et demi" : `${Math.floor(turns)} tour${turns >= 2 ? "s" : ""}`;
   });
   show("#s0-logo", S.start + 0.5, { y: -20 });
   show("#s0-n1", tPk + 0.3);
@@ -1016,15 +1035,21 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       // ===== s1.js =====
 // ---------- Scène 1 : la lumière part du Soleil, rebondit sur le chat, entre dans l'œil ; puis le noir ----------
 (() => {
-  const tA = cue("s1-1", "part") - 0.3, tB = cue("s1-1", "rebondit", 1) - 0.3, tC = cue("s1-1", "œil") - 0.5, tDark = cue("s1-4", "noir") - 0.5, tEyes = cue("s1-5", "voit") - 0.6;
+  const tA = cue("s1-1", "part") - 0.3,
+    tB = cue("s1-1", "rebondit", 1) - 0.3,
+    tC = cue("s1-1", "œil") - 0.5,
+    tDark = cue("s1-4", "noir") - 0.5,
+    tEyes = cue("s1-5", "voit") - 0.6;
   onDraw("s1", (t) => {
     const dark = ramp(t, tDark, tDark + 0.8);
     let s = "";
     s += `<g opacity="${f2(1 - dark)}">${sunSVG(300, 300, 110, t)}</g>`;
     // le rayon : Soleil → chat → œil (il se redessine en boucle pour montrer le trajet)
     const loop = (t - tA) % 3.2;
-    const a = t < tB ? lin(t, tA, tA + 0.6) : lin(loop, 0, 0.6), b = t < tB ? 0 : t < tC ? lin(t, tB, tB + 0.6) : lin(loop, 0.6, 1.2);
-    if (dark < 1 && t >= tA) s += `<g opacity="${f2(1 - dark)}">${raySVG(400, 370, 880, 590, C.spark, a)}${raySVG(900, 590, 1400, 470, C.spark, b)}</g>`;
+    const a = t < tB ? lin(t, tA, tA + 0.6) : lin(loop, 0, 0.6),
+      b = t < tB ? 0 : t < tC ? lin(t, tB, tB + 0.6) : lin(loop, 0.6, 1.2);
+    if (dark < 1 && t >= tA)
+      s += `<g opacity="${f2(1 - dark)}">${raySVG(400, 370, 880, 590, C.spark, a)}${raySVG(900, 590, 1400, 470, C.spark, b)}</g>`;
     s += `<path d="M560 840 H1360" class="ink" stroke-width="8" opacity="${f2(1 - dark * 0.8)}"/>`;
     s += `<g opacity="${f2(1 - dark)}">${catSVG(960, 836, 1.1)}${eyeSVG(1540, 450, 1.4)}</g>`;
     if (dark > 0) {
@@ -1033,7 +1058,8 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       const e = lin(t, tEyes, tEyes + 0.3);
       if (e > 0) {
         const bl = Math.abs(Math.sin(t * 0.9)) < 0.06 ? 0.15 : 1;
-        for (const dx of [-26, 26]) s += `<ellipse cx="${960 + dx}" cy="598" rx="15" ry="${f2(19 * bl)}" fill="#B6F25C" opacity="${f2(e)}"/><ellipse cx="${960 + dx}" cy="598" rx="4" ry="${f2(15 * bl)}" fill="${C.ink}" opacity="${f2(e)}"/>`;
+        for (const dx of [-26, 26])
+          s += `<ellipse cx="${960 + dx}" cy="598" rx="15" ry="${f2(19 * bl)}" fill="#B6F25C" opacity="${f2(e)}"/><ellipse cx="${960 + dx}" cy="598" rx="4" ry="${f2(15 * bl)}" fill="${C.ink}" opacity="${f2(e)}"/>`;
       }
     }
     $("#s1-draw").innerHTML = s;
@@ -1046,19 +1072,32 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       // ===== s2.js =====
 // ---------- Scène 2 : le prisme sépare la lumière blanche ; l'arc-en-ciel ----------
 (() => {
-  const tBeam = cue("s2-2", "blanche") - 0.6, tPr = cue("s2-2", "prisme") - 0.5, tSplit = cue("s2-2", "séparent") - 1.0, tBow = cue("s2-3", "arc") - 0.6;
+  const tBeam = cue("s2-2", "blanche") - 0.6,
+    tPr = cue("s2-2", "prisme") - 0.5,
+    tSplit = cue("s2-2", "séparent") - 1.0,
+    tBow = cue("s2-3", "arc") - 0.6;
   onDraw("s2", (t) => {
     const bow = ramp(t, tBow, tBow + 0.7);
     let s = "";
     if (bow < 1) {
       // le faisceau blanc, le prisme, puis l'éventail de couleurs
-      const spread = ramp(t, tSplit, tSplit + 1.2), pr = lin(t, tPr, tPr + 0.4), beam = lin(t, tBeam, tBeam + 0.6);
+      const spread = ramp(t, tSplit, tSplit + 1.2),
+        pr = lin(t, tPr, tPr + 0.4),
+        beam = lin(t, tBeam, tBeam + 0.6);
       let g = raySVG(140, 620, 760, 540, "#FFFFFF", beam, 26);
       if (pr > 0) {
         RAINBOW.forEach((c, i) => {
           // le rouge est le moins dévié, le violet le plus
           const ang = rad(6 + spread * (i * 7.5));
-          g += raySVG(900, 540, 900 + 800 * Math.cos(ang), 540 + 800 * Math.sin(ang), spread > 0.05 ? c : "#FFFFFF", lin(t, tPr + 0.3, tPr + 0.9), lerp(26, 16, spread));
+          g += raySVG(
+            900,
+            540,
+            900 + 800 * Math.cos(ang),
+            540 + 800 * Math.sin(ang),
+            spread > 0.05 ? c : "#FFFFFF",
+            lin(t, tPr + 0.3, tPr + 0.9),
+            lerp(26, 16, spread),
+          );
         });
         g += `<path d="M830 300 L1010 700 H650 Z" fill="#CFEFFF" fill-opacity="0.75" class="ink" stroke-width="6" opacity="${f2(pr)}"/><path d="M800 420 L740 640" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="${f2(pr * 0.8)}"/>`;
       }
@@ -1066,10 +1105,14 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
     }
     if (bow > 0) {
       // le Soleil derrière, la pluie devant, l'arc-en-ciel au milieu
-      let g = sunSVG(260, 420, 100, t) + `<path d="M120 860 H1800" class="ink" stroke-width="8"/>` + figSVG(640, 856, 1.3, C.blue);
+      let g =
+        sunSVG(260, 420, 100, t) +
+        `<path d="M120 860 H1800" class="ink" stroke-width="8"/>` +
+        figSVG(640, 856, 1.3, C.blue);
       const arc = lin(t, tBow + 0.4, tBow + 1.6);
       RAINBOW.forEach((c, i) => {
-        const r = 520 - i * 26, a1 = Math.PI + arc * Math.PI;
+        const r = 520 - i * 26,
+          a1 = Math.PI + arc * Math.PI;
         g += `<path d="M${1260 - r} 860 A${r} ${r} 0 0 1 ${f2(1260 + r * Math.cos(a1))} ${f2(860 + r * Math.sin(a1))}" fill="none" stroke="${c}" stroke-width="26"/>`;
       });
       for (let i = 0; i < 26; i++) {
@@ -1082,37 +1125,60 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
   });
   show("#s2-n1", tBeam + 0.5);
   tl.to("#s2-n1", { opacity: 0, duration: 0.3 }, tBow - 0.1);
-  ["Rouge", "orange", "jaune", "vert", "bleu", "violet"].forEach((w, i) => pop(`#s2-cols .c:nth-child(${i + 1})`, cue("s2-3", w) - 0.1));
+  ["Rouge", "orange", "jaune", "vert", "bleu", "violet"].forEach((w, i) =>
+    pop(`#s2-cols .c:nth-child(${i + 1})`, cue("s2-3", w) - 0.1),
+  );
   show("#s2-n2", cue("s2-4", "dos") - 0.6);
 })();
 
       // ===== s3.js =====
 // ---------- Scène 3 : la pomme avale toutes les couleurs sauf le rouge ; le noir avale tout, le blanc renvoie tout ----------
 (() => {
-  const tIn = cue("s3-2", "reçoit") - 0.4, tOut = cue("s3-2", "renvoie") - 0.5, tTee = cue("s3-5", "noir") - 0.7;
-  const tee = (x, y, col, ink) => `<path d="M${x - 150} ${y - 150} L${x - 60} ${y - 190} Q${x} ${y - 150} ${x + 60} ${y - 190} L${x + 150} ${y - 150} L${x + 200} ${y - 60} L${x + 130} ${y - 20} L${x + 110} ${y - 60} V${y + 190} H${x - 110} V${y - 60} L${x - 130} ${y - 20} L${x - 200} ${y - 60} Z" fill="${col}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
+  const tIn = cue("s3-2", "reçoit") - 0.4,
+    tOut = cue("s3-2", "renvoie") - 0.5,
+    tTee = cue("s3-5", "noir") - 0.7;
+  const tee = (x, y, col, ink) =>
+    `<path d="M${x - 150} ${y - 150} L${x - 60} ${y - 190} Q${x} ${y - 150} ${x + 60} ${y - 190} L${x + 150} ${y - 150} L${x + 200} ${y - 60} L${x + 130} ${y - 20} L${x + 110} ${y - 60} V${y + 190} H${x - 110} V${y - 60} L${x - 130} ${y - 20} L${x - 200} ${y - 60} Z" fill="${col}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
   onDraw("s3", (t) => {
     const b = ramp(t, tTee, tTee + 0.6);
     let s = "";
     if (b < 1) {
       // six rayons de couleur arrivent sur la pomme ; un seul repart
-      const ax = 960, ay = 620;
+      const ax = 960,
+        ay = 620;
       let g = "";
       RAINBOW.forEach((c, i) => {
-        g += beamSVG(180, 250 + i * 40, ax - 150, ay - 110 + i * 34, c, t + i * 0.1, (t - tIn - i * 0.08) * 1.6, 12);
+        g += beamSVG(
+          180,
+          250 + i * 40,
+          ax - 150,
+          ay - 110 + i * 34,
+          c,
+          t + i * 0.1,
+          (t - tIn - i * 0.08) * 1.6,
+          12,
+        );
       });
       g += `<path d="M${ax} ${ay - 150} C ${ax - 110} ${ay - 230}, ${ax - 250} ${ay - 150}, ${ax - 240} ${ay + 10} C ${ax - 230} ${ay + 160}, ${ax - 110} ${ay + 250}, ${ax} ${ay + 200} C ${ax + 110} ${ay + 250}, ${ax + 230} ${ay + 160}, ${ax + 240} ${ay + 10} C ${ax + 250} ${ay - 150}, ${ax + 110} ${ay - 230}, ${ax} ${ay - 150} Z" fill="#E0455E" class="ink" stroke-width="6"/><path d="M${ax} ${ay - 150} C ${ax - 4} ${ay - 210}, ${ax + 20} ${ay - 250}, ${ax + 50} ${ay - 270}" fill="none" class="ink" stroke-width="10"/><ellipse cx="${ax - 110}" cy="${ay - 60}" rx="40" ry="64" fill="#fff" opacity="0.3" transform="rotate(24 ${ax - 110} ${ay - 60})"/>`;
       if (t >= tOut) {
-        g += beamSVG(ax + 200, ay - 120, 1560, 380, "#E0455E", t, (t - tOut) * 1.5, 16) + eyeSVG(1660, 340, 1.2);
+        g +=
+          beamSVG(ax + 200, ay - 120, 1560, 380, "#E0455E", t, (t - tOut) * 1.5, 16) +
+          eyeSVG(1660, 340, 1.2);
       }
       s += `<g opacity="${f2(1 - b)}">${g}</g>`;
     }
     if (b > 0) {
       // deux tee-shirts au soleil
-      let g = sunSVG(960, 250, 90, t) + tee(520, 600, "#2A3350", "#000") + tee(1400, 600, "#FFFFFF", C.ink);
+      let g =
+        sunSVG(960, 250, 90, t) +
+        tee(520, 600, "#2A3350", "#000") +
+        tee(1400, 600, "#FFFFFF", C.ink);
       // la lumière blanche du Soleil : le noir la garde, le blanc la renvoie
       const u = (t - tTee) * 1.4;
-      g += beamSVG(880, 300, 600, 520, "#FFFFFF", t, u, 20) + beamSVG(1040, 300, 1320, 520, "#FFFFFF", t, u, 20) + beamSVG(1320, 520, 1700, 330, "#FFFFFF", t, u - 1, 20);
+      g +=
+        beamSVG(880, 300, 600, 520, "#FFFFFF", t, u, 20) +
+        beamSVG(1040, 300, 1320, 520, "#FFFFFF", t, u, 20) +
+        beamSVG(1320, 520, 1700, 330, "#FFFFFF", t, u - 1, 20);
       // la chaleur monte du tee-shirt noir
       for (let i = 0; i < 3; i++) {
         const u = (t * 0.6 + i / 3) % 1;
@@ -1131,33 +1197,54 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       // ===== s4.js =====
 // ---------- Scène 4 : le ciel bleu (le bleu rebondit sur l'air), puis le coucher de soleil ----------
 (() => {
-  const tBlue = cue("s4-2", "bleue") - 0.5, tEve = cue("s4-3", "soir") - 0.5;
+  const tBlue = cue("s4-2", "bleue") - 0.5,
+    tEve = cue("s4-3", "soir") - 0.5;
   onDraw("s4", (t) => {
-    const blue = ramp(t, tBlue, tBlue + 1.6), eve = ramp(t, tEve, tEve + 2.0);
+    const blue = ramp(t, tBlue, tBlue + 1.6),
+      eve = ramp(t, tEve, tEve + 2.0);
     // le ciel : blanc → bleu, puis orangé le soir
-    const top = mixHex(mixHex("#FFFFFF", "#7CC4F5", blue), "#5B6FB8", eve), bot = mixHex(mixHex("#FFFFFF", "#CDE9FB", blue), "#FF9A4A", eve);
+    const top = mixHex(mixHex("#FFFFFF", "#7CC4F5", blue), "#5B6FB8", eve),
+      bot = mixHex(mixHex("#FFFFFF", "#CDE9FB", blue), "#FF9A4A", eve);
     let s = `<defs><linearGradient id="s4-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bot}"/></linearGradient><clipPath id="s4-clip"><rect x="130" y="190" width="1660" height="660" rx="34"/></clipPath></defs>`;
     s += `<g clip-path="url(#s4-clip)"><rect x="130" y="190" width="1660" height="660" fill="url(#s4-sky)"/>`;
     // le Soleil descend vers l'horizon
-    const sx = lerp(520, 300, eve), sy = lerp(300, 720, eve);
+    const sx = lerp(520, 300, eve),
+      sy = lerp(300, 720, eve);
     s += sunSVG(sx, sy, 80, t);
     // les grains d'air
-    for (let i = 0; i < 70; i++) s += `<circle cx="${f2(150 + rnd(i) * 1620)}" cy="${f2(210 + rnd(i + 100) * 560)}" r="5" fill="#fff" opacity="0.5"/>`;
+    for (let i = 0; i < 70; i++)
+      s += `<circle cx="${f2(150 + rnd(i) * 1620)}" cy="${f2(210 + rnd(i + 100) * 560)}" r="5" fill="#fff" opacity="0.5"/>`;
     // le faisceau : du Soleil jusqu'à l'observateur
-    const ox = 1560, oy = 760;
+    const ox = 1560,
+      oy = 760;
     const n = 9;
     for (let k = 0; k < n; k++) {
-      const u0 = k / n, u1 = (k + 1) / n, x0 = lerp(sx, ox, u0), y0 = lerp(sy, oy, u0), x1 = lerp(sx, ox, u1), y1 = lerp(sy, oy, u1);
+      const u0 = k / n,
+        u1 = (k + 1) / n,
+        x0 = lerp(sx, ox, u0),
+        y0 = lerp(sy, oy, u0),
+        x1 = lerp(sx, ox, u1),
+        y1 = lerp(sy, oy, u1);
       // le soir, le faisceau rougit à mesure qu'il traverse l'air
-      const col = mixHex("#FFFFFF", mixHex("#FFD23F", "#F0556A", u1), eve * u1 * 1.2 + (1 - eve) * 0.0);
+      const col = mixHex(
+        "#FFFFFF",
+        mixHex("#FFD23F", "#F0556A", u1),
+        eve * u1 * 1.2 + (1 - eve) * 0.0,
+      );
       s += `<path d="M${f2(x0)} ${f2(y0)} L${f2(x1)} ${f2(y1)}" stroke="${col}" stroke-width="22" stroke-linecap="round"/>`;
       // le bleu qui s'échappe du faisceau en zigzag
-      if (blue > 0) for (let j = 0; j < 2; j++) {
-        const id = k * 2 + j, ph = (t * 0.7 + rnd(id)) % 1, a = rnd(id + 40) * TAU, d = ph * 260 * (eve > 0.5 && u0 > 0.55 ? 0.15 : 1);
-        s += `<path d="M${f2(x0 + d * Math.cos(a))} ${f2(y0 + d * Math.sin(a))} l${f2(26 * Math.cos(a))} ${f2(26 * Math.sin(a))}" stroke="${C.blue}" stroke-width="9" stroke-linecap="round" opacity="${f2(blue * (1 - ph) * (eve > 0.5 && u0 > 0.55 ? 0.2 : 1))}"/>`;
-      }
+      if (blue > 0)
+        for (let j = 0; j < 2; j++) {
+          const id = k * 2 + j,
+            ph = (t * 0.7 + rnd(id)) % 1,
+            a = rnd(id + 40) * TAU,
+            d = ph * 260 * (eve > 0.5 && u0 > 0.55 ? 0.15 : 1);
+          s += `<path d="M${f2(x0 + d * Math.cos(a))} ${f2(y0 + d * Math.sin(a))} l${f2(26 * Math.cos(a))} ${f2(26 * Math.sin(a))}" stroke="${C.blue}" stroke-width="9" stroke-linecap="round" opacity="${f2(blue * (1 - ph) * (eve > 0.5 && u0 > 0.55 ? 0.2 : 1))}"/>`;
+        }
     }
-    s += `</g><rect x="130" y="190" width="1660" height="660" rx="34" fill="none" class="ink" stroke-width="5"/><path d="M130 850 H1790" class="ink" stroke-width="6"/>` + figSVG(ox + 60, 848, 0.9, C.blue);
+    s +=
+      `</g><rect x="130" y="190" width="1660" height="660" rx="34" fill="none" class="ink" stroke-width="5"/><path d="M130 850 H1790" class="ink" stroke-width="6"/>` +
+      figSVG(ox + 60, 848, 0.9, C.blue);
     $("#s4-draw").innerHTML = s;
   });
   show("#s4-n1", tBlue + 0.8);
@@ -1168,12 +1255,18 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
       // ===== s5.js =====
 // ---------- Scène 5 : l'œil (la rétine et ses trois sortes de capteurs), le jaune fabriqué par le cerveau ----------
 (() => {
-  const tRet = cue("s5-2", "rétine") - 0.4, tCones = cue("s5-2", "Trois") - 0.3, tY = cue("s5-4", "Rouge") - 0.5, tTV = cue("s5-5", "écran") - 0.5;
-  const EX = 620, EY = 560, ER = 300;
+  const tRet = cue("s5-2", "rétine") - 0.4,
+    tCones = cue("s5-2", "Trois") - 0.3,
+    tY = cue("s5-4", "Rouge") - 0.5,
+    tTV = cue("s5-5", "écran") - 0.5;
+  const EX = 620,
+    EY = 560,
+    ER = 300;
   const say = document.getElementById("s5-say");
   const CN = ["#E0455E", "#3DBE8B", "#2F5BD3"];
   onDraw("s5", (t) => {
-    const yel = t >= tY, light = yel ? C.hot : "#E0455E";
+    const yel = t >= tY,
+      light = yel ? C.hot : "#E0455E";
     let s = "";
     // l'œil en coupe : la lumière entre à gauche, la rétine tapisse le fond à droite
     s += `<circle cx="${EX}" cy="${EY}" r="${ER}" fill="#fff" class="ink" stroke-width="6"/><ellipse cx="${EX - ER + 50}" cy="${EY}" rx="46" ry="110" fill="#CFEFFF" class="ink" stroke-width="5"/><path d="M${EX - ER - 14} ${EY - 80} Q${EX - ER - 70} ${EY} ${EX - ER - 14} ${EY + 80}" fill="none" class="ink" stroke-width="6"/>`;
@@ -1182,8 +1275,12 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
     // les capteurs sur la rétine
     const cones = lin(t, tCones, tCones + 0.6);
     for (let i = 0; i < 15; i++) {
-      const a = rad(-56 + i * 8), x = EX + (ER - 34) * Math.cos(a), y = EY + (ER - 34) * Math.sin(a), k = i % 3;
-      const fires = yel ? k < 2 : k === 0, on = cones > 0 ? 1 : 0.15;
+      const a = rad(-56 + i * 8),
+        x = EX + (ER - 34) * Math.cos(a),
+        y = EY + (ER - 34) * Math.sin(a),
+        k = i % 3;
+      const fires = yel ? k < 2 : k === 0,
+        on = cones > 0 ? 1 : 0.15;
       const pulse = fires && cones > 0 ? 1 + 0.25 * Math.abs(Math.sin(t * 6 + i)) : 1;
       s += `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(17 * pulse)}" fill="${fires || cones === 0 ? CN[k] : "#fff"}" stroke="${CN[k]}" stroke-width="6" opacity="${f2(on)}"/>`;
     }
@@ -1193,19 +1290,35 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
     const tv = lin(t, tTV, tTV + 0.5);
     if (tv > 0) {
       let g = `<rect x="1180" y="440" width="560" height="380" rx="30" fill="${C.ink}"/>`;
-      for (let j = 0; j < 4; j++) for (let i = 0; i < 5; i++) for (let k = 0; k < 3; k++) {
-        const lit = yel ? k < 2 : k === 0;
-        g += `<rect x="${1210 + i * 104 + k * 30}" y="${468 + j * 84}" width="24" height="64" rx="8" fill="${lit ? CN[k] : "#39425C"}"/>`;
-      }
+      for (let j = 0; j < 4; j++)
+        for (let i = 0; i < 5; i++)
+          for (let k = 0; k < 3; k++) {
+            const lit = yel ? k < 2 : k === 0;
+            g += `<rect x="${1210 + i * 104 + k * 30}" y="${468 + j * 84}" width="24" height="64" rx="8" fill="${lit ? CN[k] : "#39425C"}"/>`;
+          }
       s += `<g opacity="${f2(tv)}">${g}</g>`;
     }
     $("#s5-draw").innerHTML = s;
     say.textContent = yel ? "jaune !" : "rouge";
     say.style.color = yel ? "#B88A00" : "#E0455E";
   });
-  const lab = { ret: label("s5", "s5-l-ret", [EX + 250, EY + 130], [640, 920], "La rétine", "un écran couvert de capteurs") };
+  const lab = {
+    ret: label(
+      "s5",
+      "s5-l-ret",
+      [EX + 250, EY + 130],
+      [640, 920],
+      "La rétine",
+      "un écran couvert de capteurs",
+    ),
+  };
   showLabel(lab.ret, tRet);
-  tl.fromTo("#s5-brain", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.4, ease: OUT }, cue("s5-2", "rouge") - 0.2);
+  tl.fromTo(
+    "#s5-brain",
+    { opacity: 0, y: -20 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    cue("s5-2", "rouge") - 0.2,
+  );
   show("#s5-n1", tTV + 0.4);
 })();
 
@@ -1224,7 +1337,9 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
     }
     s += `<circle cx="520" cy="500" r="56" fill="${C.hot}" class="ink" stroke-width="5"/>`;
     for (let i = 0; i < 12; i++) {
-      const u = (((t - tSp) * 0.22 + rnd(i)) % 1), x = 560 + u * 760, y = 470 - 120 * Math.sin(u * Math.PI) + rnd(i + 30) * 200 - 60;
+      const u = ((t - tSp) * 0.22 + rnd(i)) % 1,
+        x = 560 + u * 760,
+        y = 470 - 120 * Math.sin(u * Math.PI) + rnd(i + 30) * 200 - 60;
       s += ball(x, y, 13, C.hot, { w: 3, op: Math.sin(u * Math.PI) });
     }
     $("#s6-draw").innerHTML = s;
@@ -1234,11 +1349,21 @@ const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
   show("#s6-k3", cue("s6-1", "blanc") - 0.4, { y: 50 });
   tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
   tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
-  tl.fromTo("#s6-atch", { opacity: 0, scale: 0.3, rotation: -6 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.3, ease: "back.out(2.2)" }, cue("s6-3", "coule") - 0.2);
+  tl.fromTo(
+    "#s6-atch",
+    { opacity: 0, scale: 0.3, rotation: -6 },
+    { opacity: 1, scale: 1, rotation: -6, duration: 0.3, ease: "back.out(2.2)" },
+    cue("s6-3", "coule") - 0.2,
+  );
   pop("#s6-next", cue("s6-4", "prochaine") - 0.3);
   const tEnd = S.end - 3.2;
   tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
-  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  tl.fromTo(
+    "#s6-end",
+    { opacity: 0, scale: 0.5, y: 80 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tEnd + 0.4,
+  );
   show("#s6-bye", tEnd + 0.9);
 })();
 
