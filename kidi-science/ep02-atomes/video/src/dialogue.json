@@ -1,0 +1,200 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, si je coupe ma tartine en deux, puis encore en deux, et encore… je peux continuer jusqu'où ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Bonne question. À ton avis ?"
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Jusqu'à la miette. Puis la miette de miette. Mais à un moment, ça doit bien s'arrêter."
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Ça s'arrête. Tout au bout, tu arrives à des grains si petits qu'aucun couteau ne peut les couper : les atomes."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Petits comment ? Comme un grain de sable ?"
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "max",
+    "text": "Bien plus petits. Dans un seul grain de sable, il y a plus d'atomes que de grains de sable sur toute une plage."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc ma tartine, c'est des milliards de milliards de grains collés ensemble. Elle a l'air moins appétissante, d'un coup."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Et le plus étonnant, c'est l'intérieur. Au centre, un noyau, tout petit et très lourd. Autour, des électrons minuscules qui tournoient."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Comme des planètes autour du Soleil ?"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "On le dessine souvent comme ça. En vrai, c'est plutôt un nuage : les électrons sont un peu partout à la fois autour du noyau."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et entre le noyau et les électrons, il y a quoi ?"
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Rien. Si le noyau était une bille posée au milieu d'un stade de foot, les électrons tourneraient dans les gradins."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Attends. Si les atomes sont presque vides… moi aussi, je suis presque vide ?"
+  },
+  {
+    "id": "s2-7",
+    "scene": "s2",
+    "who": "max",
+    "text": "Presque entièrement."
+  },
+  {
+    "id": "s2-8",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Alors pourquoi je ne passe pas à travers ma chaise ?"
+  },
+  {
+    "id": "s2-9",
+    "scene": "s2",
+    "who": "max",
+    "text": "Parce que les électrons de la chaise repoussent ceux de ton pantalon. Ils ne se touchent jamais vraiment."
+  },
+  {
+    "id": "s2-10",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Donc je ne me suis jamais vraiment assise de ma vie. Je flotte. Je le savais."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et il y a combien de sortes d'atomes ? Des millions ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Même pas. Un peu plus de cent. Hydrogène, oxygène, carbone, fer, or…"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Cent sortes seulement, pour fabriquer tout l'univers ? C'est comme un jeu de construction, alors : peu de briques, mais on peut tout bâtir."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Tu vois, moi, j'ai mis trois ans d'études à trouver cette comparaison."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Et quand des atomes s'accrochent ensemble, ça donne une molécule. Deux atomes d'hydrogène, un atome d'oxygène : devine."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "H, deux, O… C'est de l'eau !"
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Gagné. Et si tu changes une seule brique, tu changes tout. Un atome de carbone avec deux d'oxygène, c'est le gaz des bulles de ton soda. Avec un seul d'oxygène, c'est un poison."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc en chimie, on n'a pas le droit de se tromper d'une brique. Noté."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Mais la glace, l'eau et la vapeur, c'est la même molécule ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "La même ! Dans la glace, les molécules se tiennent bien rangées. Dans l'eau, elles glissent les unes sur les autres. Dans la vapeur, elles filent dans tous les sens."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Rangées, en vrac, ou en pleine récré. Comme ma chambre, selon les jours."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : tout est fait d'atomes, un noyau au milieu, des électrons autour, et ils s'assemblent en molécules comme des briques."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Rien à ajouter. Tu me piques mon travail."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… ces électrons, ils peuvent se promener d'un atome à l'autre ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Oui. Et quand ils se promènent tous dans le même sens, ça s'appelle l'électricité. La prochaine fois !"
+  }
+]

@@ -1,0 +1,236 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, j'appuie sur l'interrupteur, et paf, la lampe s'allume. Il se passe quoi, dans le fil ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "À ton avis ?"
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Je dirais que quelque chose court dedans. Mais quoi ? Des fourmis lumineuses ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque ! Remplace les fourmis par des électrons, tu sais, ceux qui tournent autour des atomes, et tu as bon."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Un fil électrique est en métal. Et dans le métal, il y a des milliards de grains minuscules qui se baladent : les électrons. D'habitude, ils partent dans tous les sens."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Comme ma classe à la récré."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Mais quand on les pousse tous dans le même sens, ça fait un courant. C'est ça, l'électricité."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Attends. Si la lampe s'allume tout de suite, c'est qu'ils foncent, tes électrons !"
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "Eh non : ils avancent plus lentement qu'un escargot."
+  },
+  {
+    "id": "s1-6",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Alors ça ne colle pas… Sauf si le fil est déjà plein ! Comme un tuyau rempli de billes : j'en pousse une d'un côté, et une autre sort aussitôt de l'autre."
+  },
+  {
+    "id": "s1-7",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tu viens de m'enlever les mots de la bouche. Je peux rentrer chez moi."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Maintenant, regarde ce circuit : une pile, un fil, une ampoule. Que se passe-t-il si je coupe le fil ici ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Ça s'éteint. Les électrons ne peuvent plus faire le tour."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Voilà. Il faut une boucle complète. Un interrupteur, ce n'est rien d'autre qu'un pont-levis : baissé, le courant passe. Levé, tout s'arrête."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Donc quand j'éteins ma chambre, je lève un pont-levis. Classe."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et la pile, elle sert à quoi ? Elle fabrique les électrons ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Non, ils sont déjà dans le fil. La pile, c'est une pompe : elle les pousse. Et la force de cette poussée, ça se mesure en volts."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Sur ma pile, il y a écrit un virgule cinq volt. Et dans la prise du mur ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Deux cent trente. C'est cent cinquante fois plus fort. Voilà pourquoi on ne met jamais, jamais les doigts dans une prise."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Promis. Je tiens à mes doigts, j'en ai besoin pour les jeux vidéo."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Dernière chose : tous les matériaux ne laissent pas passer le courant. On teste ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Une cuillère en métal : je parie que oui."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Gagné, la lampe s'allume. Une gomme ?"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Non. Sinon, les câbles ne seraient pas emballés dans du plastique."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "max",
+    "text": "Bien vu ! Et la mine d'un crayon ?"
+  },
+  {
+    "id": "s4-6",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Euh… non ?"
+  },
+  {
+    "id": "s4-7",
+    "scene": "s4",
+    "who": "max",
+    "text": "Eh si ! La mine est en graphite, et le graphite conduit le courant."
+  },
+  {
+    "id": "s4-8",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Un partout. Tu m'as eue."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Mais dans la prise, il n'y a pas de pile géante. Qui pousse les électrons ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Une centrale. Tu te souviens du moteur électrique de la voiture ?"
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Oui : des aimants et des bobines. Et quand il marche à l'envers, il fabrique du courant… Oh ! Une centrale, c'est pareil ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Exactement pareil, en énorme. Le vent, l'eau d'un barrage ou de la vapeur font tourner un aimant au milieu de bobines de fil. Et l'aimant qui tourne pousse les électrons jusque chez toi."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : des électrons qui avancent tous ensemble, une boucle fermée, et quelque chose qui pousse."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu as tout compris. Rien à ajouter."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Si, une question : pourquoi les oiseaux posés sur les câbles électriques ne grillent pas ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parce qu'ils ne touchent qu'un seul fil : pas de boucle, pas de courant."
+  },
+  {
+    "id": "s6-5",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Les malins. Dis, Max… et pourquoi ma tartine tombe toujours par terre ?"
+  },
+  {
+    "id": "s6-6",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ça, c'est la gravité. La prochaine fois !"
+  }
+]

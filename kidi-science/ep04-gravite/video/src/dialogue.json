@@ -1,0 +1,218 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, j'ai une question sérieuse. Ma tartine tombe toujours par terre. Jamais au plafond. Pourquoi ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Parce que la Terre l'attire. Ça s'appelle la gravité."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Et elle l'attire côté confiture, en plus."
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Ça, hélas, la science y travaille encore."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "La Terre attire tout ce qui l'entoure vers son centre. Toi, moi, la tartine, les océans."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Vers le centre… Donc le bas, ce n'est pas le même pour tout le monde ! En Australie, leur bas, c'est notre haut."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Personne n'a la tête en bas : chacun a les pieds tournés vers le centre de la Terre."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Dommage. J'aimais bien l'idée des kangourous accrochés par les pattes."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Mais pourquoi c'est la Terre qui attire ? Elle a un aimant géant ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Non. Tout ce qui est fait de matière attire tout le reste. Plus il y a de matière, plus ça attire fort. Et la Terre est gigantesque."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Tout attire tout ? Alors moi aussi, j'attire la Terre ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui ! Mais tu pèses trente kilos, et elle, six mille milliards de milliards de tonnes. C'est elle qui gagne."
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Pour l'instant."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "À ton avis : si je lâche un marteau et une plume en même temps, qui arrive en premier ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Le marteau. Mais c'est un piège : c'est l'air qui freine la plume, pas la gravité."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Je ne peux plus te piéger. Et sans air ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Sans air… ils tombent ensemble ?"
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "max",
+    "text": "Oui ! Un astronaute a fait l'expérience sur la Lune, où il n'y a pas d'air. Le marteau et la plume ont touché le sol exactement en même temps."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Justement, la Lune. Si la Terre attire tout, pourquoi la Lune ne nous tombe pas dessus ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Elle tombe ! Tout le temps. Imagine un canon en haut d'une montagne. Un petit tir : le boulet retombe tout près. Plus fort : il retombe plus loin. Encore plus fort…"
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Il fait le tour de la Terre !"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Exactement. Il tombe, mais comme la Terre est ronde, le sol se dérobe sous lui. Il tombe sans jamais toucher le sol. La Lune fait ça depuis des milliards d'années."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc la Lune, c'est un boulet qui rate la Terre en permanence."
+  },
+  {
+    "id": "s4-6",
+    "scene": "s4",
+    "who": "max",
+    "text": "C'est la plus belle définition que j'aie entendue."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et les astronautes qui flottent dans la station spatiale ? Là-haut, il n'y a plus de gravité ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Si, presque autant qu'ici ! Mais la station tombe autour de la Terre, comme le boulet. Et les astronautes tombent avec elle. Quand tout tombe ensemble, on flotte."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Comme en haut d'un toboggan, quand le ventre se soulève ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Pareil. Sauf que ça dure six mois."
+  },
+  {
+    "id": "s5-5",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Six mois de ventre qui se soulève. Je passe mon tour."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : tout attire tout, plus c'est gros plus ça attire, et la Lune tombe sans arrêt en ratant la Terre."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parfait. Un dernier chiffre : la Lune est plus petite, alors elle attire six fois moins. Là-bas, tu sauterais six fois plus haut."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Six fois ? Je deviens championne de basket. On y va quand ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Dès que tu as fini tes devoirs."
+  },
+  {
+    "id": "s6-5",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et dans l'espace, si je crie très fort, on m'entend ?"
+  },
+  {
+    "id": "s6-6",
+    "scene": "s6",
+    "who": "max",
+    "text": "Non. Et pour comprendre pourquoi, il faut parler du son. La prochaine fois !"
+  }
+]

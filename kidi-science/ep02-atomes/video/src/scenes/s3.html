@@ -1,0 +1,52 @@
+          <style>
+            #s3-grid {
+              position: absolute;
+              left: 381px;
+              top: 200px;
+              width: 1158px;
+              display: grid;
+              grid-template-columns: repeat(7, 150px);
+              gap: 18px;
+              transform-origin: 0 0;
+            }
+            .el {
+              height: 150px;
+              border-radius: 24px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            }
+            .el b {
+              font-size: 64px;
+              font-weight: 700;
+              line-height: 1;
+            }
+            .el span {
+              font-size: 28px;
+              font-weight: 600;
+              color: var(--sub);
+              height: 34px;
+            }
+            #s3-bricks {
+              position: absolute;
+              left: 1120px;
+              top: 240px;
+              width: 640px;
+              height: 600px;
+            }
+            .brick {
+              position: absolute;
+              height: 70px;
+              border-radius: 14px;
+              border: 3.5px solid var(--ink);
+            }
+          </style>
+          <div id="s3-grid"></div>
+          <div id="s3-bricks"></div>
+          <div class="note" id="s3-n1" style="left: 640px; top: 900px">Un peu plus de 100 sortes d’atomes</div>
+          <div class="note" id="s3-n2" style="left: 1090px; top: 900px; background: #ffe14d">Peu de briques, mais on peut tout bâtir</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Combien de sortes ?</div>

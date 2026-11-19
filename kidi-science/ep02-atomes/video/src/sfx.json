@@ -1,0 +1,20 @@
+[
+  { "file": "pop", "at": ["g-1", "marche"], "offset": 0.95, "volume": 0.4 },
+  { "file": "jingle", "at": ["g-1", "marche"], "offset": 1.95, "volume": 0.45 },
+  { "file": "whoosh", "at": ["@g", "end"], "offset": -0.75, "volume": 0.4 },
+  { "file": "pop", "at": ["s0-1", "deux"], "offset": 0.1, "volume": 0.3 },
+  { "file": "pop", "at": ["s0-1", "deux", 1], "offset": 0.1, "volume": 0.3 },
+  { "file": "pop", "at": ["s0-3", "miette"], "offset": 0.1, "volume": 0.3 },
+  { "file": "chime", "at": ["s0-4", "atomes"], "offset": -0.1, "volume": 0.35 },
+  { "file": "whoosh", "at": ["@s1", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s2", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s3", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "pop", "at": ["s3-3", "jeu"], "offset": 0.1, "volume": 0.3 },
+  { "file": "whoosh", "at": ["@s4", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "chime", "at": ["s4-2", "eau"], "offset": -0.2, "volume": 0.35 },
+  { "file": "pop", "at": ["s4-3", "poison"], "offset": -0.3, "volume": 0.35 },
+  { "file": "whoosh", "at": ["@s5", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s6", "start"], "offset": -0.25, "volume": 0.25 },
+  { "file": "zap", "at": ["s6-4", "électricité"], "offset": -0.3, "volume": 0.3 },
+  { "file": "jingle", "at": ["@s6", "end"], "offset": -2.9, "volume": 0.45, "dur": 2.85 }
+]
