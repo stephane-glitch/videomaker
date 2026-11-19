@@ -35,6 +35,14 @@ Environ 250 mots, soit ≈ 1 min 40 de voix à un débit posé (~2,5 mots/s) ; a
 | 6   | 1:38–1:52 | « Sur le grand écran, toute l'entreprise suit en direct le voyage de chaque application. Vous jouerez trois manches de quinze minutes, avec un temps pour prendre du recul entre chacune. Les échanges et les déplacements sont autorisés. »                                                                                                                                                                                                       | Le grand écran de la salle : un tableau de bord épuré (applications en route, applications en service). Une application passe en service : petite célébration. Puis une frise : 3 manches de 15 min séparées par des pauses « débrief ».                                                                                                                                                                                                                                                                                                               |
 | 7   | 1:52–2:02 | « Votre mission : mettre en service un maximum d'applications. Installez-vous, ouvrez grand les yeux… et préparez-vous au décollage. »                                                                                                                                                                                                                                                                                                             | Le compteur « applications en service » s'emballe, l'avion en papier décolle à travers les nuages. Carton final repris du brief : **PRÉPAREZ-VOUS AU DÉCOLLAGE**.                                                                                                                                                                                                                                                                                                                                                                                      |
 
+## Contrainte de production (décidée le 19/11/2026)
+
+**Aucune clé API pour produire la vidéo**, sauf pour la voix si l'utilisateur le
+demande explicitement. Concrètement : pas de génération d'images (OpenAI, Gemini),
+pas de musique ni de bruitages générés. Visuels = images du brief PowerPoint +
+motion design en code ; rendu local avec HyperFrames. Musique : fournie par
+l'utilisateur ou bibliothèque libre de droits, sinon vidéo muette.
+
 ## Style visuel proposé : « Ciel clair 2040 »
 
 Reprendre l'identité du brief PowerPoint pour que la vidéo et les supports du
@@ -53,9 +61,8 @@ jeu ne fassent qu'un (planche des diapositives : `brief-planche.jpg`).
   trajectoire, petites mentions en capitales espacées (« INNOVER · APPRENDRE ·
   DÉCOLLER »), logo AÉRONOVA aux lettres espacées.
 - **Images** : les visuels du brief (l'avion, la cabine, les trois applications)
-  animés par de lents mouvements de caméra et des effets de profondeur. Pour les
-  autres applications, de nouvelles images dans le même style peuvent être
-  générées (OpenAI ou Gemini sont disponibles).
+  animés par de lents mouvements de caméra et des effets de profondeur. Les
+  autres applications sont traitées en graphisme (fiches), sans image générée.
 - **Partie « comment on joue »** : du motion design épuré plutôt que des images
   réalistes (escales, fiche qui voyage, aperçus des défis), plus lisible pour
   expliquer.
