@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Mission Flow — Vidéo de briefing — Proposition pour validation</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  :root {
+    --blue: #1557FF; --navy: #071342; --slate: #31405B; --pale: #B9D3FF;
+    --sky: #EEF4FF; --line: #D6E2FA; --muted: #6B7895;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; }
+  body { font-family: Inter, "Helvetica Neue", Arial, sans-serif; color: var(--slate); font-size: 10.5pt; line-height: 1.45; }
+  .page {
+    width: 297mm; height: 210mm; position: relative; overflow: hidden;
+    padding: 16mm 18mm 14mm; page-break-after: always;
+    background: linear-gradient(180deg, #fff 0%, #fff 60%, var(--sky) 100%);
+  }
+  .page:last-child { page-break-after: auto; }
+  /* coins de cadrage */
+  .page::before, .page::after { content: ""; position: absolute; width: 9mm; height: 9mm; border: 0 solid var(--blue); }
+  .page::before { top: 8mm; left: 8mm; border-top-width: 1.2pt; border-left-width: 1.2pt; }
+  .page::after { bottom: 8mm; right: 8mm; border-bottom-width: 1.2pt; border-right-width: 1.2pt; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7mm; }
+  .brand { font-size: 9pt; letter-spacing: .42em; color: var(--navy); font-weight: 500; }
+  .brand b { color: var(--blue); font-weight: 600; }
+  .kicker { font-size: 7.5pt; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+  .foot { position: absolute; left: 18mm; right: 18mm; bottom: 9mm; display: flex; justify-content: space-between; font-size: 7.5pt; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 25pt; line-height: 1.08; color: var(--navy); margin: 0 0 4mm; font-weight: 700; letter-spacing: -.01em; }
+  h1 em { font-style: normal; color: var(--blue); }
+  h2 { font-size: 18pt; color: var(--navy); margin: 0 0 5mm; font-weight: 700; }
+  h2 em { font-style: normal; color: var(--blue); }
+  h3 { font-size: 10pt; color: var(--navy); margin: 0 0 2mm; font-weight: 700; }
+  p { margin: 0 0 2.5mm; }
+  .lead { font-size: 12pt; color: var(--slate); max-width: 150mm; }
+
+  /* couverture */
+  .cover { display: grid; grid-template-columns: 1fr 118mm; gap: 12mm; align-items: center; height: 150mm; }
+  .cover img { width: 100%; border-radius: 3mm; box-shadow: 0 2mm 8mm rgba(7,19,66,.12); }
+  .facts { display: grid; grid-template-columns: repeat(4, auto); gap: 4mm 9mm; margin-top: 8mm; }
+  .fact .k { font-size: 7.5pt; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .fact .v { font-size: 12.5pt; font-weight: 700; color: var(--navy); }
+  .ask { margin-top: 8mm; padding: 4mm 5mm; background: var(--sky); border-left: 1.2mm solid var(--blue); border-radius: 1.5mm; max-width: 150mm; }
+
+  /* deux colonnes */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+  .card { background: #fff; border: .6pt solid var(--line); border-radius: 2.5mm; padding: 5mm 6mm; }
+  ul { margin: 0; padding-left: 4.5mm; } li { margin-bottom: 1.6mm; }
+  .no li::marker { color: #C4352B; } .yes li::marker { color: var(--blue); }
+
+  /* scènes */
+  .scenes { display: grid; gap: 2.4mm; }
+  .scene { display: grid; grid-template-columns: 15mm 1fr 1fr 44mm; gap: 5mm; align-items: start; background: #fff; border: .6pt solid var(--line); border-radius: 2.5mm; padding: 2.6mm 4.5mm; }
+  .num { font-size: 18pt; font-weight: 700; color: var(--blue); line-height: 1; }
+  .time { font-size: 7.5pt; color: var(--muted); letter-spacing: .06em; margin-top: 1.5mm; }
+  .label { font-size: 6.8pt; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 1mm; }
+  .vo { color: var(--navy); font-size: 9.1pt; line-height: 1.36; }
+  .img { font-size: 8.4pt; line-height: 1.36; }
+  .thumb { width: 44mm; height: 24.75mm; border-radius: 1.5mm; overflow: hidden; background: var(--sky); border: .6pt solid var(--line); display: flex; align-items: center; justify-content: center; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb svg { width: 100%; height: 100%; }
+  .cap { font-size: 6.6pt; color: var(--muted); margin-top: 1mm; text-align: center; }
+
+  /* style */
+  .swatches { display: flex; gap: 4mm; margin: 2mm 0 5mm; }
+  .sw { width: 30mm; }
+  .sw i { display: block; height: 13mm; border-radius: 2mm; border: .6pt solid var(--line); }
+  .sw b { display: block; font-size: 8.5pt; color: var(--navy); margin-top: 1.5mm; }
+  .sw span { font-size: 7.5pt; color: var(--muted); }
+  .planche { width: 100%; border-radius: 2mm; border: .6pt solid var(--line); }
+
+  /* validation */
+  table.val { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 9pt; }
+  table.val th { text-align: left; font-size: 6.8pt; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 0 3mm 2mm; }
+  table.val td { padding: 2.6mm 3mm; border-top: .6pt solid var(--line); vertical-align: top; }
+  table.val td.q { color: var(--navy); font-weight: 700; width: 38mm; }
+  table.val td.p { width: 92mm; }
+  table.dec td { padding: 2mm 3mm; font-size: 8.8pt; }
+  .box { display: inline-flex; align-items: center; gap: 1.4mm; margin-right: 4mm; white-space: nowrap; }
+  .box::before { content: ""; width: 3.2mm; height: 3.2mm; border: .9pt solid var(--slate); border-radius: .6mm; }
+  .notes { border-bottom: .6pt dotted var(--muted); height: 5mm; }
+  .sign { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10mm; margin-top: 6mm; }
+  .sign div { border-top: .8pt solid var(--navy); padding-top: 1.5mm; font-size: 8pt; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- 1. Couverture -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">Proposition pour validation · 19 novembre 2026</div></div>
+  <div class="cover">
+    <div>
+      <div class="kicker" style="margin-bottom:3mm">Vidéo de briefing joueurs</div>
+      <h1>Bienvenue chez <em>Aéronova</em>&nbsp;:<br>la vidéo qui ouvre la&nbsp;partie</h1>
+      <p class="lead">Une vidéo d'environ deux minutes, diffusée au lancement de la séance, qui plonge les joueurs dans l'univers d'Aéronova et leur explique ce qui va se passer — sans dévoiler ce qu'ils doivent découvrir en jouant.</p>
+      <div class="facts">
+        <div class="fact"><div class="k">Durée</div><div class="v">≈ 1 min 55</div></div>
+        <div class="fact"><div class="k">Format</div><div class="v">16:9</div></div>
+        <div class="fact"><div class="k">Scènes</div><div class="v">7</div></div>
+        <div class="fact"><div class="k">Voix off</div><div class="v">à choisir</div></div>
+      </div>
+      <div class="ask"><b style="color:var(--navy)">Ce qui est demandé :</b> valider le découpage, le texte du narrateur, le style visuel et le ton d'une réplique (page 6). Les points de cohérence avec les supports du jeu sont déjà tranchés. La voix et la production viendront ensuite.</div>
+    </div>
+    <img src="img/slide-2.jpg" alt="Diapositive du brief : Aéronova, c'est quoi ?">
+  </div>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>1 / 6</span></div>
+</section>
+
+<!-- 2. Intention -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">L'intention</div></div>
+  <h2>Ce que la vidéo dit, <em>et ce qu'elle garde secret</em></h2>
+  <div class="cols">
+    <div class="card yes">
+      <h3>Elle dit</h3>
+      <ul>
+        <li>L'univers : Aéronova en 2040, des avions qui volent au vent et au soleil, une entreprise obsédée par l'expérience passager.</li>
+        <li>Quelques applications pour donner le ton (nuage à la demande, applaudimètre d'atterrissage, hublot augmenté).</li>
+        <li>Les cinq pôles et leur rôle : Business, Développement, Test, Release, Mise en production.</li>
+        <li>Comment circule une fiche APP : un défi à résoudre, une validation sur la tablette, puis la fiche portée au pôle suivant.</li>
+        <li>Le suivi en direct sur le grand écran, le format (3 manches de 15 minutes avec un temps de recul), et le fait que les échanges et déplacements sont autorisés.</li>
+        <li>L'objectif : mettre en service un maximum d'applications.</li>
+      </ul>
+    </div>
+    <div class="card no">
+      <h3>Elle ne dit pas (consignes du guide animateur)</h3>
+      <ul>
+        <li>Les aides croisées entre pôles : leur intérêt doit être découvert par les joueurs.</li>
+        <li>La stratégie et les limites de travail en cours.</li>
+        <li>La différence entre « lancer » et « mettre en service », qui nourrit le premier débrief.</li>
+        <li>Le montant du budget : il n'est pas encore confirmé et c'est l'animateur qui l'annonce.</li>
+      </ul>
+      <h3 style="margin-top:6mm">Sources</h3>
+      <p style="font-size:9pt">Drive « Mission Flow » : Brief Mission Flow (PowerPoint), Guide animateur – version simple, Guide participants à imprimer, Jeu de cartes. Le texte s'appuie sur ces documents ; les écarts relevés entre eux ont été tranchés (page 6).</p>
+    </div>
+  </div>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>2 / 6</span></div>
+</section>
+
+<!-- 3. Découpage 1/2 -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">Découpage · scènes 1 à 4</div></div>
+  <h2 style="margin-bottom:3.5mm">Le découpage <em>scène par scène</em></h2>
+  <div class="scenes">
+    <div class="scene">
+      <div><div class="num">01</div><div class="time">0:00 – 0:12</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Bonjour, et bienvenue chez Aéronova. Vous ne le savez pas encore… mais si vous êtes ici, c'est que vous venez d'être recrutés. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Mer de nuages au lever du jour. Un avion en papier traverse l'écran en laissant un pointillé, puis se pose dans le logo : AÉRONOVA — Des idées qui prennent le vol.</div></div>
+      <div><div class="thumb"><img src="img/slide-1.jpg" alt=""></div><div class="cap">Référence : brief, diapo 1</div></div>
+    </div>
+    <div class="scene">
+      <div><div class="num">02</div><div class="time">0:12 – 0:30</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Nous sommes en 2040. Aéronova est la fine fleur de l'aéronautique. Ses avions nouvelle génération, les Folding Planes, volent grâce au vent et au soleil : des avions enfin respectueux de la planète. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Un compteur d'années défile jusqu'à 2040. Lent travelling sur le Folding Plane devant son terminal ; de fines lignes dessinent le vent et le soleil qui l'alimentent.</div></div>
+      <div><div class="thumb"><img src="img/slide-2.jpg" alt=""></div><div class="cap">Référence : brief, diapo 2</div></div>
+    </div>
+    <div class="scene">
+      <div><div class="num">03</div><div class="time">0:30 – 0:55</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Mais chez Aéronova, le voyage compte autant que l'avion. Alors l'entreprise invente des applications pour les passagers. Un nuage à la demande, qui prend la forme de vos envies. Un applaudimètre, qui acclame le pilote à l'atterrissage… même quand c'est un peu secoué. Un hublot augmenté, pour survoler la savane ou l'Australie. Et des dizaines d'autres idées. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">La cabine. Trois fiches APP s'ouvrent comme des écrans de tablette, chacune animée : le nuage devient un dragon ; l'aiguille de l'applaudimètre saute de « poli » à « stade de football » ; le hublot glisse de la savane à l'Australie. Puis un éventail d'autres fiches (Caféjector, Turbulence DJ, Bras à snacks…).</div></div>
+      <div><div class="thumb"><img src="img/slide-4.jpg" alt=""></div><div class="cap">Référence : brief, diapo 4</div></div>
+    </div>
+    <div class="scene">
+      <div><div class="num">04</div><div class="time">0:55 – 1:03</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Ces applications, c'est vous — oui, vous — qui allez les faire décoller. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Les fiches se replient en un seul avion en papier qui fonce vers la caméra. Une demi-seconde de silence avant « oui, vous ».</div></div>
+      <div><div class="thumb"><svg viewBox="0 0 176 99"><rect width="176" height="99" fill="#EEF4FF"/><path d="M14 80 C 50 70, 70 60, 92 50" fill="none" stroke="#1557FF" stroke-width="1.4" stroke-dasharray="3 4"/><g transform="translate(88 22) scale(1.25)"><path d="M0 26 L52 0 L30 44 L22 30 Z" fill="#fff" stroke="#071342" stroke-width="1.6" stroke-linejoin="round"/><path d="M22 30 L52 0 L12 28" fill="#B9D3FF" stroke="#071342" stroke-width="1.6" stroke-linejoin="round"/></g></svg></div><div class="cap">Esquisse</div></div>
+    </div>
+  </div>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>3 / 6</span></div>
+</section>
+
+<!-- 4. Découpage 2/2 -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">Découpage · scènes 5 à 7</div></div>
+  <h2 style="margin-bottom:3.5mm">Le découpage <em>scène par scène</em></h2>
+  <div class="scenes">
+    <div class="scene">
+      <div><div class="num">05</div><div class="time">1:03 – 1:38</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Vous rejoignez l'un des cinq pôles d'Aéronova. Le Business choisit les applications à lancer et engage le budget. Le Développement construit la solution. Le Test vérifie qu'elle tient ses promesses. La Release prépare la livraison. Et la Mise en production fait entrer l'application en service, à bord. À chaque étape, un défi vous attend. Vous le résolvez, vous validez sur la tablette… puis vous portez la fiche au pôle suivant. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Une ligne de vol en pointillés avec cinq escales : BIZ, DEV, TEST, RELEASE, PROD. Une fiche APP voyage d'escale en escale ; à chaque arrêt, un aperçu du défi sans le résoudre : cartes transparentes superposées (DEV), pastilles vert / jaune / rouge d'un code (TEST), grille de lettres (RELEASE), énigme en un mot (PROD). Sur « vous validez », le geste « Valider et transmettre » sur une tablette ; puis la fiche glisse vers l'escale suivante.</div></div>
+      <div><div class="thumb"><svg viewBox="0 0 176 99"><rect width="176" height="99" fill="#EEF4FF"/><path d="M14 58 C 40 40, 60 70, 88 52 S 140 36, 162 50" fill="none" stroke="#1557FF" stroke-width="1.3" stroke-dasharray="3 4"/><g font-family="Inter, Arial" font-size="7" font-weight="700" fill="#071342" text-anchor="middle"><circle cx="16" cy="57" r="6" fill="#fff" stroke="#1557FF" stroke-width="1.6"/><text x="16" y="76">BIZ</text><circle cx="52" cy="54" r="6" fill="#fff" stroke="#1557FF" stroke-width="1.6"/><text x="52" y="73">DEV</text><circle cx="88" cy="52" r="6" fill="#fff" stroke="#1557FF" stroke-width="1.6"/><text x="88" y="71">TEST</text><circle cx="124" cy="42" r="6" fill="#fff" stroke="#1557FF" stroke-width="1.6"/><text x="124" y="61">RELEASE</text><circle cx="160" cy="49" r="6" fill="#1557FF"/><text x="160" y="68">PROD</text></g><rect x="62" y="20" width="18" height="24" rx="2" fill="#fff" stroke="#071342" stroke-width="1.2"/><path d="M66 27 h10 M66 31 h10 M66 35 h6" stroke="#B9D3FF" stroke-width="1.6"/></svg></div><div class="cap">Esquisse</div></div>
+    </div>
+    <div class="scene">
+      <div><div class="num">06</div><div class="time">1:38 – 1:52</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Sur le grand écran, toute l'entreprise suit en direct le voyage de chaque application. Vous jouerez trois manches de quinze minutes, avec un temps pour prendre du recul entre chacune. Les échanges et les déplacements sont autorisés. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Le grand écran de la salle : un tableau de bord épuré (applications en route, applications en service). Une application passe en service : petite célébration. Puis une frise : trois manches de 15 minutes séparées par des temps de débrief.</div></div>
+      <div><div class="thumb"><svg viewBox="0 0 176 99"><rect width="176" height="99" fill="#EEF4FF"/><g font-family="Inter, Arial" font-weight="700" text-anchor="middle"><rect x="14" y="18" width="40" height="44" rx="4" fill="#1557FF"/><rect x="68" y="18" width="40" height="44" rx="4" fill="#1557FF"/><rect x="122" y="18" width="40" height="44" rx="4" fill="#1557FF"/><text x="34" y="44" fill="#fff" font-size="11">15'</text><text x="88" y="44" fill="#fff" font-size="11">15'</text><text x="142" y="44" fill="#fff" font-size="11">15'</text><g fill="#31405B" font-size="6.5" font-weight="600"><text x="34" y="76">MANCHE 1</text><text x="88" y="76">MANCHE 2</text><text x="142" y="76">MANCHE 3</text></g><path d="M56 40 h10 M110 40 h10" stroke="#B9D3FF" stroke-width="3"/></g></svg></div><div class="cap">Esquisse</div></div>
+    </div>
+    <div class="scene">
+      <div><div class="num">07</div><div class="time">1:52 – 2:02</div></div>
+      <div><div class="label">Narrateur</div><div class="vo">« Votre mission : mettre en service un maximum d'applications. Installez-vous, ouvrez grand les yeux… et préparez-vous au décollage. »</div></div>
+      <div><div class="label">À l'image</div><div class="img">Le compteur « applications en service » s'emballe ; l'avion en papier décolle à travers les nuages. Carton final repris du brief : PRÉPAREZ-VOUS AU DÉCOLLAGE.</div></div>
+      <div><div class="thumb"><img src="img/slide-5.jpg" alt=""></div><div class="cap">Référence : brief, diapo 5</div></div>
+    </div>
+  </div>
+  <p style="margin-top:4mm;font-size:8.5pt;color:var(--muted)">Environ 250 mots, soit ≈ 1 min 40 de voix à un débit posé ; avec les respirations et les moments sans voix (logo, décollage), ≈ 1 min 55 au total.</p>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>4 / 6</span></div>
+</section>
+
+<!-- 5. Style -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">Style visuel</div></div>
+  <h2>Style proposé : <em>« Ciel clair 2040 »</em></h2>
+  <div class="cols" style="grid-template-columns: 1fr 1.05fr">
+    <div>
+      <p>La vidéo reprend l'identité du brief PowerPoint, pour que la vidéo et les supports du jeu ne fassent qu'un.</p>
+      <div class="swatches">
+        <div class="sw"><i style="background:#1557FF"></i><b>Bleu électrique</b><span>#1557FF · accents</span></div>
+        <div class="sw"><i style="background:#071342"></i><b>Bleu nuit</b><span>#071342 · titres</span></div>
+        <div class="sw"><i style="background:#31405B"></i><b>Ardoise</b><span>#31405B · texte</span></div>
+        <div class="sw"><i style="background:#B9D3FF"></i><b>Bleu pâle</b><span>#B9D3FF · traits</span></div>
+      </div>
+      <ul>
+        <li><b>Ambiance :</b> blanc et bleu ciel très clair, mer de nuages vue d'en haut, lumière douce, beaucoup d'espace.</li>
+        <li><b>Fil rouge, l'avion en papier :</b> déjà symbole du logo et clin d'œil aux Folding Planes. Il ouvre la vidéo, relie les scènes par sa trajectoire en pointillés, devient la fiche APP qui voyage entre les pôles, puis décolle à la fin.</li>
+        <li><b>Détails graphiques du brief :</b> coins de cadrage fins, trajectoires en pointillés, petites mentions en capitales espacées.</li>
+        <li><b>Images :</b> les visuels du brief (l'avion, la cabine, les applications) animés par de lents mouvements de caméra. Des visuels supplémentaires dans le même style peuvent être générés pour d'autres applications.</li>
+        <li><b>Partie « comment on joue » :</b> motion design épuré plutôt qu'images réalistes, pour rester lisible.</li>
+        <li><b>Typographie :</b> sans-serif nette et moderne, proche de celle du brief.</li>
+        <li><b>Musique (plus tard) :</b> électro légère et lumineuse, qui monte vers le décollage.</li>
+      </ul>
+    </div>
+    <div>
+      <img class="planche" src="img/slide-3.jpg" alt="Diapositive du brief : Nous sommes en 2060">
+      <p class="cap" style="text-align:left;margin-top:1.5mm">Le brief actuel, dont la vidéo reprend l'identité (il affiche encore 2060 : à passer en 2040).</p>
+      <img class="planche" style="margin-top:3mm" src="img/slide-4.jpg" alt="Diapositive du brief : les applications">
+    </div>
+  </div>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>5 / 6</span></div>
+</section>
+
+<!-- 6. Validation -->
+<section class="page">
+  <div class="head"><div class="brand">A É R O N O V A &nbsp;·&nbsp; <b>MISSION FLOW</b></div><div class="kicker">À valider</div></div>
+  <h2>Ce qu'il reste <em>à valider</em></h2>
+  <table class="val">
+    <tr><th>Sujet</th><th>Proposition</th><th>Décision</th><th>Remarques</th></tr>
+    <tr><td class="q">Découpage et texte</td><td class="p">Les 7 scènes et le texte du narrateur des pages 3 et 4, ≈ 1 min 55.</td><td><span class="box">Validé</span><span class="box">À revoir</span></td><td><div class="notes"></div></td></tr>
+    <tr><td class="q">Style visuel</td><td class="p">« Ciel clair 2040 », dans l'identité du brief, avec l'avion en papier comme fil rouge.</td><td><span class="box">Validé</span><span class="box">À revoir</span></td><td><div class="notes"></div></td></tr>
+    <tr><td class="q">Ton de l'applaudimètre</td><td class="p">La fiche mesure la douceur de l'atterrissage. Le texte prend un ton complice : il « acclame le pilote… même quand c'est un peu secoué ».</td><td><span class="box">Validé</span><span class="box">À revoir</span></td><td><div class="notes"></div></td></tr>
+  </table>
+  <h3 style="margin-top:7mm">Déjà décidé</h3>
+  <table class="val dec">
+    <tr><td class="q">L'année</td><td><b>2040</b>, comme le guide des participants et les cartes. Le brief PowerPoint, qui affiche 2060, est à aligner.</td></tr>
+    <tr><td class="q">Les avions</td><td>Des <b>Folding Planes</b> propulsés par l'énergie <b>éolienne et solaire</b>.</td></tr>
+    <tr><td class="q">Les applications</td><td>Le kit en compte 25 ; le texte dit « <b>des dizaines d'autres idées</b> ».</td></tr>
+    <tr><td class="q">L'objectif</td><td>« <b>Mettre en service</b> un maximum d'applications », comme le guide animateur.</td></tr>
+  </table>
+  <div class="sign"><div>Validé par</div><div>Date</div><div>Signature</div></div>
+  <div class="foot"><span>Innover · Apprendre · Décoller</span><span>6 / 6</span></div>
+</section>
+
+</body>
+</html>
