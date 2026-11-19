@@ -56,3 +56,25 @@ Projet HyperFrames : `ep01-voiture/video/`. Durée 4 min 46, 1920×1080, 30 i/s.
   vraie cinématique (bielle-manivelle, rapports d'engrenages, crémaillère).
   Seul le cylindre est en vue isométrique ; les autres mécanismes sont en coupe à plat.
 - **Rendu** : `npx hyperframes render` depuis `ep01-voiture/video/` (le MP4 n'est pas dans le dépôt).
+
+## Épisodes 2 à 7 (19/11/2026, produits en autonomie)
+
+Consigne de l'utilisateur : un peu d'humour dans les échanges, et une Zoé plus maligne (elle devine, elle résume, elle a souvent le dernier mot).
+
+| Épisode | Dossier                   | Durée | Annonce en fin d'épisode      |
+| ------- | ------------------------- | ----- | ----------------------------- |
+| 2       | `ep02-atomes/video/`      | 3:50  | l'électricité                 |
+| 3       | `ep03-electricite/video/` | 3:56  | la gravité                    |
+| 4       | `ep04-gravite/video/`     | 3:54  | le son                        |
+| 5       | `ep05-son/video/`         | 3:23  | la lumière                    |
+| 6       | `ep06-lumiere/video/`     | 3:37  | les allergies                 |
+| 7       | `ep07-allergies/video/`   | 3:12  | « Envoie-nous ta question ! » |
+
+Chaque épisode se fabrique de la même façon (détails dans `TECHNIQUE.md`) :
+
+1. `src/dialogue.json` → `node scripts/vo.mjs` (voix) → `python3 -I scripts/checkvo.py` (vérifie ce qui est réellement prononcé).
+2. `src/config.json` (rythme), `src/scenes/sN.html` + `src/js/sN.js` (une scène = un dessin calculé en fonction du temps), `src/sfx.json` (bruitages).
+3. `node scripts/build.mjs` assemble `index.html` (ne jamais le modifier à la main), puis `npx hyperframes check`, `snapshot`, `render`.
+4. `python3 -I ../../qa.py renders/x.mp4 <dossier>` : durée, niveau sonore, texte entendu, planche-contact.
+
+Points laissés ouverts : les voix n'ont pas été écoutées par l'utilisateur avant production ; pas de musique de fond ; la fin de l'épisode 1 annonce « l'essence », pas « les atomes ».
