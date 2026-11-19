@@ -1,0 +1,194 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, tu as dit que dans l'espace, personne ne m'entendrait crier. Même très, très fort ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Même avec ta voix du matin, quand il n'y a plus de céréales."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Impossible. Celle-là traverse trois étages."
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Elle a besoin d'air pour voyager. Pour comprendre, il faut voir ce qu'est un son."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Regarde cette corde de guitare. Je la pince : elle tremble très vite. On dit qu'elle vibre."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et en vibrant, elle bouscule l'air autour ?"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Elle pousse l'air, cet air pousse l'air d'à côté, et ainsi de suite. Ça fait une vague qui avance : une onde."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Comme une ola dans un stade ! Les gens restent à leur place, mais la vague fait le tour."
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "Je note cette comparaison. Je te la volerai."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et elle va vite, cette vague ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Dans l'air, trois cent quarante mètres par seconde. Un kilomètre en trois secondes."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "C'est pour ça qu'on voit l'éclair avant d'entendre le tonnerre ! La lumière arrive tout de suite, et le son traîne derrière."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Compte les secondes entre les deux, divise par trois : tu obtiens la distance de l'orage en kilomètres."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et dans mon oreille, il se passe quoi ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "La vague arrive sur une petite peau tendue, le tympan. Il se met à vibrer, comme la peau d'un tambour. Derrière, trois os minuscules passent la vibration à un escargot rempli de liquide, qui prévient le cerveau."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Un tambour, trois os et un escargot dans chaque oreille. Je suis une ménagerie."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Maintenant, écoute bien. Si ça vibre lentement, le son est grave. Si ça vibre vite, il est aigu."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc une grosse corde, qui bouge lentement, fait un son grave. Et une petite corde bien tendue fait un son aigu."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Tu as tout bon. Et plus la vague est haute, plus le son est fort."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Ma voix du matin, c'est donc une vague très haute."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "max",
+    "text": "Un tsunami."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et l'écho ? Quand je crie dans la montagne et que ça me répond ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Ta vague de son file jusqu'à la paroi, rebondit dessus comme une balle, et revient à tes oreilles."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Avec du retard, parce qu'elle a fait l'aller et le retour."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Voilà. Les chauves-souris s'en servent pour se repérer dans le noir : elles crient, et elles écoutent ce qui revient."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : un son, c'est une vibration qui voyage dans l'air comme une ola. Et dans l'espace, il n'y a pas d'air… donc pas de ola, donc pas de son !"
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu as trouvé toute seule."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Mais alors, dans les films, les explosions dans l'espace…"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Sont fausses. Tu ne regarderas plus jamais un film de la même façon."
+  },
+  {
+    "id": "s6-5",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et la lumière, comment elle traverse l'espace, elle ?"
+  },
+  {
+    "id": "s6-6",
+    "scene": "s6",
+    "who": "max",
+    "text": "Elle n'a besoin de rien. La prochaine fois !"
+  }
+]

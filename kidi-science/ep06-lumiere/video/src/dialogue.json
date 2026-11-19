@@ -1,0 +1,212 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, la lumière du Soleil arrive jusqu'ici sans air pour la porter. Elle est faite de quoi ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "De petits paquets d'énergie qui filent tout droit. Et ils filent vite."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Plus vite que le son ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque un million de fois plus vite. En une seconde, la lumière ferait sept fois et demie le tour de la Terre."
+  },
+  {
+    "id": "s0-5",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Et moi, je mets vingt minutes à mettre mes chaussures."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "La lumière rebondit sur tout ce qu'elle touche. Elle part du Soleil, rebondit sur ton chat, entre dans ton œil : tu vois ton chat."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc je ne vois pas vraiment le chat. Je vois la lumière qui a rebondi dessus."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et dans le noir : plus de lumière, plus de rebond, plus de chat."
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "Le chat est toujours là. Lui, en revanche, te voit très bien."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Mais la lumière du Soleil est blanche. Alors d'où viennent les couleurs ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Elles sont cachées dedans. La lumière blanche, c'est toutes les couleurs mélangées. Fais-la passer dans un prisme, un morceau de verre taillé : chaque couleur tourne un peu différemment, et elles se séparent."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Rouge, orange, jaune, vert, bleu, violet… C'est un arc-en-ciel ! Les gouttes de pluie font le même travail que le prisme ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui : des millions de petits prismes tout ronds. Il faut juste le Soleil dans ton dos et la pluie devant toi."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et ma pomme, pourquoi elle est rouge ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Elle reçoit toutes les couleurs, elle les avale presque toutes, et elle renvoie seulement le rouge."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Donc la pomme garde toutes les couleurs… sauf le rouge ! Le rouge, c'est celle dont elle ne veut pas."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "C'est une façon de le dire, et elle est très juste."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et un objet noir avale tout, un objet blanc renvoie tout."
+  },
+  {
+    "id": "s3-6",
+    "scene": "s3",
+    "who": "max",
+    "text": "Voilà pourquoi un tee-shirt noir chauffe au soleil."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et le ciel ? Il n'y a rien pour faire rebondir la lumière, là-haut."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Si : l'air. La lumière bleue rebondit bien plus sur l'air que la rouge. Elle part dans tous les sens, et le ciel entier devient bleu."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et le soir, quand le Soleil est bas ?"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Sa lumière traverse beaucoup plus d'air. Le bleu s'est perdu en route : il ne reste que l'orange et le rouge."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Le coucher de soleil, c'est le ciel qui a épuisé son bleu."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et mon œil, comment il sait que c'est du rouge ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Au fond de l'œil, il y a un écran, la rétine, couvert de capteurs. Trois sortes : une pour le rouge, une pour le vert, une pour le bleu."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Seulement trois ? Et le jaune, alors ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Ton cerveau le fabrique en mélangeant. Rouge plus vert : jaune."
+  },
+  {
+    "id": "s5-5",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Mon écran de télé fait pareil avec ses petits points ! Je me disais bien que mon cerveau trichait."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la lumière file tout droit, elle rebondit sur les choses, et le blanc cache toutes les couleurs."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Rien à ajouter."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… pourquoi au printemps mon nez coule et mes yeux grattent ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ça, c'est ton corps qui confond une fleur avec un ennemi. La prochaine fois !"
+  }
+]

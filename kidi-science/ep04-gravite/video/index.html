@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: #d96a00;
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="234.5" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="234.5" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.7" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s0" class="clip" data-start="7.7" data-duration="19.4" data-track-index="1">
+        <div id="s0-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s0-draw"></g></svg>
+          <div class="note" id="s0-n1" style="left: 1130px; top: 250px">Jamais vers le plafond !</div>
+          <div class="note" id="s0-n2" style="left: 1130px; top: 520px; background: #ffe14d; font-size: 54px">La gravité</div>
+          <div class="note" id="s0-n3" style="left: 1130px; top: 760px">Et côté confiture, bien sûr…</div>
+          <div class="logo-pill" id="s0-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Pourquoi ça tombe ?</div>
+        </div>
+      </section>
+
+      <section id="s1" class="clip" data-start="27.1" data-duration="28.1" data-track-index="1">
+        <div id="s1-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s1-draw"></g></svg>
+          <div id="s1-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s1-n1" style="left: 1280px; top: 480px; background: #ffe14d">Le bas, c’est vers le centre</div>
+          <div class="note" id="s1-n2" style="left: 120px; top: 480px">Chacun a les pieds vers le centre</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Vers le centre de la Terre</div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="55.2" data-duration="33" data-track-index="1">
+        <div id="s2-in" class="in">
+          <style>
+            #s2-mass {
+              position: absolute;
+              left: 1100px;
+              top: 170px;
+              width: 720px;
+              text-align: center;
+              font-size: 46px;
+              font-weight: 700;
+              line-height: 1.2;
+            }
+          </style>
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s2-draw"></g></svg>
+          <div class="note" id="s2-n1" style="left: 520px; top: 900px; background: #ffe14d">Plus il y a de matière, plus ça attire fort</div>
+          <div class="note" id="s2-n2" style="left: 150px; top: 250px">Zoé : 30 kilos</div>
+          <div id="s2-mass">La Terre :<br /><span id="s2-num" style="color: #2f5bd3">6</span><br />tonnes</div>
+          <div class="note" id="s2-n3" style="left: 130px; top: 900px">Tu attires la Terre autant qu’elle t’attire… mais elle ne bouge presque pas</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Tout attire tout</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="88.2" data-duration="34.1" data-track-index="1">
+        <div id="s3-in" class="in">
+          <style>
+            .s3-t {
+              position: absolute;
+              top: 190px;
+              width: 760px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 700;
+            }
+          </style>
+          <div class="s3-t" id="s3-t1" style="left: 130px; color: #1a7fc4">Sur la Terre : avec de l’air</div>
+          <div class="s3-t" id="s3-t2" style="left: 1030px; color: #55607a">Sur la Lune : sans air</div>
+          <div class="panel" id="s3-p1" style="left: 130px; top: 270px; width: 760px; height: 640px; background: #eaf6ff"><svg id="s3-s1" width="760" height="640" viewBox="0 0 760 640"></svg></div>
+          <div class="panel" id="s3-p2" style="left: 1030px; top: 270px; width: 760px; height: 640px; background: #1f2a44"><svg id="s3-s2" width="760" height="640" viewBox="0 0 760 640"></svg></div>
+          <div class="note" id="s3-n1" style="left: 240px; top: 940px">C’est l’air qui freine la plume</div>
+          <div class="note" id="s3-n2" style="left: 1090px; top: 940px; background: #ffe14d">Ils touchent le sol en même temps !</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">La plume et le marteau</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="122.3" data-duration="43.4" data-track-index="1">
+        <div id="s4-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-draw"></g></svg>
+          <div id="s4-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s4-n1" style="left: 130px; top: 250px">Un petit tir : il retombe tout près</div>
+          <div class="note" id="s4-n2" style="left: 130px; top: 350px">Plus fort : il retombe plus loin</div>
+          <div class="note" id="s4-n3" style="left: 130px; top: 450px; background: #ffe14d">Encore plus fort : il fait le tour !</div>
+          <div class="note" id="s4-n4" style="left: 1240px; top: 250px">Il tombe… mais le sol se dérobe</div>
+          <div class="note" id="s4-n5" style="left: 1180px; top: 880px; background: #ffe14d">La Lune : un boulet qui rate la Terre</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Pourquoi la Lune ne tombe pas</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="165.7" data-duration="29.2" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080">
+            <defs><clipPath id="s5-clip"><circle cx="1400" cy="520" r="270" /></clipPath></defs>
+            <g id="s5-draw"></g>
+          </svg>
+          <div class="note" id="s5-n1" style="left: 110px; top: 760px">Là-haut, la gravité vaut encore 90 %</div>
+          <div class="note" id="s5-n2" style="left: 110px; top: 860px; background: #ffe14d">Tout tombe ensemble : on flotte !</div>
+          <div class="note" id="s5-n3" style="left: 1010px; top: 880px">Comme en haut du toboggan… pendant 6 mois</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Flotter dans l’espace</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="194.9" data-duration="39.6" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            .s6-card {
+              position: absolute;
+              top: 330px;
+              width: 500px;
+              height: 300px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              border-radius: 34px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 44px;
+              font-weight: 600;
+              line-height: 1.15;
+              padding: 30px;
+            }
+            .s6-card b {
+              position: absolute;
+              left: -24px;
+              top: -24px;
+              width: 76px;
+              height: 76px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 3.5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 44px;
+            }
+            .s6-t {
+              position: absolute;
+              top: 190px;
+              width: 760px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 700;
+            }
+            #s6-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s6-end .d {
+              color: var(--fire);
+            }
+            #s6-end .s {
+              color: var(--blue);
+            }
+            #s6-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s6-main" class="in">
+            <div id="s6-cards" class="in">
+              <div class="s6-card" id="s6-k1" style="left: 130px"><b>1</b>Tout attire tout</div>
+              <div class="s6-card" id="s6-k2" style="left: 710px"><b>2</b>Plus c’est gros, plus ça attire</div>
+              <div class="s6-card" id="s6-k3" style="left: 1290px"><b>3</b>La Lune tombe en ratant la Terre</div>
+            </div>
+            <div id="s6-j" class="in">
+              <div class="s6-t" style="left: 130px; color: #1a7fc4">Sur la Terre</div>
+              <div class="s6-t" style="left: 1030px; color: #55607a">Sur la Lune : 6 fois plus haut</div>
+              <div class="panel" style="left: 130px; top: 270px; width: 760px; height: 640px; background: #eaf6ff"><svg id="s6-s1" width="760" height="640" viewBox="0 0 760 640"></svg></div>
+              <div class="panel" style="left: 1030px; top: 270px; width: 760px; height: 640px; background: #1f2a44"><svg id="s6-s2" width="760" height="640" viewBox="0 0 760 640"></svg></div>
+            </div>
+            <div class="note" id="s6-next" style="left: 600px; top: 940px; background: #ffe14d">La prochaine fois : le son !</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s6-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s6-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.94" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="9.1" data-duration="6.09" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="16.41" data-duration="3.22" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="20.25" data-duration="2.18" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="22.8" data-duration="2.88" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="28.1" data-duration="6.43" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="35.15" data-duration="5.78" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="41.3" data-duration="6.36" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-4" src="assets/vo/s1-4.mp3" data-start="48.48" data-duration="5.12" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="56.2" data-duration="4.03" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="60.6" data-duration="8.89" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="70.11" data-duration="4.1" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="74.58" data-duration="7.85" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="83.15" data-duration="3.45" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="89.2" data-duration="5.67" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="96.09" data-duration="5.71" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="102.42" data-duration="3.48" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="106.27" data-duration="2.48" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-5" src="assets/vo/s3-5.mp3" data-start="109.47" data-duration="10.46" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="123.3" data-duration="5.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="129.68" data-duration="11.99" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="142.59" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="144.82" data-duration="11.92" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-5" src="assets/vo/s4-5.mp3" data-start="157.56" data-duration="3.77" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-6" src="assets/vo/s4-6.mp3" data-start="161.7" data-duration="2.36" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="166.7" data-duration="4.97" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="172.19" data-duration="10.53" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="183.34" data-duration="2.91" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="186.62" data-duration="3.06" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-5" src="assets/vo/s5-5.mp3" data-start="190.05" data-duration="3.46" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="195.9" data-duration="6.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="203.19" data-duration="8.96" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="213.17" data-duration="3.54" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="217.08" data-duration="2.88" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-5" src="assets/vo/s6-5.mp3" data-start="220.98" data-duration="4.02" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-6" src="assets/vo/s6-6.mp3" data-start="225.37" data-duration="5.16" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-pop" src="assets/sfx/pop.mp3" data-start="3.15" data-duration="0.61" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-1-jingle" src="assets/sfx/jingle.mp3" data-start="4.15" data-duration="3.51" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-2-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.95" data-duration="1.39" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-3-pop" src="assets/sfx/pop.mp3" data-start="12.64" data-duration="0.61" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-4-whoosh" src="assets/sfx/whoosh.mp3" data-start="26.85" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-5-whoosh" src="assets/sfx/whoosh.mp3" data-start="54.95" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-6-whoosh" src="assets/sfx/whoosh.mp3" data-start="87.95" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-7-pop" src="assets/sfx/pop.mp3" data-start="91.28" data-duration="0.61" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-8-chime" src="assets/sfx/chime.mp3" data-start="117.58" data-duration="1.21" data-track-index="7" data-volume="0.3"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="122.05" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-pop" src="assets/sfx/pop.mp3" data-start="134.57" data-duration="0.61" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-11-pop" src="assets/sfx/pop.mp3" data-start="137.88" data-duration="0.61" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-12-pop" src="assets/sfx/pop.mp3" data-start="141.4" data-duration="0.61" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="fx-13-whoosh" src="assets/sfx/whoosh.mp3" data-start="165.45" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-14-whoosh" src="assets/sfx/whoosh.mp3" data-start="194.65" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-15-jingle" src="assets/sfx/jingle.mp3" data-start="231.6" data-duration="2.83" data-track-index="5" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":234.5,"scenes":{"g":{"start":0,"end":7.7},"s0":{"start":7.7,"end":27.1},"s1":{"start":27.1,"end":55.2},"s2":{"start":55.2,"end":88.2},"s3":{"start":88.2,"end":122.3},"s4":{"start":122.3,"end":165.7},"s5":{"start":165.7,"end":194.9},"s6":{"start":194.9,"end":234.5}},"parts":{"g":{"start":0,"end":2.66},"s0":{"start":7.7,"end":25.7},"s1":{"start":27.1,"end":53.62},"s2":{"start":55.2,"end":86.62},"s3":{"start":88.2,"end":119.95},"s4":{"start":122.3,"end":164.08},"s5":{"start":165.7,"end":193.53},"s6":{"start":194.9,"end":230.55}},"lines":{"g-1":{"start":0.7,"end":2.66,"who":"zoe","words":[["Dis…",1.31,1.67],["comment",1.71,1.99],["ça",2.04,2.15],["marche",2.2,2.55],["?",2.59,2.63]]},"s0-1":{"start":9.1,"end":15.21,"who":"zoe","words":[["Max,",9.39,9.77],["j'ai",9.81,9.93],["une",9.95,10.01],["question",10.05,10.33],["sérieuse.",10.4,11.05],["Ma",11.27,11.69],["tartine",11.76,12.17],["tombe",12.19,12.41],["toujours",12.45,12.73],["par",12.77,12.89],["terre.",12.96,13.61],["Jamais",13.69,14.01],["au",14.04,14.09],["plafond.",14.12,14.69],["Pourquoi",14.73,15.05],["?",15.13,15.21]]},"s0-2":{"start":16.41,"end":19.65,"who":"max","words":[["Parce",16.71,16.76],["que",16.77,16.8],["la",16.86,16.98],["Terre",17.02,17.19],["l'attire.",17.22,17.67],["Ça",17.89,18.19],["s'appelle",18.24,18.54],["la",18.57,18.63],["gravité.",18.7,19.67]]},"s0-3":{"start":20.25,"end":22.45,"who":"zoe","words":[["Et",20.56,20.57],["elle",20.57,20.58],["l'attire",20.62,20.98],["côté",21.03,21.22],["confiture,",21.28,21.9],["en",21.91,21.94],["plus.",22.02,22.42]]},"s0-4":{"start":22.8,"end":25.7,"who":"max","words":[["Ça,",23.01,23.19],["hélas,",23.22,23.71],["la",23.86,24.15],["science",24.19,24.49],["y",24.54,24.58],["travaille",24.61,24.93],["encore.",24.98,25.71]]},"s1-1":{"start":28.1,"end":34.55,"who":"max","words":[["La",28.29,28.35],["Terre",28.39,28.61],["attire",28.67,29.05],["tout",29.08,29.22],["ce",29.28,29.39],["qui",29.42,29.48],["l'entoure",29.52,29.92],["vers",29.95,30.09],["son",30.16,30.35],["centre.",30.4,30.79],["Toi,",30.96,31.57],["moi,",31.76,32.44],["la",32.61,32.96],["tartine,",33.03,33.92],["les",33.94,34],["océans.",34.09,34.61]]},"s1-2":{"start":35.15,"end":40.95,"who":"zoe","words":[["Vers",35.29,35.42],["le",35.5,35.66],["centre…",35.74,36.3],["Donc",36.32,36.46],["le",36.52,36.62],["bas,",36.7,37.02],["ce",37.05,37.1],["n'est",37.12,37.18],["pas",37.22,37.34],["le",37.37,37.42],["même",37.45,37.58],["pour",37.61,37.74],["tout",37.77,37.9],["le",37.93,37.98],["monde",38.04,38.3],["!",38.38,38.46],["En",38.52,38.62],["Australie,",38.67,39.1],["leur",39.15,39.34],["bas,",39.42,39.74],["c'est",39.78,39.9],["notre",39.96,40.22],["haut.",40.27,40.94]]},"s1-3":{"start":41.3,"end":47.68,"who":"max","words":[["Exactement.",41.63,42.16],["Personne",42.25,42.86],["n'a",42.9,42.99],["la",43,43.03],["tête",43.08,43.29],["en",43.32,43.38],["bas",43.42,43.55],[":",43.68,43.81],["chacun",43.86,44.16],["a",44.2,44.25],["les",44.29,44.42],["pieds",44.46,44.68],["tournés",44.73,45.03],["vers",45.06,45.2],["le",45.23,45.29],["centre",45.34,45.64],["de",45.7,45.81],["la",45.84,45.9],["Terre.",45.94,47.72]]},"s1-4":{"start":48.48,"end":53.62,"who":"zoe","words":[["Dommage.",48.68,49.32],["J'aimais",49.52,49.96],["bien",49.99,50.12],["l'idée",50.16,50.44],["des",50.46,50.52],["kangourous",50.57,51],["accrochés",51.02,51.4],["par",51.42,51.48],["les",51.52,51.64],["pattes.",51.69,53.64]]},"s2-1":{"start":56.2,"end":60.25,"who":"zoe","words":[["Mais",56.52,56.53],["pourquoi",56.57,56.93],["c'est",56.97,57.17],["la",57.2,57.25],["Terre",57.35,57.81],["qui",57.85,57.97],["attire",58.06,58.61],["?",58.85,59.09],["Elle",59.12,59.25],["a",59.29,59.33],["un",59.38,59.49],["aimant",59.55,59.81],["géant",59.89,60.13],["?",60.25,60.37]]},"s2-2":{"start":60.6,"end":69.51,"who":"max","words":[["Non.",60.88,61.24],["Tout",61.3,61.54],["ce",61.57,61.63],["qui",61.67,61.8],["est",61.82,61.89],["fait",61.92,62.06],["de",62.09,62.15],["matière",62.22,62.67],["attire",62.8,63.54],["tout",63.58,63.72],["le",63.74,63.8],["reste.",63.86,64.41],["Plus",64.46,64.67],["il",64.7,64.76],["y",64.8,64.85],["a",64.89,64.93],["de",64.96,65.02],["matière,",65.06,65.8],["plus",65.85,66.06],["ça",66.12,66.24],["attire",66.29,66.58],["fort.",66.64,67.28],["Et",67.31,67.37],["la",67.4,67.45],["Terre",67.52,67.8],["est",67.87,68.06],["gigantesque.",68.11,69.54]]},"s2-3":{"start":70.11,"end":74.23,"who":"zoe","words":[["Tout",70.82,70.83],["attire",70.89,71.23],["tout",71.28,71.47],["?",71.79,72.11],["Alors",72.14,72.35],["moi",72.45,72.75],["aussi,",72.79,73.03],["j'attire",73.05,73.31],["la",73.36,73.47],["Terre",73.53,73.79],["?",73.99,74.19]]},"s2-4":{"start":74.58,"end":82.45,"who":"max","words":[["Oui",74.81,75.09],["!",75.44,75.79],["Mais",75.82,75.96],["tu",76.02,76.13],["pèses",76.18,76.39],["trente",76.44,76.65],["kilos,",76.74,77.44],["et",77.47,77.52],["elle,",77.59,77.96],["six",78.13,78.66],["mille",78.79,79.09],["milliards",79.18,79.79],["de",79.84,79.96],["milliards",80.03,80.48],["de",80.54,80.66],["tonnes.",80.72,81.35],["C'est",81.48,81.7],["elle",81.73,81.87],["qui",81.92,82.05],["gagne.",82.09,82.48]]},"s2-5":{"start":83.15,"end":86.62,"who":"zoe","words":[["Pour",83.74,83.79],["l'instant.",83.83,86.59]]},"s3-1":{"start":89.2,"end":94.89,"who":"max","words":[["À",89.43,89.46],["ton",89.47,89.51],["avis",89.58,89.86],[":",90.12,90.38],["si",90.41,90.47],["je",90.53,90.64],["lâche",90.73,91.17],["un",91.22,91.34],["marteau",91.38,91.86],["et",91.92,92.04],["une",92.06,92.12],["plume",92.21,92.47],["en",92.5,92.56],["même",92.59,92.73],["temps,",92.78,93.43],["qui",93.45,93.51],["arrive",93.55,93.77],["en",93.8,93.86],["premier",93.91,94.21],["?",94.56,94.91]]},"s3-2":{"start":96.09,"end":101.82,"who":"zoe","words":[["Le",96.41,96.42],["marteau.",96.54,97.22],["Mais",97.35,97.86],["c'est",97.9,98.02],["un",98.07,98.18],["piège",98.24,98.58],[":",98.82,99.06],["c'est",99.1,99.22],["l'air",99.3,99.62],["qui",99.66,99.78],["freine",99.84,100.1],["la",100.13,100.18],["plume,",100.26,100.9],["pas",100.94,101.06],["la",101.09,101.14],["gravité.",101.2,101.78]]},"s3-3":{"start":102.42,"end":105.92,"who":"max","words":[["Je",102.63,102.64],["ne",102.67,102.72],["peux",102.78,102.98],["plus",103.02,103.16],["te",103.19,103.25],["piéger.",103.3,104.03],["Et",104.14,104.38],["sans",104.45,104.72],["air",104.79,104.98],["?",105.46,105.94]]},"s3-4":{"start":106.27,"end":108.77,"who":"zoe","words":[["Sans",106.58,106.6],["air…",106.7,107.08],["ils",107.28,107.88],["tombent",107.93,108.2],["ensemble",108.24,108.6],["?",108.68,108.76]]},"s3-5":{"start":109.47,"end":119.95,"who":"max","words":[["Oui",109.61,109.9],["!",110.16,110.42],["Un",110.47,110.59],["astronaute",110.66,111.37],["a",111.46,111.55],["fait",111.58,111.72],["l'expérience",111.76,112.68],["sur",112.72,112.85],["la",112.91,113.03],["Lune,",113.07,113.63],["où",113.66,113.72],["il",113.75,113.81],["n'y",113.85,113.98],["a",114.07,114.16],["pas",114.18,114.24],["d'air.",114.33,115.29],["Le",115.32,115.37],["marteau",115.42,115.81],["et",115.84,115.89],["la",115.92,115.98],["plume",116.07,116.42],["ont",116.5,116.76],["touché",116.81,117.11],["le",117.14,117.2],["sol",117.31,117.63],["exactement",117.78,118.76],["en",118.79,118.85],["même",118.9,119.11],["temps.",119.14,119.98]]},"s4-1":{"start":123.3,"end":129.18,"who":"zoe","words":[["Justement,",124.16,124.66],["la",124.71,124.82],["Lune.",124.9,125.5],["Si",125.59,125.78],["la",125.83,125.94],["Terre",125.98,126.18],["attire",126.23,126.5],["tout,",126.55,126.98],["pourquoi",127.02,127.3],["la",127.35,127.46],["Lune",127.58,127.86],["ne",127.91,128.02],["nous",128.05,128.18],["tombe",128.24,128.5],["pas",128.54,128.66],["dessus",128.72,129.06],["?",129.1,129.14]]},"s4-2":{"start":129.68,"end":141.69,"who":"max","words":[["Elle",129.96,130.01],["tombe",130.1,130.53],["!",130.8,131.06],["Tout",131.07,131.14],["le",131.2,131.32],["temps.",131.35,131.58],["Imagine",131.73,132.8],["un",132.82,132.88],["canon",132.94,133.23],["en",133.26,133.32],["haut",133.35,133.49],["d'une",133.53,133.66],["montagne.",133.7,134.19],["Un",134.36,134.71],["petit",134.77,135.06],["tir",135.14,135.4],[":",135.71,136.01],["le",136.04,136.1],["boulet",136.14,136.45],["retombe",136.49,136.8],["tout",136.81,136.88],["près.",136.95,137.62],["Plus",137.7,138.01],["fort",138.08,138.36],[":",138.66,138.97],["il",139.03,139.14],["retombe",139.21,139.66],["plus",139.7,139.84],["loin.",139.89,140.19],["Encore",140.3,140.97],["plus",141.02,141.23],["fort…",141.3,141.75]]},"s4-3":{"start":142.59,"end":144.47,"who":"zoe","words":[["Il",142.84,142.84],["fait",142.87,143],["le",143.05,143.16],["tour",143.21,143.4],["de",143.43,143.48],["la",143.53,143.64],["Terre",143.72,144.12],["!",144.28,144.44]]},"s4-4":{"start":144.82,"end":156.76,"who":"max","words":[["Exactement.",145.39,145.85],["Il",146.02,146.37],["tombe,",146.45,147.24],["mais",147.27,147.41],["comme",147.45,147.67],["la",147.7,147.76],["Terre",147.82,148.11],["est",148.13,148.19],["ronde,",148.24,148.98],["le",149.03,149.15],["sol",149.24,149.5],["se",149.59,149.76],["dérobe",149.85,150.19],["sous",150.23,150.37],["lui.",150.43,150.72],["Il",150.95,151.41],["tombe",151.48,151.93],["sans",152,152.28],["jamais",152.36,152.8],["toucher",152.85,153.15],["le",153.18,153.24],["sol.",153.35,153.76],["La",154.05,154.63],["Lune",154.72,154.89],["fait",154.94,155.15],["ça",155.21,155.32],["depuis",155.37,155.67],["des",155.74,155.93],["milliards",156,156.45],["d'années.",156.5,156.8]]},"s4-5":{"start":157.56,"end":161.35,"who":"zoe","words":[["Donc",157.75,157.84],["la",157.89,158],["Lune,",158.04,158.32],["c'est",158.36,158.56],["un",158.67,158.88],["boulet",158.96,159.36],["qui",159.42,159.6],["rate",159.66,159.92],["la",159.95,160],["Terre",160.06,160.4],["en",160.48,160.64],["permanence.",160.69,161.36]]},"s4-6":{"start":161.7,"end":164.08,"who":"max","words":[["C'est",161.82,161.86],["la",161.89,161.95],["plus",162,162.21],["belle",162.26,162.47],["définition",162.54,163.17],["que",163.23,163.43],["j'aie",163.47,163.6],["entendue.",163.64,164.12]]},"s5-1":{"start":166.7,"end":171.69,"who":"zoe","words":[["Et",166.95,166.95],["les",166.99,167.11],["astronautes",167.17,167.83],["qui",167.85,167.91],["flottent",167.96,168.23],["dans",168.25,168.31],["la",168.34,168.39],["station",168.44,168.79],["spatiale",168.85,169.27],["?",169.55,169.83],["Là-haut,",169.91,170.31],["il",170.42,170.63],["n'y",170.65,170.71],["a",170.75,170.79],["plus",170.81,170.87],["de",170.9,170.95],["gravité",171.01,171.51],["?",171.59,171.67]]},"s5-2":{"start":172.19,"end":182.74,"who":"max","words":[["Si,",172.48,172.74],["presque",172.78,173.04],["autant",173.09,173.31],["qu'ici",173.33,173.65],["!",174.04,174.44],["Mais",174.49,174.7],["la",174.75,174.87],["station",174.92,175.31],["tombe",175.39,175.74],["autour",175.78,176],["de",176.03,176.09],["la",176.15,176.26],["Terre,",176.33,176.78],["comme",176.81,176.96],["le",176.99,177.04],["boulet.",177.09,177.48],["Et",177.65,178],["les",178.04,178.17],["astronautes",178.24,178.78],["tombent",178.82,179.04],["avec",179.1,179.31],["elle.",179.36,179.65],["Quand",179.86,180.35],["tout",180.4,180.61],["tombe",180.65,180.96],["ensemble,",181.01,181.91],["on",181.97,182.09],["flotte.",182.15,182.78]]},"s5-3":{"start":183.34,"end":186.27,"who":"zoe","words":[["Comme",183.58,183.75],["en",183.78,183.83],["haut",183.86,183.99],["d'un",184.03,184.15],["toboggan,",184.21,184.95],["quand",184.98,185.11],["le",185.14,185.19],["ventre",185.24,185.51],["se",185.56,185.67],["soulève",185.72,186.07],["?",186.15,186.23]]},"s5-4":{"start":186.62,"end":189.7,"who":"max","words":[["Pareil.",186.91,187.18],["Sauf",187.36,187.79],["que",187.84,187.97],["ça",188,188.05],["dure",188.1,188.23],["six",188.27,188.4],["mois.",188.45,189.71]]},"s5-5":{"start":190.05,"end":193.53,"who":"zoe","words":[["Six",190.24,190.25],["mois",190.3,190.49],["de",190.52,190.57],["ventre",190.62,190.89],["qui",190.93,191.05],["se",191.1,191.21],["soulève.",191.26,191.77],["Je",191.98,192.41],["passe",192.46,192.73],["mon",192.77,192.89],["tour.",192.99,193.53]]},"s6-1":{"start":195.9,"end":202.59,"who":"zoe","words":[["Je",196.16,196.17],["résume",196.22,196.57],[":",196.85,197.13],["tout",197.16,197.29],["attire",197.34,197.69],["tout,",197.72,197.93],["plus",198.02,198.41],["c'est",198.45,198.57],["gros",198.61,198.81],["plus",198.85,199.05],["ça",199.1,199.21],["attire,",199.26,199.69],["et",199.82,200.09],["la",200.11,200.17],["Lune",200.25,200.49],["tombe",200.55,200.89],["sans",200.93,201.13],["arrêt",201.19,201.45],["en",201.53,201.69],["ratant",201.75,202.01],["la",202.03,202.09],["Terre.",202.13,202.57]]},"s6-2":{"start":203.19,"end":212.17,"who":"max","words":[["Parfait.",203.48,203.86],["Un",204.04,204.38],["dernier",204.43,204.73],["chiffre",204.78,205.08],[":",205.38,205.69],["la",205.72,205.78],["Lune",205.86,206.04],["est",206.08,206.21],["plus",206.23,206.3],["petite,",206.37,207.08],["alors",207.12,207.34],["elle",207.36,207.43],["attire",207.49,207.86],["six",207.91,208.04],["fois",208.09,208.3],["moins.",208.34,209.08],["Là-bas,",209.12,209.51],["tu",209.63,209.86],["sauterais",209.92,210.38],["six",210.47,210.73],["fois",210.77,210.91],["plus",210.96,211.17],["haut.",211.18,212.21]]},"s6-3":{"start":213.17,"end":216.73,"who":"zoe","words":[["Six",213.52,213.53],["fois",213.59,213.85],["?",214.05,214.25],["Je",214.28,214.33],["deviens",214.37,214.65],["championne",214.7,215.21],["de",215.24,215.29],["basket.",215.37,216.01],["On",216.06,216.17],["y",216.21,216.25],["va",216.3,216.41],["quand",216.44,216.57],["?",216.65,216.73]]},"s6-4":{"start":217.08,"end":219.98,"who":"max","words":[["Dès",217.21,217.26],["que",217.27,217.3],["tu",217.36,217.47],["as",217.5,217.56],["fini",217.6,217.82],["tes",217.87,218],["devoirs.",218.03,220]]},"s6-5":{"start":220.98,"end":225.02,"who":"zoe","words":[["Dis,",221.32,221.58],["Max…",221.64,221.82],["et",221.95,222.22],["dans",222.25,222.38],["l'espace,",222.44,223.1],["si",223.15,223.26],["je",223.31,223.42],["crie",223.46,223.74],["très",223.79,223.98],["fort,",224.06,224.46],["on",224.49,224.54],["m'entend",224.58,224.86],["?",224.94,225.02]]},"s6-6":{"start":225.37,"end":230.55,"who":"max","words":[["Non.",225.72,226.09],["Et",226.2,226.4],["pour",226.42,226.49],["comprendre",226.52,226.92],["pourquoi,",226.97,227.79],["il",227.82,227.88],["faut",227.93,228.14],["parler",228.2,228.57],["du",228.6,228.66],["son.",228.75,229.4],["La",229.53,229.79],["prochaine",229.83,230.14],["fois",230.19,230.4],["!",230.49,230.57]]}}};
+
+      const CFG_SUBJECT = "#gi-apple";
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+const show = (sel, t, o = {}) =>
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- Hasard reproductible (même valeur à chaque rendu) et petites formes ---
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+// va-et-vient entre 0 et 1 (rebond sur les bords)
+const tri = (x) => {
+  const u = ((x % 2) + 2) % 2;
+  return u < 1 ? u : 2 - u;
+};
+// boule avec contour et reflet
+const ball = (x, y, r, fill, o = {}) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+const txt = (x, y, s, size, o = {}) =>
+  `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
+const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
+
+// --- Chemin fermé ou ouvert fait de segments droits : longueur et point à une distance donnée ---
+const mkPath = (pts, closed = true) => {
+  const P = closed ? pts.concat([pts[0]]) : pts;
+  const seg = [];
+  let L = 0;
+  for (let i = 1; i < P.length; i++) {
+    const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+    seg.push([L, d, P[i - 1], P[i]]);
+    L += d;
+  }
+  const at = (s) => {
+    const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    return P[P.length - 1];
+  };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
+};
+// fil électrique : gaine sombre + âme claire
+const wireSVG = (d, col = "#F2C9A0", w = 26) =>
+  `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
+// ampoule : on = 0 (éteinte) à 1 (allumée)
+const bulbSVG = (x, y, on, k = 1) =>
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
+  `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
+  `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
+  `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
+
+// --- Petites formes de l'épisode « gravité » ---
+// un bonhomme tout simple (tête ronde, corps en capsule), pieds en (x, y)
+const figSVG = (x, y, k = 1, col = C.blue) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-14 0 V-34 M14 0 V-34" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><rect x="-28" y="-104" width="56" height="78" rx="26" fill="${col}" class="ink"/><circle cx="0" cy="-134" r="30" fill="#FFD9B8" class="ink"/></g>`;
+// la tartine : face confiture vers le haut quand l'angle vaut 0
+const toastSVG = (x, y, rot, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
+// la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
+const earthSVG = (x, y, r, rot = 0) => {
+  const blob = (a, d, w, h) => `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
+};
+// flèche droite de (x1, y1) vers (x2, y2)
+const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
+  const a = Math.atan2(y2 - y1, x2 - x1), h = w * 2.2;
+  const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
+  return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+};
+
+      // ===== g.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
+  const SUBJECT = CFG_SUBJECT;
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const OTHERS = ICONS.filter((i) => i !== SUBJECT);
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
+  const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // L'objet du jour vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag"].concat(OTHERS),
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to(SUBJECT, { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to(SUBJECT, { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s0-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s0").start,
+  );
+})();
+
+      // ===== s0.js =====
+// ---------- Scène 0 : la tartine tombe toujours par terre, jamais au plafond ----------
+(() => {
+  const S = scn("s0");
+  const tFall = cue("s0-1", "tombe") - 0.5, tUp = cue("s0-1", "plafond") - 0.6, tG = cue("s0-2", "attire") - 0.5, tJam = cue("s0-3", "confiture") - 0.4;
+  const G = 1500, Y0 = 470, FLOOR = 880; // pixels par seconde carrée : la chute suit y = ½ g t²
+  const tLand = Math.sqrt((2 * (FLOOR - Y0)) / G);
+  // deuxième chute, pour revoir l'effet quand Max explique
+  const drops = [tFall, tG + 0.3, tJam - 1.2];
+  onDraw("s0", (t) => {
+    let s = `<path d="M120 906 H1800" class="ink" stroke-width="8"/>`;
+    // la table
+    s += `<rect x="160" y="500" width="520" height="40" rx="14" fill="#D9A66B" class="ink" stroke-width="5"/><path d="M220 540 V900 M620 540 V900" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M220 540 V900 M620 540 V900" stroke="#D9A66B" stroke-width="16" stroke-linecap="round"/>`;
+    // la tartine : elle glisse du bord, tombe en tournant, atterrit côté confiture
+    let k = -1;
+    drops.forEach((d, i) => { if (t >= d) k = i; });
+    if (k < 0) s += toastSVG(560, 478, 0);
+    else {
+      const u = t - drops[k], slide = Math.min(1, u / 0.35);
+      const tf = Math.max(0, u - 0.35), y = Math.min(FLOOR - 10, Y0 + 0.5 * G * tf * tf), land = tf >= tLand;
+      const x = 560 + slide * 150 + Math.min(tf, tLand) * 90, rot = Math.min(180, (tf / tLand) * 180);
+      s += toastSVG(x, land ? FLOOR - 4 : y, rot);
+      if (land) s += `<path d="M${x - 150} ${FLOOR + 22} q30 -26 60 -4 q40 -30 80 2 q40 -28 80 0 q30 -20 60 6 Z" fill="#E0455E"/>`;
+    }
+    // la tartine fantôme qui monterait au plafond : barrée
+    const up = lin(t, tUp, tUp + 0.5) * (1 - lin(t, tG - 0.3, tG));
+    if (up > 0) {
+      s += `<g opacity="${f2(up * 0.6)}">${toastSVG(960, 330, 0, 0.8)}</g>` + arrowSVG(960, 470, 960, 400, C.smoke, 12, up) + `<path d="M900 270 L1020 390 M1020 270 L900 390" stroke="#E0455E" stroke-width="18" stroke-linecap="round" opacity="${f2(up)}"/>`;
+    }
+    // la Terre attire : de grandes flèches vers le bas
+    const g = lin(t, tG, tG + 0.4);
+    if (g > 0) for (let i = 0; i < 3; i++) {
+      const ph = (t * 0.8 + i / 3) % 1;
+      s += arrowSVG(880 + i * 90, 300 + ph * 260, 880 + i * 90, 420 + ph * 260, C.fire, 14, g * Math.sin(ph * Math.PI));
+    }
+    $("#s0-draw").innerHTML = s;
+  });
+  show("#s0-logo", S.start + 0.5, { y: -20 });
+  pop("#s0-n1", tUp + 0.3);
+  tl.to("#s0-n1", { opacity: 0, duration: 0.25 }, tG - 0.2);
+  pop("#s0-n2", cue("s0-2", "gravité") - 0.3);
+  pop("#s0-n3", tJam);
+})();
+
+      // ===== s1.js =====
+// ---------- Scène 1 : la Terre attire tout vers son centre ; « le bas » n'est pas le même pour tout le monde ----------
+(() => {
+  const CX = 960, CY = 580, R = 250;
+  const tArr = cue("s1-1", "centre") - 0.6, tAus = cue("s1-2", "Australie") - 0.6, tFlip = cue("s1-2", "notre") - 0.7, tBack = cue("s1-3", "Personne") - 0.2, tKang = cue("s1-4", "kangourous") - 0.5;
+  // objets posés sur la Terre : [angle (0 = en haut), apparition, type]
+  const items = [
+    [0, cue("s1-1", "Toi") - 0.3, "fig", C.blue],
+    [62, cue("s1-1", "moi") - 0.3, "fig", "#3DBE8B"],
+    [-70, cue("s1-1", "tartine") - 0.3, "toast"],
+    [180, tAus, "fig", C.fire],
+  ];
+  // un kangourou très simplifié, pieds en (0, 0)
+  const kang = (col) => `<path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${C.ink}" stroke-width="20" stroke-linecap="round"/><path d="M-40 -6 Q-90 -10 -112 -50" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round"/><ellipse cx="0" cy="-58" rx="46" ry="62" fill="${col}" class="ink"/><circle cx="26" cy="-136" r="28" fill="${col}" class="ink"/><path d="M14 -158 L10 -196 L32 -166 Z M36 -160 L44 -198 L52 -160 Z" fill="${col}" class="ink"/><circle cx="36" cy="-140" r="5" fill="${C.ink}"/><path d="M-8 0 H40" stroke="${C.ink}" stroke-width="16" stroke-linecap="round"/>`;
+  onDraw("s1", (t) => {
+    // la Terre pivote d'un demi-tour pour montrer que l'Australien est bien debout chez lui
+    const rot = 180 * (ramp(t, tFlip, tFlip + 1.4) - ramp(t, tBack, tBack + 1.4));
+    let s = "";
+    const arr = lin(t, tArr, tArr + 0.5);
+    if (arr > 0) for (let i = 0; i < 8; i++) {
+      const a = rad(i * 45 + 22 + rot), ph = (t * 0.7 + i / 8) % 1, r1 = R + 250 - ph * 90, r2 = r1 - 100;
+      s += arrowSVG(CX + r1 * Math.sin(a), CY - r1 * Math.cos(a), CX + r2 * Math.sin(a), CY - r2 * Math.cos(a), C.fire, 12, arr * Math.sin(ph * Math.PI) * 0.9);
+    }
+    s += earthSVG(CX, CY, R, rot) + `<circle cx="${CX}" cy="${CY}" r="14" fill="${C.ink}"/>`;
+    items.forEach(([ang, t0, kind, col]) => {
+      const op = lin(t, t0, t0 + 0.4);
+      if (op <= 0) return;
+      const a = ang + rot, drop = kind === "toast" ? (1 - rampO(t, t0, t0 + 0.8)) * 160 : 0;
+      const px = CX + (R + drop) * Math.sin(rad(a)), py = CY - (R + drop) * Math.cos(rad(a));
+      const inner = kind === "fig" ? figSVG(0, 0, 0.85, col) : toastSVG(0, -18, 180, 0.42);
+      const isK = kind === "fig" && ang === 180 && t > tKang && t < tKang + 3.2;
+      s += `<g opacity="${f2(op)}" transform="translate(${f2(px)} ${f2(py)}) rotate(${f2(a)})">${isK ? `<g transform="scale(0.8)">${kang("#D98B4A")}</g>` : inner}</g>`;
+    });
+    $("#s1-draw").innerHTML = s;
+  });
+  const lab = { c: label("s1", "s1-l-c", [CX + 8, CY + 6], [1380, 760], "Le centre de la Terre", null) };
+  showLabel(lab.c, tArr + 0.3);
+  hideLabel(lab.c, tFlip - 0.2);
+  show("#s1-n1", cue("s1-2", "bas") - 0.3);
+  show("#s1-n2", cue("s1-3", "pieds") - 0.4);
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : tout attire tout ; plus il y a de matière, plus ça attire ----------
+(() => {
+  const tA = cue("s2-2", "matière") - 0.5, tMore = cue("s2-2", "Plus") - 0.4, tBig = cue("s2-2", "gigantesque") - 0.8;
+  const tB = cue("s2-3", "moi") - 0.7, tNum = cue("s2-4", "six") - 0.3, tWin = cue("s2-4", "gagne") - 0.6;
+  const numEl = document.getElementById("s2-num");
+  const N = ["6", "6 000", "6 000 milliards", "6 000 milliards de milliards"];
+  // lignes d'attraction autour d'un objet : d'autant plus nombreuses et longues qu'il est massif
+  const pull = (x, y, r, n, len, t, op) => {
+    let s = "";
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * TAU, ph = (t * 0.8 + i * 0.37) % 1, r1 = r + len - ph * len * 0.5, r2 = r1 - len * 0.4;
+      s += arrowSVG(x + r1 * Math.cos(a), y + r1 * Math.sin(a), x + r2 * Math.cos(a), y + r2 * Math.sin(a), C.fire, 8, op * Math.sin(ph * Math.PI));
+    }
+    return s;
+  };
+  onDraw("s2", (t) => {
+    let s = "";
+    const a = lin(t, tA, tA + 0.4) * (1 - ramp(t, tB - 0.3, tB + 0.1)), b = ramp(t, tB, tB + 0.5);
+    if (a > 0) {
+      // trois objets de plus en plus massifs
+      const m = lin(t, tMore, tMore + 0.4), big = lin(t, tBig, tBig + 0.5);
+      let g = pull(380, 540, 40, 6, 60, t, 1) + ball(380, 540, 40, "#B9772E") + txt(380, 680, "un caillou", 36);
+      if (m > 0) g += `<g opacity="${f2(m)}">${pull(840, 540, 96, 10, 100, t, 1)}${ball(840, 540, 96, "#9AA6B8")}${txt(840, 740, "un rocher", 36)}</g>`;
+      if (big > 0) g += `<g opacity="${f2(big)}">${pull(1440, 540, 210, 16, 170, t, 1)}${earthSVG(1440, 540, 210)}${txt(1440, 880, "la Terre", 40)}</g>`;
+      s += `<g opacity="${f2(a)}">${g}</g>`;
+    }
+    if (b > 0) {
+      // Zoé et la Terre s'attirent avec la même force : c'est Zoé qui fait presque tout le chemin
+      const go = ramp(t, tWin, tWin + 1.6), zx = lerp(420, 1010, go), ex = 1430 - 2 * go, ey = 640;
+      let g = earthSVG(ex, ey, 230) + figSVG(zx, ey + 60, 1.1, C.blue);
+      if (go < 0.9) g += arrowSVG(zx + 60, ey - 40, zx + 250, ey - 40, C.fire, 14, 1 - go) + arrowSVG(ex - 250, ey + 40, ex - 440, ey + 40, C.fire, 14, 1 - go);
+      s += `<g opacity="${f2(b)}">${g}</g>`;
+    }
+    $("#s2-draw").innerHTML = s;
+    numEl.textContent = N[Math.min(N.length - 1, Math.floor(lin(t, tNum, tNum + 2.4) * N.length))];
+  });
+  show("#s2-n1", tMore + 0.4);
+  tl.to("#s2-n1", { opacity: 0, duration: 0.25 }, tB - 0.3);
+  show("#s2-n2", cue("s2-4", "trente") - 0.3);
+  show("#s2-mass", tNum - 0.1);
+  show("#s2-n3", tWin + 0.3);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : le marteau et la plume, sur la Terre (avec air) puis sur la Lune (sans air) ----------
+(() => {
+  const S = scn("s3");
+  const tDrop = cue("s3-1", "lâche") - 0.2, tMoon = cue("s3-3", "sans") - 0.6, tMoonDrop = cue("s3-5", "marteau") - 1.0;
+  const H = 400, GE = 1400, GM = GE / 6; // la gravité de la Lune est six fois plus faible
+  const hammer = (x, y, rot = 0) => `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${rot})"><rect x="-10" y="-70" width="20" height="120" rx="8" fill="#D9A66B" class="ink"/><rect x="-46" y="-96" width="92" height="44" rx="10" fill="${C.metal}" class="ink"/></g>`;
+  const feather = (x, y, rot = 0, light = false) => `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><path d="M0 60 C -44 20, -40 -50, 0 -90 C 40 -50, 44 20, 0 60 Z" fill="${light ? "#fff" : "#fff"}" class="ink"/><path d="M0 76 V-70 M0 20 L-22 0 M0 20 L22 0 M0 -16 L-22 -36 M0 -16 L22 -36" class="ink" stroke-width="3"/></g>`;
+  // un cycle de chute qui se répète : [instant dans le cycle] → hauteur tombée
+  const fallE = (u) => Math.min(H, 0.5 * GE * u * u), fallF = (u) => Math.min(H, 105 * u), fallM = (u) => Math.min(H, 0.5 * GM * u * u);
+  onDraw("s3", (t) => {
+    const y0 = 130, gy = 560;
+    // --- Terre ---
+    const u = t < tDrop ? 0 : (t - tDrop) % 5.6;
+    let a = `<rect x="0" y="${gy}" width="760" height="80" fill="#6CC98A"/><path d="M0 ${gy} H760" class="ink" stroke-width="5"/>`;
+    a += hammer(250, y0 + fallE(u)) + feather(510 + 34 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0), y0 + 20 + fallF(u) * 0.99, 18 * Math.sin(u * 3.2) * (fallF(u) < H ? 1 : 0));
+    $("#s3-s1").innerHTML = a;
+    // --- Lune ---
+    const um = t < tMoonDrop ? 0 : (t - tMoonDrop) % 4.6;
+    let b = "";
+    for (let i = 0; i < 26; i++) b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 470)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+    b += earthSVG(610, 110, 52) + `<rect x="0" y="${gy}" width="760" height="80" fill="#C9D1DE"/><ellipse cx="150" cy="${gy + 40}" rx="70" ry="16" fill="#9AA6B8"/><ellipse cx="560" cy="${gy + 50}" rx="90" ry="18" fill="#9AA6B8"/><path d="M0 ${gy} H760" stroke="#EEF2F8" stroke-width="5"/>`;
+    b += hammer(250, y0 + fallM(um)) + feather(510, y0 + 20 + fallM(um), 0);
+    $("#s3-s2").innerHTML = b;
+  });
+  show("#s3-t1", S.start + 0.6, { y: -20 });
+  tl.fromTo("#s3-p1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: OUT }, S.start + 0.5);
+  show("#s3-n1", cue("s3-2", "air") - 0.3);
+  show("#s3-t2", tMoon, { y: -20 });
+  tl.fromTo("#s3-p2", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.5, ease: OUT }, tMoon);
+  show("#s3-n2", cue("s3-5", "exactement") - 0.4);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : le canon de Newton ; la Lune tombe sans arrêt autour de la Terre ----------
+(() => {
+  const CX = 960, CY = 640, R = 210, H = 60; // Terre, et hauteur de la montagne
+  const GMc = 4.0e6; // constante de gravitation de la simulation (pixels³ / s²)
+  const r0 = R + H, vOrb = Math.sqrt(GMc / r0); // vitesse exacte de l'orbite circulaire
+  // Simulation : on tire horizontalement depuis le sommet, la gravité varie en 1/d² (vraie loi)
+  const shoot = (v) => {
+    const pts = [];
+    let x = 0, y = -r0, vx = v, vy = 0;
+    const dt = 0.004;
+    for (let i = 0; i < 6000; i++) {
+      const d = Math.hypot(x, y);
+      if (d < R - 1 && i > 3) break;
+      if (i % 5 === 0) pts.push([CX + x, CY + y]);
+      const ax = (-GMc * x) / (d * d * d), ay = (-GMc * y) / (d * d * d);
+      vx += ax * dt; vy += ay * dt; x += vx * dt; y += vy * dt;
+    }
+    return pts; // un point toutes les 0,02 s
+  };
+  const shots = [
+    { t: cue("s4-2", "petit") - 0.2, pts: shoot(vOrb * 0.45), col: C.blueL },
+    { t: cue("s4-2", "fort") - 0.2, pts: shoot(vOrb * 0.72), col: C.blue },
+    { t: cue("s4-2", "fort", 1) + 0.1, pts: null, col: C.fire }, // orbite : mouvement circulaire exact
+  ];
+  const wOrb = vOrb / r0; // vitesse angulaire
+  const tWhy = cue("s4-4", "dérobe") - 1.6, tMoon = cue("s4-4", "Lune") - 0.8;
+  const pathD = (pts, n) => pts.slice(0, n).map((p, i) => `${i ? "L" : "M"}${f2(p[0])} ${f2(p[1])}`).join("");
+  onDraw("s4", (t) => {
+    const far = ramp(t, tMoon, tMoon + 1.0); // on recule pour voir la Lune
+    const k = lerp(1, 0.3, far);
+    let s = `<g transform="translate(${CX} ${f2(lerp(CY, 560, far))}) scale(${f2(k)}) translate(${-CX} ${-CY})">`;
+    s += earthSVG(CX, CY, R);
+    // la montagne et le canon
+    s += `<path d="M${CX - 46} ${CY - R + 6} L${CX} ${CY - r0 + 12} L${CX + 46} ${CY - R + 6} Z" fill="#9AA6B8" class="ink"/><rect x="${CX - 10}" y="${CY - r0 - 6}" width="56" height="20" rx="8" fill="${C.ink}"/>`;
+    shots.forEach((sh) => {
+      if (t < sh.t) return;
+      const u = t - sh.t;
+      if (sh.pts) {
+        const n = Math.min(sh.pts.length, Math.floor(u / 0.02) + 1), p = sh.pts[n - 1];
+        s += `<path d="${pathD(sh.pts, n)}" fill="none" stroke="${sh.col}" stroke-width="7" stroke-dasharray="4 14" stroke-linecap="round"/>` + ball(p[0], p[1], 15, sh.col, { w: 3 });
+      } else {
+        const a = -Math.PI / 2 + wOrb * u, done = Math.min(TAU, wOrb * u);
+        const x = CX + r0 * Math.cos(a), y = CY + r0 * Math.sin(a);
+        s += `<path d="M${CX} ${CY - r0} A${r0} ${r0} 0 ${done > Math.PI ? 1 : 0} 1 ${f2(CX + r0 * Math.cos(-Math.PI / 2 + done * 0.999))} ${f2(CY + r0 * Math.sin(-Math.PI / 2 + done * 0.999))}" fill="none" stroke="${sh.col}" stroke-width="7" stroke-dasharray="4 14" stroke-linecap="round"/>`;
+        // « il tombe, mais le sol se dérobe » : sa vitesse (tout droit) et sa chute (vers le centre)
+        const why = lin(t, tWhy, tWhy + 0.4) * (1 - far);
+        if (why > 0) s += arrowSVG(x, y, x - 120 * Math.sin(a), y + 120 * Math.cos(a), C.blue, 10, why) + arrowSVG(x, y, x - 80 * Math.cos(a), y - 80 * Math.sin(a), "#E0455E", 10, why);
+        s += ball(x, y, 16, sh.col, { w: 3 });
+      }
+    });
+    // la Lune, beaucoup plus loin, qui fait la même chose
+    if (far > 0) {
+      const rm = 1500, am = (t - tMoon) * 0.5 - 0.6;
+      s += `<circle cx="${CX}" cy="${CY}" r="${rm}" fill="none" stroke="${C.ink}" stroke-width="12" stroke-dasharray="14 40" opacity="${f2(far * 0.5)}"/><g opacity="${f2(far)}">${ball(CX + rm * Math.cos(am), CY + rm * Math.sin(am), 120, "#C9D1DE", { w: 12 })}</g>`;
+    }
+    $("#s4-draw").innerHTML = s + `</g>`;
+  });
+  show("#s4-n1", shots[0].t + 0.2, { x: -40, y: 0 });
+  show("#s4-n2", shots[1].t + 0.2, { x: -40, y: 0 });
+  show("#s4-n3", cue("s4-3", "tour") - 0.5, { x: -40, y: 0 });
+  show("#s4-n4", tWhy + 0.2);
+  tl.to(["#s4-n1", "#s4-n2", "#s4-n3", "#s4-n4"], { opacity: 0, duration: 0.3 }, tMoon - 0.2);
+  show("#s4-n5", cue("s4-5", "boulet") - 0.4);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : la station spatiale tombe autour de la Terre, et tout flotte à l'intérieur ----------
+(() => {
+  const tIn = cue("s5-1", "flottent") - 0.6, tFall = cue("s5-2", "tombe") - 0.4;
+  const EX = 620, EY = 1560, ER = 1000, RO = 1230; // la Terre (grande, en bas) et le rayon de l'orbite
+  const station = (x, y, rot, k = 1) =>
+    `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${k})"><rect x="-150" y="-12" width="300" height="24" rx="8" fill="${C.metal}" class="ink"/><rect x="-160" y="-70" width="70" height="140" rx="8" fill="${C.blue}" class="ink"/><rect x="90" y="-70" width="70" height="140" rx="8" fill="${C.blue}" class="ink"/><path d="M-160 -24 H-90 M-160 24 H-90 M90 -24 H160 M90 24 H160" stroke="#fff" stroke-width="3"/><rect x="-44" y="-34" width="88" height="68" rx="22" fill="#fff" class="ink"/></g>`;
+  // un astronaute qui flotte, centré en (x, y)
+  const astro = (x, y, rot) =>
+    `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><path d="M-34 60 L-52 118 M34 60 L52 118 M-52 -10 L-104 -40 M52 -10 L104 -40" stroke="${C.ink}" stroke-width="40" stroke-linecap="round"/><path d="M-34 60 L-52 118 M34 60 L52 118 M-52 -10 L-104 -40 M52 -10 L104 -40" stroke="#fff" stroke-width="30" stroke-linecap="round"/><rect x="-58" y="-40" width="116" height="120" rx="40" fill="#fff" class="ink" stroke-width="5"/><circle cx="0" cy="-88" r="58" fill="#fff" class="ink" stroke-width="5"/><rect x="-38" y="-112" width="76" height="52" rx="24" fill="${C.ink}"/><path d="M-22 -100 q14 -10 30 0" fill="none" stroke="#8FD3FF" stroke-width="6" stroke-linecap="round"/></g>`;
+  onDraw("s5", (t) => {
+    let s = earthSVG(EX, EY, ER, t * 0.6);
+    // la trajectoire et la station
+    const a = -100 + ((t * 4.2) % 60), ar = rad(a), sx = EX + RO * Math.cos(ar), sy = EY + RO * Math.sin(ar);
+    s += `<circle cx="${EX}" cy="${EY}" r="${RO}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-dasharray="6 22" opacity="0.5"/>` + station(sx, sy, a + 90, 0.6);
+    const f = lin(t, tFall, tFall + 0.4);
+    if (f > 0) s += arrowSVG(sx, sy, sx - 110 * Math.cos(ar), sy - 110 * Math.sin(ar), "#E0455E", 10, f) + arrowSVG(sx, sy, sx - 130 * Math.sin(ar), sy + 130 * Math.cos(ar), C.blue, 10, f);
+    // la loupe : l'intérieur de la station
+    const inn = ramp(t, tIn, tIn + 0.5);
+    if (inn > 0) {
+      const cx = 1400, cy = 520;
+      let g = `<circle cx="${cx}" cy="${cy}" r="270" fill="#EAF6FF"/><g clip-path="url(#s5-clip)"><path d="M${cx - 270} ${cy + 180} H${cx + 270} M${cx - 270} ${cy - 180} H${cx + 270}" stroke="${C.side}" stroke-width="40"/>`;
+      g += astro(cx - 40 + 40 * Math.sin(t * 0.7), cy + 10 + 30 * Math.cos(t * 0.9), 20 * Math.sin(t * 0.5) - 10);
+      // une pomme et une goutte d'eau qui flottent avec lui
+      g += ball(cx + 150 + 20 * Math.sin(t * 0.8 + 1), cy - 110 + 24 * Math.cos(t * 0.6), 30, C.fire) + ball(cx - 170 + 16 * Math.cos(t * 0.7), cy + 130 + 20 * Math.sin(t * 0.9 + 2), 24, C.air);
+      g += `</g><circle cx="${cx}" cy="${cy}" r="270" fill="none" stroke="${C.ink}" stroke-width="12"/>`;
+      s += `<g opacity="${f2(inn)}"><path d="M${f2(sx)} ${f2(sy)} L${cx - 250} ${cy + 100}" stroke="${C.ink}" stroke-width="4" stroke-dasharray="6 12"/>${g}</g>`;
+    }
+    $("#s5-draw").innerHTML = s;
+  });
+  show("#s5-n1", cue("s5-2", "presque") - 0.4, { x: -40, y: 0 });
+  show("#s5-n2", cue("s5-2", "ensemble") - 0.4, { x: -40, y: 0 });
+  show("#s5-n3", cue("s5-3", "toboggan") - 0.4);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : le résumé, puis le saut sur la Lune (six fois plus haut) ----------
+(() => {
+  const S = scn("s6");
+  const tJ = cue("s6-2", "Lune") - 0.8;
+  // même élan sur la Terre et sur la Lune : la hauteur et la durée du saut sont multipliées par 6
+  const V0 = 520, GE = 3000, GM = GE / 6, TE = (2 * V0) / GE, TM = (2 * V0) / GM;
+  const hop = (u, g, T) => (u < T ? V0 * u - 0.5 * g * u * u : 0);
+  onDraw("s6", (t) => {
+    if (t < tJ - 0.3) return;
+    const u = Math.max(0, t - tJ - 0.6), gy = 560;
+    const ue = u % (TE + 1.0), um = u % (TM + 1.0);
+    $("#s6-s1").innerHTML = `<rect x="0" y="${gy}" width="760" height="80" fill="#6CC98A"/><path d="M0 ${gy} H760" class="ink" stroke-width="5"/>` + figSVG(380, gy - hop(ue, GE, TE), 1.3, C.blue) + `<path d="M560 ${gy} V${gy - 45} M540 ${gy - 45} H580" class="ink" stroke-width="5"/>` + txt(660, gy - 34, "45 cm", 34);
+    let b = "";
+    for (let i = 0; i < 22; i++) b += `<circle cx="${f2(rnd(i) * 760)}" cy="${f2(rnd(i + 60) * 300)}" r="${1.5 + rnd(i + 9) * 2.5}" fill="#fff" opacity="0.8"/>`;
+    b += `<rect x="0" y="${gy}" width="760" height="80" fill="#C9D1DE"/><path d="M0 ${gy} H760" stroke="#EEF2F8" stroke-width="5"/>`;
+    // un panier de basket, tout là-haut
+    b += `<path d="M640 ${gy} V${gy - 330}" stroke="#EEF2F8" stroke-width="12"/><rect x="560" y="${gy - 400}" width="100" height="80" rx="8" fill="#fff" stroke="#EEF2F8" stroke-width="4"/><ellipse cx="540" cy="${gy - 320}" rx="50" ry="12" fill="none" stroke="${C.fire}" stroke-width="8"/>`;
+    b += figSVG(380, gy - hop(um, GM, TM), 1.3, C.fire) + `<path d="M180 ${gy} V${gy - 270} M160 ${gy - 270} H200" stroke="#EEF2F8" stroke-width="5"/>` + txt(110, gy - 280, "2,70 m", 34, { fill: "#fff" });
+    $("#s6-s2").innerHTML = b;
+  });
+  show("#s6-k1", cue("s6-1", "attire") - 0.5, { y: 50 });
+  show("#s6-k2", cue("s6-1", "gros") - 0.5, { y: 50 });
+  show("#s6-k3", cue("s6-1", "Lune") - 0.5, { y: 50 });
+  tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tJ - 0.3);
+  tl.fromTo("#s6-j", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.5, ease: OUT }, tJ);
+  pop("#s6-next", cue("s6-6", "son") - 0.3);
+  const tEnd = S.end - 3.2;
+  tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  show("#s6-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (le générique → première scène est un zoom, géré dans g.js).
+{
+  const ids = Object.keys(SCHED.scenes);
+  for (let i = 2; i < ids.length; i++) seam(ids[i - 1], ids[i]);
+}
+
+// Un seul « tic » sur toute la durée : redessine les animations à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>

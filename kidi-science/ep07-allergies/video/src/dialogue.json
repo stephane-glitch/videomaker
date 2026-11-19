@@ -1,0 +1,200 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, c'est le printemps, et je n'arrête pas d'éternuer. Pourtant, il y a à peine un peu de pollen dans l'air !"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Le pollen ne t'a rien fait. C'est ton corps qui en fait trop."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Mon corps se bat contre une fleur ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Il se trompe d'ennemi. Viens voir ton armée."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Dans ton sang, tu as des milliards de gardes : les globules blancs. Leur travail, c'est de repérer les intrus. Un virus, une bactérie : ils l'attrapent et ils l'éliminent."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Comme des vigiles à l'entrée d'un concert."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Et ils ont de la mémoire : un intrus déjà vu est reconnu tout de suite."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "C'est pour ça qu'on n'attrape la varicelle qu'une seule fois !"
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tu vas trop vite pour moi."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et le pollen, dans tout ça ? Il n'est pas dangereux."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Non. Mais chez certaines personnes, les gardes le prennent pour un ennemi. Ils fabriquent des antennes spéciales, les anticorps, réglées sur le pollen."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Une fausse alerte, quoi. Comme l'alarme de la voiture qui hurle quand un chat passe."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Sauf qu'ici, les antennes sont accrochées sur des cellules pleines de petits sacs."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Quand le pollen revient, il touche les antennes. Les sacs éclatent, et libèrent un produit : l'histamine."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et c'est l'histamine qui me fait éternuer ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Oui. Elle fait couler le nez, gratter les yeux, éternuer… tout ça pour chasser l'intrus dehors."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Donc mon nez qui coule, c'est mon corps qui passe le balai. Pour rien."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "max",
+    "text": "Pour un grain de pollen innocent."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et il n'y a que le pollen ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Non. Les acariens, les poils de chat, les cacahuètes, les piqûres de guêpe… Chaque personne allergique a ses propres faux ennemis."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et si l'alerte est trop forte ?"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Certaines allergies peuvent être graves. C'est pour ça qu'on prend toujours au sérieux un copain allergique aux cacahuètes."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et on peut calmer les gardes ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "On peut bloquer l'histamine avec un médicament. Et parfois, on entraîne les gardes : on leur montre un tout petit peu de pollen, puis un peu plus, pendant des années. Ils finissent par comprendre."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "On leur apprend que la fleur est gentille. Une école pour globules blancs !"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "C'est exactement ça. Et ça s'appelle la désensibilisation."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : mes gardes confondent le pollen avec un ennemi, ils font éclater des sacs d'histamine, et moi, j'éternue."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parfait."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Finalement, mon corps est très fort. Juste un peu trop zélé."
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Comme toi quand tu ranges ma boîte à outils."
+  },
+  {
+    "id": "s6-5",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… on parle de quoi, la prochaine fois ?"
+  },
+  {
+    "id": "s6-6",
+    "scene": "s6",
+    "who": "max",
+    "text": "À toi de choisir. Envoie-nous ta question !"
+  }
+]
