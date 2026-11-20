@@ -1,7 +1,7 @@
 # Publication sur YouTube par l'API officielle (YouTube Data API v3).
 # Le jeton d'accès n'est jamais dans ce fichier : il est ajouté aux requêtes par le proxy de la session.
 #   python3 -I publier.py verifier   → montre la chaîne reconnue par le jeton
-#   python3 -I publier.py envoyer    → envoie les vidéos EN PRIVÉ, avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
+#   python3 -I publier.py envoyer    → envoie les vidéos EN PRIVÉ (celles déjà en ligne sont seulement mises à jour, visibilité inchangée), avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
 #   python3 -I publier.py publier    → passe en public les vidéos déjà envoyées
 #   python3 -I publier.py chaine     → installe la description et la bannière de la chaîne
 # L'avancement est noté dans publication/etat.json : relancer une commande reprend là où elle s'était arrêtée.
@@ -46,6 +46,11 @@ def envoyer():
             loc = re.search(r"(?im)^location:\s*(\S+)", hdr).group(1)
             v["id"] = call("PUT", loc, headers=["Content-Type: video/mp4"], data_file=m["fichier"])["id"]; save()
             print(key, "envoyée (privée) :", v["id"])
+        if v.get("deja_en_ligne") and not v.get("fiche"):
+            cur = call("GET", f"{API}/videos?part=status&id={v['id']}")["items"][0]["status"]
+            call("PUT", f"{API}/videos?part=snippet,status", {"id": v["id"], "snippet": {"title": m["titre"], "description": m["description"], "tags": m["mots_cles"], "categoryId": m["categorie"], "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
+                 "status": {"privacyStatus": cur["privacyStatus"], "selfDeclaredMadeForKids": m["pour_enfants"], "embeddable": True}})
+            v["fiche"] = True; save(); print(key, "fiche mise à jour (visibilité inchangée :", cur["privacyStatus"] + ")")
         if not v.get("miniature"):
             call("POST", f"{UP}/thumbnails/set?videoId={v['id']}", headers=["Content-Type: image/jpeg"], data_file=f"{m['dir']}/miniature.jpg"); v["miniature"] = True; save()
             print(key, "miniature posée")
