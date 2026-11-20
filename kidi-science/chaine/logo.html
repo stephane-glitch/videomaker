@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Propositions d'icône de chaîne (800 × 800, sans texte : le nom est déjà affiché à côté par YouTube). ?v=a|b|c pour une seule, sinon planche. -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #fff;
+        font-family: sans-serif;
+      }
+      #sheet {
+        display: flex;
+        gap: 40px;
+        padding: 40px;
+        width: 1520px;
+      }
+      .col {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+        color: #1f2a44;
+      }
+      .big {
+        width: 480px;
+        height: 480px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      .small {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-block;
+        margin: 0 10px 10px;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const INK = "#1F2A44",
+        SKIN = "#FFD9B8",
+        BLUE = "#2F5BD3",
+        FIRE = "#FF8A1F",
+        HOT = "#FFD23F",
+        YEL = "#FFE14D",
+        RED = "#E0455E";
+      // le visage de l'enfant (le même que sur la bannière) : centre (x, y), rayon r
+      const face = (x, y, r, o = {}) => {
+        const k = r / 96,
+          P = (dx, dy) => `${x + dx * k} ${y + dy * k}`;
+        let s = `<circle cx="${x}" cy="${y}" r="${r}" fill="${SKIN}" stroke="${INK}" stroke-width="${8 * k}"/>`;
+        s += `<circle cx="${x - 94 * k}" cy="${y + 12 * k}" r="${18 * k}" fill="${SKIN}" stroke="${INK}" stroke-width="${7 * k}"/><circle cx="${x + 94 * k}" cy="${y + 12 * k}" r="${18 * k}" fill="${SKIN}" stroke="${INK}" stroke-width="${7 * k}"/>`;
+        s += `<path d="M${P(-94, -10)} C ${P(-100, -90)}, ${P(-40, -114)}, ${P(10, -104)} C ${P(26, -130)}, ${P(70, -124)}, ${P(66, -94)} C ${P(100, -78)}, ${P(102, -36)}, ${P(94, -10)} C ${P(70, -40)}, ${P(30, -54)}, ${P(0, -50)} C ${P(-40, -54)}, ${P(-70, -40)}, ${P(-94, -10)} Z" fill="${INK}"/>`;
+        const ex = o.look ?? 4,
+          ey = o.lookY ?? -4;
+        s += `<circle cx="${x - 32 * k}" cy="${y + 6 * k}" r="${17 * k}" fill="#fff" stroke="${INK}" stroke-width="${5 * k}"/><circle cx="${x + 34 * k}" cy="${y + 6 * k}" r="${17 * k}" fill="#fff" stroke="${INK}" stroke-width="${5 * k}"/>`;
+        s += `<circle cx="${x + (-32 + ex) * k}" cy="${y + (6 + ey) * k}" r="${9 * k}" fill="${INK}"/><circle cx="${x + (34 + ex) * k}" cy="${y + (6 + ey) * k}" r="${9 * k}" fill="${INK}"/>`;
+        s += `<circle cx="${x - 58 * k}" cy="${y + 40 * k}" r="${13 * k}" fill="#F7A8B8" opacity="0.8"/><circle cx="${x + 60 * k}" cy="${y + 40 * k}" r="${13 * k}" fill="#F7A8B8" opacity="0.8"/>`;
+        s +=
+          o.mouth === "o"
+            ? `<ellipse cx="${x + 2 * k}" cy="${y + 52 * k}" rx="${11 * k}" ry="${10 * k}" fill="${INK}"/>`
+            : `<path d="M${P(-26, 44)} Q${P(2, 74)} ${P(30, 44)} Z" fill="${INK}"/><path d="M${P(-14, 58)} Q${P(2, 66)} ${P(18, 58)}" stroke="${RED}" stroke-width="${7 * k}" fill="none" stroke-linecap="round"/>`;
+        return s;
+      };
+      const V = {
+        // A — la tête-atome : l'enfant est le noyau, les idées tournent autour
+        a: () => {
+          let s = `<rect width="800" height="800" fill="${YEL}"/>`;
+          const orbit = (rot, half) =>
+            `<ellipse cx="400" cy="410" rx="330" ry="120" transform="rotate(${rot} 400 410)" fill="none" stroke="${INK}" stroke-width="16" ${half ? `stroke-dasharray="${half}"` : ""}/>`;
+          s += orbit(-30) + orbit(30) + orbit(90);
+          s += face(400, 420, 150, { look: 5, lookY: -5 });
+          // le devant des orbites repasse par-dessus le visage
+          s += `<g clip-path="url(#front)">` + orbit(-30) + orbit(30) + `</g>`;
+          const e = (deg, rot, col) => {
+            const a = (deg * Math.PI) / 180,
+              r = (rot * Math.PI) / 180,
+              px = 330 * Math.cos(a),
+              py = 120 * Math.sin(a);
+            return `<circle cx="${400 + px * Math.cos(r) - py * Math.sin(r)}" cy="${410 + px * Math.sin(r) + py * Math.cos(r)}" r="34" fill="${col}" stroke="${INK}" stroke-width="10"/>`;
+          };
+          s += e(200, -30, BLUE) + e(-20, 30, FIRE) + e(250, 90, RED);
+          return (
+            `<defs><clipPath id="front"><rect x="0" y="560" width="800" height="240"/></clipPath></defs>` +
+            s
+          );
+        },
+        // B — l'ampoule : l'enfant a une idée
+        b: () => {
+          let s = `<rect width="800" height="800" fill="${BLUE}"/>`;
+          for (let i = 0; i < 9; i++) {
+            const a = Math.PI * (1.02 + i * 0.12);
+            s += `<path d="M${400 + 330 * Math.cos(a)} ${350 + 330 * Math.sin(a)} L${400 + 390 * Math.cos(a)} ${350 + 390 * Math.sin(a)}" stroke="${YEL}" stroke-width="26" stroke-linecap="round"/>`;
+          }
+          s += `<path d="M400 90 C 580 90, 660 220, 660 340 C 660 450, 590 500, 560 570 C 546 600, 540 620, 540 650 H260 C 260 620, 254 600, 240 570 C 210 500, 140 450, 140 340 C 140 220, 220 90, 400 90 Z" fill="${YEL}" stroke="${INK}" stroke-width="16" stroke-linejoin="round"/>`;
+          s += `<rect x="270" y="650" width="260" height="96" rx="26" fill="#9AA6B8" stroke="${INK}" stroke-width="16"/><path d="M270 698 H530" stroke="${INK}" stroke-width="12"/>`;
+          s += face(400, 380, 168, { look: 0, lookY: -7 });
+          return s;
+        },
+        // C — la loupe : l'enfant regarde de près
+        c: () => {
+          let s = `<rect width="800" height="800" fill="#FFF3DC"/><circle cx="400" cy="400" r="330" fill="${YEL}"/>`;
+          s += face(360, 410, 190, { look: 6, lookY: 0, mouth: "o" });
+          s += `<path d="M560 520 L700 690" stroke="${INK}" stroke-width="64" stroke-linecap="round"/><path d="M560 520 L700 690" stroke="${FIRE}" stroke-width="40" stroke-linecap="round"/>`;
+          s += `<circle cx="450" cy="400" r="150" fill="#DFF3FF" stroke="${INK}" stroke-width="22"/><circle cx="450" cy="400" r="150" fill="none" stroke="${BLUE}" stroke-width="8"/>`;
+          s += `<circle cx="450" cy="405" r="84" fill="#fff" stroke="${INK}" stroke-width="12"/><circle cx="462" cy="400" r="46" fill="#3DBE8B" stroke="${INK}" stroke-width="8"/><circle cx="462" cy="400" r="22" fill="${INK}"/><circle cx="446" cy="384" r="12" fill="#fff"/>`;
+          s += `<path d="M362 300 Q440 250 540 296" fill="none" stroke="${INK}" stroke-width="16" stroke-linecap="round"/>`;
+          return s;
+        },
+      };
+      const svg = (k) => `<svg viewBox="0 0 800 800">${V[k]()}</svg>`;
+      const v = new URLSearchParams(location.search).get("v");
+      const root = document.getElementById("root");
+      if (v) root.innerHTML = `<div style="width:800px;height:800px">${svg(v)}</div>`;
+      else
+        root.innerHTML =
+          `<div id="sheet">` +
+          [
+            ["a", "A — La tête-atome"],
+            ["b", "B — L’ampoule"],
+            ["c", "C — La loupe"],
+          ]
+            .map(
+              ([k, n]) =>
+                `<div class="col"><div class="big">${svg(k)}</div><div class="small">${svg(k)}</div><div class="small" style="width:48px;height:48px">${svg(k)}</div><div>${n}</div></div>`,
+            )
+            .join("") +
+          `</div>`;
+    </script>
+  </body>
+</html>
