@@ -16,7 +16,7 @@ Dans chaque épisode, Zoé pose une question et Max l'aide à trouver la répons
 
 Déjà en ligne : la voiture, les atomes, l'électricité, la gravité, le son, la lumière et les couleurs, les allergies.
 
-Toi aussi, tu as une question ? Écris-la en commentaire : elle ira dans la boîte à questions, et Zoé et Max y répondront peut-être dans un prochain épisode.
+Chaque épisode part d'une vraie question d'enfant, tirée de la boîte à questions de Zoé.
 
 Abonne-toi pour ne rien manquer !
 ```
