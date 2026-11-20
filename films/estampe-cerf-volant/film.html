@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html, body { margin: 0; background: #000; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <canvas id="out" width="1920" height="1080"></canvas>
+    <script>
+      // Estampe animée « Le cerf-volant » : trois planches (claire, foncée, trait) dessinées en 2D, puis « imprimées » par un shader.
+      // Chaque image est une fonction pure de son numéro : renderFrame(n).
+      const FPS = 30, DUR = 10, W = 1704, H = 864;
+      const COL = { pale: "#A9BCC6", paleL: "#C6D2D4", prussian: "#1D4E74", indigo: "#27335F", night: "#1B2445", red: "#C8372D", ink: "#141416" };
+      const mk = () => { const c = document.createElement("canvas"); c.width = W; c.height = H; return c; };
+      const cL = mk(), cD = mk(), cK = mk();
+      const L = cL.getContext("2d"), D = cD.getContext("2d"), K = cK.getContext("2d");
+      const ALL = [L, D, K];
+      const TAU = Math.PI * 2, lerp = (a, b, u) => a + (b - a) * u, clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+      const ss = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+      const hash = (a, b = 0) => { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return s - Math.floor(s); };
+      let DRAWING = 0; // numéro du dessin (animation « par deux »)
+      const jit = (x, y, id, amp = 1.3) => [x + (hash(id, DRAWING) - 0.5) * 2 * amp, y + (hash(id + 71, DRAWING) - 0.5) * 2 * amp];
+
+      // --- outils de tracé ---
+      const tracePts = (ctx, pts, closed) => {
+        // courbe lisse (Catmull-Rom) passant par les points
+        const n = pts.length, g = (i) => (closed ? pts[(i + n) % n] : pts[clamp(i, 0, n - 1)]);
+        ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let i = 0; i < (closed ? n : n - 1); i++) {
+          const p0 = g(i - 1), p1 = g(i), p2 = g(i + 1), p3 = g(i + 2);
+          ctx.bezierCurveTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]);
+        }
+        if (closed) ctx.closePath();
+      };
+      const tracePoly = (ctx, pts, closed = true) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (closed) ctx.closePath(); };
+      // une forme pleine : elle cache ce qui est dessous sur les trois planches, puis s'encre sur la planche choisie
+      const shape = (trace, o = {}) => {
+        ALL.forEach((c) => { c.save(); c.globalCompositeOperation = "destination-out"; trace(c); c.fill(); c.restore(); });
+        if (o.light) { trace(L); L.fillStyle = o.light; L.fill(); }
+        if (o.deep) { trace(D); D.fillStyle = o.deep; D.fill(); }
+        if (o.key !== 0) { trace(K); K.strokeStyle = COL.ink; K.lineWidth = o.key ?? 3.2; K.lineJoin = "round"; K.lineCap = "round"; K.stroke(); }
+      };
+      const line = (trace, w = 3) => { trace(K); K.strokeStyle = COL.ink; K.lineWidth = w; K.lineCap = "round"; K.lineJoin = "round"; K.stroke(); };
+      // un ruban (vent) : trait épais qui cache le dessous, bordé de noir
+      const ribbon = (trace, w, light) => {
+        ALL.forEach((c) => { c.save(); c.globalCompositeOperation = "destination-out"; c.lineWidth = w + 7; c.lineCap = "round"; c.lineJoin = "round"; trace(c); c.stroke(); c.restore(); });
+        K.lineCap = "round"; K.lineJoin = "round"; K.strokeStyle = COL.ink; K.lineWidth = w + 7; trace(K); K.stroke();
+        K.save(); K.globalCompositeOperation = "destination-out"; K.lineWidth = w; trace(K); K.stroke(); K.restore();
+        if (light) { L.lineCap = "round"; L.lineJoin = "round"; L.strokeStyle = light; L.lineWidth = w; trace(L); L.stroke(); }
+      };
+      const jpts = (pts, id, amp) => pts.map((p, i) => jit(p[0], p[1], id * 100 + i, amp));
+
+      // --- le déroulé ---
+      const T_GUST = 2.5, T_SNAP = 4.2, T_LAND = 8.3;
+      const wind = (t) => ss(T_GUST - 0.3, T_GUST + 0.7, t) * (1 - 0.75 * ss(5.2, 7.5, t)); // force du vent 0…1
+      const HAND = [392, 548];
+      const kiteAt = (t) => {
+        // position et angle du cerf-volant
+        const w = wind(t);
+        if (t < T_SNAP) {
+          const pull = ss(T_GUST, T_GUST + 0.8, t);
+          const x = lerp(650, 790, pull) + (38 - 20 * pull) * Math.sin(t * 1.9) + 14 * w * Math.sin(t * 17);
+          const y = lerp(350, 300, pull) + 22 * Math.sin(t * 1.3 + 1) + 10 * w * Math.sin(t * 23 + 2);
+          return [x, y, -0.35 + 0.16 * Math.sin(t * 1.9 + 0.6) - 0.3 * pull + 0.12 * w * Math.sin(t * 19)];
+        }
+        const u = clamp((t - T_SNAP) / (T_LAND - T_SNAP)), e = 1 - Math.pow(1 - u, 2.2);
+        const b = (a, c, d, f) => { const m = 1 - e; return m * m * m * a + 3 * m * m * e * c + 3 * m * e * e * d + e * e * e * f; };
+        const loop = 74 * Math.sin(Math.PI * e) * (1 - 0.3 * e), ang = e * TAU * 2.25;
+        const settle = ss(T_LAND - 0.4, T_LAND + 1.2, t);
+        const x = b(804, 900, 1010, 1268) + loop * Math.cos(ang) + 5 * settle * Math.sin(t * 1.6);
+        const y = b(296, 40, 150, 286) + loop * Math.sin(ang) + 6 * settle * Math.sin(t * 1.2 + 1);
+        return [x, y, lerp(-0.65 + e * TAU * 2 + 0.2 * Math.sin(t * 9), TAU * 2 - 0.2 + 0.05 * Math.sin(t * 1.4), ss(0.82, 1, u))];
+      };
+
+      const cloud = (cx, cy, k, id) => {
+        // des bosses rondes posées sur un socle plat : on trace tous les contours, puis on vide l'intérieur
+        const lobes = [[-150, 4, 46], [-88, -30, 62], [-6, -56, 78], [84, -28, 62], [152, 4, 44]].map(([x, y, r], i) => [...jit(cx + x * k, cy + y * k, id * 10 + i, 1.2), r * k]);
+        const parts = (c) => { c.beginPath(); lobes.forEach(([x, y, r]) => { c.moveTo(x + r, y); c.arc(x, y, r, 0, TAU); }); c.roundRect(cx - 206 * k, cy + 4 * k, 412 * k, 46 * k, 22 * k); };
+        K.strokeStyle = COL.ink; K.lineWidth = 6; K.lineJoin = "round"; parts(K); K.stroke();
+        ALL.forEach((c) => { c.save(); c.globalCompositeOperation = "destination-out"; parts(c); c.fill(); c.restore(); });
+        // l'ombre du nuage : une bande claire dans le bas, et deux volutes au trait
+        L.save(); parts(L); L.clip(); L.fillStyle = COL.pale; L.fillRect(cx - 240 * k, cy + 18 * k, 480 * k, 60 * k); L.restore();
+        line((c) => { c.beginPath(); c.arc(cx - 30 * k, cy - 22 * k, 30 * k, Math.PI * 0.95, Math.PI * 2.05); }, 2.4);
+        line((c) => { c.beginPath(); c.arc(cx + 78 * k, cy - 6 * k, 20 * k, Math.PI * 0.95, Math.PI * 2.1); }, 2.4);
+        line((c) => { c.beginPath(); c.arc(cx - 104 * k, cy - 4 * k, 18 * k, Math.PI * 0.95, Math.PI * 2.1); }, 2.4);
+      };
+
+      const gustPath = (x0, y0, len, amp, ph, curl) => (c) => {
+        c.beginPath();
+        const N = 26;
+        for (let i = 0; i <= N; i++) { const s = i / N, x = x0 + len * s, y = y0 + amp * Math.sin(s * TAU * 1.1 + ph) * (0.4 + 0.6 * s); i ? c.lineTo(x, y) : c.moveTo(x, y); }
+        // la volute au bout
+        const ex = x0 + len, ey = y0 + amp * Math.sin(TAU * 1.1 + ph), dir = curl > 0 ? 1 : -1, R = Math.abs(curl);
+        const cx = ex, cy = ey - dir * R;
+        for (let i = 1; i <= 40; i++) { const a = (i / 40) * TAU * 1.45, r = lerp(R, R * 0.2, i / 40); c.lineTo(cx + r * Math.sin(a), cy + dir * r * Math.cos(a)); }
+      };
+
+      const pine = (x, y, k, bend, id) => {
+        const sk = bend * 60 * k;
+        line((c) => { c.beginPath(); c.moveTo(x, y); c.quadraticCurveTo(x - 10 * k, y - 120 * k, x + 20 * k + sk * 0.6, y - 250 * k); }, 9 * k);
+        [[30, -250, 92], [-50, -200, 78], [70, -175, 70], [-10, -140, 64]].forEach(([dx, dy, r], i) => {
+          const cx = x + dx * k + sk * (-dy / 250), cy = y + dy * k;
+          shape((c) => tracePts(c, jpts([[cx - r * k, cy + 8], [cx - r * 0.6 * k, cy - 22 * k], [cx, cy - 34 * k], [cx + r * 0.7 * k + sk * 0.3, cy - 20 * k], [cx + r * k + sk * 0.5, cy + 6], [cx, cy + 14 * k]], id + i, 1.4), true), { deep: COL.prussian, key: 3 });
+          for (let j = -2; j <= 2; j++) line((c) => { c.beginPath(); c.moveTo(cx + j * r * 0.3 * k, cy + 4); c.lineTo(cx + j * r * 0.36 * k + sk * 0.15, cy - 18 * k); }, 1.8);
+        });
+      };
+
+      function drawPlates(t) {
+        ALL.forEach((c) => { c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, W, H); });
+        // la caméra : on part serré sur l'enfant et on s'ouvre vers le ciel
+        const ce = ss(0.4, 8.6, t), s = lerp(1.2, 1, ce), fx = lerp(690, W / 2, ce), fy = lerp(500, H / 2, ce);
+        ALL.forEach((c) => { c.translate(W / 2, H / 2); c.scale(s, s); c.translate(-fx, -fy); });
+        const w = wind(t);
+
+        // ciel : dégradé clair (bokashi), bande bleu de Prusse en haut
+        let g = L.createLinearGradient(0, 0, 0, 620); g.addColorStop(0, "rgba(169,188,198,1)"); g.addColorStop(1, "rgba(169,188,198,0.08)");
+        L.fillStyle = g; L.fillRect(-200, -200, W + 400, 900);
+        g = D.createLinearGradient(0, -40, 0, 200); g.addColorStop(0, "rgba(29,78,116,0.95)"); g.addColorStop(1, "rgba(29,78,116,0)");
+        D.fillStyle = g; D.fillRect(-200, -200, W + 400, 400);
+        // la lune : le papier laissé nu
+        shape((c) => { c.beginPath(); c.arc(1268, 300, 152, 0, TAU); }, { key: 0 });
+
+        // la montagne lointaine, coiffée de neige
+        const M = [[130, 660], [330, 470], [470, 330], [560, 238], [600, 232], [700, 350], [860, 500], [1040, 660]];
+        g = D.createLinearGradient(0, 230, 0, 660); g.addColorStop(0, "rgba(39,51,95,1)"); g.addColorStop(1, "rgba(39,51,95,0.35)");
+        shape((c) => tracePoly(c, jpts(M, 1, 1)), { deep: g, key: 3.4 });
+        shape((c) => tracePoly(c, jpts([[470, 330], [560, 238], [600, 232], [700, 350], [660, 330], [640, 372], [600, 326], [570, 380], [535, 330], [505, 356]], 2, 1)), { key: 2.6 });
+        [[520, 400, 480, 470], [610, 400, 640, 480], [690, 420, 760, 520], [430, 450, 370, 540]].forEach(([a, b, c2, d]) => line((c) => { c.beginPath(); c.moveTo(a, b); c.lineTo(c2, d); }, 2));
+
+        // collines du milieu, puis la brume (papier) et le village
+        shape((c) => tracePts(c, jpts([[-200, 640], [150, 610], [520, 650], [900, 600], [1300, 640], [1904, 590], [1904, 900], [-200, 900]], 3, 1), true), { deep: "rgba(29,78,116,0.9)", key: 3 });
+        g = L.createLinearGradient(0, 640, 0, 760); g.addColorStop(0, "rgba(198,210,212,0)"); g.addColorStop(1, "rgba(198,210,212,1)");
+        [[1040, 668, 1], [1150, 690, 1.25], [1290, 664, 0.95], [1400, 694, 1.2], [1530, 672, 1]].forEach(([x, y, k], i) => {
+          shape((c) => tracePoly(c, jpts([[x - 34 * k, y], [x + 34 * k, y], [x + 34 * k, y + 44 * k], [x - 34 * k, y + 44 * k]], 20 + i, 0.8)), { key: 2.4 });
+          shape((c) => tracePoly(c, jpts([[x - 50 * k, y + 4], [x - 22 * k, y - 34 * k], [x + 22 * k, y - 34 * k], [x + 50 * k, y + 4]], 30 + i, 0.8)), { deep: COL.indigo, key: 2.8 });
+          line((c) => { c.beginPath(); c.rect(x - 8 * k, y + 14 * k, 16 * k, 30 * k); }, 2);
+        });
+
+        // les nuages : deux masquent la lune au début, puis s'écartent
+        const part = ss(T_GUST + 0.3, 7.2, t);
+        cloud(lerp(1180, 900, part) + t * 6, 300 + 4 * Math.sin(t), 1.0, 5);
+        cloud(lerp(1370, 1700, part) + t * 8, 350, 0.85, 6);
+        cloud(250 + t * 22 + w * 60, 150, 0.7, 7);
+
+        // la colline du premier plan, le pin et l'enfant
+        shape((c) => tracePts(c, jpts([[-260, 760], [60, 640], [340, 598], [520, 640], [760, 800], [900, 980], [-260, 980]], 4, 1), true), { deep: COL.night, key: 3.6 });
+        for (let i = 0; i < 9; i++) { const x = 40 + i * 62, y = 660 - 40 * Math.sin((i / 8) * Math.PI) + (i > 5 ? (i - 5) * 26 : 0); line((c) => { c.beginPath(); c.moveTo(x, y); c.quadraticCurveTo(x + 6 + w * 16, y - 16, x + 4 + w * 30, y - 26); }, 2); }
+        pine(150, 640, 1, w * (0.7 + 0.3 * Math.sin(t * 7)), 40);
+        // l'enfant : robe claire, tête nue, bras levé vers la ficelle
+        const [hx, hy] = HAND, lookUp = ss(T_SNAP, T_SNAP + 0.6, t);
+        shape((c) => tracePoly(c, jpts([[330, 606], [342, 546], [368, 540], [384, 606]], 50, 0.8)), { light: COL.pale, key: 3 });
+        line((c) => { c.beginPath(); c.moveTo(364, 556); c.quadraticCurveTo(384, 560, hx, hy); }, 6.5);
+        shape((c) => { c.beginPath(); c.arc(356 - 3 * lookUp, 526, 15, 0, TAU); }, { key: 2.8 });
+        shape((c) => { c.beginPath(); c.arc(356 - 3 * lookUp, 526, 15, Math.PI * (1.0 + 0.12 * lookUp), Math.PI * (2.0 + 0.12 * lookUp)); c.closePath(); }, { deep: COL.night, key: 2.4 });
+
+        // les rafales : rubans qui s'enroulent, avec leurs doigts
+        [[T_GUST - 0.2, 420, 520, 34, 0.3, 62], [T_GUST + 0.25, 210, 440, 28, 2.0, -52], [T_GUST + 0.7, 560, 380, 24, 4.0, 46], [T_GUST + 1.3, 110, 500, 30, 1.2, 58], [T_GUST + 1.9, 330, 420, 26, 3.1, -48], [T_GUST + 2.8, 180, 380, 22, 5.0, 40]].forEach(([t0, y, len, amp, ph, curl], i) => {
+          const u = (t - t0) / 2.3;
+          if (u <= 0 || u >= 1) return;
+          const x0 = lerp(-len - 200, W + 260, u), grow = ss(0, 0.2, u) * (1 - ss(0.85, 1, u));
+          const p = gustPath(x0, y, len * grow + 1, amp, ph + DRAWING * 0.35, curl * grow + 0.01);
+          ribbon(p, 20, i % 2 ? COL.paleL : null);
+          // deux doigts : petites volutes accrochées au ruban
+          [0.45, 0.72].forEach((sFr, j) => {
+            const fxp = x0 + len * grow * sFr, fyp = y + amp * Math.sin(sFr * TAU * 1.1 + ph + DRAWING * 0.35) * (0.4 + 0.6 * sFr);
+            ribbon(gustPath(fxp - 70 * grow, fyp + (j ? 26 : -26), 70 * grow + 1, 4, 0, (j ? -1 : 1) * 24 * grow + 0.01), 11, null);
+          });
+        });
+
+        // la ficelle
+        const [kx, ky, ka] = kiteAt(t);
+        if (t < T_SNAP) {
+          const sag = lerp(70, 6, ss(T_GUST, T_GUST + 0.7, t));
+          line((c) => { c.beginPath(); c.moveTo(hx, hy); c.quadraticCurveTo((hx + kx) / 2 + sag * 0.3, (hy + ky) / 2 + sag, kx, ky + 30); }, 1.8);
+        } else {
+          const f = ss(T_SNAP, T_SNAP + 1.3, t); // le bout resté dans la main retombe
+          line((c) => { c.beginPath(); c.moveTo(hx, hy); c.quadraticCurveTo(lerp(600, 450, f), lerp(420, 610, f) + 10 * Math.sin(t * 8) * (1 - f), lerp(700, 505, f), lerp(360, 648, f)); }, 1.8);
+        }
+        // la queue : elle suit le chemin parcouru
+        const tail = [];
+        for (let i = 0; i < 9; i++) { const [px, py] = kiteAt(t - i * 0.075); tail.push([px + i * 4 * Math.sin(t * 6 + i * 0.9) - Math.sin(ka) * 59 * (i === 0), py + 59 * Math.cos(ka) * (i === 0) + i * i * 1.9]); }
+        line((c) => tracePts(c, tail, false), 2);
+        [2, 4, 6, 8].forEach((i) => { const [bx, by] = tail[i], a = Math.atan2(tail[i][1] - tail[i - 1][1], tail[i][0] - tail[i - 1][0]) + Math.PI / 2;
+          shape((c) => { c.beginPath(); c.moveTo(bx, by); c.lineTo(bx + 15 * Math.cos(a) - 7 * Math.sin(a), by + 15 * Math.sin(a) + 7 * Math.cos(a)); c.lineTo(bx + 15 * Math.cos(a) + 7 * Math.sin(a), by + 15 * Math.sin(a) - 7 * Math.cos(a)); c.closePath(); c.moveTo(bx, by); c.lineTo(bx - 15 * Math.cos(a) - 7 * Math.sin(a), by - 15 * Math.sin(a) + 7 * Math.cos(a)); c.lineTo(bx - 15 * Math.cos(a) + 7 * Math.sin(a), by - 15 * Math.sin(a) - 7 * Math.cos(a)); c.closePath(); }, { light: COL.red, key: 2 }); });
+        // le cerf-volant : le seul rouge de l'image
+        const KS = 1.35, R = (x, y) => [kx + KS * (x * Math.cos(ka) - y * Math.sin(ka)), ky + KS * (x * Math.sin(ka) + y * Math.cos(ka))];
+        shape((c) => tracePoly(c, [R(0, -52), R(40, -6), R(0, 44), R(-40, -6)]), { light: COL.red, key: 3.2 });
+        line((c) => { c.beginPath(); c.moveTo(...R(0, -52)); c.lineTo(...R(0, 44)); c.moveTo(...R(-40, -6)); c.lineTo(...R(40, -6)); }, 2.2);
+      }
+
+      // --- l'impression : le shader ---
+      const out = document.getElementById("out");
+      const gl = out.getContext("webgl", { preserveDrawingBuffer: true, antialias: false });
+      const VS = `attribute vec2 p; varying vec2 v; void main(){ v = p * 0.5 + 0.5; gl_Position = vec4(p, 0., 1.); }`;
+      const FS = `precision highp float;
+      varying vec2 v; uniform sampler2D uL, uD, uK; uniform float uDraw; uniform vec2 uRes;
+      float h(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+      float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f); return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y); }
+      float fbm(vec2 p){ float a = .5, s = 0.; for(int i=0;i<5;i++){ s += a*n(p); p = p*2.03 + 7.1; a *= .5; } return s; }
+      // veinure du bois : des lignes étirées qui ondulent
+      float grain(vec2 px, float seed){ float wob = fbm(px * vec2(.0018, .006) + seed) * 46.; float g = fbm(vec2(px.x * .004 + seed, (px.y + wob) * .16)); return smoothstep(.42, .7, g); }
+      vec4 plate(sampler2D s, vec2 px, vec2 off, vec4 box){ vec2 uv = (px + off - box.xy) / box.zw; if (uv.x < 0. || uv.x > 1. || uv.y < 0. || uv.y > 1.) return vec4(0.); return texture2D(s, uv); }
+      void main(){
+        vec2 px = vec2(v.x, 1. - v.y) * uRes;
+        // la feuille : bords déchiquetés, posée sur une table sombre
+        vec2 d2 = min(px, uRes - px);
+        float edge = min(d2.x, d2.y) - 34. - (fbm(px * .02) - .5) * 16. - (n(px * .25) - .5) * 5.;
+        float sheet = smoothstep(-1., 1.2, edge);
+        vec3 table = vec3(.115, .1, .095) * (.85 + .3 * fbm(px * vec2(.004, .05)));
+        float shadow = smoothstep(-16., 0., edge + 5.) * (1. - sheet);
+        // le papier : fibres et petites impuretés
+        float fib = fbm(px * vec2(.9, .12) + 3.) * .5 + fbm(px.yx * vec2(.7, .1)) * .5;
+        vec3 paper = vec3(.925, .885, .78) * (.93 + .1 * fib) - .05 * smoothstep(.83, .9, n(px * .6));
+        paper *= .96 + .04 * smoothstep(0., 60., edge);
+        vec4 box = vec4(108., 108., 1704., 864.);
+        float jx = (h(vec2(uDraw, 1.)) - .5), jy = (h(vec2(uDraw, 2.)) - .5);
+        vec4 l = plate(uL, px, vec2(-2.6 + jx, 1.7 + jy), box);
+        vec4 dd = plate(uD, px, vec2(2.2 - jy, -1.4 + jx), box);
+        vec4 k = plate(uK, px, vec2(.4 * jx, .4 * jy), box);
+        float uneven = .82 + .18 * fbm(px * .006 + uDraw * .37);
+        float aL = l.a * (1. - .2 * grain(px, 1.)) * uneven;
+        float aD = dd.a * (1. - .34 * grain(px + 300., 5.)) * (.86 + .14 * fbm(px * .008 + 9. + uDraw * .21));
+        vec3 lc = l.a > 0. ? l.rgb / l.a : vec3(1.), dc = dd.a > 0. ? dd.rgb / dd.a : vec3(1.);
+        vec3 c = paper;
+        c *= mix(vec3(1.), lc, aL * .95);
+        c *= mix(vec3(1.), dc, aD * .96);
+        float aK = k.a * (.86 + .14 * n(px * .5 + uDraw));
+        c = mix(c, c * vec3(.1, .095, .11), aK);
+        // filet noir autour de l'image
+        vec2 q = abs(px - (box.xy + box.zw * .5)) - box.zw * .5;
+        float fr = max(q.x, q.y);
+        c = mix(c, c * vec3(.1, .095, .11), smoothstep(3.4, 2.2, abs(fr - 2.)) * .9);
+        gl_FragColor = vec4(mix(table * (1. - .55 * shadow), c, sheet), 1.);
+      }`;
+      const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+      const prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(prog); gl.useProgram(prog);
+      const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      const tex = [cL, cD, cK].map((_, i) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, t); [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]].forEach(([a, b]) => gl.texParameteri(gl.TEXTURE_2D, a, b)); return t; });
+      ["uL", "uD", "uK"].forEach((n, i) => gl.uniform1i(gl.getUniformLocation(prog, n), i));
+      gl.uniform2f(gl.getUniformLocation(prog, "uRes"), 1920, 1080);
+
+      window.renderFrame = (n) => {
+        DRAWING = Math.floor(n / 2); // animation par deux : un nouveau dessin toutes les deux images
+        drawPlates((DRAWING * 2) / FPS);
+        [cL, cD, cK].forEach((c, i) => { gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, tex[i]); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c); });
+        gl.uniform1f(gl.getUniformLocation(prog, "uDraw"), DRAWING);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.finish();
+        return true;
+      };
+      window.TOTAL = FPS * DUR;
+      // aperçu dans un navigateur : lecture en boucle (le rendu, lui, appelle renderFrame image par image)
+      if (!navigator.webdriver) { let n = 0; setInterval(() => window.renderFrame((n = (n + 1) % window.TOTAL)), 1000 / FPS); } else window.renderFrame(0);
+    </script>
+  </body>
+</html>
