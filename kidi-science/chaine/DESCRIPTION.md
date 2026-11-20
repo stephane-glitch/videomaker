@@ -36,4 +36,5 @@ sciences pour enfants, vulgarisation scientifique, comment ça marche, expérien
 ## Bannière
 
 - Image : `renders/banniere-youtube.png` (2560 × 1440, à refaire avec `node shot.cjs` depuis ce dossier).
-- Le logo et les textes tiennent dans la zone centrale de 1546 × 423, la seule visible sur téléphone et ordinateur ; les dessins autour n'apparaissent en entier que sur une télévision.
+- Pas de logo sur la bannière (il est déjà sur l'image de profil) : un enfant qui se pose des questions, entouré des sujets de la série.
+- L'enfant et les textes tiennent dans la zone centrale de 1546 × 423, la seule visible sur téléphone et ordinateur ; les dessins autour n'apparaissent en entier que sur une télévision.

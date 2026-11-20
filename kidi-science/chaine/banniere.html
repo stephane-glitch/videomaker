@@ -53,43 +53,34 @@
         width: 2560px;
         height: 1440px;
       }
-      #box {
+      .q {
         position: absolute;
-        left: 560px;
-        top: 560px;
-        width: 300px;
-        height: 270px;
-        transform: rotate(-5deg);
-      }
-      #logo {
-        position: absolute;
-        left: 900px;
-        top: 548px;
-        font-size: 196px;
-        font-weight: 700;
-        line-height: 1;
-        white-space: nowrap;
-      }
-      #logo .d {
-        color: #ff8a1f;
-      }
-      #logo .s {
-        color: #2f5bd3;
-      }
-      #tag {
-        position: absolute;
-        left: 908px;
-        top: 762px;
-        font-size: 62px;
+        font-size: 50px;
         font-weight: 600;
-        color: #4a556e;
         white-space: nowrap;
+        background: #fff;
+        border: 4px solid #1f2a44;
+        border-radius: 40px;
+        padding: 12px 34px;
+      }
+      .q::after {
+        content: "";
+        position: absolute;
+        left: 34px;
+        bottom: -19px;
+        width: 30px;
+        height: 30px;
+        background: #fff;
+        border-left: 4px solid #1f2a44;
+        border-bottom: 4px solid #1f2a44;
+        transform: skewX(-28deg) rotate(-18deg);
+        border-bottom-left-radius: 6px;
       }
       #sub {
         position: absolute;
-        left: 908px;
-        top: 848px;
-        font-size: 40px;
+        left: 1340px;
+        top: 850px;
+        font-size: 38px;
         font-weight: 600;
         white-space: nowrap;
         background: #ffe14d;
@@ -152,7 +143,7 @@
       </div>
       <div
         class="ico"
-        style="left: 1840px; top: 1090px; width: 200px; height: 200px; transform: rotate(-10deg)"
+        style="left: 960px; top: 300px; width: 150px; height: 150px; transform: rotate(-10deg)"
       >
         <svg id="gi-apple" viewBox="0 0 150 150">
           <path
@@ -172,7 +163,7 @@
       </div>
       <div
         class="ico"
-        style="left: 885px; top: 1105px; width: 250px; height: 250px; transform: rotate(-4deg)"
+        style="left: 1110px; top: 1130px; width: 250px; height: 250px; transform: rotate(-4deg)"
       >
         <svg id="gi-car" viewBox="0 0 150 150">
           <path
@@ -193,57 +184,15 @@
           <circle cx="110" cy="98" r="7" fill="#fff" />
         </svg>
       </div>
-      <div id="box">
-        <svg id="g-box" viewBox="0 0 400 360">
-          <g id="g-lid">
-            <path
-              d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z"
-              fill="#5f86f0"
-              class="ink"
-              stroke-width="5"
-            />
-            <rect
-              x="170"
-              y="78"
-              width="60"
-              height="22"
-              rx="8"
-              fill="#1e3f9e"
-              class="ink"
-              stroke-width="4"
-            />
-          </g>
-          <path
-            d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z"
-            fill="#2f5bd3"
-            class="ink"
-            stroke-width="5"
-          />
-          <path
-            d="M66 180 L66 318"
-            stroke="#fff"
-            stroke-width="8"
-            stroke-linecap="round"
-            opacity="0.35"
-          />
-          <text
-            x="200"
-            y="298"
-            text-anchor="middle"
-            font-family="Fredoka"
-            font-weight="700"
-            font-size="150"
-            fill="#ffe14d"
-            stroke="#1f2a44"
-            stroke-width="5"
-            paint-order="stroke"
-          >
-            ?
-          </text>
-        </svg>
+      <div class="q" style="left: 940px; top: 520px; transform: rotate(-2deg)">
+        Pourquoi le ciel est bleu ?
       </div>
-      <div id="logo">Kidi<span class="d">-</span><span class="s">science</span></div>
-      <div id="tag">Dis… comment ça marche ?</div>
+      <div class="q" style="left: 1400px; top: 632px; transform: rotate(1.5deg)">
+        C’est quoi, un atome ?
+      </div>
+      <div class="q" style="left: 960px; top: 742px; transform: rotate(-1deg)">
+        Pourquoi j’éternue ?
+      </div>
       <div id="sub">Les sciences expliquées aux enfants</div>
     </div>
     <script>
@@ -264,16 +213,30 @@
       // l'arc-en-ciel
       RAINBOW.forEach(
         (c, i) =>
-          (s += `<path d="M${1310 + i * 22} 1330 A ${230 - i * 22} ${230 - i * 22} 0 0 1 ${1770 - i * 22} 1330" fill="none" stroke="${c}" stroke-width="22"/>`),
+          (s += `<path d="M${1500 + i * 22} 1340 A ${230 - i * 22} ${230 - i * 22} 0 0 1 ${1960 - i * 22} 1340" fill="none" stroke="${c}" stroke-width="22"/>`),
       );
-      s += `<path d="M1299 1330 A 241 241 0 0 1 1781 1330 M1431 1330 A 109 109 0 0 1 1649 1330" fill="none" class="ink" stroke-width="5"/>`;
+      s += `<path d="M1489 1340 A 241 241 0 0 1 1971 1340 M1621 1340 A 109 109 0 0 1 1839 1340" fill="none" class="ink" stroke-width="5"/>`;
       // côté gauche : la fleur, le pollen, un globule blanc ; côté droit : le chat, le virus
       s += flowerSVG(250, 1010, 0.8) + pollenSVG(400, 600, 36, 0.3) + pollenSVG(130, 560, 24, 1);
       s += guardSVG(2250, 660, 96, 0, 0, -1) + virusSVG(2420, 520, 40, 0.3);
-      s += catSVG(330, 1380, 1.25) + eyeSVG(2240, 1250, 1.0);
+      s += catSVG(330, 1380, 1.25) + eyeSVG(2280, 1260, 0.9);
       // des ondes sonores
       for (let i = 0; i < 4; i++)
-        s += `<path d="M${640 + i * 44} ${1130 - i * 30} Q${690 + i * 60} ${1230} ${640 + i * 44} ${1330 + i * 30}" fill="none" stroke="${C.blue}" stroke-width="12" stroke-linecap="round" opacity="${1 - i * 0.2}"/>`;
+        s += `<path d="M${850 + i * 44} ${1150 - i * 26} Q${900 + i * 60} ${1240} ${930 + i * 44} ${1330 + i * 26}" fill="none" stroke="${C.blue}" stroke-width="12" stroke-linecap="round" opacity="${1 - i * 0.2}"/>`;
+      // l'enfant qui se pose des questions : debout, la main au menton, le regard en l'air
+      const SKIN = "#FFD9B8";
+      s += `<path d="M655 960 V1100 M725 960 V1100" stroke="${C.ink}" stroke-width="46" stroke-linecap="round"/><path d="M636 1112 H668 M714 1112 H754" stroke="${C.fire}" stroke-width="30" stroke-linecap="round"/>`;
+      s += `<path d="M622 800 Q580 880 598 950" fill="none" stroke="${C.ink}" stroke-width="50" stroke-linecap="round"/><path d="M622 800 Q580 880 598 950" fill="none" stroke="${C.blue}" stroke-width="40" stroke-linecap="round"/><circle cx="598" cy="958" r="22" fill="${SKIN}" class="ink"/>`;
+      s += `<rect x="606" y="748" width="168" height="230" rx="56" fill="${C.blue}" class="ink" stroke-width="5"/><path d="M640 760 Q690 800 740 760" fill="none" stroke="${C.blueL}" stroke-width="12" stroke-linecap="round"/>`;
+      s += `<circle cx="690" cy="650" r="96" fill="${SKIN}" class="ink" stroke-width="5"/><circle cx="596" cy="662" r="18" fill="${SKIN}" class="ink"/>`;
+      s += `<path d="M596 640 C 590 560, 650 536, 700 546 C 716 520, 760 526, 756 556 C 790 572, 792 614, 784 640 C 760 610, 720 596, 690 600 C 650 596, 620 610, 596 640 Z" fill="${C.ink}"/>`;
+      s += `<circle cx="668" cy="652" r="11" fill="${C.ink}"/><circle cx="734" cy="646" r="11" fill="${C.ink}"/><circle cx="672" cy="648" r="4" fill="#fff"/><circle cx="738" cy="642" r="4" fill="#fff"/>`;
+      s += `<path d="M648 626 Q666 616 684 626 M716 612 Q736 602 754 616" fill="none" class="ink" stroke-width="6"/><ellipse cx="704" cy="702" rx="11" ry="9" fill="${C.ink}"/><circle cx="640" cy="690" r="14" fill="#F7A8B8" opacity="0.7"/><circle cx="762" cy="684" r="14" fill="#F7A8B8" opacity="0.7"/>`;
+      s += `<path d="M760 800 Q836 850 790 770 Q770 748 742 746" fill="none" stroke="${C.ink}" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"/><path d="M760 800 Q836 850 790 770 Q770 748 742 746" fill="none" stroke="${C.blue}" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/><circle cx="736" cy="744" r="22" fill="${SKIN}" class="ink"/>`;
+      const Q = (x, y, size, rot, col) =>
+        `<text x="${x}" y="${y}" transform="rotate(${rot} ${x} ${y})" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${size}" fill="${col}" stroke="${C.ink}" stroke-width="6" paint-order="stroke">?</text>`;
+      s +=
+        Q(850, 600, 150, 12, C.fire) + Q(560, 590, 100, -16, C.spark) + Q(880, 700, 70, 20, C.air);
       document.getElementById("draw").innerHTML = s;
     </script>
   </body>
