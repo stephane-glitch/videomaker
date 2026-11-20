@@ -3,7 +3,7 @@
 import glob, html, json, os, re, subprocess
 
 EPS = [
-    ("ep01-voiture", "Comment roule une voiture ?", "Comment roule une voiture ?",
+    ("ep01-voiture", "Comment fonctionne une voiture ?", "Comment fonctionne une voiture ?",
      "Zoé veut savoir ce qui se passe sous le capot. Max ouvre le moteur à essence, puis le moteur électrique, et montre comment les freins arrêtent la voiture.",
      ["voiture", "moteur", "moteur électrique", "freins"], ("s2", 0.5)),
     ("ep02-atomes", "C'est quoi, un atome ?", "C’est quoi, un atome ?",

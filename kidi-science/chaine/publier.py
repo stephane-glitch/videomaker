@@ -69,6 +69,16 @@ def envoyer():
             call("POST", f"{API}/playlistItems?part=snippet", {"snippet": {"playlistId": etat["playlist"], "resourceId": {"kind": "youtube#video", "videoId": v["id"]}}}); v["playlist"] = True; save()
     print("Playlist :", etat["playlist"])
 
+def fiches():
+    # seulement les fiches (titre, description, mots-clés, « conçue pour les enfants ») des vidéos déjà en ligne
+    for m in metas():
+        key = f"ep{m['episode']:02d}"; v = etat["videos"][key]
+        if v.get("fiche"): continue
+        cur = call("GET", f"{API}/videos?part=status&id={v['id']}")["items"][0]["status"]
+        call("PUT", f"{API}/videos?part=snippet,status", {"id": v["id"], "snippet": {"title": m["titre"], "description": m["description"], "tags": m["mots_cles"], "categoryId": m["categorie"], "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
+             "status": {"privacyStatus": cur["privacyStatus"], "selfDeclaredMadeForKids": m["pour_enfants"], "embeddable": True}})
+        v["fiche"] = True; save(); print(key, "fiche mise à jour (visibilité inchangée :", cur["privacyStatus"] + ")")
+
 def publier():
     for key, v in sorted(etat["videos"].items()):
         if "id" in v and not v.get("publique"):
@@ -87,4 +97,4 @@ def chaine():
     call("PUT", f"{API}/channels?part=brandingSettings", {"id": c["id"], "brandingSettings": bs})
     print("Description et bannière installées")
 
-{"verifier": verifier, "envoyer": envoyer, "publier": publier, "chaine": chaine}[sys.argv[1]]()
+{"verifier": verifier, "fiches": fiches, "envoyer": envoyer, "publier": publier, "chaine": chaine}[sys.argv[1]]()

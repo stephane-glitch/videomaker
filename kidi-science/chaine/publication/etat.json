@@ -2,7 +2,8 @@
   "videos": {
     "ep01": {
       "id": "MVhg8R7uh0s",
-      "deja_en_ligne": true
+      "deja_en_ligne": true,
+      "fiche": true
     },
     "ep02": {
       "id": "umRlFhKE-J0",
