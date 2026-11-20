@@ -1,0 +1,251 @@
+1
+00:00:01,310 --> 00:00:02,630
+Dis… comment ça marche ?
+
+2
+00:00:09,390 --> 00:00:13,610
+Max, j'ai une question sérieuse. Ma tartine tombe toujours par terre.
+
+3
+00:00:13,690 --> 00:00:15,210
+Jamais au plafond. Pourquoi ?
+
+4
+00:00:16,710 --> 00:00:19,670
+Parce que la Terre l'attire. Ça s'appelle la gravité.
+
+5
+00:00:20,560 --> 00:00:22,420
+Et elle l'attire côté confiture, en plus.
+
+6
+00:00:23,010 --> 00:00:25,710
+Ça, hélas, la science y travaille encore.
+
+7
+00:00:28,290 --> 00:00:30,790
+La Terre attire tout ce qui l'entoure vers son centre.
+
+8
+00:00:30,960 --> 00:00:34,610
+Toi, moi, la tartine, les océans.
+
+9
+00:00:35,290 --> 00:00:38,460
+Vers le centre… Donc le bas, ce n'est pas le même pour tout le monde !
+
+10
+00:00:38,520 --> 00:00:40,940
+En Australie, leur bas, c'est notre haut.
+
+11
+00:00:41,630 --> 00:00:43,810
+Exactement. Personne n'a la tête en bas :
+
+12
+00:00:43,860 --> 00:00:47,720
+chacun a les pieds tournés vers le centre de la Terre.
+
+13
+00:00:48,680 --> 00:00:53,640
+Dommage. J'aimais bien l'idée des kangourous accrochés par les pattes.
+
+14
+00:00:56,520 --> 00:00:59,090
+Mais pourquoi c'est la Terre qui attire ?
+
+15
+00:00:59,120 --> 00:01:00,370
+Elle a un aimant géant ?
+
+16
+00:01:00,880 --> 00:01:04,410
+Non. Tout ce qui est fait de matière attire tout le reste.
+
+17
+00:01:04,460 --> 00:01:07,280
+Plus il y a de matière, plus ça attire fort.
+
+18
+00:01:07,310 --> 00:01:09,540
+Et la Terre est gigantesque.
+
+19
+00:01:10,820 --> 00:01:14,190
+Tout attire tout ? Alors moi aussi, j'attire la Terre ?
+
+20
+00:01:14,810 --> 00:01:17,960
+Oui ! Mais tu pèses trente kilos, et elle,
+
+21
+00:01:18,130 --> 00:01:21,350
+six mille milliards de milliards de tonnes.
+
+22
+00:01:21,480 --> 00:01:22,480
+C'est elle qui gagne.
+
+23
+00:01:23,740 --> 00:01:26,590
+Pour l'instant.
+
+24
+00:01:29,430 --> 00:01:33,430
+À ton avis : si je lâche un marteau et une plume en même temps,
+
+25
+00:01:33,450 --> 00:01:34,910
+qui arrive en premier ?
+
+26
+00:01:36,410 --> 00:01:40,900
+Le marteau. Mais c'est un piège : c'est l'air qui freine la plume,
+
+27
+00:01:40,940 --> 00:01:41,780
+pas la gravité.
+
+28
+00:01:42,630 --> 00:01:45,940
+Je ne peux plus te piéger. Et sans air ?
+
+29
+00:01:46,580 --> 00:01:48,760
+Sans air… ils tombent ensemble ?
+
+30
+00:01:49,610 --> 00:01:53,630
+Oui ! Un astronaute a fait l'expérience sur la Lune,
+
+31
+00:01:53,660 --> 00:01:58,760
+où il n'y a pas d'air. Le marteau et la plume ont touché le sol exactement
+
+32
+00:01:58,790 --> 00:01:59,980
+en même temps.
+
+33
+00:02:04,160 --> 00:02:06,980
+Justement, la Lune. Si la Terre attire tout,
+
+34
+00:02:07,020 --> 00:02:09,140
+pourquoi la Lune ne nous tombe pas dessus ?
+
+35
+00:02:09,960 --> 00:02:14,190
+Elle tombe ! Tout le temps. Imagine un canon en haut d'une montagne.
+
+36
+00:02:14,360 --> 00:02:17,620
+Un petit tir : le boulet retombe tout près.
+
+37
+00:02:17,700 --> 00:02:21,750
+Plus fort : il retombe plus loin. Encore plus fort…
+
+38
+00:02:22,840 --> 00:02:24,440
+Il fait le tour de la Terre !
+
+39
+00:02:25,390 --> 00:02:28,980
+Exactement. Il tombe, mais comme la Terre est ronde,
+
+40
+00:02:29,030 --> 00:02:33,760
+le sol se dérobe sous lui. Il tombe sans jamais toucher le sol.
+
+41
+00:02:34,050 --> 00:02:36,800
+La Lune fait ça depuis des milliards d'années.
+
+42
+00:02:37,750 --> 00:02:41,360
+Donc la Lune, c'est un boulet qui rate la Terre en permanence.
+
+43
+00:02:41,820 --> 00:02:44,120
+C'est la plus belle définition que j'aie entendue.
+
+44
+00:02:46,950 --> 00:02:49,830
+Et les astronautes qui flottent dans la station spatiale ?
+
+45
+00:02:49,910 --> 00:02:51,670
+Là-haut, il n'y a plus de gravité ?
+
+46
+00:02:52,480 --> 00:02:56,780
+Si, presque autant qu'ici ! Mais la station tombe autour de la Terre,
+
+47
+00:02:56,810 --> 00:02:59,650
+comme le boulet. Et les astronautes tombent avec elle.
+
+48
+00:02:59,860 --> 00:03:02,780
+Quand tout tombe ensemble, on flotte.
+
+49
+00:03:03,580 --> 00:03:06,230
+Comme en haut d'un toboggan, quand le ventre se soulève ?
+
+50
+00:03:06,910 --> 00:03:09,710
+Pareil. Sauf que ça dure six mois.
+
+51
+00:03:10,240 --> 00:03:13,530
+Six mois de ventre qui se soulève. Je passe mon tour.
+
+52
+00:03:16,160 --> 00:03:19,690
+Je résume : tout attire tout, plus c'est gros plus ça attire,
+
+53
+00:03:19,820 --> 00:03:22,570
+et la Lune tombe sans arrêt en ratant la Terre.
+
+54
+00:03:23,480 --> 00:03:27,080
+Parfait. Un dernier chiffre : la Lune est plus petite,
+
+55
+00:03:27,120 --> 00:03:29,510
+alors elle attire six fois moins. Là-bas,
+
+56
+00:03:29,630 --> 00:03:32,210
+tu sauterais six fois plus haut.
+
+57
+00:03:33,520 --> 00:03:36,010
+Six fois ? Je deviens championne de basket.
+
+58
+00:03:36,060 --> 00:03:36,860
+On y va quand ?
+
+59
+00:03:37,210 --> 00:03:40,000
+Dès que tu as fini tes devoirs.
+
+60
+00:03:41,320 --> 00:03:44,460
+Dis, Max… et dans l'espace, si je crie très fort,
+
+61
+00:03:44,490 --> 00:03:45,290
+on m'entend ?
+
+62
+00:03:45,720 --> 00:03:49,400
+Non. Et pour comprendre pourquoi, il faut parler du son.
+
+63
+00:03:49,530 --> 00:03:50,570
+La prochaine fois !

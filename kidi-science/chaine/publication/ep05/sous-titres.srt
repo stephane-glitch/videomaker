@@ -1,0 +1,203 @@
+1
+00:00:00,960 --> 00:00:02,890
+Dis… comment ça marche ?
+
+2
+00:00:09,770 --> 00:00:12,590
+Max, tu as dit que dans l'espace, personne ne m'entendrait crier.
+
+3
+00:00:12,870 --> 00:00:14,750
+Même très, très fort ?
+
+4
+00:00:15,420 --> 00:00:18,460
+Même avec ta voix du matin, quand il n'y a plus de céréales.
+
+5
+00:00:19,640 --> 00:00:22,570
+Impossible. Celle-là traverse trois étages.
+
+6
+00:00:23,360 --> 00:00:26,650
+Elle a besoin d'air pour voyager. Pour comprendre,
+
+7
+00:00:26,710 --> 00:00:28,130
+il faut voir ce qu'est un son.
+
+8
+00:00:30,770 --> 00:00:33,620
+Regarde cette corde de guitare. Je la pince :
+
+9
+00:00:33,650 --> 00:00:36,400
+elle tremble très vite. On dit qu'elle vibre.
+
+10
+00:00:37,740 --> 00:00:41,910
+Et en vibrant, elle bouscule l'air autour ?
+
+11
+00:00:42,590 --> 00:00:45,990
+Exactement. Elle pousse l'air, cet air pousse l'air d'à côté,
+
+12
+00:00:46,080 --> 00:00:49,470
+et ainsi de suite. Ça fait une vague qui avance : une onde.
+
+13
+00:00:50,380 --> 00:00:53,640
+Comme une ola dans un stade ! Les gens restent à leur place,
+
+14
+00:00:53,670 --> 00:00:55,000
+mais la vague fait le tour.
+
+15
+00:00:55,460 --> 00:00:57,840
+Je note cette comparaison. Je te la volerai.
+
+16
+00:01:01,040 --> 00:01:02,160
+Et elle va vite, cette vague ?
+
+17
+00:01:02,730 --> 00:01:05,670
+Dans l'air, trois cent quarante mètres par seconde.
+
+18
+00:01:05,700 --> 00:01:07,410
+Un kilomètre en trois secondes.
+
+19
+00:01:08,110 --> 00:01:11,160
+C'est pour ça qu'on voit l'éclair avant d'entendre le tonnerre !
+
+20
+00:01:11,190 --> 00:01:13,960
+La lumière arrive tout de suite, et le son traîne derrière.
+
+21
+00:01:14,820 --> 00:01:17,880
+Oui. Compte les secondes entre les deux,
+
+22
+00:01:17,920 --> 00:01:21,880
+divise par trois : tu obtiens la distance de l'orage en kilomètres.
+
+23
+00:01:24,570 --> 00:01:26,170
+Et dans mon oreille, il se passe quoi ?
+
+24
+00:01:26,690 --> 00:01:29,230
+La vague arrive sur une petite peau tendue,
+
+25
+00:01:29,260 --> 00:01:33,140
+le tympan. Il se met à vibrer, comme la peau d'un tambour.
+
+26
+00:01:33,380 --> 00:01:38,880
+Derrière, trois os minuscules passent la vibration à un escargot rempli
+
+27
+00:01:38,940 --> 00:01:41,060
+de liquide, qui prévient le cerveau.
+
+28
+00:01:42,070 --> 00:01:45,350
+Un tambour, trois os et un escargot dans chaque oreille.
+
+29
+00:01:45,400 --> 00:01:46,630
+Je suis une ménagerie.
+
+30
+00:01:49,280 --> 00:01:52,830
+Maintenant, écoute bien. Si ça vibre lentement,
+
+31
+00:01:52,890 --> 00:01:57,000
+le son est grave. Si ça vibre vite, il est aigu.
+
+32
+00:01:57,950 --> 00:02:00,810
+Donc une grosse corde, qui bouge lentement,
+
+33
+00:02:00,960 --> 00:02:06,970
+fait un son grave. Et une petite corde bien tendue fait un son aigu.
+
+34
+00:02:07,550 --> 00:02:10,360
+Tu as tout bon. Et plus la vague est haute,
+
+35
+00:02:10,410 --> 00:02:11,580
+plus le son est fort.
+
+36
+00:02:12,860 --> 00:02:17,180
+Ma voix du matin, c'est donc une vague très haute.
+
+37
+00:02:17,790 --> 00:02:19,620
+Un tsunami.
+
+38
+00:02:22,170 --> 00:02:25,130
+Et l'écho ? Quand je crie dans la montagne et que ça me répond ?
+
+39
+00:02:25,790 --> 00:02:28,980
+Ta vague de son file jusqu'à la paroi,
+
+40
+00:02:29,040 --> 00:02:32,540
+rebondit dessus comme une balle, et revient à tes oreilles.
+
+41
+00:02:34,100 --> 00:02:36,840
+Avec du retard, parce qu'elle a fait l'aller et le retour.
+
+42
+00:02:37,490 --> 00:02:41,200
+Voilà. Les chauves-souris s'en servent pour se repérer dans le noir :
+
+43
+00:02:41,230 --> 00:02:45,110
+elles crient, et elles écoutent ce qui revient.
+
+44
+00:02:47,930 --> 00:02:51,780
+Je résume : un son, c'est une vibration qui voyage dans l'air comme une
+
+45
+00:02:51,860 --> 00:02:56,580
+ola. Et dans l'espace, il n'y a pas d'air…
+
+46
+00:02:56,630 --> 00:02:59,220
+donc pas de ola, donc pas de son !
+
+47
+00:02:59,730 --> 00:03:01,070
+Tu as trouvé toute seule.
+
+48
+00:03:01,970 --> 00:03:05,150
+Mais alors, dans les films, les explosions dans l'espace…
+
+49
+00:03:05,750 --> 00:03:09,970
+Sont fausses. Tu ne regarderas plus jamais un film de la même façon.
+
+50
+00:03:12,250 --> 00:03:16,260
+Dis, Max… et la lumière, comment elle traverse l'espace, elle ?
+
+51
+00:03:16,780 --> 00:03:19,600
+Elle n'a besoin de rien. La prochaine fois !

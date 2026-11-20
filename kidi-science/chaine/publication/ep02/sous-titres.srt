@@ -1,0 +1,235 @@
+1
+00:00:01,190 --> 00:00:02,740
+Dis… comment ça marche ?
+
+2
+00:00:09,330 --> 00:00:13,590
+Max, si je coupe ma tartine en deux, puis encore en deux,
+
+3
+00:00:13,660 --> 00:00:16,590
+et encore… je peux continuer jusqu'où ?
+
+4
+00:00:17,110 --> 00:00:19,780
+Bonne question. À ton avis ?
+
+5
+00:00:20,980 --> 00:00:24,110
+Jusqu'à la miette. Puis la miette de miette.
+
+6
+00:00:24,270 --> 00:00:26,430
+Mais à un moment, ça doit bien s'arrêter.
+
+7
+00:00:27,150 --> 00:00:31,540
+Ça s'arrête. Tout au bout, tu arrives à des grains si petits qu'aucun couteau
+
+8
+00:00:31,570 --> 00:00:35,020
+ne peut les couper : les atomes.
+
+9
+00:00:38,070 --> 00:00:40,080
+Petits comment ? Comme un grain de sable ?
+
+10
+00:00:40,790 --> 00:00:44,050
+Bien plus petits. Dans un seul grain de sable,
+
+11
+00:00:44,080 --> 00:00:49,360
+il y a plus d'atomes que de grains de sable sur toute une plage.
+
+12
+00:00:50,310 --> 00:00:54,370
+Donc ma tartine, c'est des milliards de milliards de grains collés ensemble.
+
+13
+00:00:54,660 --> 00:00:57,330
+Elle a l'air moins appétissante, d'un coup.
+
+14
+00:01:00,720 --> 00:01:02,840
+Et le plus étonnant, c'est l'intérieur.
+
+15
+00:01:03,040 --> 00:01:06,400
+Au centre, un noyau, tout petit et très lourd.
+
+16
+00:01:06,640 --> 00:01:09,880
+Autour, des électrons minuscules qui tournoient.
+
+17
+00:01:10,620 --> 00:01:13,110
+Comme des planètes autour du Soleil ?
+
+18
+00:01:13,680 --> 00:01:16,240
+On le dessine souvent comme ça. En vrai,
+
+19
+00:01:16,280 --> 00:01:20,760
+c'est plutôt un nuage : les électrons sont un peu partout à la fois autour du noyau.
+
+20
+00:01:22,280 --> 00:01:24,370
+Et entre le noyau et les électrons, il y a quoi ?
+
+21
+00:01:25,070 --> 00:01:29,670
+Rien. Si le noyau était une bille posée au milieu d'un stade de foot,
+
+22
+00:01:29,720 --> 00:01:31,940
+les électrons tourneraient dans les gradins.
+
+23
+00:01:33,040 --> 00:01:36,010
+Attends. Si les atomes sont presque vides…
+
+24
+00:01:36,290 --> 00:01:38,730
+moi aussi, je suis presque vide ?
+
+25
+00:01:39,330 --> 00:01:40,390
+Presque entièrement.
+
+26
+00:01:41,180 --> 00:01:44,350
+Alors pourquoi je ne passe pas à travers ma chaise ?
+
+27
+00:01:44,910 --> 00:01:48,680
+Parce que les électrons de la chaise repoussent ceux de ton pantalon.
+
+28
+00:01:48,710 --> 00:01:51,120
+Ils ne se touchent jamais vraiment.
+
+29
+00:01:51,670 --> 00:01:54,160
+Donc je ne me suis jamais vraiment assise de ma vie.
+
+30
+00:01:54,270 --> 00:01:56,480
+Je flotte. Je le savais.
+
+31
+00:01:59,150 --> 00:02:00,910
+Et il y a combien de sortes d'atomes ?
+
+32
+00:02:00,950 --> 00:02:02,590
+Des millions ?
+
+33
+00:02:03,170 --> 00:02:06,310
+Même pas. Un peu plus de cent. Hydrogène,
+
+34
+00:02:06,440 --> 00:02:09,610
+oxygène, carbone, fer, or…
+
+35
+00:02:10,410 --> 00:02:13,100
+Cent sortes seulement, pour fabriquer tout l'univers ?
+
+36
+00:02:13,380 --> 00:02:15,420
+C'est comme un jeu de construction, alors :
+
+37
+00:02:15,460 --> 00:02:17,580
+peu de briques, mais on peut tout bâtir.
+
+38
+00:02:18,080 --> 00:02:22,270
+Tu vois, moi, j'ai mis trois ans d'études à trouver cette comparaison.
+
+39
+00:02:25,010 --> 00:02:27,100
+Et quand des atomes s'accrochent ensemble,
+
+40
+00:02:27,180 --> 00:02:30,660
+ça donne une molécule. Deux atomes d'hydrogène,
+
+41
+00:02:30,720 --> 00:02:33,100
+un atome d'oxygène : devine.
+
+42
+00:02:34,380 --> 00:02:38,240
+H, deux, O… C'est de l'eau !
+
+43
+00:02:39,680 --> 00:02:42,200
+Gagné. Et si tu changes une seule brique,
+
+44
+00:02:42,230 --> 00:02:45,850
+tu changes tout. Un atome de carbone avec deux d'oxygène,
+
+45
+00:02:45,900 --> 00:02:49,590
+c'est le gaz des bulles de ton soda. Avec un seul d'oxygène,
+
+46
+00:02:49,640 --> 00:02:50,440
+c'est un poison.
+
+47
+00:02:51,760 --> 00:02:56,100
+Donc en chimie, on n'a pas le droit de se tromper d'une brique. Noté.
+
+48
+00:02:58,860 --> 00:03:01,670
+Mais la glace, l'eau et la vapeur, c'est la même molécule ?
+
+49
+00:03:02,250 --> 00:03:05,650
+La même ! Dans la glace, les molécules se tiennent bien rangées.
+
+50
+00:03:05,740 --> 00:03:08,090
+Dans l'eau, elles glissent les unes sur les autres.
+
+51
+00:03:08,140 --> 00:03:11,130
+Dans la vapeur, elles filent dans tous les sens.
+
+52
+00:03:12,550 --> 00:03:16,560
+Rangées, en vrac, ou en pleine récré. Comme ma chambre,
+
+53
+00:03:16,600 --> 00:03:17,440
+selon les jours.
+
+54
+00:03:20,150 --> 00:03:23,110
+Je résume : tout est fait d'atomes, un noyau au milieu,
+
+55
+00:03:23,150 --> 00:03:26,870
+des électrons autour, et ils s'assemblent en molécules comme des briques.
+
+56
+00:03:27,390 --> 00:03:29,650
+Rien à ajouter. Tu me piques mon travail.
+
+57
+00:03:31,610 --> 00:03:35,310
+Dis, Max… ces électrons, ils peuvent se promener d'un atome à l'autre ?
+
+58
+00:03:35,840 --> 00:03:39,260
+Oui. Et quand ils se promènent tous dans le même sens,
+
+59
+00:03:39,310 --> 00:03:45,520
+ça s'appelle l'électricité. La prochaine fois !

@@ -1,0 +1,231 @@
+1
+00:00:01,090 --> 00:00:02,550
+Dis… comment ça marche ?
+
+2
+00:00:09,220 --> 00:00:13,140
+Max, la lumière du Soleil arrive jusqu'ici sans air pour la porter.
+
+3
+00:00:13,220 --> 00:00:15,700
+Elle est faite de quoi ?
+
+4
+00:00:16,110 --> 00:00:19,080
+De petits paquets d'énergie qui filent tout droit.
+
+5
+00:00:19,110 --> 00:00:20,040
+Et ils filent vite.
+
+6
+00:00:20,670 --> 00:00:22,840
+Plus vite que le son ?
+
+7
+00:00:23,610 --> 00:00:27,400
+Presque un million de fois plus vite. En une seconde,
+
+8
+00:00:27,430 --> 00:00:30,360
+la lumière ferait sept fois et demie le tour de la Terre.
+
+9
+00:00:32,500 --> 00:00:37,310
+Et moi, je mets vingt minutes à mettre mes chaussures.
+
+10
+00:00:39,840 --> 00:00:42,080
+La lumière rebondit sur tout ce qu'elle touche.
+
+11
+00:00:42,150 --> 00:00:45,080
+Elle part du Soleil, rebondit sur ton chat,
+
+12
+00:00:45,130 --> 00:00:47,340
+entre dans ton œil : tu vois ton chat.
+
+13
+00:00:49,020 --> 00:00:52,540
+Donc je ne vois pas vraiment le chat. Je vois la lumière qui a rebondi dessus.
+
+14
+00:00:53,290 --> 00:00:54,440
+Exactement.
+
+15
+00:00:55,380 --> 00:00:58,820
+Et dans le noir : plus de lumière, plus de rebond,
+
+16
+00:00:59,010 --> 00:01:00,260
+plus de chat.
+
+17
+00:01:00,910 --> 00:01:03,570
+Le chat est toujours là. Lui, en revanche,
+
+18
+00:01:03,660 --> 00:01:04,790
+te voit très bien.
+
+19
+00:01:07,620 --> 00:01:09,230
+Mais la lumière du Soleil est blanche.
+
+20
+00:01:09,360 --> 00:01:10,990
+Alors d'où viennent les couleurs ?
+
+21
+00:01:11,720 --> 00:01:14,450
+Elles sont cachées dedans. La lumière blanche,
+
+22
+00:01:14,490 --> 00:01:18,190
+c'est toutes les couleurs mélangées. Fais-la passer dans un prisme,
+
+23
+00:01:18,360 --> 00:01:22,970
+un morceau de verre taillé : chaque couleur tourne un peu différemment,
+
+24
+00:01:23,000 --> 00:01:23,930
+et elles se séparent.
+
+25
+00:01:25,310 --> 00:01:28,780
+Rouge, orange, jaune, vert, bleu, violet…
+
+26
+00:01:29,180 --> 00:01:33,980
+C'est un arc-en-ciel ! Les gouttes de pluie font le même travail que le prisme ?
+
+27
+00:01:34,640 --> 00:01:38,260
+Oui : des millions de petits prismes tout ronds.
+
+28
+00:01:38,400 --> 00:01:42,520
+Il faut juste le Soleil dans ton dos et la pluie devant toi.
+
+29
+00:01:45,350 --> 00:01:47,910
+Et ma pomme, pourquoi elle est rouge ?
+
+30
+00:01:48,520 --> 00:01:52,540
+Elle reçoit toutes les couleurs, elle les avale presque toutes,
+
+31
+00:01:52,570 --> 00:01:54,620
+et elle renvoie seulement le rouge.
+
+32
+00:01:55,470 --> 00:01:57,750
+Donc la pomme garde toutes les couleurs…
+
+33
+00:01:57,830 --> 00:02:01,190
+sauf le rouge ! Le rouge, c'est celle dont elle ne veut pas.
+
+34
+00:02:01,730 --> 00:02:04,030
+C'est une façon de le dire, et elle est très juste.
+
+35
+00:02:05,340 --> 00:02:09,590
+Et un objet noir avale tout, un objet blanc renvoie tout.
+
+36
+00:02:10,090 --> 00:02:12,650
+Voilà pourquoi un tee-shirt noir chauffe au soleil.
+
+37
+00:02:15,300 --> 00:02:18,610
+Et le ciel ? Il n'y a rien pour faire rebondir la lumière, là-haut.
+
+38
+00:02:19,320 --> 00:02:24,450
+Si : l'air. La lumière bleue rebondit bien plus sur l'air que la rouge.
+
+39
+00:02:24,520 --> 00:02:28,270
+Elle part dans tous les sens, et le ciel entier devient bleu.
+
+40
+00:02:29,440 --> 00:02:31,220
+Et le soir, quand le Soleil est bas ?
+
+41
+00:02:31,820 --> 00:02:33,750
+Sa lumière traverse beaucoup plus d'air.
+
+42
+00:02:33,950 --> 00:02:37,920
+Le bleu s'est perdu en route : il ne reste que l'orange et le rouge.
+
+43
+00:02:38,940 --> 00:02:42,620
+Le coucher de soleil, c'est le ciel qui a épuisé son bleu.
+
+44
+00:02:45,290 --> 00:02:48,420
+Et mon œil, comment il sait que c'est du rouge ?
+
+45
+00:02:48,980 --> 00:02:52,290
+Au fond de l'œil, il y a un écran, la rétine,
+
+46
+00:02:52,330 --> 00:02:56,380
+couvert de capteurs. Trois sortes : une pour le rouge,
+
+47
+00:02:56,400 --> 00:02:58,380
+une pour le vert, une pour le bleu.
+
+48
+00:02:59,240 --> 00:03:03,010
+Seulement trois ? Et le jaune, alors ?
+
+49
+00:03:03,650 --> 00:03:05,800
+Ton cerveau le fabrique en mélangeant.
+
+50
+00:03:05,880 --> 00:03:07,890
+Rouge plus vert : jaune.
+
+51
+00:03:08,320 --> 00:03:10,780
+Mon écran de télé fait pareil avec ses petits points !
+
+52
+00:03:10,810 --> 00:03:12,540
+Je me disais bien que mon cerveau trichait.
+
+53
+00:03:15,340 --> 00:03:17,870
+Je résume : la lumière file tout droit,
+
+54
+00:03:17,900 --> 00:03:21,550
+elle rebondit sur les choses, et le blanc cache toutes les couleurs.
+
+55
+00:03:22,190 --> 00:03:23,070
+Rien à ajouter.
+
+56
+00:03:24,410 --> 00:03:28,030
+Dis, Max… pourquoi au printemps mon nez coule et mes yeux grattent ?
+
+57
+00:03:28,530 --> 00:03:31,510
+Ça, c'est ton corps qui confond une fleur avec un ennemi.
+
+58
+00:03:31,660 --> 00:03:33,420
+La prochaine fois !

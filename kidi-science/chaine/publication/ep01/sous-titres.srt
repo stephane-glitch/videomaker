@@ -1,0 +1,327 @@
+1
+00:00:01,110 --> 00:00:02,580
+Dis… comment ça marche ?
+
+2
+00:00:09,610 --> 00:00:12,600
+Max, quand Papa appuie sur la pédale, la voiture avance.
+
+3
+00:00:12,730 --> 00:00:14,520
+Mais… qui la pousse ?
+
+4
+00:00:15,320 --> 00:00:18,000
+Personne ne la pousse de dehors. Tout se passe à l'intérieur.
+
+5
+00:00:18,130 --> 00:00:19,680
+Viens, on va regarder dedans.
+
+6
+00:00:21,560 --> 00:00:22,690
+Il y a quoi, sous le capot ?
+
+7
+00:00:23,160 --> 00:00:24,620
+Plein de pièces qui forment une chaîne.
+
+8
+00:00:24,860 --> 00:00:28,460
+D'abord, l'énergie : de l'essence dans un réservoir,
+
+9
+00:00:28,590 --> 00:00:30,300
+ou de l'électricité dans une batterie.
+
+10
+00:00:30,540 --> 00:00:33,860
+Le moteur transforme cette énergie en mouvement.
+
+11
+00:00:34,000 --> 00:00:37,980
+Ensuite, la transmission emmène ce mouvement jusqu'aux roues.
+
+12
+00:00:38,030 --> 00:00:41,020
+Et pour conduire, il y a la direction et les freins.
+
+13
+00:00:42,140 --> 00:00:44,230
+Une chaîne… On commence par où ?
+
+14
+00:00:44,870 --> 00:00:46,960
+Par le cœur : le moteur.
+
+15
+00:00:49,610 --> 00:00:51,220
+Il paraît que dans le moteur, ça brûle.
+
+16
+00:00:51,420 --> 00:00:52,220
+C'est vrai ?
+
+17
+00:00:52,810 --> 00:00:55,240
+C'est vrai ! Regarde ce tube : c'est un cylindre.
+
+18
+00:00:55,300 --> 00:00:58,360
+Dedans, il y a un piston qui peut monter et descendre.
+
+19
+00:00:58,400 --> 00:00:59,400
+Ça se passe en quatre temps.
+
+20
+00:01:00,290 --> 00:01:04,620
+Un : le piston descend et aspire de l'air mélangé à un peu d'essence.
+
+21
+00:01:06,130 --> 00:01:09,340
+Deux : il remonte et serre ce mélange très fort.
+
+22
+00:01:10,910 --> 00:01:14,730
+Trois : la bougie fait une étincelle… Boum !
+
+23
+00:01:14,750 --> 00:01:18,170
+Le mélange brûle d'un coup et pousse le piston vers le bas.
+
+24
+00:01:19,900 --> 00:01:22,840
+Et quatre : le piston remonte et recrache la fumée.
+
+25
+00:01:23,040 --> 00:01:24,040
+Puis on recommence.
+
+26
+00:01:26,020 --> 00:01:28,530
+Aspire, serre, boum, recrache !
+
+27
+00:01:29,690 --> 00:01:32,220
+Mais le piston, il fait juste haut-bas.
+
+28
+00:01:32,290 --> 00:01:33,780
+Les roues, elles tournent !
+
+29
+00:01:34,610 --> 00:01:37,360
+Bien vu. Le piston est attaché à une tige,
+
+30
+00:01:37,410 --> 00:01:40,080
+la bielle, qui fait tourner une sorte de manivelle :
+
+31
+00:01:40,130 --> 00:01:43,040
+le vilebrequin. C'est comme tes jambes sur un vélo :
+
+32
+00:01:43,070 --> 00:01:46,000
+elles poussent de haut en bas, et les pédales tournent en rond.
+
+33
+00:01:47,300 --> 00:01:49,480
+Une voiture a souvent quatre cylindres,
+
+34
+00:01:49,500 --> 00:01:53,560
+qui font « boum » chacun leur tour, des dizaines de fois par seconde !
+
+35
+00:01:56,890 --> 00:01:59,460
+Et les voitures électriques ? Elles n'ont pas de feu ?
+
+36
+00:02:00,060 --> 00:02:04,200
+Pas de feu, pas de boum ! À la place, il y a des aimants.
+
+37
+00:02:04,230 --> 00:02:07,000
+Tu sais que deux aimants peuvent s'attirer ou se repousser ?
+
+38
+00:02:07,580 --> 00:02:09,110
+Oui, comme les aimants du frigo.
+
+39
+00:02:10,110 --> 00:02:13,900
+L'électricité de la batterie transforme des bobines de fil en aimants,
+
+40
+00:02:13,940 --> 00:02:16,540
+allumés l'un après l'autre, tout autour.
+
+41
+00:02:16,570 --> 00:02:19,420
+Au milieu, le rotor est attiré par l'aimant allumé…
+
+42
+00:02:19,580 --> 00:02:22,860
+qui a déjà changé de place ! Alors il court après,
+
+43
+00:02:22,910 --> 00:02:25,100
+sans jamais le rattraper. Et il tourne.
+
+44
+00:02:25,680 --> 00:02:28,250
+Il court après sa queue, comme un chien !
+
+45
+00:02:29,250 --> 00:02:31,890
+Exactement. C'est plus simple et très silencieux.
+
+46
+00:02:31,920 --> 00:02:33,810
+Et quand on freine, il marche à l'envers :
+
+47
+00:02:33,840 --> 00:02:36,130
+il recharge un peu la batterie.
+
+48
+00:02:38,960 --> 00:02:40,970
+Pourquoi on change de vitesse dans une voiture ?
+
+49
+00:02:41,600 --> 00:02:43,460
+Pour la même raison que sur ton vélo !
+
+50
+00:02:43,470 --> 00:02:47,140
+Pour démarrer, un petit engrenage fait tourner un grand.
+
+51
+00:02:47,180 --> 00:02:50,260
+Les roues tournent lentement, mais avec beaucoup de force.
+
+52
+00:02:50,460 --> 00:02:54,100
+Une fois lancé, on change : les roues tournent plus vite,
+
+53
+00:02:54,160 --> 00:02:55,220
+avec moins d'effort.
+
+54
+00:02:56,780 --> 00:02:59,860
+D'ailleurs, la plupart des voitures électriques n'ont qu'une seule vitesse
+
+55
+00:03:00,060 --> 00:03:03,140
+: leur moteur sait tourner doucement comme très vite.
+
+56
+00:03:04,510 --> 00:03:07,160
+Et dans les virages, les deux roues tournent pareil ?
+
+57
+00:03:07,970 --> 00:03:12,210
+Non ! Regarde : dans un virage, la roue de l'extérieur fait un plus grand
+
+58
+00:03:12,260 --> 00:03:15,810
+chemin. Elle doit donc tourner plus vite que celle de l'intérieur.
+
+59
+00:03:15,990 --> 00:03:18,450
+Une boîte d'engrenages, le différentiel,
+
+60
+00:03:18,560 --> 00:03:22,050
+partage le mouvement pour que chaque roue tourne à sa vitesse.
+
+61
+00:03:24,990 --> 00:03:26,910
+Et le volant, comment il fait tourner les roues ?
+
+62
+00:03:27,590 --> 00:03:29,570
+Le volant fait tourner une longue tige,
+
+63
+00:03:29,610 --> 00:03:33,810
+avec au bout un petit engrenage posé sur une barre pleine de dents :
+
+64
+00:03:33,860 --> 00:03:36,610
+la crémaillère. Quand tu tournes le volant,
+
+65
+00:03:36,650 --> 00:03:39,410
+l'engrenage tourne et fait glisser la barre sur le côté.
+
+66
+00:03:39,540 --> 00:03:42,210
+Et la barre pousse les roues avant, qui pivotent.
+
+67
+00:03:43,320 --> 00:03:47,580
+Un rond qui pousse une barre droite. Malin !
+
+68
+00:03:50,120 --> 00:03:52,440
+Et pour s'arrêter ?
+
+69
+00:03:53,100 --> 00:03:56,120
+Derrière chaque roue, il y a un disque qui tourne avec elle.
+
+70
+00:03:56,300 --> 00:04:00,760
+Quand on appuie sur la pédale, un liquide pousse deux plaquettes qui pincent
+
+71
+00:04:00,780 --> 00:04:03,560
+le disque, comme tes doigts qui serrent une roue de vélo.
+
+72
+00:04:04,710 --> 00:04:07,730
+En frottant, le mouvement se transforme en chaleur.
+
+73
+00:04:07,750 --> 00:04:09,730
+Le disque peut devenir brûlant !
+
+74
+00:04:10,820 --> 00:04:14,670
+Donc freiner, c'est transformer la vitesse en chaleur ?
+
+75
+00:04:15,220 --> 00:04:16,520
+C'est exactement ça.
+
+76
+00:04:18,810 --> 00:04:21,540
+Alors je résume : l'énergie va dans le moteur,
+
+77
+00:04:21,590 --> 00:04:25,860
+le moteur fait tourner, la transmission envoie ça aux roues…
+
+78
+00:04:25,910 --> 00:04:27,700
+et les freins, ils arrêtent tout !
+
+79
+00:04:28,590 --> 00:04:33,040
+Tu as tout compris : une voiture, c'est une chaîne qui transforme l'énergie
+
+80
+00:04:33,170 --> 00:04:34,240
+en mouvement.
+
+81
+00:04:35,750 --> 00:04:37,690
+Dis, Max… et l'essence, elle vient d'où ?
+
+82
+00:04:38,260 --> 00:04:41,140
+Ça, c'est une autre histoire. On regardera la prochaine fois !

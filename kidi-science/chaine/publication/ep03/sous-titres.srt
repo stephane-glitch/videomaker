@@ -1,0 +1,259 @@
+1
+00:00:01,010 --> 00:00:02,630
+Dis… comment ça marche ?
+
+2
+00:00:09,640 --> 00:00:12,390
+Max, j'appuie sur l'interrupteur, et paf,
+
+3
+00:00:12,440 --> 00:00:14,630
+la lampe s'allume. Il se passe quoi, dans le fil ?
+
+4
+00:00:15,140 --> 00:00:16,970
+À ton avis ?
+
+5
+00:00:18,310 --> 00:00:20,600
+Je dirais que quelque chose court dedans.
+
+6
+00:00:20,650 --> 00:00:22,920
+Mais quoi ? Des fourmis lumineuses ?
+
+7
+00:00:23,610 --> 00:00:26,270
+Presque ! Remplace les fourmis par des électrons,
+
+8
+00:00:26,300 --> 00:00:28,360
+tu sais, ceux qui tournent autour des atomes,
+
+9
+00:00:28,420 --> 00:00:29,220
+et tu as bon.
+
+10
+00:00:32,020 --> 00:00:35,750
+Un fil électrique est en métal. Et dans le métal,
+
+11
+00:00:35,780 --> 00:00:39,230
+il y a des milliards de grains minuscules qui se baladent :
+
+12
+00:00:39,300 --> 00:00:43,670
+les électrons. D'habitude, ils partent dans tous les sens.
+
+13
+00:00:45,340 --> 00:00:47,510
+Comme ma classe à la récré.
+
+14
+00:00:48,320 --> 00:00:50,480
+Exactement. Mais quand on les pousse tous dans le même sens,
+
+15
+00:00:50,540 --> 00:00:52,570
+ça fait un courant. C'est ça, l'électricité.
+
+16
+00:00:53,630 --> 00:00:55,880
+Attends. Si la lampe s'allume tout de suite,
+
+17
+00:00:55,920 --> 00:00:57,640
+c'est qu'ils foncent, tes électrons !
+
+18
+00:00:58,220 --> 00:01:01,670
+Eh non : ils avancent plus lentement qu'un escargot.
+
+19
+00:01:02,520 --> 00:01:05,970
+Alors ça ne colle pas… Sauf si le fil est déjà plein !
+
+20
+00:01:06,230 --> 00:01:10,010
+Comme un tuyau rempli de billes : j'en pousse une d'un côté,
+
+21
+00:01:10,080 --> 00:01:12,050
+et une autre sort aussitôt de l'autre.
+
+22
+00:01:12,620 --> 00:01:14,210
+Tu viens de m'enlever les mots de la bouche.
+
+23
+00:01:14,270 --> 00:01:16,040
+Je peux rentrer chez moi.
+
+24
+00:01:18,860 --> 00:01:21,890
+Maintenant, regarde ce circuit : une pile,
+
+25
+00:01:22,100 --> 00:01:28,240
+un fil, une ampoule. Que se passe-t-il si je coupe le fil ici ?
+
+26
+00:01:29,150 --> 00:01:32,030
+Ça s'éteint. Les électrons ne peuvent plus faire le tour.
+
+27
+00:01:32,890 --> 00:01:35,660
+Voilà. Il faut une boucle complète. Un interrupteur,
+
+28
+00:01:35,670 --> 00:01:37,530
+ce n'est rien d'autre qu'un pont-levis :
+
+29
+00:01:37,560 --> 00:01:40,570
+baissé, le courant passe. Levé, tout s'arrête.
+
+30
+00:01:41,070 --> 00:01:44,840
+Donc quand j'éteins ma chambre, je lève un pont-levis. Classe.
+
+31
+00:01:47,470 --> 00:01:50,350
+Et la pile, elle sert à quoi ? Elle fabrique les électrons ?
+
+32
+00:01:51,100 --> 00:01:53,230
+Non, ils sont déjà dans le fil. La pile,
+
+33
+00:01:53,280 --> 00:01:56,890
+c'est une pompe : elle les pousse. Et la force de cette poussée,
+
+34
+00:01:56,940 --> 00:01:58,190
+ça se mesure en volts.
+
+35
+00:01:59,190 --> 00:02:01,690
+Sur ma pile, il y a écrit un virgule cinq volt.
+
+36
+00:02:01,960 --> 00:02:03,530
+Et dans la prise du mur ?
+
+37
+00:02:04,260 --> 00:02:07,660
+Deux cent trente. C'est cent cinquante fois plus fort.
+
+38
+00:02:07,810 --> 00:02:11,060
+Voilà pourquoi on ne met jamais, jamais les doigts dans une prise.
+
+39
+00:02:11,690 --> 00:02:15,790
+Promis. Je tiens à mes doigts, j'en ai besoin pour les jeux vidéo.
+
+40
+00:02:18,390 --> 00:02:22,450
+Dernière chose : tous les matériaux ne laissent pas passer le courant. On teste ?
+
+41
+00:02:23,450 --> 00:02:25,780
+Une cuillère en métal : je parie que oui.
+
+42
+00:02:26,900 --> 00:02:29,520
+Gagné, la lampe s'allume. Une gomme ?
+
+43
+00:02:30,530 --> 00:02:35,270
+Non. Sinon, les câbles ne seraient pas emballés dans du plastique.
+
+44
+00:02:36,330 --> 00:02:38,700
+Bien vu ! Et la mine d'un crayon ?
+
+45
+00:02:40,240 --> 00:02:42,240
+Euh… non ?
+
+46
+00:02:43,020 --> 00:02:46,950
+Eh si ! La mine est en graphite, et le graphite conduit le courant.
+
+47
+00:02:47,950 --> 00:02:49,180
+Un partout. Tu m'as eue.
+
+48
+00:02:52,550 --> 00:02:54,480
+Mais dans la prise, il n'y a pas de pile géante.
+
+49
+00:02:54,600 --> 00:02:56,000
+Qui pousse les électrons ?
+
+50
+00:02:56,580 --> 00:03:00,030
+Une centrale. Tu te souviens du moteur électrique de la voiture ?
+
+51
+00:03:00,720 --> 00:03:04,160
+Oui : des aimants et des bobines. Et quand il marche à l'envers,
+
+52
+00:03:04,190 --> 00:03:07,200
+il fabrique du courant… Oh ! Une centrale,
+
+53
+00:03:07,240 --> 00:03:08,040
+c'est pareil ?
+
+54
+00:03:09,110 --> 00:03:12,520
+Exactement pareil, en énorme. Le vent,
+
+55
+00:03:12,570 --> 00:03:16,350
+l'eau d'un barrage ou de la vapeur font tourner un aimant au milieu de
+
+56
+00:03:16,390 --> 00:03:21,390
+bobines de fil. Et l'aimant qui tourne pousse les électrons jusque chez toi.
+
+57
+00:03:24,120 --> 00:03:27,290
+Je résume : des électrons qui avancent tous ensemble,
+
+58
+00:03:27,430 --> 00:03:30,650
+une boucle fermée, et quelque chose qui pousse.
+
+59
+00:03:31,150 --> 00:03:33,850
+Tu as tout compris. Rien à ajouter.
+
+60
+00:03:34,800 --> 00:03:38,430
+Si, une question : pourquoi les oiseaux posés sur les câbles électriques
+
+61
+00:03:38,460 --> 00:03:39,310
+ne grillent pas ?
+
+62
+00:03:39,860 --> 00:03:42,150
+Parce qu'ils ne touchent qu'un seul fil :
+
+63
+00:03:42,170 --> 00:03:43,800
+pas de boucle, pas de courant.
+
+64
+00:03:44,970 --> 00:03:49,030
+Les malins. Dis, Max… et pourquoi ma tartine tombe toujours par terre ?
+
+65
+00:03:49,530 --> 00:03:52,310
+Ça, c'est la gravité. La prochaine fois !

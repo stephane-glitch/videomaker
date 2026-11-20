@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Miniature YouTube d'un épisode (1280 × 720). Remplie par miniatures.cjs : window.fill({ n, titre, image }). -->
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("../ep07-allergies/video/assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("../ep07-allergies/video/assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      #m {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        font-family: "Fredoka";
+        color: #1f2a44;
+        background: #ffe14d;
+      }
+      #dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.1) 2.4px, transparent 3px);
+        background-size: 34px 34px;
+      }
+      #card {
+        position: absolute;
+        left: 150px;
+        top: 292px;
+        width: 960px;
+        height: 393px;
+        border: 7px solid #1f2a44;
+        border-radius: 34px;
+        background: #fff8ec center / cover no-repeat;
+        transform: rotate(-1.5deg);
+        box-shadow: 14px 14px 0 #1f2a44;
+      }
+      #ep {
+        position: absolute;
+        left: 50px;
+        top: 30px;
+        font-size: 36px;
+        font-weight: 700;
+        color: #fff;
+        background: #2f5bd3;
+        border: 5px solid #1f2a44;
+        border-radius: 40px;
+        padding: 2px 26px;
+      }
+      #t {
+        position: absolute;
+        left: 50px;
+        top: 112px;
+        width: 1010px;
+        font-size: 100px;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      #q {
+        position: absolute;
+        left: 1080px;
+        top: 10px;
+        font-size: 250px;
+        font-weight: 700;
+        line-height: 1;
+        color: #ff8a1f;
+        -webkit-text-stroke: 8px #1f2a44;
+        paint-order: stroke fill;
+        transform: rotate(14deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="m">
+      <div id="dots"></div>
+      <div id="card"></div>
+      <div id="q">?</div>
+      <div id="ep"></div>
+      <div id="t"></div>
+    </div>
+    <script>
+      window.fill = ({ n, titre, image }) => {
+        document.getElementById("ep").textContent = "Épisode " + n;
+        const t = document.getElementById("t");
+        t.textContent = titre.replace(/\s*\?$/, " ?");
+        // le titre rétrécit jusqu'à tenir sur une ligne
+        let size = 100;
+        while (t.scrollWidth > 1010 && size > 50) t.style.fontSize = --size + "px";
+        document.getElementById("card").style.backgroundImage = `url("${image}")`;
+      };
+    </script>
+  </body>
+</html>

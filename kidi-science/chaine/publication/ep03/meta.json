@@ -1,0 +1,24 @@
+{
+  "episode": 3,
+  "fichier": "../ep03-electricite/video/renders/kidi-science-ep03-electricite-v1.mp4",
+  "titre": "Comment marche l'électricité ? | Kidi-science",
+  "titre_miniature": "L’électricité, comment ça marche ?",
+  "description": "Qu'est-ce qui circule dans les câbles quand on appuie sur l'interrupteur ? Zoé et Max suivent le courant, de la pile jusqu'à l'ampoule.\n\nKidi-science : les sciences expliquées aux enfants, en moins de 5 minutes. Dans chaque épisode, Zoé pose une question et Max l'aide à trouver la réponse.\n\nAu programme :\n0:00 La question du jour\n0:30 Dans le fil\n1:17 Le circuit\n1:46 La pile et les volts\n2:17 Ça passe ou ça bloque ?\n2:50 La centrale\n3:22 En résumé",
+  "mots_cles": [
+    "électricité",
+    "courant électrique",
+    "circuit",
+    "pile",
+    "ampoule",
+    "Kidi-science",
+    "sciences pour enfants",
+    "comment ça marche",
+    "vulgarisation scientifique",
+    "dessin animé éducatif",
+    "école primaire"
+  ],
+  "playlist": "Kidi-science : tous les épisodes",
+  "langue": "fr",
+  "categorie": "27",
+  "pour_enfants": true
+}
