@@ -94,3 +94,33 @@ chaleureux et plus simple pour des enfants.
 Musique et bruitages du générique : à générer avec ElevenLabs (musique / SFX).
 Le générique doit être construit une fois comme composant réutilisable, avec
 l'objet final en paramètre.
+
+## Prochains sujets (proposés le 20/11/2026, à valider par l'utilisateur)
+
+Demandés : **le feu**, **l'eau de mer (pourquoi elle est salée)**, et **une vidéo par sens** (l'ouïe est déjà couverte par l'épisode 5 « le son »).
+
+| Série        | Sujet                    | La question de Zoé                       |
+| ------------ | ------------------------ | ---------------------------------------- |
+| Demandé      | Le feu                   | C'est quoi, une flamme ?                 |
+| Demandé      | L'eau de mer             | Pourquoi la mer est salée ?              |
+| Les sens     | La vue                   | Comment mes yeux voient ?                |
+| Les sens     | L'odorat                 | Comment je sens les odeurs ?             |
+| Les sens     | Le goût                  | Pourquoi le citron pique ?               |
+| Les sens     | Le toucher               | Comment je sens le chaud et le froid ?   |
+| Le corps     | Le cœur et le sang       | Pourquoi mon cœur bat ?                  |
+| Le corps     | La digestion             | Où va ce que je mange ?                  |
+| Le corps     | Le sommeil               | Pourquoi on dort ?                       |
+| La Terre     | Les volcans              | Pourquoi les volcans crachent du feu ?   |
+| La Terre     | La pluie et les nuages   | D'où vient la pluie ?                    |
+| La Terre     | Les saisons              | Pourquoi il fait froid en hiver ?        |
+| L'espace     | La Lune                  | Pourquoi la Lune change de forme ?       |
+| L'espace     | Le Soleil et les étoiles | C'est quoi, une étoile ?                 |
+| Les machines | L'avion                  | Comment un avion tient en l'air ?        |
+| Les machines | Internet                 | Comment une vidéo arrive sur mon écran ? |
+| Les machines | L'aimant                 | Pourquoi les aimants collent ?           |
+
+## Rythme : constat et règles pour les prochains épisodes
+
+Mesure sur les épisodes 2, 4 et 7 : une trentaine de silences de plus de 0,7 s par épisode, environ 40 s au total (un cinquième de la durée), dont 13 ou 14 de plus de 1,2 s, le plus long dépassant 3 s. Ils viennent des pauses réglées dans `src/config.json` (`lead`, `tail`, `pre`) et de l'absence de fond sonore.
+
+Règles proposées : pauses entre répliques de 0,25 s au plus (0,5 s pour une chute), 0,4 s en début de scène et 0,6 s en fin ; un fond sonore discret en continu ; un bruitage sur chaque apparition ; aucune image immobile plus d'une demi-seconde (mouvement d'attente sur les éléments à l'écran).
