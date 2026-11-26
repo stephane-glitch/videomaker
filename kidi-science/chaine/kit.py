@@ -42,6 +42,9 @@ EPS = [
     ("ep13-vue", "Pourquoi on a deux yeux ? La vue", "Pourquoi on a deux yeux ?",
      "Un œil, c'est presque un appareil photo. Zoé et Max suivent la lumière : la pupille, le cristallin, l'image à l'envers sur la rétine, le rôle des lunettes, et ce que deux yeux apportent de plus qu'un seul.",
      ["vue", "œil", "pupille", "lunettes", "les cinq sens"], ("s2", 0.5)),
+    ("ep14-volcans", "Pourquoi les volcans crachent du feu ?", "Pourquoi les volcans crachent du feu ?",
+     "Surprise : ce n'est pas du feu, c'est de la roche fondue. Zoé et Max descendent sous la croûte de la Terre, suivent le magma jusqu'à l'éruption, et découvrent que les volcans fabriquent des îles.",
+     ["volcan", "magma", "lave", "éruption", "la Terre"], ("s2", 0.92)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

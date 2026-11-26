@@ -1,0 +1,1423 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: #d96a00;
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="173.1" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="173.1" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.6" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s0" class="clip" data-start="7.6" data-duration="17.4" data-track-index="1">
+        <div id="s0-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s0-draw"></g></svg>
+          <div class="note" id="s0-n1" style="left: 130px; top: 880px">Un œil, c’est presque un appareil photo</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Pourquoi deux yeux ?</div>
+        </div>
+      </section>
+
+      <section id="s1" class="clip" data-start="25" data-duration="24.6" data-track-index="1">
+        <div id="s1-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s1-draw"></g></svg>
+          <div id="s1-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s1-n1" style="left: 130px; top: 880px">Sombre : la pupille s’ouvre. Soleil : elle se referme</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">La pupille et l’iris</div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="49.6" data-duration="28.7" data-track-index="1">
+        <div id="s2-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s2-draw"></g></svg>
+          <div id="s2-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s2-n1" style="left: 130px; top: 880px; background: #ffe14d">L’image arrive à l’envers : le cerveau la retourne</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">L’image au fond de l’œil</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="78.3" data-duration="21.8" data-track-index="1">
+        <div id="s3-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s3-draw"></g></svg>
+          <div class="note" id="s3-n1" style="left: 130px; top: 880px">L’image doit tomber pile sur la rétine</div>
+          <div class="note" id="s3-n2" style="left: 1000px; top: 880px; background: #ffe14d">Les lunettes : une deuxième loupe</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">À quoi servent les lunettes ?</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="100.1" data-duration="29" data-track-index="1">
+        <div id="s4-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-draw"></g></svg>
+          <div class="note" id="s4-n1" style="left: 130px; top: 880px">Chaque œil voit une image un peu différente</div>
+          <div class="note" id="s4-n2" style="left: 1010px; top: 880px; background: #ffe14d">Le cerveau compare : c’est le relief</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Deux yeux pour le relief</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="129.1" data-duration="23.3" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s5-draw"></g></svg>
+          <div class="note" id="s5-n1" style="left: 130px; top: 880px">Sur les côtés : voir tout autour, repérer le danger</div>
+          <div class="note" id="s5-n2" style="left: 1090px; top: 880px">Devant : bien viser</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Devant ou sur les côtés ?</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="152.4" data-duration="20.7" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            .s6-card {
+              position: absolute;
+              top: 330px;
+              width: 500px;
+              height: 300px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              border-radius: 34px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 44px;
+              font-weight: 600;
+              line-height: 1.15;
+              padding: 30px;
+            }
+            .s6-card b {
+              position: absolute;
+              left: -24px;
+              top: -24px;
+              width: 76px;
+              height: 76px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 3.5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 44px;
+            }
+            #s6-atch {
+              position: absolute;
+              left: 1000px;
+              top: 330px;
+              font-size: 84px; line-height: 1.1;
+              font-weight: 700;
+              color: #c25e00;
+              white-space: nowrap;
+            }
+            #s6-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s6-end .d {
+              color: var(--fire);
+            }
+            #s6-end .s {
+              color: var(--blue);
+            }
+            #s6-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s6-main" class="in">
+            <div id="s6-cards" class="in">
+              <div class="s6-card" id="s6-k1" style="left: 130px"><b>1</b>La pupille laisse entrer la lumière</div>
+              <div class="s6-card" id="s6-k2" style="left: 710px"><b>2</b>Le cristallin fait l’image, à l’envers</div>
+              <div class="s6-card" id="s6-k3" style="left: 1290px"><b>3</b>Deux yeux pour le relief</div>
+            </div>
+            <div id="s6-b" class="in">
+              <svg class="stage" viewBox="0 0 1920 1080"><g id="s6-draw"></g></svg>
+              <div id="s6-atch">Pourquoi les volcans<br />crachent du feu ?</div>
+            </div>
+            <div class="note" id="s6-next" style="left: 590px; top: 900px; background: #ffe14d">La prochaine fois : les volcans !</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s6-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s6-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="8.2" data-duration="4.34" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="12.81" data-duration="6.25" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="19.48" data-duration="2.75" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="22.5" data-duration="1.91" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="25.4" data-duration="14.71" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="40.53" data-duration="4.89" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="45.69" data-duration="3.33" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="50" data-duration="8.97" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="59.24" data-duration="2.75" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="62.26" data-duration="4.18" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="66.86" data-duration="3.77" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="70.9" data-duration="4.11" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-6" src="assets/vo/s2-6.mp3" data-start="75.53" data-duration="2.17" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="78.7" data-duration="2.41" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="81.38" data-duration="9.67" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="91.47" data-duration="2.57" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="94.31" data-duration="5.15" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="100.5" data-duration="2.1" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="102.87" data-duration="7.21" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="110.5" data-duration="3.3" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="114.07" data-duration="7.32" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-5" src="assets/vo/s4-5.mp3" data-start="121.86" data-duration="2.83" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-6" src="assets/vo/s4-6.mp3" data-start="124.96" data-duration="3.48" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="129.5" data-duration="2.57" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="132.34" data-duration="12.44" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="145.2" data-duration="3.76" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="149.48" data-duration="2.28" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="152.8" data-duration="7.61" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="160.83" data-duration="1.23" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="162.58" data-duration="2.75" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="165.6" data-duration="3.48" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="8.2" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="49.94" data-duration="44.75" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="91.68" data-duration="44.75" data-track-index="7" data-volume="0.16"></audio>
+      <audio id="fx-3-fond" src="assets/sfx/fond.mp3" data-start="133.42" data-duration="39.66" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-4-pop" src="assets/sfx/pop.mp3" data-start="2.98" data-duration="0.61" data-track-index="6" data-volume="0.4"></audio>
+      <audio id="fx-5-jingle" src="assets/sfx/jingle.mp3" data-start="3.98" data-duration="3.51" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="fx-6-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.85" data-duration="1.39" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="24.75" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="49.35" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="78.05" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="99.85" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="128.85" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-12-whoosh" src="assets/sfx/whoosh.mp3" data-start="152.15" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-13-zap" src="assets/sfx/zap.mp3" data-start="64.51" data-duration="0.5" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-14-chime" src="assets/sfx/chime.mp3" data-start="96.97" data-duration="1.21" data-track-index="7" data-volume="0.3"></audio>
+      <audio id="fx-15-pop" src="assets/sfx/pop.mp3" data-start="109.51" data-duration="0.61" data-track-index="5" data-volume="0.35"></audio>
+      <audio id="fx-16-jingle" src="assets/sfx/jingle.mp3" data-start="170.2" data-duration="2.83" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-17-tic" src="assets/sfx/tic.mp3" data-start="21.49" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-18-tic" src="assets/sfx/tic.mp3" data-start="29.08" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-19-tic" src="assets/sfx/tic.mp3" data-start="31.1" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-20-tic" src="assets/sfx/tic.mp3" data-start="35.73" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-21-tic" src="assets/sfx/tic.mp3" data-start="53.07" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-22-tic" src="assets/sfx/tic.mp3" data-start="58.37" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-23-pop" src="assets/sfx/pop.mp3" data-start="64.71" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-24-tic" src="assets/sfx/tic.mp3" data-start="82.36" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-25-pop" src="assets/sfx/pop.mp3" data-start="96.97" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-26-tic" src="assets/sfx/tic.mp3" data-start="111.77" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-27-pop" src="assets/sfx/pop.mp3" data-start="119.34" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-28-tic" src="assets/sfx/tic.mp3" data-start="135.78" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-29-tic" src="assets/sfx/tic.mp3" data-start="143.42" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-30-tic" src="assets/sfx/tic.mp3" data-start="153.36" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-31-tic" src="assets/sfx/tic.mp3" data-start="155.49" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-32-tic" src="assets/sfx/tic.mp3" data-start="158.74" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-33-pop" src="assets/sfx/pop.mp3" data-start="168.2" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-34-tic" src="assets/sfx/tic.mp3" data-start="170.8" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":173.1,"scenes":{"g":{"start":0,"end":7.6},"s0":{"start":7.6,"end":25},"s1":{"start":25,"end":49.6},"s2":{"start":49.6,"end":78.3},"s3":{"start":78.3,"end":100.1},"s4":{"start":100.1,"end":129.1},"s5":{"start":129.1,"end":152.4},"s6":{"start":152.4,"end":173.1}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":7.6,"end":24.43},"s1":{"start":25,"end":49.04},"s2":{"start":49.6,"end":77.72},"s3":{"start":78.3,"end":99.48},"s4":{"start":100.1,"end":128.46},"s5":{"start":129.1,"end":151.78},"s6":{"start":152.4,"end":169.1}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":8.2,"end":12.56,"who":"zoe","words":[["Max,",8.62,8.72],["pourquoi",8.75,9.04],["on",9.07,9.12],["a",9.2,9.28],["deux",9.33,9.52],["yeux",9.6,9.84],["?",9.88,9.92],["Un",10.08,10.4],["seul",10.45,10.64],["gros",10.69,10.88],["au",10.91,10.96],["milieu,",11,11.36],["ça",11.41,11.52],["suffirait",11.55,11.92],["pour",11.95,12.08],["voir.",12.16,12.56]]},"s0-2":{"start":12.81,"end":19.08,"who":"max","words":[["Pour",13.02,13.06],["voir,",13.15,13.58],["oui.",13.67,14.02],["Pour",14.21,14.97],["attraper",15.02,15.49],["une",15.52,15.58],["balle,",15.67,16.02],["non.",16.15,16.62],["Mais",16.82,17.58],["commençons",17.62,18.1],["par",18.15,18.28],["un",18.36,18.54],["seul",18.59,18.8],["œil.",18.84,19.15]]},"s0-3":{"start":19.48,"end":22.25,"who":"zoe","words":[["D'accord.",19.81,20.08],["Un",20.27,20.64],["œil,",20.68,20.92],["c'est",20.94,21.2],["comme",21.23,21.36],["un",21.39,21.44],["appareil",21.49,21.84],["photo",21.88,22.08],["?",22.16,22.24]]},"s0-4":{"start":22.5,"end":24.43,"who":"max","words":[["Presque",22.87,23.06],["pareil.",23.11,23.84],["Regarde.",23.9,24.45]]},"s1-1":{"start":25.4,"end":40.13,"who":"max","words":[["La",25.54,25.56],["lumière",25.62,26.08],["entre",26.15,26.52],["par",26.56,26.69],["un",26.75,26.86],["trou",26.92,27.12],["noir,",27.19,27.91],["au",27.96,28.08],["milieu",28.14,28.52],[":",28.78,29.04],["la",29.09,29.21],["pupille.",29.28,29.82],["Autour,",30.06,31.12],["l'iris,",31.3,31.99],["la",32.11,32.34],["partie",32.39,32.69],["colorée,",32.75,33.56],["est",33.6,33.73],["un",33.76,33.82],["muscle.",33.89,34.43],["Quand",34.57,34.95],["il",35.01,35.12],["fait",35.18,35.38],["sombre,",35.43,36.08],["il",36.17,36.34],["ouvre",36.37,36.6],["la",36.63,36.69],["pupille",36.75,37.12],["en",37.18,37.3],["grand.",37.34,37.99],["En",38.05,38.17],["plein",38.2,38.34],["soleil,",38.41,39.21],["il",39.27,39.38],["la",39.44,39.56],["referme.",39.62,40.17]]},"s1-2":{"start":40.53,"end":45.44,"who":"zoe","words":[["C'est",40.77,40.78],["pour",40.83,41.02],["ça",41.1,41.26],["que",41.28,41.34],["les",41.38,41.5],["chats",41.54,41.74],["ont",41.78,41.9],["des",41.92,41.98],["yeux",42.03,42.3],["immenses",42.36,42.78],["la",42.83,42.94],["nuit",43,43.26],["!",44.34,45.42]]},"s1-3":{"start":45.69,"end":49.04,"who":"max","words":[["Exactement.",46.26,46.72],["Ils",46.76,46.89],["laissent",46.92,47.15],["entrer",47.19,47.41],["le",47.5,47.67],["plus",47.72,47.93],["de",47.96,48.02],["lumière",48.09,48.46],["possible.",48.5,49.06]]},"s2-1":{"start":50,"end":58.99,"who":"max","words":[["Derrière",50.19,50.34],["la",50.4,50.51],["pupille,",50.58,51.12],["il",51.15,51.21],["y",51.25,51.29],["a",51.34,51.38],["une",51.42,51.56],["petite",51.59,51.82],["loupe",51.86,52.08],["transparente",52.13,52.77],[":",52.99,53.21],["le",53.24,53.29],["cristallin.",53.37,54.08],["Il",54.28,54.69],["rassemble",54.73,55.12],["la",55.15,55.21],["lumière",55.25,55.73],["et",55.82,55.99],["projette",56.04,56.34],["l'image",56.38,56.86],["au",56.92,57.03],["fond",57.1,57.38],["de",57.41,57.47],["l'œil,",57.51,58.16],["sur",58.21,58.34],["la",58.4,58.51],["rétine.",58.57,59.03]]},"s2-2":{"start":59.24,"end":62.01,"who":"zoe","words":[["Comme",59.89,59.98],["au",60.01,60.06],["cinéma,",60.1,60.54],["avec",60.67,61.18],["un",61.21,61.26],["écran.",61.34,61.98]]},"s2-3":{"start":62.26,"end":66.46,"who":"max","words":[["Oui.",62.47,63.13],["Sauf",63.26,63.61],["que",63.67,63.87],["l'image",63.95,64.39],["arrive",64.43,64.65],["à",64.67,64.69],["l'envers.",64.71,65.17],["La",65.4,65.87],["tête",65.92,66.13],["en",66.16,66.21],["bas.",66.26,66.48]]},"s2-4":{"start":66.86,"end":70.65,"who":"zoe","words":[["Quoi",67.64,67.74],["?",68.18,68.62],["Je",68.65,68.7],["vois",68.73,68.86],["le",68.89,68.94],["monde",68.98,69.18],["à",69.22,69.26],["l'envers",69.3,69.66],["?",70.14,70.62]]},"s2-5":{"start":70.9,"end":75.03,"who":"max","words":[["Ton",71.11,71.12],["œil,",71.16,71.38],["oui.",71.42,71.64],["C'est",71.86,72.16],["ton",72.23,72.42],["cerveau",72.49,72.77],["qui",72.86,73.12],["la",73.17,73.29],["remet",73.33,73.51],["à",73.53,73.55],["l'endroit,",73.59,74.16],["sans",74.19,74.33],["te",74.36,74.42],["le",74.45,74.51],["dire.",74.54,75.03]]},"s2-6":{"start":75.53,"end":77.72,"who":"zoe","words":[["Il",75.72,75.73],["fait",75.76,75.89],["beaucoup",75.92,76.21],["de",76.24,76.29],["choses",76.32,76.53],["sans",76.56,76.69],["me",76.72,76.77],["le",76.79,76.85],["dire,",76.9,77.17],["celui-là.",77.21,77.73]]},"s3-1":{"start":78.7,"end":81.13,"who":"zoe","words":[["Et",78.88,78.89],["pourquoi",78.92,79.21],["Papi",79.25,79.53],["a",79.57,79.61],["besoin",79.64,79.85],["de",79.87,79.93],["lunettes",79.99,80.41],["?",80.77,81.13]]},"s3-2":{"start":81.38,"end":91.07,"who":"max","words":[["Pour",81.52,81.54],["que",81.58,81.71],["l'image",81.76,82.06],["soit",82.11,82.32],["nette,",82.36,82.93],["elle",82.95,83.02],["doit",83.07,83.28],["tomber",83.3,83.71],["pile",83.76,83.97],["sur",84.02,84.15],["la",84.18,84.23],["rétine.",84.29,85.15],["Chez",85.25,85.63],["certaines",85.66,85.97],["personnes,",86.03,86.93],["elle",86.95,87.02],["se",87.1,87.28],["forme",87.35,87.71],["un",87.77,87.89],["peu",87.93,88.06],["avant,",88.13,88.76],["ou",88.81,88.93],["un",88.99,89.1],["peu",89.15,89.28],["après.",89.34,89.71],["Tout",89.85,90.41],["devient",90.45,90.76],["flou.",90.79,91.1]]},"s3-3":{"start":91.47,"end":94.06,"who":"zoe","words":[["Et",91.94,91.95],["les",91.99,92.11],["lunettes",92.15,92.51],["poussent",92.57,92.91],["l'image",92.99,93.23],["au",93.26,93.31],["bon",93.37,93.55],["endroit",93.59,93.87],["?",93.95,94.03]]},"s3-4":{"start":94.31,"end":99.48,"who":"max","words":[["C'est",94.56,94.65],["ça.",94.73,95.12],["Un",95.2,95.34],["verre",95.39,95.56],["de",95.57,95.6],["lunettes,",95.67,96.38],["c'est",96.43,96.56],["une",96.6,96.73],["deuxième",96.77,97.08],["loupe",97.12,97.34],["qui",97.43,97.69],["corrige",97.74,98.04],["la",98.07,98.12],["première.",98.17,99.52]]},"s4-1":{"start":100.5,"end":102.62,"who":"zoe","words":[["Bon.",100.77,100.86],["Et",101.1,101.58],["mes",101.62,101.74],["deux",101.77,101.9],["yeux,",101.95,102.34],["alors",102.37,102.54],["?",102.58,102.62]]},"s4-2":{"start":102.87,"end":110.1,"who":"max","words":[["Tends",103.03,103.12],["ton",103.16,103.29],["pouce",103.36,103.64],["devant",103.68,103.9],["toi.",103.96,104.33],["Ferme",104.75,106.07],["un",106.1,106.16],["œil,",106.29,107.03],["puis",107.12,107.46],["l'autre.",107.51,107.99],["Ton",108.31,109.29],["pouce",109.33,109.55],["saute",109.61,109.99],["!",110.07,110.16]]},"s4-3":{"start":110.5,"end":113.82,"who":"zoe","words":[["Oh",110.82,110.83],["!",110.87,110.91],["Chaque",111.1,111.63],["œil",111.67,111.79],["voit",111.82,111.95],["une",111.97,112.03],["image",112.1,112.43],["un",112.54,112.75],["peu",112.79,112.91],["différente.",112.97,113.79]]},"s4-4":{"start":114.07,"end":121.41,"who":"max","words":[["Et",114.3,114.31],["ton",114.35,114.48],["cerveau",114.53,114.83],["compare",114.87,115.18],["les",115.2,115.27],["deux.",115.3,115.53],["Plus",115.7,116.4],["elles",116.43,116.57],["sont",116.6,116.74],["différentes,",116.79,117.53],["plus",117.58,117.79],["l'objet",117.83,118.22],["est",118.24,118.31],["près.",118.36,118.66],["C'est",118.79,119],["comme",119.03,119.18],["ça",119.24,119.35],["que",119.37,119.44],["tu",119.5,119.61],["vois",119.65,119.79],["en",119.82,119.87],["relief.",119.94,121.44]]},"s4-5":{"start":121.86,"end":124.71,"who":"zoe","words":[["Donc",122.1,122.11],["un",122.16,122.27],["cyclope",122.33,122.75],["raterait",122.79,123.15],["toutes",123.18,123.39],["ses",123.43,123.55],["passes",123.58,123.79],["au",123.82,123.87],["foot.",123.93,124.67]]},"s4-6":{"start":124.96,"end":128.46,"who":"max","words":[["Il",125.24,125.3],["verrait",125.31,125.47],["le",125.5,125.56],["ballon,",125.61,126.43],["mais",126.5,126.77],["il",126.83,126.95],["ne",126.98,127.03],["saurait",127.09,127.47],["pas",127.49,127.56],["à",127.6,127.64],["quelle",127.67,127.82],["distance.",127.88,128.51]]},"s5-1":{"start":129.5,"end":132.09,"who":"zoe","words":[["Et",129.73,129.74],["les",129.74,129.75],["lapins",129.81,130.07],["?",130.31,130.55],["Leurs",130.6,130.79],["yeux",130.82,130.95],["sont",130.98,131.11],["sur",131.15,131.27],["les",131.29,131.35],["côtés.",131.41,132.07]]},"s5-2":{"start":132.34,"end":144.8,"who":"max","words":[["Bien",132.62,132.67],["vu.",132.76,133.37],["Les",133.48,133.8],["animaux",133.86,134.24],["chassés",134.27,134.67],["ont",134.76,135.02],["les",135.06,135.19],["yeux",135.25,135.46],["sur",135.5,135.63],["les",135.65,135.72],["côtés",135.78,136.06],[":",136.32,136.59],["ils",136.63,136.76],["voient",136.79,137.02],["presque",137.09,137.54],["tout",137.58,137.72],["autour",137.77,138.06],["d'eux,",138.11,138.46],["pour",138.5,138.67],["repérer",138.74,139.11],["le",139.14,139.19],["danger.",139.24,139.63],["Les",139.82,140.41],["chasseurs,",140.44,141.02],["comme",141.08,141.37],["le",141.43,141.54],["chat",141.61,141.89],["ou",141.92,141.98],["la",142.03,142.15],["chouette,",142.18,142.59],["les",142.72,143.11],["ont",143.17,143.37],["devant,",143.42,143.8],["pour",143.87,144.15],["bien",144.2,144.41],["viser.",144.46,144.85]]},"s5-3":{"start":145.2,"end":148.98,"who":"zoe","words":[["Et",145.39,145.4],["moi,",145.48,145.92],["j'ai",146.02,146.2],["les",146.24,146.36],["yeux",146.39,146.52],["devant.",146.58,147],["Je",147.13,147.4],["suis",147.46,147.72],["une",147.78,147.96],["chasseuse",148.01,148.84],["!",148.92,149]]},"s5-4":{"start":149.48,"end":151.78,"who":"max","words":[["Une",149.72,149.82],["chasseuse",149.88,150.34],["de",150.37,150.43],["tartines,",150.5,151.21],["surtout.",151.25,151.82]]},"s6-1":{"start":152.8,"end":160.43,"who":"zoe","words":[["Je",152.99,153],["résume",153.05,153.48],[":",153.64,153.8],["la",153.82,153.88],["pupille",153.96,154.36],["laisse",154.42,154.76],["entrer",154.79,155],["la",155.05,155.16],["lumière,",155.2,155.96],["le",155.99,156.04],["cristallin",156.09,156.6],["fait",156.63,156.76],["l'image,",156.88,157.32],["à",157.56,157.8],["l'envers,",157.84,158.36],["et",158.49,158.76],["mes",158.8,158.92],["deux",158.95,159.08],["yeux",159.11,159.4],["me",159.45,159.56],["donnent",159.59,159.8],["le",159.83,159.88],["relief.",159.94,160.44]]},"s6-2":{"start":160.83,"end":162.08,"who":"max","words":[["Tu",161.05,161.05],["as",161.08,161.14],["l'œil.",161.18,162.09]]},"s6-3":{"start":162.58,"end":165.35,"who":"zoe","words":[["Dis,",162.9,163.11],["Max…",163.16,163.71],["pourquoi",163.75,164.03],["les",164.05,164.11],["volcans",164.15,164.43],["crachent",164.48,164.75],["du",164.8,164.91],["feu",164.97,165.15],["?",165.23,165.31]]},"s6-4":{"start":165.6,"end":169.1,"who":"max","words":[["Ce",165.73,165.76],["n'est",165.81,166.03],["pas",166.05,166.11],["vraiment",166.15,166.46],["du",166.52,166.63],["feu.",166.7,166.98],["Mais",167.1,167.59],["ça,",167.68,167.94],["c'est",168.02,168.2],["pour",168.23,168.37],["la",168.4,168.46],["prochaine",168.5,168.81],["fois",168.84,168.98],["!",169.07,169.16]]}}};
+
+      const CFG_SUBJECT = "#gi-atom";
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) =>
+    h[0] === "#"
+      ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      : h.match(/\d+/g).map(Number);
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+// chaque apparition est notée : scripts/autosfx.cjs en tire un petit bruitage
+const SFX_LOG = (window.__SFX = []);
+const show = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "tic"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "pop"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  SFX_LOG.push([t, "tic"]);
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- Hasard reproductible (même valeur à chaque rendu) et petites formes ---
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+// va-et-vient entre 0 et 1 (rebond sur les bords)
+const tri = (x) => {
+  const u = ((x % 2) + 2) % 2;
+  return u < 1 ? u : 2 - u;
+};
+// boule avec contour et reflet
+const ball = (x, y, r, fill, o = {}) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+const txt = (x, y, s, size, o = {}) =>
+  `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
+const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
+
+// --- Chemin fermé ou ouvert fait de segments droits : longueur et point à une distance donnée ---
+const mkPath = (pts, closed = true) => {
+  const P = closed ? pts.concat([pts[0]]) : pts;
+  const seg = [];
+  let L = 0;
+  for (let i = 1; i < P.length; i++) {
+    const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+    seg.push([L, d, P[i - 1], P[i]]);
+    L += d;
+  }
+  const at = (s) => {
+    const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    return P[P.length - 1];
+  };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
+};
+// fil électrique : gaine sombre + âme claire
+const wireSVG = (d, col = "#F2C9A0", w = 26) =>
+  `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
+// ampoule : on = 0 (éteinte) à 1 (allumée)
+const bulbSVG = (x, y, on, k = 1) =>
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
+  `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
+  `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
+  `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
+
+// --- Petites formes de l'épisode « gravité » ---
+// un bonhomme tout simple (tête ronde, corps en capsule), pieds en (x, y)
+const figSVG = (x, y, k = 1, col = C.blue) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-14 0 V-34 M14 0 V-34" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><rect x="-28" y="-104" width="56" height="78" rx="26" fill="${col}" class="ink"/><circle cx="0" cy="-134" r="30" fill="#FFD9B8" class="ink"/></g>`;
+// la tartine : face confiture vers le haut quand l'angle vaut 0
+const toastSVG = (x, y, rot, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
+// la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
+const earthSVG = (x, y, r, rot = 0) => {
+  const blob = (a, d, w, h) =>
+    `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
+};
+// flèche droite de (x1, y1) vers (x2, y2)
+const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
+  const a = Math.atan2(y2 - y1, x2 - x1),
+    h = w * 2.2;
+  const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
+  return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+};
+
+// --- Formes de l'épisode « lumière » ---
+const RAINBOW = ["#E0455E", "#FF8A1F", "#FFD23F", "#3DBE8B", "#2F5BD3", "#8E5BD6"];
+// le Soleil, centré en (x, y)
+const sunSVG = (x, y, r, t = 0) => {
+  let s = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU + t * 0.3;
+    s += `<path d="M${f2(x + (r + 14) * Math.cos(a))} ${f2(y + (r + 14) * Math.sin(a))} L${f2(x + (r + 44) * Math.cos(a))} ${f2(y + (r + 44) * Math.sin(a))}" stroke="${C.fire}" stroke-width="10" stroke-linecap="round"/>`;
+  }
+  return s + `<circle cx="${x}" cy="${y}" r="${r}" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+};
+// un rayon : trait coloré bordé de sombre, dessiné jusqu'à la fraction u de sa longueur
+const raySVG = (x1, y1, x2, y2, col, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const x = lerp(x1, x2, Math.min(1, u)),
+    y = lerp(y1, y2, Math.min(1, u));
+  return `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${C.ink}" stroke-width="${w + 6}" stroke-linecap="round"/><path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+};
+// un rayon installé, avec des petits traits blancs qui filent dedans pour montrer le sens
+const beamSVG = (x1, y1, x2, y2, col, t, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const k = Math.min(1, u),
+    x = lerp(x1, x2, k),
+    y = lerp(y1, y2, k);
+  return (
+    raySVG(x1, y1, x2, y2, col, u, w) +
+    `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`
+  );
+};
+// un œil vu de face, centré en (x, y)
+const eyeSVG = (x, y, k = 1, iris = "#3DBE8B") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M-110 0 Q0 -90 110 0 Q0 90 -110 0 Z" fill="#fff" class="ink" stroke-width="6"/><circle r="44" fill="${iris}" class="ink"/><circle r="20" fill="${C.ink}"/><circle cx="-12" cy="-14" r="9" fill="#fff"/></g>`;
+// un chat assis, pieds en (x, y)
+const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${col}" stroke-width="20" stroke-linecap="round"/><ellipse cx="0" cy="-80" rx="78" ry="96" fill="${col}" class="ink" stroke-width="5"/><circle cx="0" cy="-210" r="66" fill="${col}" class="ink" stroke-width="5"/><path d="M-56 -244 L-64 -300 L-18 -268 Z M56 -244 L64 -300 L18 -268 Z" fill="${col}" class="ink" stroke-width="5"/><circle cx="-24" cy="-216" r="9" fill="${C.ink}"/><circle cx="24" cy="-216" r="9" fill="${C.ink}"/><path d="M-8 -194 L8 -194 L0 -184 Z" fill="#F7A8B8" class="ink" stroke-width="3"/></g>`;
+
+// --- Petites formes de l'épisode « allergies » ---
+// un grain de pollen : boule jaune à picots, l'air innocent
+const pollenSVG = (x, y, r, rot = 0, op = 1) => {
+  let s = "";
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * TAU + rot;
+    s += `<path d="M${f2(x + r * 0.9 * Math.cos(a))} ${f2(y + r * 0.9 * Math.sin(a))} L${f2(x + r * 1.45 * Math.cos(a))} ${f2(y + r * 1.45 * Math.sin(a))}" stroke="${C.ink}" stroke-width="${f2(r * 0.18)}" stroke-linecap="round"/>`;
+  }
+  return `<g opacity="${f2(op)}">${s}<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${C.hot}" class="ink" stroke-width="4"/><circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><path d="M${f2(x - r * 0.25)} ${f2(y + r * 0.3)} Q${f2(x)} ${f2(y + r * 0.55)} ${f2(x + r * 0.25)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.1)}" stroke-linecap="round"/></g>`;
+};
+// un virus : boule verte à ventouses, l'air méchant ; k = taille (1 → 0 quand il est avalé)
+const virusSVG = (x, y, r, rot = 0, k = 1) => {
+  if (k <= 0.02) return "";
+  let s = "";
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * TAU + rot;
+    s += `<path d="M${f2(r * 0.9 * Math.cos(a))} ${f2(r * 0.9 * Math.sin(a))} L${f2(r * 1.4 * Math.cos(a))} ${f2(r * 1.4 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/><circle cx="${f2(r * 1.5 * Math.cos(a))}" cy="${f2(r * 1.5 * Math.sin(a))}" r="${f2(r * 0.2)}" fill="#3DBE8B" class="ink" stroke-width="3"/>`;
+  }
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})">${s}<circle r="${r}" fill="#3DBE8B" class="ink" stroke-width="4"/><path d="M${f2(-r * 0.55)} ${f2(-r * 0.4)} L${f2(-r * 0.15)} ${f2(-r * 0.2)} M${f2(r * 0.55)} ${f2(-r * 0.4)} L${f2(r * 0.15)} ${f2(-r * 0.2)}" stroke="${C.ink}" stroke-width="6" stroke-linecap="round"/><circle cx="${f2(-r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><path d="M${f2(-r * 0.3)} ${f2(r * 0.5)} Q0 ${f2(r * 0.3)} ${f2(r * 0.3)} ${f2(r * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/></g>`;
+};
+// un globule blanc, « garde » du corps : mood 0 = tranquille, 1 = en alerte ; look = -1…1 (direction du regard)
+const guardSVG = (x, y, r, t, mood = 0, look = 0) => {
+  const w = 0.05 * Math.sin(t * 3 + x * 0.01),
+    ex = look * r * 0.14;
+  let s = `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * (1 + w))}" ry="${f2(r * (1 - w))}" fill="#fff" class="ink" stroke-width="5"/><ellipse cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.5)}" rx="${f2(r * 0.22)}" ry="${f2(r * 0.12)}" fill="#DCE6F5"/>`;
+  s += `<circle cx="${f2(x - r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/>`;
+  if (mood > 0.5) {
+    s += `<path d="M${f2(x - r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x - r * 0.14 + ex)} ${f2(y - r * 0.26)} M${f2(x + r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x + r * 0.14 + ex)} ${f2(y - r * 0.26)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/><path d="M${f2(x - r * 0.22 + ex)} ${f2(y + r * 0.4)} H${f2(x + r * 0.22 + ex)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+    s += `<g transform="translate(${f2(x)} ${f2(y - r * 1.55)})"><circle r="${f2(r * 0.36)}" fill="#E0455E" class="ink" stroke-width="4"/><text y="${f2(r * 0.2)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${f2(r * 0.56)}" fill="#fff">!</text></g>`;
+  } else
+    s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+  return s;
+};
+// un anticorps : une antenne en Y, pied en (x, y), tournée de rot degrés
+const antibodySVG = (x, y, rot, k = 1, op = 1) => {
+  const d = "M0 0 V-30 M0 -30 L-18 -56 M0 -30 L18 -56";
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})" opacity="${f2(op)}" fill="none" stroke-linecap="round"><path d="${d}" stroke="${C.ink}" stroke-width="15"/><path d="${d}" stroke="${C.fire}" stroke-width="8"/></g>`;
+};
+// la cellule pleine de sacs (mastocyte) : n antennes plantées dessus, burst 0 → 1 = les sacs éclatent et l'histamine sort
+const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
+  let s = "";
+  for (let i = 0; i < nAnt; i++) {
+    const a = (i / nAnt) * TAU + 0.4;
+    s += antibodySVG(
+      x + (r - 6) * Math.cos(a),
+      y + (r - 6) * Math.sin(a),
+      (a * 180) / Math.PI + 90,
+      antK,
+    );
+  }
+  s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#EBDDFB" class="ink" stroke-width="6"/><circle cx="${f2(x + r * 0.1)}" cy="${f2(y + r * 0.05)}" r="${f2(r * 0.3)}" fill="#C9B1EE" class="ink" stroke-width="4"/>`;
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * TAU + rnd(i) * 0.3,
+      d0 = r * (0.5 + 0.3 * rnd(i + 20)),
+      d1 = r + 60 + rnd(i + 40) * 190;
+    const d = lerp(d0, d1, burst) + (burst > 0 ? 10 * Math.sin(t * 2 + i) : 0);
+    s += `<circle cx="${f2(x + d * Math.cos(a))}" cy="${f2(y + d * Math.sin(a))}" r="${f2(lerp(r * 0.1, 13, burst))}" fill="${C.fire}" stroke="${C.ink}" stroke-width="3"/>`;
+  }
+  return s;
+};
+// un vaisseau sanguin en coupe, avec ses globules rouges qui défilent
+const vesselSVG = (t, id) => {
+  let s = `<defs><clipPath id="${id}"><rect x="130" y="270" width="1660" height="520"/></clipPath></defs><rect x="130" y="270" width="1660" height="520" fill="#FFE9E6"/><g clip-path="url(#${id})">`;
+  for (let i = 0; i < 16; i++) {
+    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800),
+      y = 330 + rnd(i + 9) * 400;
+    s += `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="36" ry="26" fill="#F29AA6" opacity="0.75"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="16" ry="11" fill="#E77888" opacity="0.75"/>`;
+  }
+  return (
+    s +
+    `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`
+  );
+};
+// une fleur toute simple, pied en (x, y)
+const flowerSVG = (x, y, k = 1) => {
+  let s = `<path d="M0 0 V-300" stroke="#3DBE8B" stroke-width="20" stroke-linecap="round"/><path d="M0 -140 q-90 -20 -110 -90 q90 0 110 90 Z" fill="#3DBE8B" class="ink"/>`;
+  for (let i = 0; i < 7; i++) {
+    const a = (i / 7) * TAU + 0.2,
+      px = 96 * Math.cos(a),
+      py = -360 + 96 * Math.sin(a);
+    s += `<ellipse cx="${f2(px)}" cy="${f2(py)}" rx="62" ry="40" transform="rotate(${f2((a * 180) / Math.PI)} ${f2(px)} ${f2(py)})" fill="#F7A8B8" class="ink"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}<circle cx="0" cy="-360" r="56" fill="${C.hot}" class="ink" stroke-width="5"/></g>`;
+};
+
+// --- Petites formes de l'épisode « feu » ---
+// une flamme vivante : pied en (x, y), hauteur h ; o.k = vigueur 0…1, o.blue = flamme toute bleue, o.lean = penche (px)
+const flameSVG = (x, y, h, t, o = {}) => {
+  const k = o.k ?? 1;
+  if (k <= 0.02) return "";
+  const H = h * k * (1 + 0.06 * Math.sin(t * 11 + x)),
+    sway = (o.lean ?? 0) + H * (0.07 * Math.sin(t * 9 + x * 0.01) + 0.04 * Math.sin(t * 14.3 + 1));
+  const lay = (s, col, op = 1) => {
+    const hh = H * s,
+      w = hh * 0.36;
+    return `<path d="M${f2(x)} ${f2(y)} C ${f2(x - w)} ${f2(y)}, ${f2(x - w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + sway * s)} ${f2(y - hh)} C ${f2(x + w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + w)} ${f2(y)}, ${f2(x)} ${f2(y)} Z" fill="${col}" opacity="${op}"${s === 1 ? ` stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"` : ""}/>`;
+  };
+  return o.blue
+    ? lay(1, "#5F86F0") + lay(0.6, "#BFD4FF")
+    : lay(1, C.fire) + lay(0.66, C.hot) + lay(0.3, "#5F86F0", 0.9);
+};
+// une bougie : pied en (x, y), largeur w, hauteur h (la mèche dépasse de 24)
+const candleSVG = (x, y, w, h, col = "#FBF1D8") =>
+  `<rect x="${f2(x - w / 2)}" y="${f2(y - h)}" width="${w}" height="${h}" rx="${f2(w * 0.12)}" fill="${col}" class="ink" stroke-width="4"/><ellipse cx="${x}" cy="${f2(y - h + 3)}" rx="${f2(w * 0.36)}" ry="${f2(w * 0.1)}" fill="#fff" opacity="0.8"/><path d="M${x} ${f2(y - h)} v-24" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/>`;
+// un filet de fumée qui monte en ondulant depuis (x, y) ; k = 0…1 (hauteur), col = couleur
+const smokeSVG = (x, y, t, k = 1, col = "#fff", n = 14, H = 260) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = ((t * 0.45 + i / n) % 1) * k,
+      yy = y - u * H,
+      xx = x + 26 * Math.sin(u * 7 + t * 2 + i) * u;
+    s += `<circle cx="${f2(xx)}" cy="${f2(yy)}" r="${f2(8 + 16 * u)}" fill="${col}" stroke="${C.smoke}" stroke-width="2.5" opacity="${f2((1 - u / (k || 1)) * 0.9)}"/>`;
+  }
+  return s;
+};
+// une bûche couchée, centre (x, y), longueur L, épaisseur e
+const logSVG = (x, y, L, e) =>
+  `<rect x="${f2(x - L / 2)}" y="${f2(y - e / 2)}" width="${f2(L)}" height="${f2(e)}" rx="${f2(e / 2)}" fill="#B9772E" class="ink" stroke-width="4"/><ellipse cx="${f2(x + L / 2 - e * 0.32)}" cy="${f2(y)}" rx="${f2(e * 0.3)}" ry="${f2(e * 0.42)}" fill="#EBC07E" class="ink" stroke-width="3"/><path d="M${f2(x - L * 0.3)} ${f2(y - e * 0.12)} h${f2(L * 0.3)} M${f2(x - L * 0.2)} ${f2(y + e * 0.16)} h${f2(L * 0.24)}" stroke="#8A5A22" stroke-width="3" stroke-linecap="round"/>`;
+// un sapin tout simple, pied en (x, y), hauteur h
+const treeSVG = (x, y, h, col = "#3DBE8B") =>
+  `<rect x="${f2(x - h * 0.05)}" y="${f2(y - h * 0.22)}" width="${f2(h * 0.1)}" height="${f2(h * 0.22)}" fill="#B9772E" class="ink" stroke-width="3"/><path d="M${f2(x)} ${f2(y - h)} L${f2(x + h * 0.3)} ${f2(y - h * 0.2)} H${f2(x - h * 0.3)} Z" fill="${col}" class="ink" stroke-width="4"/>`;
+
+// --- Petites formes de l'épisode « mer salée » ---
+// la mer : trois bandes de vagues entre x0 et x1, surface en y, fond en yb
+const seaSVG = (x0, x1, y, yb, t) => {
+  let s = "";
+  for (let r = 0; r < 3; r++) {
+    const yy = y + r * (yb - y) * 0.28,
+      n = Math.ceil((x1 - x0) / 120);
+    let d = `M${x0} ${f2(yy)}`;
+    for (let i = 0; i < n; i++) d += ` q30 ${f2(-22 * Math.sin(t * 2 + r * 1.3))} 60 0 t60 0`;
+    s += `<path d="${d} V${yb} H${x0} Z" fill="${["#8FD3FF", "#5FB4F0", "#2F7BD3"][r]}" class="ink" stroke-width="4"/>`;
+  }
+  return s;
+};
+// une montagne : sommet en (x, y), base de largeur w en yb
+const mountSVG = (x, y, w, yb, snow = true) =>
+  `<path d="M${f2(x - w / 2)} ${yb} L${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w / 2)} ${yb} Z" fill="#9AA6B8" class="ink" stroke-width="5"/>` +
+  (snow
+    ? `<path d="M${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w * 0.06)} ${f2(y + (yb - y) * 0.22)} L${x} ${f2(y + (yb - y) * 0.32)} L${f2(x - w * 0.06)} ${f2(y + (yb - y) * 0.2)} Z" fill="#fff" class="ink" stroke-width="4"/>`
+    : "");
+// un nuage : centre (x, y), taille k, plus ou moins gris (g = 0…1)
+const cloudSVG = (x, y, k = 1, g = 0) => {
+  const col = mixHex("#FFFFFF", "#A7AFBA", g);
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-120 30 a46 46 0 0 1 14 -88 a70 70 0 0 1 128 -22 a56 56 0 0 1 96 46 a40 40 0 0 1 -8 64 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+};
+// un grain de sel : petit cube blanc
+const saltSVG = (x, y, r = 8, rot = 0, op = 1) =>
+  `<rect x="${f2(x - r)}" y="${f2(y - r)}" width="${f2(r * 2)}" height="${f2(r * 2)}" rx="${f2(r * 0.25)}" fill="#fff" stroke="${C.ink}" stroke-width="2.5" opacity="${f2(op)}" transform="rotate(${f2(rot)} ${f2(x)} ${f2(y)})"/>`;
+// la pluie entre x0 et x1, de y0 à y1
+const rainSVG = (x0, x1, y0, y1, t, n = 14, op = 1) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = (t * 1.4 + rnd(i * 3)) % 1,
+      x = x0 + rnd(i) * (x1 - x0) - u * 30,
+      y = lerp(y0, y1, u);
+    s += `<path d="M${f2(x)} ${f2(y)} l-8 26" stroke="${C.blue}" stroke-width="6" stroke-linecap="round" opacity="${f2(op * (1 - u * 0.4))}"/>`;
+  }
+  return s;
+};
+
+// --- Petites formes de l'épisode « odorat » ---
+// une molécule d'odeur : trois petites boules collées
+const molSVG = (x, y, r = 9, col = "#FF8A1F", rot = 0, op = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})" opacity="${f2(op)}"><circle cx="${f2(-r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="${f2(r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="0" cy="${f2(-r * 0.7)}" r="${r}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/></g>`;
+// un point le long d'une ligne brisée P (u de 0 à 1)
+const along = (P, u) => {
+  const f = clamp(u) * (P.length - 1),
+    i = Math.min(P.length - 2, Math.floor(f)),
+    k = f - i;
+  return [lerp(P[i][0], P[i + 1][0], k), lerp(P[i][1], P[i + 1][1], k)];
+};
+// une tête de profil (regarde à gauche) coupée pour montrer l'intérieur du nez ; centre (x, y), échelle k ; blocked = nez bouché 0…1
+const headCutSVG = (x, y, k = 1, blocked = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-40 -300 C 160 -320, 300 -180, 290 20 C 284 160, 220 250, 120 300 H-120 C -140 250, -200 250, -230 210 C -250 180, -230 150, -250 130 C -280 110, -250 80, -270 60 C -330 40, -360 0, -300 -20 C -260 -40, -240 -120, -220 -180 C -190 -260, -130 -296, -40 -300 Z" fill="#FFD9B8" class="ink" stroke-width="6"/><path d="M-292 6 C -240 -10, -200 -60, -150 -110 C -100 -150, -20 -150, 20 -100 C 60 -50, 60 40, 40 130 C 20 80, -20 40, -80 30 C -160 20, -230 30, -292 6 Z" fill="#F7B9B0" class="ink" stroke-width="4"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.hot}" stroke-width="18" stroke-linecap="round"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.ink}" stroke-width="3" stroke-dasharray="3 9"/><path d="M-60 -150 C -40 -230, 80 -260, 150 -200 C 220 -140, 200 -60, 140 -40 C 90 -24, 40 -60, 20 -110" fill="#F7A8B8" class="ink" stroke-width="4"/><path d="M-60 -136 C -50 -160, -20 -160, -10 -140" fill="none" class="ink" stroke-width="8" stroke-linecap="round"/>` +
+  (blocked > 0
+    ? `<path d="M-250 -4 C -220 -30, -190 -50, -160 -80 C -140 -40, -150 0, -200 14 Z" fill="#B7DB8A" class="ink" stroke-width="4" opacity="${f2(blocked)}"/>`
+    : "") +
+  `</g>`;
+// un chien assis de profil (regarde à droite), pieds en (x, y)
+const dogSVG = (x, y, k = 1, t = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="#B9772E" stroke-width="20" stroke-linecap="round"/><ellipse cx="-20" cy="-90" rx="100" ry="110" fill="#B9772E" class="ink" stroke-width="5"/><rect x="20" y="-70" width="34" height="74" rx="14" fill="#B9772E" class="ink" stroke-width="5"/><circle cx="60" cy="-220" r="76" fill="#B9772E" class="ink" stroke-width="5"/><path d="M90 -230 H190 Q210 -230 204 -206 L190 -180 H100 Z" fill="#D9A260" class="ink" stroke-width="5"/><circle cx="204" cy="${f2(-222 + 3 * Math.sin(t * 14))}" r="16" fill="${C.ink}"/><circle cx="84" cy="-240" r="9" fill="${C.ink}"/><path d="M20 -280 Q-30 -250 -6 -170 Q30 -190 40 -270 Z" fill="#8A5A22" class="ink" stroke-width="5"/></g>`;
+
+// --- Petites formes de l'épisode « goût » ---
+// une cloche d'alarme : ring = 0…1
+const bellSVG = (x, y, ring, t, k = 1) =>
+  `<g transform="translate(${x} ${y}) scale(${k}) rotate(${f2(16 * ring * Math.sin(t * 22))})"><path d="M-60 40 Q-60 -70 0 -80 Q60 -70 60 40 Z" fill="${C.hot}" class="ink" stroke-width="5"/><rect x="-74" y="34" width="148" height="20" rx="10" fill="${C.hot}" class="ink" stroke-width="5"/><circle cy="66" r="14" fill="${C.ink}"/></g>` +
+  (ring > 0.2
+    ? [-1, 1]
+        .map(
+          (d) =>
+            `<path d="M${x + d * 90 * k} ${y - 50 * k} q${d * 26} 40 0 80" fill="none" stroke="${C.fire}" stroke-width="8" stroke-linecap="round" opacity="${f2(ring)}"/>`,
+        )
+        .join("")
+    : "");
+// une langue vue de dessus, pointe en bas : centre (x, y), échelle k ; bumps = papilles visibles 0…1
+const tongueSVG = (x, y, k = 1, bumps = 1, col = "#F08A9B") => {
+  let s = `<path d="M-150 -260 H150 V60 Q150 260 0 260 Q-150 260 -150 60 Z" fill="${col}" class="ink" stroke-width="${f2(6 / k)}"/><path d="M0 -240 V150" stroke="#D76A7E" stroke-width="${f2(7 / k)}" stroke-linecap="round"/>`;
+  if (bumps > 0)
+    for (let i = 0; i < 46; i++) {
+      const bx = (rnd(i) - 0.5) * 250,
+        by = -230 + rnd(i + 80) * 440;
+      if (Math.abs(bx) < 16 || (by > 60 && Math.hypot(bx / 150, (by - 60) / 200) > 0.85)) continue;
+      s += `<circle cx="${f2(bx)}" cy="${f2(by)}" r="${f2(7 + 4 * rnd(i + 9))}" fill="#F7B5C0" stroke="#D76A7E" stroke-width="2" opacity="${f2(bumps)}"/>`;
+    }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}</g>`;
+};
+// une fraise, centre (x, y)
+const berrySVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-50 -30 Q-60 50 0 80 Q60 50 50 -30 Q0 -60 -50 -30 Z" fill="#E0455E" class="ink" stroke-width="5"/><path d="M-40 -34 L-10 -60 L0 -40 L10 -60 L40 -34 Q0 -14 -40 -34 Z" fill="#3DBE8B" class="ink" stroke-width="4"/><g fill="#FFE14D"><circle cx="-20" cy="0" r="4"/><circle cx="14" cy="-6" r="4"/><circle cx="-4" cy="30" r="4"/><circle cx="24" cy="24" r="4"/></g></g>`;
+
+// --- Petites formes de l'épisode « toucher » ---
+// un cerveau, centre (x, y)
+const brainSVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-110 20 C -150 -40, -110 -110, -40 -100 C -10 -150, 80 -140, 96 -84 C 150 -70, 160 10, 110 40 C 100 90, 20 100, -10 70 C -60 100, -120 70, -110 20 Z" fill="#F7A8B8" class="ink" stroke-width="5"/><path d="M-40 -100 C -20 -60, -50 -30, -20 0 M96 -84 C 60 -60, 80 -20, 40 0" fill="none" class="ink" stroke-width="4"/></g>`;
+// une main ouverte, doigts vers le haut : poignet en (x, y), échelle k, tournée de rot degrés
+const handSVG = (x, y, k = 1, rot = 0, col = "#FFD9B8") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><path d="M-60 0 V-140 Q-60 -170 -40 -170 Q-20 -170 -20 -140 V-250 Q-20 -276 0 -276 Q20 -276 20 -250 V-270 Q20 -296 40 -296 Q60 -296 60 -270 V-240 Q60 -264 80 -264 Q100 -264 100 -240 V-120 L130 -170 Q150 -196 168 -180 Q180 -166 168 -140 L110 -30 V0 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+// un message nerveux : une étincelle qui file le long de la ligne brisée P (u de 0 à 1)
+const sparkSVG = (P, u, col = C.spark, r = 16) => {
+  if (u <= 0 || u >= 1) return "";
+  const [x, y] = along(P, u);
+  return `<circle cx="${f2(x)}" cy="${f2(y)}" r="${r + 8}" fill="${col}" opacity="0.35"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="${col}" class="ink" stroke-width="3"/>`;
+};
+const pathD = (P) => P.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+
+// --- Petites formes de l'épisode « vue » ---
+// un œil vu de face : centre (x, y), rayon r de l'iris, p = taille de la pupille (0…1)
+const frontEyeSVG = (x, y, r, p = 0.45, iris = "#3DBE8B", closed = 0) =>
+  closed > 0.5
+    ? `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 0.8)} ${f2(x + r * 2.2)} ${f2(y)}" fill="none" class="ink" stroke-width="${f2(r * 0.12)}" stroke-linecap="round"/>`
+    : `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y - r * 1.9)} ${f2(x + r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 1.9)} ${f2(x - r * 2.2)} ${f2(y)} Z" fill="#fff" class="ink" stroke-width="${f2(r * 0.09)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${iris}" class="ink" stroke-width="${f2(r * 0.07)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r * p)}" fill="${C.ink}"/><circle cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.4)}" r="${f2(r * 0.16)}" fill="#fff"/>`;
+// un œil en coupe : centre (x, y), rayon r ; la lumière entre par la gauche
+const eyeCutSVG = (x, y, r) =>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" class="ink" stroke-width="6"/><path d="M${f2(x + r * 0.5)} ${f2(y - r * 0.86)} A ${r} ${r} 0 0 1 ${f2(x + r * 0.5)} ${f2(y + r * 0.86)}" fill="none" stroke="#E0455E" stroke-width="16" stroke-linecap="round"/><path d="M${f2(x - r * 0.9)} ${f2(y - r * 0.42)} Q${f2(x - r * 1.3)} ${y} ${f2(x - r * 0.9)} ${f2(y + r * 0.42)}" fill="#CFEFFF" class="ink" stroke-width="5"/><path d="M${f2(x - r * 0.84)} ${f2(y - r * 0.5)} V${f2(y - r * 0.18)} M${f2(x - r * 0.84)} ${f2(y + r * 0.18)} V${f2(y + r * 0.5)}" stroke="#3DBE8B" stroke-width="16" stroke-linecap="round"/><ellipse cx="${f2(x - r * 0.62)}" cy="${y}" rx="${f2(r * 0.14)}" ry="${f2(r * 0.34)}" fill="#DFF3FF" class="ink" stroke-width="5"/>`;
+
+      // ===== g.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
+  const SUBJECT = CFG_SUBJECT;
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const OTHERS = ICONS.filter((i) => i !== SUBJECT);
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
+  const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // L'objet du jour vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag"].concat(OTHERS),
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to(SUBJECT, { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to(SUBJECT, { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s0-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s0").start,
+  );
+})();
+
+      // ===== s0.js =====
+// ---------- Scène 0 : deux yeux ou un seul ? Le cyclope rate la balle ; un œil, c'est presque un appareil photo ----------
+(() => {
+  const tM = cue("s0-1", "milieu") - 0.6, tB = cue("s0-2", "balle") - 0.8, tA = cue("s0-3", "appareil") - 0.6;
+  onDraw("s0", (t) => {
+    const cam = ramp(t, tA, tA + 0.5), look = 10 * Math.sin(t * 1.6);
+    let g = `<circle cx="520" cy="560" r="170" fill="#FFD9B8" class="ink" stroke-width="6"/><circle cx="460" cy="530" r="40" fill="#fff" class="ink" stroke-width="5"/><circle cx="580" cy="530" r="40" fill="#fff" class="ink" stroke-width="5"/><circle cx="${f2(460 + look)}" cy="530" r="18" fill="${C.ink}"/><circle cx="${f2(580 + look)}" cy="530" r="18" fill="${C.ink}"/><path d="M470 640 q50 36 100 0" fill="none" class="ink" stroke-width="7" stroke-linecap="round"/>`;
+    const cy = ramp(t, tM, tM + 0.4);
+    if (cy > 0) {
+      g += `<g opacity="${f2(cy)}" transform="translate(${f2(40 * (1 - cy))} 0)"><circle cx="1240" cy="560" r="170" fill="#B7DB8A" class="ink" stroke-width="6"/><circle cx="1240" cy="520" r="70" fill="#fff" class="ink" stroke-width="5"/><circle cx="${f2(1240 + look * 1.6)}" cy="520" r="30" fill="${C.ink}"/><path d="M1190 650 q50 ${t > tB + 1.1 ? -24 : 30} 100 0" fill="none" class="ink" stroke-width="7" stroke-linecap="round"/></g>`;
+      // la balle arrive ; la main du cyclope se referme trop tôt, à côté
+      const u = (t - tB) / 1.4;
+      if (u > 0 && u < 1.4) { const bx = lerp(1900, 1380, Math.min(1, u)) - (u > 1 ? (u - 1) * 500 : 0), by = 360 + 200 * u * u; g += `<circle cx="${f2(bx)}" cy="${f2(by)}" r="34" fill="#E0455E" class="ink" stroke-width="5"/>`; }
+      if (u > 0) g += `<path d="M1400 640 Q1500 ${f2(600 - 120 * Math.min(1, u * 2))} ${f2(1560)} ${f2(lerp(640, 330, Math.min(1, u * 2)))}" fill="none" stroke="${C.ink}" stroke-width="40" stroke-linecap="round"/><path d="M1400 640 Q1500 ${f2(600 - 120 * Math.min(1, u * 2))} 1560 ${f2(lerp(640, 330, Math.min(1, u * 2)))}" fill="none" stroke="#B7DB8A" stroke-width="28" stroke-linecap="round"/>`;
+    }
+    let s = `<g opacity="${f2(1 - cam)}">${g}</g>`;
+    if (cam > 0) s += `<g opacity="${f2(cam)}">${frontEyeSVG(560, 540, 120, 0.42 + 0.06 * Math.sin(t * 2))}${txt(960, 590, "≈", 170, { w: 700, fill: "#C25E00" })}<g transform="translate(1360 ${f2(540 + 6 * Math.sin(t * 2))})"><rect x="-220" y="-130" width="440" height="280" rx="40" fill="#39425C" class="ink" stroke-width="6"/><rect x="-90" y="-180" width="150" height="60" rx="14" fill="#39425C" class="ink" stroke-width="6"/><circle r="100" fill="#D3DAE6" class="ink" stroke-width="6"/><circle r="64" fill="${C.blue}" class="ink" stroke-width="5"/><circle r="26" fill="${C.ink}"/><circle cx="160" cy="-80" r="18" fill="${C.hot}" class="ink" stroke-width="4"/></g></g>`;
+    $("#s0-draw").innerHTML = s;
+  });
+  show("#s0-n1", tA + 0.6);
+})();
+
+      // ===== s1.js =====
+// ---------- Scène 1 : la pupille (le trou) et l'iris (le muscle) ; sombre : elle s'ouvre, soleil : elle se referme ----------
+(() => {
+  const tP = cue("s1-1", "pupille") - 0.4, tI = cue("s1-1", "iris") - 0.4, tD = cue("s1-1", "sombre") - 0.5, tS = cue("s1-1", "soleil") - 0.6, tC = cue("s1-2", "chats") - 0.6;
+  onDraw("s1", (t) => {
+    const dark = ramp(t, tD, tD + 0.7) * (1 - ramp(t, tS, tS + 0.5)), sun = ramp(t, tS, tS + 0.6) * (1 - ramp(t, tC, tC + 0.4)), cat = ramp(t, tC, tC + 0.5);
+    const p = 0.42 + 0.34 * dark - 0.24 * sun + 0.3 * cat;
+    let s = "";
+    // le décor : la nuit ou le plein soleil
+    if (dark + cat > 0) s += `<rect x="130" y="190" width="1660" height="660" rx="34" fill="#1B2445" opacity="${f2(Math.max(dark, cat) * 0.92)}"/>` + `<g opacity="${f2(Math.max(dark, cat))}"><circle cx="1500" cy="330" r="70" fill="#FFF6B0"/><circle cx="1530" cy="310" r="60" fill="#1B2445"/></g>`;
+    if (sun > 0) s += `<g opacity="${f2(sun)}">${sunSVG(1500, 340, 90, t)}</g>`;
+    // des rayons qui entrent dans la pupille
+    for (let i = 0; i < 5; i++) { const u = (t * 0.6 + i / 5) % 1; s += `<path d="M${f2(lerp(1300, 760, u))} ${f2(lerp(380 + i * 30, 540, u))} l-40 ${f2(10 - i * 4)}" stroke="${C.hot}" stroke-width="10" stroke-linecap="round" opacity="${f2((0.35 + 0.65 * sun) * Math.sin(u * Math.PI) * (1 - cat))}"/>`; }
+    if (cat < 1) s += `<g opacity="${f2(1 - cat)}">${frontEyeSVG(620, 540, 190, p)}</g>`;
+    // le chat aux grandes pupilles
+    if (cat > 0) s += `<g opacity="${f2(cat)}" transform="translate(760 ${f2(560 + 6 * Math.sin(t * 2))})"><path d="M-260 -120 L-300 -330 L-120 -230 Z M260 -120 L300 -330 L120 -230 Z" fill="#FF8A1F" class="ink" stroke-width="6"/><ellipse rx="300" ry="250" fill="#FF8A1F" class="ink" stroke-width="6"/>${frontEyeSVG(-120, -30, 62, 0.86, "#B7DB8A")}${frontEyeSVG(120, -30, 62, 0.86, "#B7DB8A")}<path d="M-20 70 L20 70 L0 96 Z" fill="${C.ink}"/><path d="M0 96 Q-30 140 -70 120 M0 96 Q30 140 70 120" fill="none" class="ink" stroke-width="6" stroke-linecap="round"/><path d="M-170 90 h-150 M-170 120 l-140 30 M170 90 h150 M170 120 l140 30" class="ink" stroke-width="4"/></g>`;
+    $("#s1-draw").innerHTML = s;
+  });
+  const l1 = label("s1", "s1-l1", [620, 540], [1040, 520], "La pupille", "le trou par où entre la lumière");
+  const l2 = label("s1", "s1-l2", [760, 620], [1040, 700], "L’iris", "un muscle coloré");
+  showLabel(l1, tP + 0.2); showLabel(l2, tI + 0.2);
+  [l1, l2].forEach((l) => hideLabel(l, tD - 0.2));
+  show("#s1-n1", tD + 0.8);
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : le cristallin projette l'image sur la rétine… à l'envers ; le cerveau la retourne ----------
+(() => {
+  const tC = cue("s2-1", "cristallin") - 0.5, tPr = cue("s2-1", "projette") - 0.5, tR = cue("s2-1", "rétine") - 0.5, tE = cue("s2-3", "envers") - 0.5, tB = cue("s2-5", "cerveau") - 0.5;
+  const EX = 1040, EY = 540, R = 300, LX = EX - R * 0.62, RX = EX + R * 0.96;
+  onDraw("s2", (t) => {
+    // l'objet regardé : un sapin
+    let s = `<path d="M130 850 H700" class="ink" stroke-width="6"/>` + treeSVG(330, 760, 440 + 6 * Math.sin(t * 2)) + eyeCutSVG(EX, EY, R);
+    // deux rayons : du haut et du bas du sapin, ils se croisent dans le cristallin
+    const pr = ramp(t, tPr, tPr + 1.0);
+    [[330, 330, C.fire], [330, 750, C.blue]].forEach(([x0, y0, col], i) => {
+      const y1 = EY + (i ? -1 : 1) * 110, mid = Math.min(1, pr * 2), end = Math.max(0, pr * 2 - 1);
+      s += `<path d="M${x0} ${y0} L${f2(lerp(x0, LX, mid))} ${f2(lerp(y0, EY, mid))}" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="26 12" stroke-dashoffset="${f2(-t * 90)}"/>`;
+      if (end > 0) s += `<path d="M${LX} ${EY} L${f2(lerp(LX, RX, end))} ${f2(lerp(EY, y1, end))}" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="26 12" stroke-dashoffset="${f2(-t * 90)}"/>`;
+    });
+    // l'image sur la rétine : petite, et la tête en bas
+    const im = ramp(t, tR, tR + 0.4), pulse = t > tE && t < tE + 2 ? 1 + 0.12 * Math.abs(Math.sin((t - tE) * 6)) : 1;
+    if (im > 0) s += `<g opacity="${f2(im)}" transform="translate(${RX - 60} ${EY}) rotate(180) scale(${f2(0.5 * pulse)})">${treeSVG(0, 220, 440)}</g>`;
+    // le cerveau la remet à l'endroit
+    const b = ramp(t, tB, tB + 0.5);
+    if (b > 0) {
+      const flip = ramp(t, tB + 0.6, tB + 1.4);
+      s += `<g opacity="${f2(b)}">${brainSVG(1620, 300, 0.95)}<rect x="1500" y="440" width="240" height="280" rx="24" fill="#fff" class="ink" stroke-width="5"/><g transform="translate(1620 580) rotate(${f2(180 * (1 - flip))}) scale(0.5)">${treeSVG(0, 220, 440)}</g><path d="M${RX + 10} ${EY} Q1440 ${EY} 1500 560" fill="none" stroke="${C.hot}" stroke-width="9" stroke-dasharray="12 16" stroke-dashoffset="${f2(-t * 80)}" stroke-linecap="round"/></g>`;
+    }
+    $("#s2-draw").innerHTML = s;
+  });
+  const l1 = label("s2", "s2-l1", [LX, EY - 100], [470, 170], "Le cristallin", "une petite loupe transparente");
+  const l2 = label("s2", "s2-l2", [EX + R * 0.7, EY + 220], [1400, 790], "La rétine", "l’écran, au fond de l’œil");
+  showLabel(l1, tC + 0.2); showLabel(l2, tR + 0.3);
+  pop("#s2-n1", tE + 0.5);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : l'image doit tomber pile sur la rétine ; trop tôt ou trop tard, c'est flou ; les lunettes corrigent ----------
+(() => {
+  const tN = cue("s3-2", "nette") - 0.5, tA = cue("s3-2", "avant") - 0.5, tAp = cue("s3-2", "après") - 0.5, tF = cue("s3-2", "flou") - 0.5, tL = cue("s3-3", "lunettes") - 0.6, tFix = cue("s3-4", "deuxième") - 0.2;
+  const EX = 760, EY = 540, R = 300, LX = EX - R * 0.62, RX = EX + R * 0.98;
+  onDraw("s3", (t) => {
+    // où les rayons se rejoignent : sur la rétine, avant, ou après
+    const gl = ramp(t, tL, tL + 0.5), fix = ramp(t, tFix, tFix + 0.8);
+    let off = -130 * ramp(t, tA, tA + 0.5) + 240 * ramp(t, tAp, tAp + 0.5) - 240 * ramp(t, tF + 1.2, tL);
+    off = lerp(off, 0, fix);
+    const fx = RX + off, blur = Math.min(1, Math.abs(off) / 110);
+    let s = eyeCutSVG(EX, EY, R);
+    // les rayons
+    [-1, 1].forEach((d) => {
+      const y0 = EY + d * 90;
+      s += `<path d="M150 ${y0} H${LX}" stroke="${C.fire}" stroke-width="9" stroke-linecap="round"/><path d="M${LX} ${y0} L${f2(fx)} ${EY}" stroke="${C.fire}" stroke-width="9" stroke-linecap="round"/>`;
+      if (off < 0) s += `<path d="M${f2(fx)} ${EY} L${RX} ${f2(EY - d * 90 * (-off / (fx - LX)))}" stroke="${C.fire}" stroke-width="9" stroke-linecap="round" opacity="0.6"/>`;
+    });
+    s += `<circle cx="${f2(Math.min(fx, RX + 150))}" cy="${EY}" r="${f2(16 + 4 * Math.sin(t * 6))}" fill="${blur < 0.15 ? "#3DBE8B" : "#E0455E"}" class="ink" stroke-width="4"/>`;
+    // le verre de lunettes
+    if (gl > 0) s += `<g opacity="${f2(gl)}" transform="translate(${f2(300 - 60 * (1 - gl))} ${EY})"><path d="M-22 -190 Q24 0 -22 190 Q-70 0 -22 -190 Z" fill="#CFEFFF" fill-opacity="0.8" class="ink" stroke-width="6"/></g>`;
+    // ce que l'on voit : net ou flou
+    let v = `<rect x="1320" y="320" width="440" height="440" rx="34" fill="#fff" class="ink" stroke-width="5"/>`;
+    const n = blur > 0.1 ? 5 : 1;
+    for (let i = 0; i < n; i++) v += `<g opacity="${f2(n === 1 ? 1 : 0.28)}" transform="translate(${f2(1540 + (n === 1 ? 0 : (i - 2) * 18 * blur))} ${f2(540 + (n === 1 ? 0 : ((i * 7) % 5 - 2) * 8 * blur))})">${treeSVG(0, 170, 320)}</g>`;
+    v += txt(1540, 300, blur > 0.1 ? "Flou" : "Net", 54, { w: 700, fill: blur > 0.1 ? "#E0455E" : "#2E9A6E" });
+    s += v;
+    $("#s3-draw").innerHTML = s;
+  });
+  show("#s3-n1", tN + 0.5);
+  pop("#s3-n2", tFix + 0.4);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : le pouce qui saute d'un œil à l'autre ; le cerveau compare les deux images : le relief ----------
+(() => {
+  const tP = cue("s4-2", "pouce") - 0.5, tF = cue("s4-2", "Ferme") - 0.2, tO = cue("s4-2", "autre") - 0.2, tCmp = cue("s4-4", "compare") - 0.8, tNear = cue("s4-4", "près") - 1.4, tCy = cue("s4-5", "cyclope") - 0.5;
+  onDraw("s4", (t) => {
+    const b = ramp(t, tCmp, tCmp + 0.6);
+    let s = "";
+    if (b < 1) {
+      // ce que l'on voit : un décor lointain, et le pouce tout près
+      const closed = t < tF ? 0 : t < tO ? 1 : 1 + (Math.floor((t - tO) / 0.8) % 2 ? 0 : 1) * 1; // 0 : les deux ouverts, 1 : gauche fermé, 2 : droit fermé
+      const side = closed === 0 ? 0 : closed === 1 ? 1 : -1;
+      let g = `<rect x="330" y="230" width="1260" height="600" rx="34" fill="#DFF3FF" class="ink" stroke-width="6"/><clipPath id="s4-c"><rect x="336" y="236" width="1248" height="588" rx="30"/></clipPath><g clip-path="url(#s4-c)"><path d="M330 700 Q960 620 1590 700 V830 H330 Z" fill="#CFE8B8" class="ink" stroke-width="4"/>${treeSVG(700, 700, 260)}<path d="M1050 700 V520 L1170 430 L1290 520 V700 Z" fill="#fff" class="ink" stroke-width="5"/><path d="M1020 540 L1170 420 L1320 540" fill="none" stroke="#E0455E" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const th = ramp(t, tP, tP + 0.5);
+      g += `<g transform="translate(${f2(960 + side * 170)} ${f2(1000 - 300 * th)})"><path d="M-70 400 V60 Q-70 -60 0 -60 Q70 -60 70 60 V400 Z" fill="#FFD9B8" class="ink" stroke-width="7"/><path d="M-40 0 Q0 -40 40 0 V40 Q0 20 -40 40 Z" fill="#FBEDE2" class="ink" stroke-width="4"/></g></g>`;
+      g += frontEyeSVG(820, 160, 30, 0.45, "#3DBE8B", closed === 1 ? 1 : 0) + frontEyeSVG(1100, 160, 30, 0.45, "#3DBE8B", closed === 2 ? 1 : 0);
+      s += `<g opacity="${f2(1 - b)}">${g}</g>`;
+    }
+    if (b > 0) {
+      // vu de dessus : les deux yeux visent l'objet ; plus il est près, plus les regards se croisent
+      const near = ramp(t, tNear, tNear + 0.8), oy = lerp(250, 520, near), cy = ramp(t, tCy, tCy + 0.4);
+      let g = `<circle cx="760" cy="800" r="52" fill="#fff" class="ink" stroke-width="5"/><circle cx="1000" cy="800" r="52" fill="#fff" class="ink" stroke-width="5"/>`;
+      [760, 1000].forEach((x) => { const a = Math.atan2(oy - 800, 880 - x); g += `<circle cx="${f2(x + 26 * Math.cos(a))}" cy="${f2(800 + 26 * Math.sin(a))}" r="22" fill="${C.ink}"/><path d="M${x} 800 L880 ${f2(oy)}" stroke="${C.fire}" stroke-width="8" stroke-dasharray="18 12" stroke-dashoffset="${f2(-t * 70)}" stroke-linecap="round"/>`; });
+      g += `<circle cx="880" cy="${f2(oy)}" r="40" fill="#E0455E" class="ink" stroke-width="5"/>` + txt(1180, oy + 16, near > 0.5 ? "Près : les regards se croisent beaucoup" : "Loin : presque parallèles", 40, { w: 700, anchor: "start" });
+      if (cy > 0) g += `<g opacity="${f2(cy)}" transform="translate(360 ${f2(520 + 6 * Math.sin(t * 2))})"><circle r="130" fill="#B7DB8A" class="ink" stroke-width="6"/><circle cy="-30" r="54" fill="#fff" class="ink" stroke-width="5"/><circle cx="${f2(10 * Math.sin(t * 2))}" cy="-30" r="24" fill="${C.ink}"/><path d="M-40 70 q40 -24 80 0" fill="none" class="ink" stroke-width="6" stroke-linecap="round"/>${txt(0, 200, "à quelle distance ?", 34, { w: 700 })}</g>`;
+      s += `<g opacity="${f2(b)}">${g}</g>`;
+    }
+    $("#s4-draw").innerHTML = s;
+  });
+  show("#s4-n1", cue("s4-3", "différente") - 1.2);
+  tl.to("#s4-n1", { opacity: 0, duration: 0.3 }, tCmp);
+  pop("#s4-n2", cue("s4-4", "relief") - 0.6);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : le lapin (yeux sur les côtés, voit tout autour) et le chat (yeux devant, vise bien) ----------
+(() => {
+  const tL = cue("s5-1", "lapins") - 0.5, tAu = cue("s5-2", "côtés") - 0.6, tCh = cue("s5-2", "chasseurs") - 0.6, tDv = cue("s5-2", "devant") - 0.5, tZ = cue("s5-3", "chasseuse") - 1.4, tT = cue("s5-4", "tartines") - 0.5;
+  const wedge = (x, y, r, a0, a1, col, op) => { const p = (a) => `${f2(x + r * Math.cos(rad(a)))} ${f2(y + r * Math.sin(rad(a)))}`; return `<path d="M${x} ${y} L${p(a0)} A ${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${p(a1)} Z" fill="${col}" opacity="${f2(op)}"/>`; };
+  onDraw("s5", (t) => {
+    const z = ramp(t, tZ, tZ + 0.5);
+    let g = "";
+    // le lapin vu de dessus : presque tout le tour
+    const kl = ramp(t, tL, tL + 0.4), fa = ramp(t, tAu, tAu + 0.8);
+    if (kl > 0) {
+      let r = wedge(520, 540, 300, -90 - 170 * fa, -90 - 6, C.air, 0.55 * fa) + wedge(520, 540, 300, -90 + 6, -90 + 170 * fa, C.air, 0.55 * fa);
+      r += `<ellipse cx="480" cy="680" rx="26" ry="90" fill="#D9D2C5" class="ink" stroke-width="5" transform="rotate(-12 480 680)"/><ellipse cx="560" cy="680" rx="26" ry="90" fill="#D9D2C5" class="ink" stroke-width="5" transform="rotate(12 560 680)"/><ellipse cx="520" cy="540" rx="90" ry="110" fill="#EDE7DB" class="ink" stroke-width="6"/><circle cx="432" cy="520" r="20" fill="${C.ink}"/><circle cx="608" cy="520" r="20" fill="${C.ink}"/><ellipse cx="520" cy="${f2(440 + 3 * Math.sin(t * 10))}" rx="14" ry="10" fill="#F7A8B8" class="ink" stroke-width="4"/>` + txt(520, 250, "Le lapin", 46, { w: 700 });
+      g += `<g opacity="${f2(kl)}">${r}</g>`;
+    }
+    // le chat vu de dessus : deux champs qui se recouvrent devant
+    const kc = ramp(t, tCh, tCh + 0.4), fc = ramp(t, tDv, tDv + 0.6);
+    if (kc > 0) {
+      let c = wedge(1360, 540, 300, -90 - 80 * fc, -90 + 30 * fc, C.hot, 0.5 * fc) + wedge(1440, 540, 300, -90 - 30 * fc, -90 + 80 * fc, C.hot, 0.5 * fc);
+      c += `<path d="M1320 470 L1300 380 L1370 430 Z M1480 470 L1500 380 L1430 430 Z" fill="#FF8A1F" class="ink" stroke-width="5"/><ellipse cx="1400" cy="540" rx="100" ry="110" fill="#FF8A1F" class="ink" stroke-width="6"/><circle cx="1360" cy="450" r="20" fill="${C.ink}"/><circle cx="1440" cy="450" r="20" fill="${C.ink}"/>` + txt(1400, 250, "Le chat", 46, { w: 700 });
+      g += `<g opacity="${f2(kc)}">${c}</g>`;
+    }
+    let s = `<g opacity="${f2(1 - z)}">${g}</g>`;
+    // Zoé, les yeux devant… chasseuse de tartines
+    if (z > 0) {
+      const look = ramp(t, tT, tT + 0.3);
+      let h = `<circle cx="700" cy="540" r="190" fill="#FFD9B8" class="ink" stroke-width="6"/><path d="M520 500 C 510 330, 660 300, 730 320 C 760 280, 840 290, 836 340 C 890 370, 896 440, 880 500 C 840 440, 760 420, 700 426 C 630 420, 570 440, 520 500 Z" fill="${C.ink}"/>${frontEyeSVG(640, 560, 32, 0.5)}${frontEyeSVG(770, 560, 32, 0.5)}<path d="M650 650 q50 ${f2(30 + 10 * look)} 100 0" fill="none" class="ink" stroke-width="7" stroke-linecap="round"/>`;
+      if (look > 0) h += `<g transform="translate(${f2(1300 + 10 * Math.sin(t * 5))} ${f2(540 + 12 * Math.sin(t * 3))}) scale(${f2(look)})">${toastSVG(0, 0, -10, 1.4)}</g><path d="M900 560 H1090" stroke="${C.fire}" stroke-width="9" stroke-dasharray="16 14" stroke-dashoffset="${f2(-t * 80)}" stroke-linecap="round" opacity="${f2(look)}"/>`;
+      s += `<g opacity="${f2(z)}">${h}</g>`;
+    }
+    $("#s5-draw").innerHTML = s;
+  });
+  show("#s5-n1", tAu + 0.6);
+  show("#s5-n2", tDv + 0.5);
+  tl.to(["#s5-n1", "#s5-n2"], { opacity: 0, duration: 0.3 }, tZ);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : le résumé, puis le volcan : annonce du prochain épisode ----------
+(() => {
+  const S = scn("s6");
+  const tSp = cue("s6-3", "volcans") - 1.2;
+  onDraw("s6", (t) => {
+    if (t < tSp - 0.3) return;
+    // le volcan et sa fontaine de lave
+    let s = `<path d="M130 850 H1000" class="ink" stroke-width="6"/><path d="M200 850 L470 420 H610 L880 850 Z" fill="#6B5B4E" class="ink" stroke-width="6"/><path d="M470 420 H610 L640 470 Q600 520 580 470 Q540 540 510 470 Q480 500 440 468 Z" fill="#E0455E" class="ink" stroke-width="5"/>`;
+    for (let i = 0; i < 14; i++) { const u = (t * 0.7 + i / 14) % 1, a = rad(-90 + (rnd(i) - 0.5) * 70), v = 420 + rnd(i + 9) * 200; s += `<circle cx="${f2(540 + Math.cos(a) * v * u)}" cy="${f2(420 + Math.sin(a) * v * u + 520 * u * u)}" r="${f2(16 - 8 * u)}" fill="${i % 2 ? C.fire : "#E0455E"}" class="ink" stroke-width="3"/>`; }
+    s += smokeSVG(540, 380, t, 1, "#C8CDD6", 10, 240);
+    $("#s6-draw").innerHTML = s;
+  });
+  show("#s6-k1", cue("s6-1", "pupille") - 0.6, { y: 50 });
+  show("#s6-k2", cue("s6-1", "cristallin") - 0.6, { y: 50 });
+  show("#s6-k3", cue("s6-1", "relief") - 1.2, { y: 50 });
+  tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
+  tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
+  tl.fromTo("#s6-atch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: OUT }, cue("s6-3", "volcans") - 0.4);
+  pop("#s6-next", cue("s6-4", "prochaine") - 0.3);
+  const tEnd = S.end - 3.2;
+  tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  show("#s6-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (le générique → première scène est un zoom, géré dans g.js).
+{
+  const ids = Object.keys(SCHED.scenes);
+  for (let i = 2; i < ids.length; i++) seam(ids[i - 1], ids[i]);
+}
+
+// Un seul « tic » sur toute la durée : redessine les animations à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>

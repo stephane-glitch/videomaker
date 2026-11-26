@@ -1,0 +1,207 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,740 --> 00:00:10,530
+Max, pourquoi les volcans crachent du feu ?
+
+3
+00:00:11,300 --> 00:00:14,180
+Surprise : ce n'est pas du feu. Rien ne brûle.
+
+4
+00:00:14,400 --> 00:00:17,740
+C'est de la roche fondue, tellement chaude qu'elle brille.
+
+5
+00:00:18,350 --> 00:00:20,830
+De la pierre liquide ? Comme du caramel ?
+
+6
+00:00:21,540 --> 00:00:24,570
+Un caramel à mille degrés. Pour comprendre,
+
+7
+00:00:24,630 --> 00:00:26,750
+il faut descendre sous nos pieds.
+
+8
+00:00:27,830 --> 00:00:31,400
+La Terre est faite de couches. Nous vivons sur la croûte :
+
+9
+00:00:31,410 --> 00:00:35,130
+elle est aussi fine, à l'échelle, que la peau d'une pomme.
+
+10
+00:00:35,190 --> 00:00:38,920
+En dessous, il y a le manteau, une roche brûlante.
+
+11
+00:00:39,020 --> 00:00:42,090
+Et tout au centre, le noyau.
+
+12
+00:00:43,230 --> 00:00:45,900
+On habite sur une peau de pomme posée sur un four ?
+
+13
+00:00:46,510 --> 00:00:48,590
+On peut le dire comme ça.
+
+14
+00:00:49,680 --> 00:00:52,060
+Par endroits, la roche du manteau fond.
+
+15
+00:00:52,190 --> 00:00:54,580
+Cette roche fondue s'appelle le magma.
+
+16
+00:00:54,730 --> 00:00:56,760
+Il est plus léger que la roche autour,
+
+17
+00:00:56,780 --> 00:00:59,970
+alors il monte, et il s'accumule dans une grande poche.
+
+18
+00:01:00,450 --> 00:01:01,730
+Et il attend là ?
+
+19
+00:01:02,230 --> 00:01:05,920
+Oui. Mais il est plein de gaz, comme une bouteille de soda.
+
+20
+00:01:05,960 --> 00:01:08,270
+Plus il y a de gaz, plus la pression grimpe.
+
+21
+00:01:08,730 --> 00:01:10,330
+Et quelqu'un secoue la bouteille.
+
+22
+00:01:10,790 --> 00:01:13,660
+Voilà. Le bouchon saute : c'est l'éruption.
+
+23
+00:01:13,840 --> 00:01:16,620
+Une fois dehors, le magma change de nom.
+
+24
+00:01:16,650 --> 00:01:18,190
+On l'appelle la lave.
+
+25
+00:01:19,360 --> 00:01:20,490
+Tous les volcans explosent ?
+
+26
+00:01:21,000 --> 00:01:25,100
+Non. Quand la lave est bien liquide, le gaz s'échappe facilement :
+
+27
+00:01:25,120 --> 00:01:27,400
+elle coule tranquillement, comme à La Réunion.
+
+28
+00:01:27,530 --> 00:01:30,400
+Quand elle est épaisse, le gaz reste coincé…
+
+29
+00:01:30,490 --> 00:01:33,880
+et tout explose, avec un énorme nuage de cendres.
+
+30
+00:01:34,440 --> 00:01:37,560
+Un volcan qui coule, un volcan qui tousse.
+
+31
+00:01:38,110 --> 00:01:39,990
+Le second est beaucoup plus dangereux.
+
+32
+00:01:41,170 --> 00:01:43,300
+Et pourquoi il n'y a pas de volcan dans mon jardin ?
+
+33
+00:01:43,810 --> 00:01:46,800
+Parce que la croûte de la Terre est découpée en grandes plaques,
+
+34
+00:01:46,830 --> 00:01:50,630
+comme un puzzle. Les volcans poussent surtout au bord des pièces,
+
+35
+00:01:50,690 --> 00:01:52,020
+là où la croûte est fragile.
+
+36
+00:01:53,580 --> 00:01:55,670
+Donc il faut habiter au milieu d'une pièce.
+
+37
+00:01:56,180 --> 00:01:59,940
+C'est ton cas. Mais la France a ses volcans :
+
+38
+00:01:59,970 --> 00:02:02,370
+ceux d'Auvergne dorment depuis des milliers d'années.
+
+39
+00:02:03,100 --> 00:02:05,190
+Chut. Il ne faut pas les réveiller.
+
+40
+00:02:06,350 --> 00:02:08,040
+Ça ne sert qu'à faire peur, un volcan ?
+
+41
+00:02:09,170 --> 00:02:13,200
+Pas du tout. En refroidissant, la lave devient de la roche neuve.
+
+42
+00:02:13,250 --> 00:02:14,940
+Des îles entières sont nées comme ça :
+
+43
+00:02:15,010 --> 00:02:19,640
+Hawaï, La Réunion. Et la cendre rend la terre très fertile.
+
+44
+00:02:20,290 --> 00:02:23,410
+Un volcan, c'est une usine à fabriquer des îles.
+
+45
+00:02:23,980 --> 00:02:25,820
+Très lentement. Mais oui.
+
+46
+00:02:27,050 --> 00:02:31,050
+Je résume : sous la croûte, la roche fond et devient du magma.
+
+47
+00:02:31,210 --> 00:02:35,370
+Le gaz le pousse dehors, et la lave fabrique de la roche neuve.
+
+48
+00:02:35,980 --> 00:02:37,950
+Tu es en fusion, aujourd'hui.
+
+49
+00:02:38,750 --> 00:02:41,890
+Dis, Max… le gros nuage du volcan, c'est de la cendre.
+
+50
+00:02:42,050 --> 00:02:44,610
+Mais les nuages normaux, ils sont faits de quoi ?
+
+51
+00:02:45,130 --> 00:02:49,160
+D'eau. Et ils peuvent peser plus lourd qu'un troupeau d'éléphants.
+
+52
+00:02:49,500 --> 00:02:51,070
+La prochaine fois !

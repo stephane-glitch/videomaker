@@ -1,0 +1,182 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, pourquoi les volcans crachent du feu ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Surprise : ce n'est pas du feu. Rien ne brûle. C'est de la roche fondue, tellement chaude qu'elle brille."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "De la pierre liquide ? Comme du caramel ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Un caramel à mille degrés. Pour comprendre, il faut descendre sous nos pieds."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "La Terre est faite de couches. Nous vivons sur la croûte : elle est aussi fine, à l'échelle, que la peau d'une pomme. En dessous, il y a le manteau, une roche brûlante. Et tout au centre, le noyau."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "On habite sur une peau de pomme posée sur un four ?"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "On peut le dire comme ça."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Par endroits, la roche du manteau fond. Cette roche fondue s'appelle le magma. Il est plus léger que la roche autour, alors il monte, et il s'accumule dans une grande poche."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et il attend là ?"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Mais il est plein de gaz, comme une bouteille de soda. Plus il y a de gaz, plus la pression grimpe."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et quelqu'un secoue la bouteille."
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Voilà. Le bouchon saute : c'est l'éruption. Une fois dehors, le magma change de nom. On l'appelle la lave."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Tous les volcans explosent ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Non. Quand la lave est bien liquide, le gaz s'échappe facilement : elle coule tranquillement, comme à La Réunion. Quand elle est épaisse, le gaz reste coincé… et tout explose, avec un énorme nuage de cendres."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Un volcan qui coule, un volcan qui tousse."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Le second est beaucoup plus dangereux."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et pourquoi il n'y a pas de volcan dans mon jardin ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Parce que la croûte de la Terre est découpée en grandes plaques, comme un puzzle. Les volcans poussent surtout au bord des pièces, là où la croûte est fragile."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc il faut habiter au milieu d'une pièce."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "C'est ton cas. Mais la France a ses volcans : ceux d'Auvergne dorment depuis des milliers d'années."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Chut. Il ne faut pas les réveiller."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Ça ne sert qu'à faire peur, un volcan ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Pas du tout. En refroidissant, la lave devient de la roche neuve. Des îles entières sont nées comme ça : Hawaï, La Réunion. Et la cendre rend la terre très fertile."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Un volcan, c'est une usine à fabriquer des îles."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Très lentement. Mais oui."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : sous la croûte, la roche fond et devient du magma. Le gaz le pousse dehors, et la lave fabrique de la roche neuve."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu es en fusion, aujourd'hui."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… le gros nuage du volcan, c'est de la cendre. Mais les nuages normaux, ils sont faits de quoi ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "D'eau. Et ils peuvent peser plus lourd qu'un troupeau d'éléphants. La prochaine fois !"
+  }
+]
