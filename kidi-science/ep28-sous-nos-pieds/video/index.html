@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Qu'y a-t-il sous nos pieds ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #b9a283;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        background: #b9a283;
+      }
+      .layer,
+      .pc,
+      .fx {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .scene {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .layer {
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .pc {
+        will-change: transform, opacity;
+      }
+      .pc img,
+      #grain img {
+        display: block;
+      }
+      .fx {
+        width: 1920px;
+        height: 1080px;
+        pointer-events: none;
+      }
+      #lamp {
+        background: radial-gradient(ellipse 75% 80% at 46% 42%, rgba(255, 244, 214, 0.1) 0%, rgba(40, 22, 6, 0) 45%, rgba(40, 22, 6, 0.5) 100%);
+      }
+      #grain {
+        left: -60px;
+        top: -60px;
+        width: 2040px;
+        height: 1200px;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="186.7" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <!-- Grains de papier : chaque « stock » éclaire un bruit comme un relief -->
+          <filter id="st-sugar" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035 0.7" numOctaves="3" seed="4" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.5" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-fine" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="63" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-kraft" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.9" numOctaves="4" seed="2" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.4" lighting-color="#ffffff" result="l"><feDistantLight azimuth="250" elevation="56" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-board" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.5 0.02" numOctaves="4" seed="11" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="200" elevation="58" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" />
+          </filter>
+          <filter id="st-marble" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="turbulence" baseFrequency="0.0035 0.009" numOctaves="4" seed="8" result="t" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.1  0 0 0 0 0.04  7 0 0 0 -1.15" result="v1" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 0.78  0 0 0 0 0.25  0 -9 0 0 1.25" result="v2" />
+            <feMerge result="m"><feMergeNode in="SourceGraphic" /><feMergeNode in="v1" /><feMergeNode in="v2" /></feMerge>
+            <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="5" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="62" /></feDiffuseLighting>
+            <feBlend in="m" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <!-- Bords déchirés : on déplace le contour avec un bruit -->
+          <filter id="tear1" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <filter id="tear2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="17" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="13" xChannelSelector="G" yChannelSelector="R" />
+          </filter>
+          <filter id="tearW" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="4" seed="29" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="6" result="f" />
+            <feDiffuseLighting in="f" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="d" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="d" operator="in" />
+          </filter>
+          <filter id="grainF" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="21" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 2.4 -1.1" />
+          </filter>
+          <pattern id="p-half" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+            <circle cx="10" cy="10" r="6" fill="#e2571c" />
+          </pattern>
+          <pattern id="p-half2" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+            <circle cx="7" cy="7" r="3.4" fill="#f39a1d" />
+          </pattern>
+          <pattern id="p-grid" width="26" height="26" patternUnits="userSpaceOnUse">
+            <path d="M0 0H26M0 0V26" stroke="#8fb6d9" stroke-width="1.6" fill="none" />
+          </pattern>
+          <pattern id="p-ori" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+            <circle cx="11" cy="11" r="6" fill="#f6d9a0" />
+            <circle cx="33" cy="33" r="6" fill="#f6d9a0" />
+            <path d="M28 6l10 10M38 6l-10 10M6 28l10 10M16 28l-10 10" stroke="#9c2f1f" stroke-width="3" />
+          </pattern>
+          <pattern id="p-stripe" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
+            <rect width="9" height="22" fill="#2f6f8f" />
+          </pattern>
+        </defs>
+      </svg>
+
+      <div id="S1" class="scene"></div>
+      <div id="S2" class="scene"></div>
+      <div class="layer" id="L-fixed"></div>
+      <div class="fx" id="grain"><img src="assets/pieces/grain.png" width="2040" height="1200" alt="" /></div>
+      <div class="fx" id="lamp"></div>
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="8.4" data-duration="5.05" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="13.72" data-duration="4.26" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="18.35" data-duration="5.94" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="26" data-duration="6.09" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="32.36" data-duration="1.55" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="34.18" data-duration="6.09" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="42.1" data-duration="4.79" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="47.16" data-duration="2.01" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="49.44" data-duration="7.48" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="57.19" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="60.13" data-duration="7.77" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-6" src="assets/vo/s2-6.mp3" data-start="69.22" data-duration="8.52" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-7" src="assets/vo/s2-7.mp3" data-start="78.01" data-duration="3.3" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="83.4" data-duration="5.57" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="89.24" data-duration="1.13" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="90.64" data-duration="9.49" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="100.95" data-duration="3.06" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-5" src="assets/vo/s3-5.mp3" data-start="104.28" data-duration="7.14" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-6" src="assets/vo/s3-6.mp3" data-start="111.69" data-duration="2.49" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="116.3" data-duration="5.65" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="122.22" data-duration="2.41" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="125.05" data-duration="7.58" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="132.9" data-duration="2.25" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-5" src="assets/vo/s4-5.mp3" data-start="135.42" data-duration="6.7" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="144" data-duration="3.95" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="148.22" data-duration="8.6" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="157.74" data-duration="8.44" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="166.45" data-duration="2.99" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="170.5" data-duration="3.77" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="175.19" data-duration="3.3" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="178.91" data-duration="3.74" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="5.6" data-duration="44.75" data-track-index="5" data-volume="0.15"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="47.34" data-duration="44.75" data-track-index="6" data-volume="0.15"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="89.08" data-duration="44.75" data-track-index="7" data-volume="0.15"></audio>
+      <audio id="fx-3-fond" src="assets/sfx/fond.mp3" data-start="130.82" data-duration="44.75" data-track-index="5" data-volume="0.15"></audio>
+      <audio id="fx-4-fond" src="assets/sfx/fond.mp3" data-start="172.56" data-duration="14.12" data-track-index="6" data-volume="0.15"></audio>
+      <audio id="fx-5-pop" src="assets/sfx/pop.mp3" data-start="0.45" data-duration="0.61" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-6-jingle" src="assets/sfx/jingle.mp3" data-start="3.23" data-duration="3.51" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.6" data-duration="1.39" data-track-index="6" data-volume="0.3"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="24.7" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="40.7" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="51.01" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="68.22" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-12-whoosh" src="assets/sfx/whoosh.mp3" data-start="81.7" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-13-whoosh" src="assets/sfx/whoosh.mp3" data-start="100.35" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-14-whoosh" src="assets/sfx/whoosh.mp3" data-start="114.6" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-15-whoosh" src="assets/sfx/whoosh.mp3" data-start="125.87" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-16-whoosh" src="assets/sfx/whoosh.mp3" data-start="142.6" data-duration="1.39" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-17-jingle" src="assets/sfx/jingle.mp3" data-start="183.8" data-duration="2.83" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="fx-18-tic" src="assets/sfx/tic.mp3" data-start="7.3" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-19-tic" src="assets/sfx/tic.mp3" data-start="7.84" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-20-tic" src="assets/sfx/tic.mp3" data-start="8.44" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-21-tic" src="assets/sfx/tic.mp3" data-start="10.5" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-22-tic" src="assets/sfx/tic.mp3" data-start="11.3" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-23-tic" src="assets/sfx/tic.mp3" data-start="12.1" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-24-pop" src="assets/sfx/pop.mp3" data-start="14.03" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-25-pop" src="assets/sfx/pop.mp3" data-start="16" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-26-pop" src="assets/sfx/pop.mp3" data-start="17.06" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-27-pop" src="assets/sfx/pop.mp3" data-start="30.07" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-28-pop" src="assets/sfx/pop.mp3" data-start="30.9" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-29-pop" src="assets/sfx/pop.mp3" data-start="31.75" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-30-pop" src="assets/sfx/pop.mp3" data-start="35.09" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-31-tic" src="assets/sfx/tic.mp3" data-start="38.32" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-32-pop" src="assets/sfx/pop.mp3" data-start="38.97" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-33-zap" src="assets/sfx/zap.mp3" data-start="43.53" data-duration="0.5" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-34-pop" src="assets/sfx/pop.mp3" data-start="45.95" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-35-pop" src="assets/sfx/pop.mp3" data-start="48.66" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-36-tic" src="assets/sfx/tic.mp3" data-start="51.61" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-37-tic" src="assets/sfx/tic.mp3" data-start="52.13" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-38-whoosh" src="assets/sfx/whoosh.mp3" data-start="53.69" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-39-pop" src="assets/sfx/pop.mp3" data-start="56.37" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-40-tic" src="assets/sfx/tic.mp3" data-start="58.21" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-41-pop" src="assets/sfx/pop.mp3" data-start="58.91" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-42-pop" src="assets/sfx/pop.mp3" data-start="59.31" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-43-pop" src="assets/sfx/pop.mp3" data-start="59.71" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-44-tic" src="assets/sfx/tic.mp3" data-start="63.1" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-45-pop" src="assets/sfx/pop.mp3" data-start="63.6" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-46-pop" src="assets/sfx/pop.mp3" data-start="64.16" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-47-chime" src="assets/sfx/chime.mp3" data-start="64.97" data-duration="1.21" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-48-pop" src="assets/sfx/pop.mp3" data-start="67.03" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-49-tic" src="assets/sfx/tic.mp3" data-start="71.82" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-50-pop" src="assets/sfx/pop.mp3" data-start="72.42" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-51-pop" src="assets/sfx/pop.mp3" data-start="74.68" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-52-tic" src="assets/sfx/tic.mp3" data-start="76.82" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-53-pop" src="assets/sfx/pop.mp3" data-start="80.12" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-54-zap" src="assets/sfx/zap.mp3" data-start="80.71" data-duration="0.5" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-55-pop" src="assets/sfx/pop.mp3" data-start="84.79" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-56-tic" src="assets/sfx/tic.mp3" data-start="86.27" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-57-tic" src="assets/sfx/tic.mp3" data-start="89.56" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-58-pop" src="assets/sfx/pop.mp3" data-start="91.77" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-59-pop" src="assets/sfx/pop.mp3" data-start="94.08" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-60-whoosh" src="assets/sfx/whoosh.mp3" data-start="95.12" data-duration="1.39" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-61-pop" src="assets/sfx/pop.mp3" data-start="95.62" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-62-pop" src="assets/sfx/pop.mp3" data-start="99.87" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-63-tic" src="assets/sfx/tic.mp3" data-start="102.15" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-64-pop" src="assets/sfx/pop.mp3" data-start="106.02" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-65-pop" src="assets/sfx/pop.mp3" data-start="106.76" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-66-pop" src="assets/sfx/pop.mp3" data-start="109.36" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-67-chime" src="assets/sfx/chime.mp3" data-start="111.1" data-duration="1.21" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-68-chime" src="assets/sfx/chime.mp3" data-start="112.87" data-duration="1.21" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-69-pop" src="assets/sfx/pop.mp3" data-start="117.91" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-70-pop" src="assets/sfx/pop.mp3" data-start="121.22" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-71-pop" src="assets/sfx/pop.mp3" data-start="122.95" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-72-pop" src="assets/sfx/pop.mp3" data-start="123.37" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-73-pop" src="assets/sfx/pop.mp3" data-start="128.3" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-74-pop" src="assets/sfx/pop.mp3" data-start="129.8" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-75-chime" src="assets/sfx/chime.mp3" data-start="131.09" data-duration="1.21" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-76-tic" src="assets/sfx/tic.mp3" data-start="133.39" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-77-whoosh" src="assets/sfx/whoosh.mp3" data-start="136.84" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-78-pop" src="assets/sfx/pop.mp3" data-start="138.87" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-79-pop" src="assets/sfx/pop.mp3" data-start="141.64" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-80-tic" src="assets/sfx/tic.mp3" data-start="143.2" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-81-tic" src="assets/sfx/tic.mp3" data-start="146.58" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-82-zap" src="assets/sfx/zap.mp3" data-start="148.89" data-duration="0.5" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-83-pop" src="assets/sfx/pop.mp3" data-start="152.5" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-84-pop" src="assets/sfx/pop.mp3" data-start="152.9" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-85-pop" src="assets/sfx/pop.mp3" data-start="155.16" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-86-pop" src="assets/sfx/pop.mp3" data-start="160.26" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-87-pop" src="assets/sfx/pop.mp3" data-start="161.13" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-88-pop" src="assets/sfx/pop.mp3" data-start="162.3" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-89-pop" src="assets/sfx/pop.mp3" data-start="164.11" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-90-pop" src="assets/sfx/pop.mp3" data-start="166.96" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-91-whoosh" src="assets/sfx/whoosh.mp3" data-start="171.35" data-duration="1.39" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-92-pop" src="assets/sfx/pop.mp3" data-start="172.94" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-93-zap" src="assets/sfx/zap.mp3" data-start="177.17" data-duration="0.5" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-94-pop" src="assets/sfx/pop.mp3" data-start="182.08" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+    </div>
+    <script>
+      const SCHED = {"total":186.7,"scenes":{"g":{"start":0,"end":6.8},"s0":{"start":6.8,"end":24.8},"s1":{"start":24.8,"end":40.8},"s2":{"start":40.8,"end":81.8},"s3":{"start":81.8,"end":114.7},"s4":{"start":114.7,"end":142.7},"s5":{"start":142.7,"end":170},"s6":{"start":170,"end":186.7}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":6.8,"end":24.31},"s1":{"start":24.8,"end":40.29},"s2":{"start":40.8,"end":81.33},"s3":{"start":81.8,"end":114.2},"s4":{"start":114.7,"end":142.14},"s5":{"start":142.7,"end":169.46},"s6":{"start":170,"end":182.67}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":8.4,"end":13.47,"who":"zoe","words":[["Dis,",8.59,8.8],["Max…",8.85,9.4],["si",9.45,9.56],["je",9.61,9.72],["creuse",9.76,9.96],["un",10.01,10.12],["trou",10.17,10.36],["dans",10.38,10.44],["le",10.47,10.52],["jardin,",10.58,11],["tout",11.07,11.32],["droit,",11.36,11.64],["sans",11.67,11.8],["m'arrêter…",11.84,12.36],["j'arrive",12.6,13.08],["où",13.16,13.32],["?",13.4,13.48]]},"s0-2":{"start":13.72,"end":18,"who":"max","words":[["Au",13.91,13.97],["centre",14.03,14.41],["de",14.44,14.49],["la",14.55,14.67],["Terre",14.73,15.1],["!",15.23,15.36],["Mais",15.38,15.45],["prévois",15.51,15.88],["un",15.91,15.97],["goûter",16,16.32],[":",16.41,16.49],["c'est",16.54,16.67],["à",16.71,16.75],["plus",16.79,16.93],["de",16.96,17.01],["six",17.06,17.19],["mille",17.23,17.36],["kilomètres.",17.41,18.06]]},"s0-3":{"start":18.35,"end":24.31,"who":"zoe","words":[["Six",20.07,20.11],["mille",20.19,20.51],["?!",21.03,21.71],["Bon…",21.75,21.95],["je",22.27,22.91],["prends",22.95,23.23],["une",23.25,23.31],["plus",23.34,23.47],["grande",23.52,23.79],["pelle.",23.83,24.27]]},"s1-1":{"start":26,"end":32.11,"who":"max","words":[["Au",26.23,26.24],["début,",26.3,26.77],["c'est",26.81,26.94],["facile.",27,27.46],["Tu",27.66,28.07],["creuses",28.11,28.42],["dans",28.43,28.5],["la",28.53,28.59],["terre",28.63,28.85],["du",28.88,28.94],["jardin",29.01,29.46],[":",29.68,29.9],["des",29.92,29.98],["racines,",30.07,30.77],["des",30.79,30.85],["vers",30.9,31.11],["de",31.14,31.2],["terre,",31.26,31.63],["des",31.66,31.72],["cailloux.",31.75,32.16]]},"s1-2":{"start":32.36,"end":33.93,"who":"zoe","words":[["Et",32.55,32.56],["un",32.59,32.64],["vieil",32.68,32.96],["os",33.01,33.12],["de",33.15,33.2],["dinosaure",33.26,33.76],["?",33.84,33.92]]},"s1-3":{"start":34.18,"end":40.29,"who":"max","words":[["Plutôt",34.45,34.6],["celui",34.66,34.95],["du",34.97,35.03],["chien",35.09,35.29],["du",35.32,35.38],["voisin",35.44,35.81],["!",36.21,36.6],["Mais",36.63,36.77],["cette",36.81,37.03],["terre,",37.09,37.47],["c'est",37.51,37.64],["une",37.68,37.81],["couche",37.84,38.08],["toute",38.11,38.25],["fine",38.32,38.6],[":",38.77,38.95],["quelques",38.97,39.21],["mètres,",39.29,39.73],["pas",39.75,39.81],["plus.",39.9,40.34]]},"s2-1":{"start":42.1,"end":46.91,"who":"max","words":[["En",42.31,42.32],["dessous,",42.35,42.75],["ta",42.89,43.18],["pelle",43.23,43.45],["cogne",43.53,43.88],[":",44.1,44.32],["de",44.34,44.4],["la",44.43,44.49],["roche",44.58,44.92],["dure.",44.97,45.36],["C'est",45.53,45.79],["la",45.82,45.88],["croûte",45.95,46.23],["terrestre.",46.27,46.92]]},"s2-2":{"start":47.16,"end":49.19,"who":"zoe","words":[["Comme",47.9,48.04],["la",48.07,48.12],["croûte",48.18,48.52],["du",48.55,48.6],["pain",48.66,48.92],["?",49.04,49.16]]},"s2-3":{"start":49.44,"end":56.94,"who":"max","words":[["Exactement",49.82,50.3],["!",50.52,50.73],["Et",50.79,50.91],["plus",50.94,51.08],["tu",51.14,51.26],["descends,",51.31,51.95],["plus",51.99,52.13],["toute",52.2,52.56],["la",52.62,52.73],["roche",52.79,53.08],["du",53.11,53.17],["dessus",53.22,53.6],["pèse",53.69,54.04],["sur",54.08,54.21],["celle",54.26,54.47],["du",54.5,54.56],["dessous.",54.61,55],["Ça",55.21,55.47],["s'appelle",55.5,55.86],["la",56.01,56.3],["pression.",56.37,57]]},"s2-4":{"start":57.19,"end":59.88,"who":"zoe","words":[["Comme",57.46,57.63],["quand",57.69,58.03],["je",58.05,58.11],["suis",58.15,58.35],["tout",58.39,58.59],["en",58.61,58.67],["bas",58.71,58.83],["d'une",58.87,59.07],["pile",59.1,59.23],["de",59.28,59.38],["copains",59.43,59.71],["?",59.79,59.87]]},"s2-5":{"start":60.13,"end":67.92,"who":"max","words":[["Voilà",60.32,60.64],["!",60.95,61.25],["Écrasés",61.34,61.77],["pendant",61.8,62.03],["des",62.08,62.21],["millions",62.26,62.64],["d'années,",62.69,63.34],["le",63.4,63.51],["sable",63.6,63.86],["et",63.89,63.95],["la",64,64.12],["boue",64.16,64.42],["deviennent",64.46,64.73],["de",64.76,64.82],["la",64.85,64.9],["pierre.",64.97,65.42],["C'est",65.69,66.03],["la",66.06,66.12],["pression",66.19,66.73],["qui",66.79,66.99],["fabrique",67.03,67.34],["ces",67.38,67.51],["couches.",67.54,67.95]]},"s2-6":{"start":69.22,"end":77.76,"who":"max","words":[["Le",69.49,69.55],["trou",69.62,69.9],["le",69.95,70.07],["plus",70.12,70.33],["profond",70.44,71.03],["jamais",71.08,71.38],["creusé",71.42,71.9],["fait",71.98,72.33],["douze",72.42,72.77],["kilomètres.",72.83,73.98],["Il",74.01,74.07],["a",74.16,74.25],["fallu",74.28,74.59],["vingt",74.68,74.94],["ans…",75.01,75.81],["et",75.84,75.9],["il",75.95,76.07],["n'a",76.11,76.33],["même",76.38,76.59],["pas",76.64,76.77],["traversé",76.82,77.29],["la",77.32,77.38],["croûte",77.4,77.72],["!",77.77,77.81]]},"s2-7":{"start":78.01,"end":81.33,"who":"zoe","words":[["Vingt",78.99,79.05],["ans",79.09,79.21],["?!",79.61,80.05],["Mon",80.06,80.09],["goûter",80.12,80.41],["sera",80.46,80.65],["périmé.",80.71,81.29]]},"s3-1":{"start":83.4,"end":88.99,"who":"max","words":[["Sous",83.53,83.53],["la",83.56,83.62],["croûte,",83.68,84.23],["voici",84.28,84.57],["le",84.63,84.75],["manteau",84.79,85.18],[":",85.44,85.7],["presque",85.76,86.23],["trois",86.27,86.49],["mille",86.57,86.75],["kilomètres",86.83,87.53],["de",87.56,87.62],["roche",87.67,87.88],["brûlante.",87.94,89.01]]},"s3-2":{"start":89.24,"end":90.39,"who":"zoe","words":[["Elle",89.43,89.44],["a",89.48,89.52],["fondu,",89.56,90.08],["alors",90.11,90.24],["?",90.32,90.4]]},"s3-3":{"start":90.64,"end":100.15,"who":"max","words":[["Presque",90.94,91.14],["pas",91.19,91.32],["!",91.58,91.84],["La",91.9,92.01],["pression",92.07,92.45],["la",92.51,92.62],["serre",92.67,92.97],["si",93.03,93.14],["fort",93.21,93.49],["qu'elle",93.52,93.67],["reste",93.72,94.01],["solide.",94.08,94.54],["Mais",94.62,94.97],["elle",94.99,95.06],["coule",95.12,95.41],["tout",95.44,95.58],["doucement,",95.62,96.45],["comme",96.48,96.62],["une",96.67,96.8],["pâte",96.88,97.23],["très",97.3,97.58],["épaisse…",97.64,98.19],["à",98.41,98.62],["la",98.65,98.71],["vitesse",98.75,99.14],["où",99.2,99.32],["poussent",99.36,99.58],["tes",99.64,99.84],["ongles.",99.87,100.19]]},"s3-4":{"start":100.95,"end":104.03,"who":"zoe","words":[["Et",101.77,101.78],["il",101.83,101.94],["y",101.96,101.98],["a",102,102.02],["des",102.04,102.1],["trésors,",102.15,102.54],["là-dedans",102.55,102.9],["?",103.46,104.02]]},"s3-5":{"start":104.28,"end":111.44,"who":"max","words":[["Oui",104.5,104.7],["!",105.13,105.57],["La",105.62,105.74],["pression",105.78,106.09],["écrase",106.22,106.61],["du",106.64,106.7],["carbone,",106.76,107.83],["le",107.91,108.09],["même",108.14,108.35],["que",108.39,108.52],["dans",108.56,108.7],["la",108.73,108.78],["mine",108.82,108.96],["de",109.01,109.13],["ton",109.17,109.31],["crayon,",109.36,110.09],["et",110.12,110.17],["le",110.23,110.35],["transforme",110.4,110.96],["en",110.99,111.04],["diamant.",111.1,111.48]]},"s3-6":{"start":111.69,"end":114.2,"who":"zoe","words":[["Un",112.41,112.41],["crayon",112.46,112.73],["en",112.76,112.81],["diamant",112.87,113.21],["?",113.37,113.53],["Je",113.58,113.69],["veux",113.74,114.01],["!",114.09,114.17]]},"s4-1":{"start":116.3,"end":121.97,"who":"max","words":[["Encore",116.67,116.69],["plus",116.75,116.96],["bas,",117.02,117.65],["le",117.71,117.83],["noyau.",117.91,118.52],["D'abord,",118.83,119.74],["un",119.94,120.35],["océan",120.49,121.04],["de",121.07,121.13],["fer",121.22,121.48],["fondu.",121.54,122]]},"s4-2":{"start":122.22,"end":124.65,"who":"zoe","words":[["Du",122.46,122.47],["métal",122.55,122.87],["liquide",122.95,123.43],["?!",124.03,124.63]]},"s4-3":{"start":125.05,"end":132.65,"who":"max","words":[["Oui.",125.3,125.47],["Et",125.73,126.26],["tout",126.32,126.6],["au",126.63,126.69],["centre,",126.77,127.47],["une",127.52,127.65],["énorme",127.78,128.26],["boule",128.3,128.52],["de",128.55,128.6],["fer,",128.71,129.13],["aussi",129.23,129.73],["chaude",129.8,130.17],["que",130.19,130.26],["la",130.31,130.43],["surface",130.48,130.86],["du",130.92,131.04],["Soleil.",131.09,132.69]]},"s4-4":{"start":132.9,"end":135.17,"who":"zoe","words":[["Et",133.09,133.1],["elle",133.12,133.18],["ne",133.23,133.34],["fond",133.39,133.58],["pas,",133.62,133.82],["elle",133.85,133.98],["?",134.58,135.18]]},"s4-5":{"start":135.42,"end":142.14,"who":"max","words":[["Non",135.92,136.01],["!",136.27,136.54],["Tout",136.57,136.71],["le",136.74,136.8],["poids",136.84,137.06],["de",137.09,137.14],["la",137.17,137.23],["Terre",137.3,137.49],["appuie",137.54,137.88],["dessus.",137.91,138.19],["La",138.39,138.8],["pression",138.87,139.32],["est",139.38,139.58],["tellement",139.62,140.1],["forte",140.16,140.45],["que",140.54,140.8],["le",140.83,140.88],["fer",140.97,141.23],["reste",141.32,141.75],["dur.",141.84,142.19]]},"s5-1":{"start":144,"end":147.97,"who":"zoe","words":[["Mais",144.93,145.12],["si",145.23,145.44],["personne",145.48,145.84],["n'y",145.88,146],["est",146.02,146.08],["allé…",146.14,146.48],["comment",146.58,147.28],["on",147.31,147.36],["le",147.39,147.44],["sait",147.52,147.76],["?",147.84,147.92]]},"s5-2":{"start":148.22,"end":156.84,"who":"max","words":[["Grâce",148.5,148.73],["aux",148.75,148.82],["tremblements",148.89,149.51],["de",149.59,149.73],["terre",149.77,149.95],["!",150.21,150.47],["Leurs",150.5,150.73],["secousses",150.8,151.25],["traversent",151.3,151.69],["la",151.72,151.77],["planète,",151.83,152.38],["et",152.41,152.47],["on",152.5,152.56],["les",152.62,152.82],["écoute",152.9,153.34],["de",153.43,153.6],["l'autre",153.64,153.86],["côté.",153.93,154.38],["Comme",154.49,154.9],["une",154.95,155.08],["échographie",155.16,155.86],["géante.",155.95,156.9]]},"s5-3":{"start":157.74,"end":166.2,"who":"max","words":[["Donc,",157.95,158.48],["sous",158.53,158.74],["tes",158.78,158.91],["pieds",158.95,159.17],[":",159.61,160.04],["la",160.1,160.22],["croûte,",160.26,160.74],["le",160.86,161.09],["manteau,",161.13,162.13],["le",162.16,162.22],["noyau",162.3,162.57],["liquide…",162.63,163.78],["et",163.81,163.87],["la",163.93,164.04],["boule",164.11,164.39],["de",164.45,164.56],["fer,",164.7,165.17],["tout",165.24,165.52],["au",165.58,165.7],["centre.",165.76,166.22]]},"s5-4":{"start":166.45,"end":169.46,"who":"zoe","words":[["Et",166.64,166.65],["c'est",166.69,166.81],["la",166.84,166.89],["pression",166.96,167.45],["qui",167.49,167.61],["serre",167.65,167.85],["tout",167.88,168.01],["ça",168.06,168.17],["de",168.22,168.33],["plus",168.38,168.57],["en",168.62,168.73],["plus",168.78,168.97],["fort",169.03,169.29],["!",169.37,169.45]]},"s6-1":{"start":170.5,"end":174.29,"who":"zoe","words":[["Bon…",170.82,170.91],["je",171.04,171.31],["range",171.35,171.55],["ma",171.58,171.63],["pelle.",171.71,172.03],["C'est",172.31,172.67],["trop",172.72,172.91],["loin,",172.94,173.15],["le",173.18,173.23],["centre",173.28,173.55],["de",173.6,173.71],["la",173.74,173.79],["Terre.",173.85,174.27]]},"s6-2":{"start":175.19,"end":178.51,"who":"zoe","words":[["Dis,",175.8,176.11],["Max…",176.18,176.47],["et",176.63,176.95],["le",177.01,177.11],["hoquet,",177.17,177.59],["ça",177.7,177.91],["vient",177.94,178.07],["d'où",178.15,178.31],["?",178.39,178.47]]},"s6-3":{"start":178.91,"end":182.67,"who":"max","words":[["D'un",179.05,179.25],["muscle",179.31,179.68],["qui",179.7,179.77],["n'en",179.81,179.94],["fait",179.96,180.03],["qu'à",180.06,180.2],["sa",180.29,180.47],["tête.",180.54,180.81],["La",181.22,182.03],["prochaine",182.08,182.38],["fois",182.41,182.55],["!",182.64,182.73]]}}};
+      // ===== paper.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Moteur « papier découpé » : chaque morceau est un papier fabriqué en code (grain, déchirure, ombre),
+// posé sur un carton et animé pose par pose, comme une animation image par image.
+const TAU = Math.PI * 2;
+const FPS = 15; // « sur deux » : une pose tient deux images de la vidéo
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (u) => u * u * (3 - 2 * u);
+const f1 = (v) => v.toFixed(1);
+const hashStr = (s) => {
+  let a = 5381,
+    b = 52711;
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    a = (a * 33) ^ c;
+    b = (b * 33) ^ c;
+  }
+  return (a >>> 0).toString(36) + (b >>> 0).toString(36);
+};
+const INK = "#2a2320";
+
+// --- Repères de voix ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+const SFX_LOG = (window.__SFX = []);
+
+// --- Scènes et calques ---
+const pieces = [];
+const SCENES = {};
+let CUR = null;
+let uid = 0;
+function scene(id, layers) {
+  const root = document.getElementById(id);
+  CUR = SCENES[id] = { id, root, layers: {} };
+  for (const [name, k] of layers) {
+    const el = document.createElement("div");
+    el.className = "layer";
+    root.appendChild(el);
+    CUR.layers[name] = { el, k };
+  }
+  return CUR;
+}
+const FIXED = { el: document.getElementById("L-fixed"), k: 0 };
+
+// --- Formes ---
+const poly = (pts) => "M" + pts.map((p) => f1(p[0]) + " " + f1(p[1])).join("L") + "Z";
+function blob(cx, cy, rx, ry, n, seed, jag = 0.1) {
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * TAU;
+    const r = 1 + (rnd(seed + i) - 0.5) * 2 * jag;
+    pts.push([cx + Math.cos(a) * rx * r, cy + Math.sin(a) * ry * r]);
+  }
+  return pts;
+}
+function band(x0, x1, y0, y1, seed, amp = 18, stepx = 95) {
+  const pts = [];
+  const n = Math.round((x1 - x0) / stepx);
+  const side = (i, s) => (i === 0 || i === n ? (rnd(seed + s + i) - 0.5) * 26 : 0);
+  for (let i = 0; i <= n; i++) pts.push([x0 + ((x1 - x0) * i) / n + side(i, 60), y0 + (rnd(seed + i) - 0.5) * 2 * amp]);
+  for (let i = n; i >= 0; i--) pts.push([x0 + ((x1 - x0) * i) / n + side(i, 80), y1 + (rnd(seed + 100 + i) - 0.5) * 2 * amp]);
+  return pts;
+}
+function rect(x, y, w, h, seed = 0, j = 0) {
+  const q = (k) => (rnd(seed + k) - 0.5) * 2 * j;
+  return [
+    [x + q(1), y + q(2)],
+    [x + w + q(3), y + q(4)],
+    [x + w + q(5), y + h + q(6)],
+    [x + q(7), y + h + q(8)],
+  ];
+}
+function starPts(cx, cy, r1, r2, n, rot = 0) {
+  const pts = [];
+  for (let i = 0; i < n * 2; i++) {
+    const a = rot + (i / (n * 2)) * TAU,
+      r = i % 2 ? r2 : r1;
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+  }
+  return pts;
+}
+// Flèche qui part de (x, y) dans la direction `deg` (0 = vers la droite, 90 = vers le bas)
+function arrowPts(x, y, len, deg, wd = 26) {
+  const a = (deg * Math.PI) / 180,
+    c = Math.cos(a),
+    s = Math.sin(a);
+  const q = (u, v) => [x + u * c - v * s, y + u * s + v * c];
+  const h = wd * 1.9;
+  return [q(0, -wd / 2), q(len - h, -wd / 2), q(len - h, -wd * 1.25), q(len, 0), q(len - h, wd * 1.25), q(len - h, wd / 2), q(0, wd / 2)];
+}
+
+// --- Un morceau de papier ---
+function P(o) {
+  const pts = o.pts;
+  let x0 = 1e9,
+    y0 = 1e9,
+    x1 = -1e9,
+    y1 = -1e9;
+  for (const [x, y] of pts) {
+    x0 = Math.min(x0, x);
+    y0 = Math.min(y0, y);
+    x1 = Math.max(x1, x);
+    y1 = Math.max(y1, y);
+  }
+  const pad = o.pad ?? 36;
+  const w = x1 - x0,
+    h = y1 - y0;
+  const d = poly(pts.map(([x, y]) => [x - x0, y - y0]));
+  uid++;
+  const el = document.createElement("div");
+  el.className = "pc";
+  el.style.left = f1(x0 - pad) + "px";
+  el.style.top = f1(y0 - pad) + "px";
+  el.style.width = f1(w + 2 * pad) + "px";
+  el.style.height = f1(h + 2 * pad) + "px";
+  const piv = o.pivot ? [o.pivot[0] - x0 + pad, o.pivot[1] - y0 + pad] : [w / 2 + pad, h / 2 + pad];
+  el.style.transformOrigin = `${f1(piv[0])}px ${f1(piv[1])}px`;
+  const lift = o.lift ?? 5;
+  if (lift) el.style.filter = `drop-shadow(${f1(lift * 0.6)}px ${f1(lift)}px ${f1(lift * 0.7)}px rgba(40,22,6,${o.shA ?? 0.45}))`;
+  const tear = o.torn ? ` filter="url(#tear${o.torn})"` : "";
+  const stock = ` filter="url(#st-${o.stock || "fine"})"`;
+  const extra = o.extra ? `<g clip-path="url(#cP)">${o.extra(w, h)}</g>` : "";
+  const art = o.art ? `<g transform="translate(${f1(-x0)} ${f1(-y0)})">${o.art}</g>` : "";
+  const dk = o.dk || [-2, -6];
+  const white = o.torn && o.deckle !== false ? `<path d="${d}" transform="translate(${dk[0]} ${dk[1]})" fill="#f6f0e2" stroke="#f6f0e2" stroke-width="${o.dw ?? 8}" stroke-linejoin="round" filter="url(#tearW)"/>` : "";
+  const html =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${f1(w + 2 * pad)}" height="${f1(h + 2 * pad)}" viewBox="${-pad} ${-pad} ${f1(w + 2 * pad)} ${f1(h + 2 * pad)}"${o.alpha ? ` style="opacity:${o.alpha}"` : ""}>` +
+    `<defs><clipPath id="cP"><path d="${d}"/></clipPath></defs>${white}<g${tear}><g${stock}><path d="${d}" fill="${o.fill}"/>${extra}${o.over ? o.over(w, h) : ""}${art}</g></g></svg>`;
+  // Chaque papier est fabriqué une seule fois en image (scripts/bake.cjs), puis seulement déplacé.
+  const key = hashStr(html + "|" + (el.style.filter || ""));
+  if (window.__BAKE) window.__BAKE[key] = { html, shadow: el.style.filter || "", w: Math.ceil(w + 2 * pad), h: Math.ceil(h + 2 * pad) };
+  el.style.filter = "";
+  el.innerHTML = `<img src="assets/pieces/${key}.png" width="${f1(w + 2 * pad)}" height="${f1(h + 2 * pad)}" alt="">`;
+  const L = o.layer === "fixed" ? FIXED : CUR.layers[o.layer || "world"];
+  L.el.appendChild(el);
+  const size = Math.max(w, h);
+  const p = {
+    el,
+    sc: o.layer === "fixed" ? null : CUR,
+    k: L.k,
+    y0: (o.span ? o.span[0] : y0) - 260,
+    y1: (o.span ? o.span[1] : y1) + 260,
+    seed: o.seed ?? uid * 7.3,
+    rot: o.rot || 0,
+    tin: o.tin,
+    tout: o.tout,
+    from: o.from || [0, -50, 10],
+    anim: o.anim,
+    alt: o.alt,
+    press: o.press,
+    boil: o.boil ?? (size > 900 ? 0.7 : 1.3),
+    rb: o.rb ?? 0.35 * Math.min(1, 120 / size),
+  };
+  if (o.tin != null && o.snd !== false) SFX_LOG.push([o.tin, o.snd || "tic"]);
+  pieces.push(p);
+  return p;
+}
+
+// Étiquette en papier quadrillé, tenue par un bout de ruban
+function label(x, y, text, o = {}) {
+  const fs = o.fs ?? 50;
+  const w = o.w ?? text.length * fs * 0.54 + 80;
+  const h = fs * 1.75;
+  const base = { layer: o.layer, tin: o.tin, tout: o.tout, from: o.from || [70, -30, 9], rot: o.rot ?? -2, seed: x * 1.7 + y, pivot: [x + w / 2, y + h / 2] };
+  P({
+    ...base,
+    snd: o.snd ?? "pop",
+    pts: rect(x, y, w, h, x + y, 4),
+    fill: o.fill || "#f7f0dc",
+    lift: 7,
+    extra: (W, H) => `<rect width="${W}" height="${H}" fill="url(#p-grid)" opacity=".5"/>`,
+    over: (W, H) => `<text x="${W / 2}" y="${H / 2 + fs * 0.35}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${fs}" fill="${o.ink || INK}">${text}</text>`,
+  });
+  const tx = x + w * 0.5 - 55,
+    ty = y - 20;
+  P({
+    ...base,
+    snd: false,
+    pts: [
+      [tx, ty + 4],
+      [tx + 8, ty - 2],
+      [tx + 102, ty],
+      [tx + 110, ty + 6],
+      [tx + 104, ty + 38],
+      [tx + 112, ty + 44],
+      [tx + 6, ty + 42],
+      [tx - 2, ty + 36],
+    ],
+    fill: "#ead9a6",
+    alpha: 0.82,
+    lift: 2,
+    shA: 0.3,
+  });
+}
+// Plaque de carton du fond
+const board = (layer, y, h) => P({ layer, pts: rect(0, y, 1920, h), fill: "#c4ab88", stock: "board", lift: 0, pad: 0, boil: 0, rb: 0 });
+const tape = (x, y, rot, layer) => P({ layer, pts: rect(x, y, 120, 40, x, 3), fill: "#ead9a6", alpha: 0.85, lift: 2, rot, boil: 0.3 });
+
+// Lettres découpées façon « lettre anonyme »
+const LCOL = [
+  ["#e4572e", "#fff6e0"],
+  ["#f2b134", INK],
+  ["#2f6f8f", "#fff6e0"],
+  ["#f7f0dc", INK],
+  ["#3a9d6e", "#fff6e0"],
+  ["#d9486e", "#fff6e0"],
+  ["#2b2b2b", "#ffd84a"],
+];
+function letters(text, x, y, o = {}) {
+  const k = (o.size ?? 78) / 78;
+  let n = o.n0 ?? 0;
+  for (const ch of text) {
+    if (ch === " ") {
+      x += 44 * k;
+      continue;
+    }
+    const narrow = "'-il!.:".includes(ch);
+    const tw = (narrow ? 50 : 76) * k,
+      th = (102 + (rnd(n) - 0.5) * 10) * k;
+    const [bg, fg] = (o.col || LCOL)[(n * 3 + (o.shift ?? 0)) % (o.col || LCOL).length];
+    const yy = y + (rnd(n + 9) - 0.5) * 14 * k;
+    const i = n;
+    P({
+      layer: o.layer,
+      pts: rect(x, yy, tw, th, n * 5, 4 * k),
+      fill: bg,
+      stock: n % 3 ? "fine" : "sugar",
+      lift: 6,
+      rot: (rnd(n + 3) - 0.5) * 11,
+      tin: o.tin != null ? o.tin + (i - (o.n0 ?? 0)) * (o.dt ?? 0.067) : undefined,
+      tout: o.tout,
+      snd: (i - (o.n0 ?? 0)) % 4 === 0 ? "tic" : false,
+      from: [0, -46, 16 * (n % 2 ? 1 : -1)],
+      over: (w, h) => `<text x="${w / 2}" y="${h / 2 + 27 * k}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${78 * k}" fill="${fg}">${ch}</text>`,
+    });
+    x += tw + 8 * k;
+    n++;
+  }
+  return n;
+}
+
+// Papier journal : colonnes de faux texte illisible
+const newsprint = (w, h) => {
+  let s = `<g transform="rotate(-5 ${w / 2} ${h / 2})" fill="#33302c" opacity=".36">`;
+  let k = 0;
+  for (let cx = -160; cx < w + 160; cx += 300)
+    for (let y = -90; y < h + 90; y += 13) {
+      if (rnd(cx + y * 0.37) < 0.035) {
+        s += `<rect x="${cx}" y="${y}" width="${f1(150 + rnd(k++) * 100)}" height="18"/>`;
+        y += 16;
+        continue;
+      }
+      let x = cx;
+      while (x < cx + 262) {
+        const ww = 10 + rnd(k++) * 42;
+        s += `<rect x="${f1(x)}" y="${y}" width="${f1(Math.min(ww, cx + 268 - x))}" height="5.5"/>`;
+        x += ww + 7;
+      }
+    }
+  return s + "</g>";
+};
+const dots = (id, op) => (w, h) => `<rect width="${w}" height="${h}" fill="url(#${id})" opacity="${op}"/>`;
+
+// --- Caméra : liste de [temps, valeur] ; « e » = déplacement adouci, sinon dérive lente ---
+function track(keys) {
+  return (t) => {
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) {
+      if (t <= keys[i][0]) {
+        const u = lin(t, keys[i - 1][0], keys[i][0]);
+        return keys[i - 1][1] + (keys[i][1] - keys[i - 1][1]) * (keys[i][2] === "e" ? ease(u) : u);
+      }
+    }
+    return keys[keys.length - 1][1];
+  };
+}
+
+      // ===== world.js =====
+// Scène 1 : un seul grand collage vertical. La caméra descend du titre jusqu'au centre de la Terre.
+scene("S1", [
+  ["board", 1],
+  ["sky", 0.82],
+  ["far", 0.9],
+  ["world", 1],
+]);
+const T = (id) => scn(id).start;
+const CX = 960;
+const CORE_Y = 6900; // centre de la Terre dans le collage
+
+// Carton du fond, en plusieurs plaques
+for (let i = 0; i < 5; i++) board("board", -1140 + i * 1900, 1900);
+
+// Caméra (position verticale du haut de l'image dans le collage)
+const K = {
+  dig: cue("s0-1", "creuse"),
+  press: cue("s2-3", "descends") - 0.3,
+  rec: cue("s2-6") - 1.0,
+  dia: cue("s3-4") - 0.6,
+  ball: cue("s4-3", "centre") - 0.9,
+};
+const camY = track([
+  [0, -1080],
+  [T("s0") - 0.2, -1066],
+  [T("s0") + 1.1, 0, "e"],
+  [T("s1") - 0.1, 26],
+  [T("s1") + 1.0, 430, "e"],
+  [T("s2") - 0.1, 470],
+  [T("s2") + 1.1, 900, "e"],
+  [K.press, 930],
+  [K.press + 1.3, 1560, "e"],
+  [K.rec, 1600],
+  [K.rec + 1.3, 2420, "e"],
+  [T("s3") - 0.1, 2450],
+  [T("s3") + 1.4, 3260, "e"],
+  [K.dia, 3310],
+  [K.dia + 1.3, 4200, "e"],
+  [T("s4") - 0.1, 4240],
+  [T("s4") + 1.4, 5090, "e"],
+  [K.ball, 5130],
+  [K.ball + 1.5, 6330, "e"],
+  [T("s5") + 1, 6370],
+]);
+SCENES.S1.cam = camY;
+
+// ================= Générique : la feuille de titre =================
+{
+  P({ pts: rect(210, -985, 1500, 850, 3, 8), fill: "#2f5bd3", stock: "sugar", lift: 8, boil: 0.5 });
+  tape(170, -1000, -9);
+  tape(1630, -995, 8);
+  P({ pts: starPts(CX, -590, 330, 210, 14), fill: "#f6b93b", lift: 6, tin: 0.2, from: [0, 0, -40], anim: (t, s) => ({ r: Math.floor(s / 2) * 4 }), boil: 0.5 });
+  P({ pts: blob(CX, -590, 205, 205, 26, 4, 0.02), fill: "#ffd84a", extra: dots("p-half2", 0.5), lift: 7, tin: 0.27, snd: false });
+  letters("Kidi-science", 390, -690, { size: 118, tin: 0.45, dt: 0.1, shift: 1 });
+  label(600, -470, "Dis… comment ça marche ?", { tin: cue("g-1") + 0.1, fs: 54, rot: -2, snd: false });
+  // ciseaux et confettis
+  for (let i = 0; i < 14; i++) {
+    const x = 280 + rnd(i * 3) * 1360,
+      y = -940 + rnd(i * 3 + 1) * 760;
+    if (Math.abs(x - CX) < 620 && Math.abs(y + 590) < 300) continue;
+    P({ pts: starPts(x, y, 26, 26, 2 + (i % 3), rnd(i) * 3), fill: LCOL[i % 6][0], lift: 3, rot: rnd(i) * 80, tin: 1.2 + i * 0.1, snd: false, from: [0, -70, 60], anim: (t, s) => ({ r: [0, 8, 0, -8][(Math.floor(s / 3) + i) % 4] }) });
+  }
+  label(650, -250, "Qu'y a-t-il sous nos pieds ?", { tin: cue("g-1") + 2.3, fs: 46, rot: 2, fill: "#2b2b2b", ink: "#ffd84a", from: [0, 60, -6] });
+}
+
+// ================= Le jardin =================
+P({ layer: "sky", pts: rect(58, 34, 1804, 830, 5, 7), fill: "#a8d5ee", stock: "sugar", lift: 6, boil: 0.5 });
+tape(40, 22, -8, "sky");
+tape(1770, 26, 7, "sky");
+P({ layer: "sky", pts: starPts(1590, 235, 168, 108, 12), fill: "#f6b93b", anim: (t, s) => ({ r: Math.floor(s / 2) * 5 }), boil: 0.6 });
+P({ layer: "sky", pts: blob(1590, 235, 96, 96, 20, 3, 0.03), fill: "#ffd84a", extra: dots("p-half2", 0.55), lift: 7 });
+{
+  const cloud = (x, y, s, sd) => {
+    const drift = (t, st) => ({ x: (Math.floor(st / 2) * 1.5) % 500 });
+    P({ layer: "far", pts: blob(x, y, 150 * s, 52 * s, 11, sd, 0.22), fill: "#fbf8f0", torn: 2, deckle: false, alpha: 0.93, lift: 8, shA: 0.25, anim: drift });
+    P({ layer: "far", pts: blob(x + 30 * s, y - 38 * s, 85 * s, 48 * s, 9, sd + 9, 0.2), fill: "#ffffff", torn: 1, deckle: false, alpha: 0.9, lift: 6, shA: 0.22, anim: drift });
+  };
+  cloud(1050, 420, 0.8, 11);
+  cloud(140, 480, 0.7, 31);
+  const hill = (seed, base, amp, k, ph) => {
+    const pts = [];
+    for (let i = 0; i <= 24; i++) pts.push([66 + (1788 * i) / 24, base - amp * Math.sin((i / 24) * Math.PI * k + ph) + (rnd(seed + i) - 0.5) * 14]);
+    pts.push([1854, 850], [66, 850]);
+    return pts;
+  };
+  P({ layer: "far", pts: hill(3, 640, 60, 2.2, 0.4), fill: "#9ccb7c", stock: "sugar", torn: 1, lift: 5, boil: 0.5 });
+  P({ layer: "far", pts: hill(47, 700, 42, 3.1, 2.2), fill: "#74b565", stock: "sugar", torn: 2, lift: 6, boil: 0.5 });
+}
+letters("Qu'y a-t-il", 110, 96, { layer: "sky", tin: T("s0") + 0.5 });
+letters("sous nos pieds ?", 150, 224, { layer: "sky", tin: T("s0") + 1.1, n0: 9, shift: 1 });
+
+// ================= Les grandes feuilles du sous-sol =================
+// (les couches du dessous viennent se coller par-dessus celles du dessus)
+P({ pts: band(26, 1894, 770, 1345, 7, 12), fill: "#6f4a2b", stock: "sugar", torn: 1, deckle: false, lift: 6, boil: 0.5 });
+P({ pts: band(22, 1898, 1295, 3440, 21, 20), fill: "#a5a59f", torn: 2, dw: 12, lift: 7, extra: newsprint, boil: 0.4 });
+P({ pts: band(26, 1894, 3360, 5720, 33, 24), fill: "#e56a2c", stock: "marble", torn: 1, dw: 12, lift: 8, boil: 0.4 });
+{
+  // noyau liquide : une grande feuille dont le haut est un arc de cercle
+  const arc = (R, x0, x1, n, seed, jag) => {
+    const pts = [];
+    for (let i = 0; i <= n; i++) {
+      const x = x0 + ((x1 - x0) * i) / n;
+      pts.push([x, CORE_Y - Math.sqrt(R * R - (x - CX) * (x - CX)) + (rnd(seed + i) - 0.5) * jag]);
+    }
+    return pts;
+  };
+  P({ pts: [...arc(1680, 30, 1890, 40, 3, 26), [1890, 7560], [30, 7560]], fill: "#ffd23f", alpha: 0.42, torn: 2, deckle: false, lift: 0, boil: 0.4, anim: (t, s) => ({ y: [0, -10][Math.floor(s / 4) % 2] }) });
+  P({ pts: [...arc(1600, 26, 1894, 40, 9, 12), [1894, 7560], [26, 7560]], fill: "#f6a623", torn: 2, dw: 10, lift: 8, extra: dots("p-half", 0.6), boil: 0.4 });
+}
+
+// ================= Les pointillés du trou =================
+{
+  const t0 = cue("s0-1", "droit");
+  for (let k = 0; k < 90; k++) {
+    const y = 850 + k * 68;
+    if (y > CORE_Y - 430) break;
+    const real = y < 2880; // au-delà du record, le trou n'existe que dans notre tête
+    if (y > 4640 && y < 4900) continue;
+    P({ pts: rect(952, y, 16, 40, k, 2.5), fill: real ? "#fbf3dc" : "#ffd84a", alpha: real ? 0 : 0.85, lift: 2, rot: (rnd(k) - 0.5) * 10, boil: 0.8, anim: (t) => ({ o: t >= t0 + k * 0.2 && (k < 4 || y < camY(t) + 640) ? 1 : 0 }) });
+  }
+}
+
+// ================= Détails de la terre du jardin =================
+const R1 = cue("s1-1", "racines"),
+  R2 = cue("s1-1", "vers"),
+  R3 = cue("s1-1", "cailloux");
+const shake = (t0, d = 1.2) => (t, s) => (t >= t0 && t < t0 + d ? { r: [6, -6][s % 2], y: [-4, 2][s % 2] } : null);
+for (const [dx, len, r] of [
+  [-22, 170, 16],
+  [4, 230, -3],
+  [26, 150, -22],
+])
+  P({ pts: [[415 + dx, 790], [433 + dx, 790], [428 + dx, 790 + len * 0.6], [424 + dx, 790 + len]], fill: "#b98a55", stock: "kraft", lift: 2, rot: r, pivot: [424 + dx, 790], boil: 0.6, anim: shake(R1) });
+for (let i = 0; i < 9; i++) {
+  const x = 150 + rnd(i * 3 + 1) * 1620,
+    y = 900 + rnd(i * 3 + 2) * 330,
+    r = 16 + rnd(i * 3 + 3) * 22;
+  if (Math.abs(x - CX) < 70 || (x > 1100 && x < 1600 && y > 940 && y < 1130) || (x > 560 && x < 1000 && y > 1100)) continue;
+  P({ pts: blob(x, y, r, r * 0.75, 7, i * 11, 0.18), fill: ["#b9b4aa", "#8f8c86", "#d2ccbf"][i % 3], lift: 3, rot: rnd(i) * 90, anim: shake(R3 + i * 0.05, 1) });
+}
+{
+  const x = 690,
+    y = 1190;
+  P({
+    pts: [
+      [x - 70, y - 20], [x - 52, y - 26], [x - 44, y - 10], [x + 44, y - 10], [x + 52, y - 26], [x + 70, y - 20], [x + 66, y], [x + 70, y + 20],
+      [x + 52, y + 26], [x + 44, y + 10], [x - 44, y + 10], [x - 52, y + 26], [x - 70, y + 20], [x - 66, y],
+    ],
+    fill: "#f3ecda",
+    lift: 3,
+    rot: -18,
+    anim: shake(cue("s1-2", "os"), 1.4),
+  });
+  // le chien du voisin
+  const td = cue("s1-3", "chien");
+  P({
+    pts: blob(900, 1180, 62, 54, 12, 8, 0.05),
+    fill: "#c98a4b",
+    lift: 5,
+    tin: td,
+    snd: "pop",
+    from: [90, 0, 20],
+    anim: (t, s) => ({ r: [0, 7, 0, -7][Math.floor(s / 3) % 4] }),
+    art: `<path d="M850 1140l-30 50 44 6zM950 1140l30 50-44 6z" fill="#7c4a2d"/><circle cx="880" cy="1170" r="7" fill="${INK}"/><circle cx="920" cy="1170" r="7" fill="${INK}"/><ellipse cx="900" cy="1196" rx="13" ry="9" fill="${INK}"/><path d="M886 1212q14 14 28 0" stroke="${INK}" stroke-width="5" fill="none"/><path d="M900 1214v0q4 22 14 14" fill="#e98fa6"/>`,
+  });
+}
+{
+  const worm = (ph) => {
+    const top = [],
+      bot = [];
+    for (let i = 0; i <= 10; i++) {
+      const x = 250 + i * 17,
+        y = 1010 + Math.sin(i * 0.9 + ph) * 14;
+      top.push([x, y - 9]);
+      bot.unshift([x, y + 9]);
+    }
+    return top.concat(bot);
+  };
+  [0, 1].forEach((k) => P({ pts: worm(k * 2.4), fill: "#e98fa6", lift: 3, boil: 0.4, alt: [3, k, 2], anim: (t, s) => ({ x: (Math.floor(s / 3) * 2.4) % 260 }) }));
+}
+P({ pts: [[682, 792], [732, 792], [712, 925], [704, 930]], fill: "#f08a24", lift: 3, rot: 4 });
+label(480, 870, "des racines", { tin: R1, fs: 36, rot: 3 });
+label(190, 1050, "des vers", { tin: R2, fs: 36, rot: -3 });
+label(1230, 1150, "des cailloux", { tin: R3, fs: 36, rot: 2 });
+{
+  // règle : la terre, une couche toute fine
+  const tr = cue("s1-3", "fine");
+  P({ pts: rect(1690, 790, 46, 520, 4, 3), fill: "#f2b134", lift: 5, tin: tr, from: [80, 0, 6], extra: (w, h) => Array.from({ length: 17 }, (_, i) => `<rect x="0" y="${14 + i * 30}" width="${i % 2 ? 16 : 26}" height="5" fill="${INK}"/>`).join("") });
+  label(1300, 990, "quelques mètres", { tin: cue("s1-3", "quelques"), fs: 44 });
+}
+
+// ================= La croûte =================
+for (let i = 0; i < 26; i++) {
+  const x = 110 + ((i * 211) % 1720),
+    y = 1400 + rnd(i * 5 + 2) * 1900,
+    r = 50 + rnd(i * 5 + 3) * 60;
+  if (Math.abs(x - CX) < 120) continue;
+  if (y > 1800 && y < 2640) continue; // la place des strates
+  if (y < 1800 && x > 250 && x < 1500) continue;
+  if (y > 2700 && y < 3260 && x > 380 && x < 1640) continue;
+  P({ pts: blob(x, y, r, r * 0.62, 6, i * 13 + 5, 0.22), fill: ["#77797c", "#8d8a84", "#5f6367"][i % 3], lift: 4, rot: rnd(i + 40) * 60 - 30, extra: i % 2 ? newsprint : null });
+}
+P({
+  pts: blob(1640, 1640, 62, 62, 14, 77, 0.05),
+  fill: "#ddd3bb",
+  lift: 4,
+  over: (w, h) => {
+    let d = "";
+    for (let i = 0; i <= 60; i++) d += (i ? "L" : "M") + f1(w / 2 + Math.cos(i * 0.3) * (4 + i * 0.8)) + " " + f1(h / 2 + Math.sin(i * 0.3) * (4 + i * 0.8));
+    return `<path d="${d}" fill="none" stroke="#7a6a4c" stroke-width="5" stroke-linecap="round"/>`;
+  },
+});
+{
+  // « ta pelle cogne »
+  const tc = cue("s2-1", "cogne");
+  P({ pts: starPts(CX, 1330, 150, 92, 11, 0.2), fill: "#e4472a", lift: 8, tin: tc, tout: tc + 1.6, snd: "zap", from: [0, 0, -30], anim: (t, s) => ({ s: [1, 1.1][s % 2] }), over: (w, h) => `<text x="${w / 2}" y="${h / 2 + 20}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="58" fill="#fff6e0">TOC !</text>` });
+  label(1090, 1430, "la croûte terrestre", { tin: cue("s2-1", "croûte"), fs: 52 });
+  // le pain et sa croûte
+  const tp = cue("s2-2", "pain");
+  P({
+    pts: blob(520, 1560, 190, 120, 16, 12, 0.05),
+    fill: "#b7702d",
+    stock: "kraft",
+    lift: 7,
+    tin: tp,
+    tout: K.press + 0.2,
+    snd: "pop",
+    from: [-120, 0, -14],
+    art: `<path d="${poly(blob(520, 1564, 162, 94, 16, 12, 0.05))}" fill="#f6e2b3"/><circle cx="460" cy="1540" r="10" fill="#e6c98c"/><circle cx="560" cy="1590" r="14" fill="#e6c98c"/><circle cx="600" cy="1530" r="8" fill="#e6c98c"/>`,
+  });
+  label(330, 1700, "la croûte du pain", { tin: tp + 0.3, tout: K.press + 0.2, fs: 36, rot: 3 });
+}
+{
+  // ----- La pression : des couches de plus en plus écrasées -----
+  const ST = [
+    ["#d8c29a", "sugar", 190],
+    ["#b98a55", "kraft", 160],
+    ["#c9c2b2", "fine", 132],
+    ["#8d8a84", "sugar", 108],
+    ["#6f6a66", "fine", 90],
+    ["#55524f", "sugar", 76],
+  ];
+  let y = 1850;
+  const tS = K.press + 0.6;
+  ST.forEach(([fill, stock, h], i) => {
+    P({ pts: band(24, 1896, y, y + h + 26, 50 + i * 7, 9, 120), fill, stock, torn: 1 + (i % 2), dw: 7, lift: 5, boil: 0.4, tin: tS + i * 0.13, snd: i % 2 ? false : "tic", from: [i % 2 ? 160 : -160, 0, 0], extra: i === 2 || i === 4 ? newsprint : null });
+    y += h;
+  });
+  const tp = cue("s2-3", "pèse");
+  for (let i = 0; i < 5; i++) P({ pts: arrowPts(600 + i * 180, 1660, 150, 90, 34), fill: "#e4472a", lift: 6, tin: tp + i * 0.07, snd: i ? false : "whoosh", from: [0, -90, 0], press: { d: [0, 22], t0: tp + 0.4, per: 3 } });
+  label(770, 1595, "la pression", { tin: cue("s2-3", "pression"), fs: 54, rot: -2, fill: "#2b2b2b", ink: "#ffd84a" });
+
+  // la pile de copains
+  const tb = cue("s2-4", "bas");
+  P({ pts: rect(130, 1930, 520, 430, 6, 6), fill: "#f7f0dc", lift: 8, tin: tb - 0.5, rot: -2, from: [-200, 0, -8], extra: dots("p-grid", 0.5) });
+  const buddy = (bx, by, col, tin, squash) => {
+    const art =
+      `<circle cx="${bx - 22}" cy="${by + 28}" r="33" fill="#f3c9a0"/><circle cx="${bx - 32}" cy="${by + 20}" r="4.5" fill="${INK}"/><circle cx="${bx - 14}" cy="${by + 20}" r="4.5" fill="${INK}"/>` +
+      (squash ? `<path d="M${bx - 36} ${by + 42}q12 -10 26 0" stroke="${INK}" stroke-width="4" fill="none"/>` : `<path d="M${bx - 36} ${by + 36}q12 10 26 0" stroke="${INK}" stroke-width="4" fill="none"/>`) +
+      `<rect x="${bx + 196}" y="${by + 6}" width="70" height="20" fill="#2c5d7c"/><rect x="${bx + 196}" y="${by + 32}" width="70" height="20" fill="#2c5d7c"/>`;
+    P({
+      pts: rect(bx, by, 200, 58, bx, 3),
+      fill: col,
+      lift: 5,
+      tin,
+      snd: "pop",
+      from: [0, -260, squash ? 0 : 14],
+      pivot: [bx + 100, by + 58],
+      art,
+      anim: squash ? (t, s) => (t > tb + 0.9 ? { sy: [0.66, 0.6][Math.floor(s / 2) % 2], sx: 1.08 } : t > tb + 0.3 ? { sy: 0.85 } : null) : (t, s) => ({ r: [0, 1.5][Math.floor(s / 3 + bx) % 2] }),
+    });
+  };
+  buddy(270, 2260, "#d9486e", tb - 0.3, true);
+  buddy(250, 2196, "#3a9d6e", tb + 0.2, false);
+  buddy(290, 2134, "#f2b134", tb + 0.6, false);
+  buddy(260, 2072, "#2f6f8f", tb + 1.0, false);
+  label(200, 1950, "Aïe ! Ça pèse !", { tin: tb + 1.3, fs: 34, rot: 2 });
+
+  // sable + boue → pierre
+  const ts = cue("s2-5", "sable"),
+    tq = cue("s2-5", "pierre");
+  P({ pts: rect(1270, 1930, 520, 430, 9, 6), fill: "#f7f0dc", lift: 8, tin: ts - 0.5, rot: 2, from: [200, 0, 8], extra: dots("p-grid", 0.5) });
+  const sandDots = (w, h) => Array.from({ length: 90 }, (_, i) => `<circle cx="${f1(rnd(i) * w)}" cy="${f1(rnd(i + 200) * h)}" r="${f1(3 + rnd(i + 400) * 3)}" fill="#b8892c"/>`).join("");
+  P({ pts: band(1310, 1750, 2050, 2170, 3, 6, 80), fill: "#f2cf6b", torn: 1, deckle: false, lift: 3, tin: ts, tout: tq, extra: sandDots, snd: "pop", anim: (t) => ({ sy: 1 - 0.35 * lin(t, tq - 1.2, tq) }), pivot: [1530, 2290] });
+  P({ pts: band(1310, 1750, 2180, 2290, 5, 6, 80), fill: "#6f4a2b", stock: "sugar", torn: 2, deckle: false, lift: 3, tin: cue("s2-5", "boue"), tout: tq, snd: "pop", anim: (t) => ({ sy: 1 - 0.35 * lin(t, tq - 1.2, tq) }), pivot: [1530, 2290] });
+  P({ pts: band(1310, 1750, 2190, 2240, 7, 4, 80), fill: "#d8c29a", stock: "sugar", lift: 3, tin: tq, snd: "chime", from: [0, -20, 0], extra: sandDots });
+  P({ pts: band(1310, 1750, 2244, 2292, 8, 4, 80), fill: "#77797c", lift: 3, tin: tq, snd: false, from: [0, -20, 0], extra: newsprint });
+  for (let i = 0; i < 3; i++) P({ pts: arrowPts(1400 + i * 130, 1975, 80, 90, 22), fill: "#e4472a", lift: 4, tin: ts + 0.9 + i * 0.07, snd: false, from: [0, -60, 0], anim: (t) => ({ y: 70 * lin(t, tq - 1.2, tq) + 30 * lin(t, tq, tq + 0.2) }), press: { d: [0, 12], t0: ts + 1.2, per: 3 } });
+  label(1340, 2310, "de la pierre !", { tin: tq + 0.2, fs: 40, rot: -2, fill: "#2b2b2b", ink: "#ffd84a" });
+  label(700, 2420, "la pression fabrique les couches", { tin: cue("s2-5", "fabrique"), fs: 42, rot: -1 });
+}
+{
+  // ----- Le trou record -----
+  const tr = cue("s2-6", "douze"),
+    t20 = cue("s2-6", "vingt"),
+    tn = cue("s2-6", "traversé");
+  P({ pts: [[930, 2880], [990, 2880], [984, 2950], [960, 2996], [936, 2950]], fill: "#9aa6b2", lift: 5, tin: tr - 0.6, from: [0, -120, 0], anim: (t, s) => ({ r: [0, 5, 0, -5][s % 4] }), extra: (w, h) => `<path d="M0 20L${w} 34M0 44L${w} 58" stroke="#5f6a76" stroke-width="6"/>` });
+  label(1050, 2850, "12 km : le record !", { tin: tr, fs: 50, rot: 2 });
+  // calendrier
+  P({ pts: rect(520, 2800, 250, 250, 3, 4), fill: "#f7f0dc", lift: 7, tin: t20, snd: "pop", rot: -4, from: [-90, 0, -10], art: `<rect x="520" y="2800" width="250" height="64" fill="#d9482f"/><text x="645" y="2990" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="120" fill="${INK}">20</text><text x="645" y="2846" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="40" fill="#fff6e0">ANS</text>` });
+  P({ pts: arrowPts(CX, 3040, 290, 90, 22), fill: "#fbf3dc", lift: 3, tin: tn, from: [0, -60, 0], alpha: 0.9, press: { d: [0, 14], t0: tn + 0.3, per: 3 } });
+  label(1040, 3140, "encore de la croûte…", { tin: tn + 0.2, fs: 42, rot: -2 });
+  // le goûter périmé
+  const tg = cue("s2-7", "goûter");
+  P({
+    pts: blob(650, 3200, 74, 70, 14, 6, 0.05),
+    fill: "#c98a4b",
+    lift: 5,
+    tin: tg,
+    snd: "pop",
+    from: [-80, 0, -30],
+    anim: (t, s) => ({ r: [0, 6][Math.floor(s / 3) % 2] }),
+    art: `<circle cx="625" cy="3180" r="13" fill="#5a3a20"/><circle cx="676" cy="3216" r="11" fill="#5a3a20"/><circle cx="640" cy="3232" r="15" fill="#6fae3c"/><circle cx="684" cy="3176" r="12" fill="#8fc94f"/><circle cx="610" cy="3214" r="8" fill="#6fae3c"/>`,
+  });
+  label(420, 3290, "Beurk !", { tin: cue("s2-7", "périmé"), fs: 40, rot: 4, fill: "#6fae3c", ink: "#fff6e0", snd: "zap" });
+}
+
+// ================= Le manteau =================
+{
+  label(250, 3520, "le manteau", { tin: cue("s3-1", "manteau"), fs: 56, rot: -3, from: [-70, -30, -9] });
+  const t3 = cue("s3-1", "trois");
+  P({ pts: rect(1700, 3470, 46, 800, 4, 3), fill: "#f7f0dc", lift: 5, tin: t3, from: [80, 0, 6], extra: (w, h) => Array.from({ length: 26 }, (_, i) => `<rect x="0" y="${14 + i * 30}" width="${i % 2 ? 16 : 26}" height="5" fill="${INK}"/>`).join("") });
+  label(1330, 3560, "3 000 km", { tin: t3 + 0.15, fs: 56, rot: 2 });
+  const tq = cue("s3-2", "fondu");
+  letters("?", 1010, 3760, { tin: tq, tout: cue("s3-3"), size: 130, shift: 2 });
+  // un bloc de roche serré de tous les côtés
+  const tp = cue("s3-3", "pression"),
+    tsol = cue("s3-3", "solide"),
+    tf = cue("s3-3", "coule");
+  P({ pts: blob(CX, 3920, 150, 120, 9, 31, 0.12), fill: "#b8431c", stock: "sugar", torn: 1, lift: 8, tin: tp - 0.3, snd: "pop", from: [0, -80, 20], anim: (t, s) => (t > tp + 0.4 && t < tf ? { s: [1, 0.96][Math.floor(s / 3) % 2] } : null) });
+  for (const [x, y, deg] of [
+    [640, 3920, 0],
+    [1280, 3920, 180],
+    [CX, 3640, 90],
+    [CX, 4200, 270],
+  ])
+    P({ pts: arrowPts(x, y, 150, deg, 32), fill: "#2b2b2b", lift: 6, tin: tp, tout: tf, snd: false, from: [-Math.cos((deg * Math.PI) / 180) * 120, -Math.sin((deg * Math.PI) / 180) * 120, 0], press: { d: [Math.cos((deg * Math.PI) / 180) * 20, Math.sin((deg * Math.PI) / 180) * 20], t0: tp + 0.4, per: 3 } });
+  label(1300, 3770, "solide !", { tin: tsol, tout: tf + 0.6, fs: 50, rot: 3, fill: "#2b2b2b", ink: "#ffd84a" });
+  // elle coule tout doucement : des flèches qui tournent lentement
+  for (let i = 0; i < 8; i++)
+    P({
+      pts: arrowPts(-45, 0, 90, 0, 24),
+      fill: "#ffd84a",
+      lift: 5,
+      tin: tf + i * 0.06,
+      snd: i ? false : "whoosh",
+      pivot: [0, 0],
+      span: [3600, 4260],
+      boil: 0.4,
+      from: [0, 0, 0],
+      anim: (t, s) => {
+        const a = (i / 8) * TAU + Math.floor(s / 2) * 0.035;
+        return { x: CX + Math.cos(a) * 560, y: 3930 + Math.sin(a) * 290, r: (Math.atan2(Math.cos(a) * 290, -Math.sin(a) * 560) * 180) / Math.PI };
+      },
+    });
+  // l'escargot
+  const te = cue("s3-3", "doucement");
+  P({
+    pts: blob(420, 4190, 58, 54, 14, 9, 0.04),
+    fill: "#d9486e",
+    lift: 5,
+    tin: te,
+    snd: "pop",
+    from: [-80, 0, 0],
+    anim: (t, s) => ({ x: Math.floor(s / 4) * 2 }),
+    over: (w, h) => {
+      let d = "";
+      for (let i = 0; i <= 44; i++) d += (i ? "L" : "M") + f1(w / 2 + Math.cos(i * 0.32) * (3 + i * 0.95)) + " " + f1(h / 2 + Math.sin(i * 0.32) * (3 + i * 0.95));
+      return `<path d="${d}" fill="none" stroke="#fff6e0" stroke-width="6" stroke-linecap="round"/>`;
+    },
+    art: `<path d="M350 4244h170q40 0 44 -50l10 -44" fill="none" stroke="#f2b134" stroke-width="30" stroke-linecap="round"/><path d="M574 4150l-14 -36M580 4152l14 -34" stroke="#f2b134" stroke-width="7" stroke-linecap="round"/><circle cx="571" cy="4184" r="5" fill="${INK}"/>`,
+  });
+  // l'ongle
+  const to = cue("s3-3", "ongles");
+  P({ pts: rect(1330, 4150, 300, 110, 3, 3), fill: "#f3c9a0", lift: 6, tin: to, snd: "pop", from: [200, 0, 0], art: `<circle cx="1330" cy="4205" r="55" fill="#f3c9a0"/><path d="M1290 4170h90v70h-90q-22 -35 0 -70z" fill="#fbe9dc"/><path d="M1275 4186v38" stroke="#fff" stroke-width="9" stroke-linecap="round"/>` });
+  label(1260, 4040, "quelques centimètres par an", { tin: to + 0.2, fs: 36, rot: -2 });
+}
+{
+  // ----- Le diamant -----
+  const tc = cue("s3-5", "carbone"),
+    te = cue("s3-5", "écrase"),
+    tk = cue("s3-5", "crayon"),
+    td = cue("s3-5", "diamant"),
+    t6 = cue("s3-6", "diamant");
+  letters("trésor ?", 620, 4380, { tin: cue("s3-4", "trésors"), tout: tc + 2, size: 96, shift: 3 });
+  // le morceau de carbone
+  P({ pts: blob(CX, 4760, 120, 105, 8, 40, 0.16), fill: "#2b2b2b", stock: "sugar", lift: 7, tin: Math.min(tc, te) - 0.2, tout: td, snd: "pop", from: [0, -90, 30], anim: (t, s) => (t > te ? { s: 1 - 0.3 * lin(t, te + 0.3, td) + [0, 0.03][s % 2] } : null) });
+  label(1130, 4590, "du carbone", { tin: tc, tout: td, fs: 42, rot: 3 });
+  for (const [dx, dy, deg] of [
+    [-330, 0, 0],
+    [330, 0, 180],
+    [0, -330, 90],
+    [0, 330, 270],
+  ])
+    P({ pts: arrowPts(CX + dx, 4760 + dy, 150, deg, 32), fill: "#e4472a", lift: 6, tin: te + 0.1, snd: false, from: [dx * 0.4, dy * 0.4, 0], anim: (t) => ({ x: -dx * 0.22 * lin(t, te + 0.3, td), y: -dy * 0.22 * lin(t, te + 0.3, td) }), press: { d: [-dx * 0.05, -dy * 0.05], t0: te + 0.4, per: 2 } });
+  // le diamant, en papier clair à facettes
+  const dia = (x, y, k) => [
+    [x - 100 * k, y - 40 * k],
+    [x - 50 * k, y - 95 * k],
+    [x + 50 * k, y - 95 * k],
+    [x + 100 * k, y - 40 * k],
+    [x, y + 105 * k],
+  ];
+  const facets = (x, y, k) => `<path d="M${x - 100 * k} ${y - 40 * k}H${x + 100 * k}M${x - 50 * k} ${y - 95 * k}L${x - 36 * k} ${y - 40 * k}L${x} ${y + 105 * k}L${x + 36 * k} ${y - 40 * k}L${x + 50 * k} ${y - 95 * k}M${x - 36 * k} ${y - 40 * k}L${x} ${y - 95 * k}L${x + 36 * k} ${y - 40 * k}" fill="none" stroke="#5aa9d6" stroke-width="${5 * k}"/>`;
+  P({ pts: dia(CX, 4760, 1.1), fill: "#d4f1ff", lift: 9, tin: td, snd: "chime", from: [0, 0, -20], art: facets(CX, 4760, 1.1), anim: (t, s) => ({ r: [0, 4, 0, -4][Math.floor(s / 3) % 4] }) });
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * TAU + 0.4;
+    P({ pts: starPts(CX + Math.cos(a) * 230, 4750 + Math.sin(a) * 200, 34, 9, 4), fill: "#fff6e0", lift: 3, tin: td + 0.1, snd: false, from: [0, 0, 40], alt: [2, i % 2, 2] });
+  }
+  label(1120, 4900, "un diamant !", { tin: td + 0.2, fs: 50, rot: -3, fill: "#2b2b2b", ink: "#ffd84a" });
+  // le crayon
+  const pen = { pivot: [430, 4760], rot: -28, tin: tk, from: [-200, 60, -20], seed: 800, boil: 0.8, rb: 0.2 };
+  P({ ...pen, snd: "pop", pts: rect(250, 4730, 300, 60, 2, 2), fill: "#f2b134", lift: 6, art: `<rect x="250" y="4730" width="46" height="60" fill="#d9486e"/><rect x="296" y="4730" width="16" height="60" fill="#9aa6b2"/><path d="M330 4750h220M330 4770h220" stroke="#d99a1d" stroke-width="5"/>` });
+  P({ ...pen, snd: false, pts: [[550, 4730], [626, 4760], [550, 4790]], fill: "#e8c9a0", lift: 6 });
+  P({ ...pen, snd: false, tout: t6, pts: [[604, 4751], [636, 4760], [604, 4769]], fill: "#2b2b2b", lift: 2 });
+  P({ ...pen, snd: "chime", tin: t6, from: [0, 0, 0], pts: dia(634, 4756, 0.42), fill: "#d4f1ff", lift: 6, art: facets(634, 4756, 0.42), anim: (t, s) => ({ s: [1, 1.12][Math.floor(s / 2) % 2] }) });
+  label(250, 4560, "la mine du crayon", { tin: tk + 0.2, tout: t6, fs: 36, rot: 3 });
+}
+
+// ================= Le noyau =================
+{
+  label(770, 5360, "le noyau", { tin: cue("s4-1", "noyau"), fs: 60, rot: -2 });
+  const to = cue("s4-1", "océan");
+  // des vagues de fer fondu : formes de rechange
+  for (let j = 0; j < 4; j++) {
+    const wave = (ph) => {
+      const top = [],
+        bot = [];
+      for (let i = 0; i <= 14; i++) {
+        const x = 230 + j * 60 + i * 100,
+          y = 5650 + j * 130 + Math.sin(i * 0.9 + ph + j) * 22;
+        if (x > 1750) break;
+        top.push([x, y - 16]);
+        bot.unshift([x, y + 16]);
+      }
+      return top.concat(bot);
+    };
+    [0, 1].forEach((k) => P({ pts: wave(k * 1.6), fill: j % 2 ? "#ffd84a" : "#fff0a8", lift: 3, tin: to + j * 0.1, snd: false, from: [j % 2 ? 90 : -90, 0, 0], boil: 0.5, alt: [3, k, 2] }));
+  }
+  label(640, 5840, "un océan de fer fondu", { tin: cue("s4-1", "fer"), fs: 50, rot: 2, fill: "#2b2b2b", ink: "#ffd84a" });
+  const tm = cue("s4-2", "liquide");
+  for (let i = 0; i < 7; i++) {
+    const x = 330 + i * 210,
+      y = 6040 + rnd(i) * 80;
+    P({ pts: [[x, y - 46], [x + 24, y], [x + 16, y + 26], [x - 16, y + 26], [x - 24, y]], fill: "#fff0a8", lift: 4, tin: tm + i * 0.07, snd: i % 3 ? false : "pop", from: [0, 60, 0], anim: (t, s) => ({ y: [0, -26, -40, -26][(Math.floor(s / 2) + i) % 4] }) });
+  }
+  // la boule de fer, au centre
+  P({ pts: blob(CX, CORE_Y, 470, 470, 44, 5, 0.012), fill: "#fff0a8", alpha: 0.5, torn: 2, deckle: false, lift: 0, anim: (t, s) => ({ s: [1, 1.03][Math.floor(s / 3) % 2] }), boil: 0.4 });
+  P({ pts: blob(CX, CORE_Y, 400, 400, 40, 19, 0.014), fill: "#ffe066", torn: 1, dw: 9, lift: 10, extra: dots("p-half2", 0.7), boil: 0.5 });
+  const tb = cue("s4-3", "boule"),
+    th = cue("s4-3", "chaude"),
+    tso = cue("s4-3", "Soleil"),
+    t5 = cue("s4-5"),
+    tpo = cue("s4-5", "poids"),
+    tdu = cue("s4-5", "dur");
+  label(110, 6400, "une boule de fer", { tin: tb, fs: 52, rot: -3, from: [-70, -30, -9] });
+  // thermomètre et petit soleil
+  P({ pts: rect(1540, 6560, 50, 420, 2, 2), fill: "#f7f0dc", lift: 6, tin: th, tout: t5, snd: "pop", from: [120, 0, 8], art: `<circle cx="1565" cy="7000" r="52" fill="#f7f0dc"/><circle cx="1565" cy="7000" r="36" fill="#e4472a"/><rect x="1553" y="6590" width="24" height="410" fill="#e4472a"/>`, anim: (t, s) => ({ r: [0, 1.5][Math.floor(s / 3) % 2] }), pivot: [1565, 7000] });
+  label(1480, 6420, "5 500 °C", { tin: th + 0.2, tout: t5, fs: 54, rot: 3, fill: "#e4472a", ink: "#fff6e0" });
+  P({ pts: starPts(1740, 6700, 100, 62, 12), fill: "#f6b93b", lift: 6, tin: tso, tout: t5, snd: "chime", from: [80, -60, 40], anim: (t, s) => ({ r: Math.floor(s / 2) * 6 }) });
+  P({ pts: blob(1740, 6700, 56, 56, 16, 2, 0.03), fill: "#ffd84a", lift: 6, tin: tso, tout: t5, snd: false, from: [80, -60, 0] });
+  label(1470, 6830, "comme le Soleil", { tin: tso + 0.2, tout: t5, fs: 34, rot: -3 });
+  letters("?", 925, 6790, { tin: cue("s4-4", "fond"), tout: t5, size: 150, shift: 4 });
+  // la pression de toute la Terre
+  for (const deg of [150, 180, 210, 330, 0, 30, 270]) {
+    const a = (deg * Math.PI) / 180,
+      R = 640;
+    P({ pts: arrowPts(CX + Math.cos(a) * R, CORE_Y + Math.sin(a) * R, 190, deg + 180, 38), fill: "#e4472a", lift: 7, tin: tpo + 0.05 * (deg % 7), snd: deg === 0 ? "whoosh" : false, from: [Math.cos(a) * 200, Math.sin(a) * 200, 0], press: { d: [-Math.cos(a) * 26, -Math.sin(a) * 26], t0: tpo + 0.4, per: 3 } });
+  }
+  label(1330, 6400, "la pression", { tin: cue("s4-5", "pression"), fs: 54, rot: 3, fill: "#2b2b2b", ink: "#ffd84a" });
+  label(770, 6850, "du fer solide", { tin: tdu - 0.2, fs: 60, rot: -2 });
+}
+
+// ================= Herbe, maison, arbre (par-dessus la terre) =================
+P({ pts: band(18, 1902, 742, 806, 13, 9, 70), fill: "#5aa845", stock: "sugar", torn: 1, dk: [0, 5], lift: 6, boil: 0.5 });
+P({ pts: [[690, 800], [700, 730], [708, 770], [716, 722], [722, 772], [734, 738], [730, 800]], fill: "#2f8a3c", lift: 3 });
+for (let i = 0; i < 14; i++) {
+  const x = 90 + i * 132 + rnd(i) * 40;
+  if (Math.abs(x - CX) < 200 || Math.abs(x - 712) < 60) continue;
+  P({ pts: [[x, 762], [x + 7, 722 - rnd(i + 5) * 14], [x + 14, 752], [x + 22, 716], [x + 30, 764]], fill: i % 2 ? "#3f9440" : "#74c05a", lift: 2, anim: (t, s) => ({ r: [0, 3, 0, -3][(Math.floor(s / 3) + i) % 4] }), pivot: [x + 15, 764] });
+}
+P({ pts: rect(1420, 520, 34, 80, 3, 2), fill: "#7c4a2d", stock: "kraft", lift: 3 });
+P({ pts: rect(1270, 592, 210, 180, 9, 3), fill: "#d9482f", extra: dots("p-ori", 0.8) });
+P({ pts: [[1236, 606], [1374, 478], [1512, 604]], fill: "#a8703c", stock: "kraft", lift: 7 });
+P({ pts: rect(1392, 672, 54, 100, 2, 2), fill: "#2c5d7c", lift: 3, extra: dots("p-stripe", 0.5) });
+P({ pts: rect(1298, 630, 52, 52, 4, 2), fill: "#ffe9a8", lift: 3, over: (w, h) => `<path d="M${w / 2} 2V${h - 2}M2 ${h / 2}H${w - 2}" stroke="#a8703c" stroke-width="5"/>` });
+{
+  const sway = (t, s) => ({ r: [0, 1.4, 0, -1.4][Math.floor(s / 4) % 4] });
+  P({ pts: [[404, 560], [446, 560], [452, 776], [398, 776]], fill: "#8a5a33", stock: "kraft" });
+  const pivot = [425, 600];
+  P({ pts: blob(345, 500, 92, 82, 9, 5, 0.14), fill: "#4fb07a", stock: "sugar", torn: 2, deckle: false, anim: sway, pivot });
+  P({ pts: blob(505, 490, 96, 86, 9, 15, 0.14), fill: "#2f8a5c", stock: "sugar", torn: 1, deckle: false, anim: sway, pivot });
+  P({ pts: blob(425, 420, 128, 112, 10, 25, 0.12), fill: "#3a9d6e", stock: "sugar", torn: 1, anim: sway, pivot, lift: 8 });
+}
+
+// ================= Le trou, la pelle, le goûter =================
+{
+  const S0 = Math.round(K.dig * FPS),
+    T1 = K.dig + 3.2,
+    tBig = cue("s0-3", "grande");
+  P({ pts: blob(CX, 778, 74, 17, 12, 4, 0.06), fill: "#33200f", lift: 0, tin: K.dig + 0.33, snd: false, from: [0, 0, 0] });
+  const POSE = [[-30, -10], [-70, -6], [-88, -4], [-88, -4], [10, -4], [24, -4], [24, 6], [18, 20], [4, 30], [-10, 22], [-20, 6], [-26, -6]];
+  const dig = (t, s) => {
+    if (t < K.dig) return { r: -14 };
+    if (t >= tBig) return { y: 16, r: [9, 12][Math.floor(s / 3) % 2], s: 1 + 0.8 * lin(t, tBig, tBig + 0.3) };
+    if (t >= T1) return { y: 16, r: 9 };
+    const [y, r] = POSE[(s - S0) % 12];
+    return { y, r };
+  };
+  const base = { pivot: [CX, 780], anim: dig, tin: T("s0") + 1.2, snd: false, from: [120, -160, 40], seed: 500, boil: 0.8, rb: 0.3 };
+  P({ ...base, pts: rect(951, 540, 18, 196, 1, 1.5), fill: "#b98a55", stock: "kraft", lift: 5 });
+  P({ ...base, pts: rect(928, 528, 64, 20, 2, 2), fill: "#d9482f", lift: 5 });
+  P({ ...base, pts: [[926, 716], [994, 716], [990, 770], [960, 796], [930, 770]], fill: "#9aa6b2", lift: 6, extra: (w, h) => `<path d="M${w / 2} 6V${h - 14}" stroke="#6d7884" stroke-width="5"/>` });
+  for (let i = 0; i < 3; i++)
+    P({
+      pts: blob(CX, 760, 13 + i * 3, 11 + i * 2, 6, i * 9, 0.2),
+      fill: ["#6f4a2b", "#5a3a20", "#845a36"][i],
+      lift: 4,
+      boil: 0,
+      anim: (t, s) => {
+        const c = (s - S0) % 12;
+        if (t < K.dig || t >= T1 || c < 7) return { o: 0 };
+        const u = (c - 7) / 4;
+        return { x: (120 + 45 * i) * u, y: -Math.sin(u * Math.PI) * (130 + 25 * i) + 26 * u, r: u * 220 };
+      },
+    });
+  [0, 1, 2].forEach((i) => P({ pts: blob(1075 + i * 38, 772 - i * 3, 46 + i * 6, 22 + i * 3, 8, i * 21 + 3, 0.16), fill: ["#5a3a20", "#6f4a2b", "#845a36"][i], stock: "sugar", torn: 2, deckle: false, lift: 3, tin: K.dig + 0.74 + i * 0.8, snd: "tic", from: [0, -14, 0] }));
+  P({ pts: blob(962, 800, 96, 22, 9, 8, 0.14), fill: "#5a3a20", stock: "sugar", torn: 1, deckle: false, lift: 3, tin: K.dig + 0.33, snd: false, from: [0, 10, 0] });
+
+  // carte : jusqu'au centre de la Terre
+  const tc = cue("s0-2", "centre"),
+    t6 = cue("s0-2", "six");
+  P({
+    pts: rect(640, 340, 250, 210, 6, 5),
+    fill: "#1f2a44",
+    lift: 8,
+    tin: tc,
+    snd: "pop",
+    rot: -3,
+    from: [0, -120, -12],
+    art: `<circle cx="765" cy="445" r="84" fill="#b7702d"/><circle cx="765" cy="445" r="74" fill="#e56a2c"/><circle cx="765" cy="445" r="42" fill="#f6a623"/><circle cx="765" cy="445" r="17" fill="#ffe066"/><path d="M765 361V445" stroke="#fff6e0" stroke-width="6" stroke-dasharray="10 8"/>`,
+  });
+  label(900, 400, "6 400 km", { tin: t6, fs: 62, rot: 2 });
+  // le goûter
+  const tg = cue("s0-2", "goûter");
+  P({ pts: blob(1150, 735, 46, 44, 12, 6, 0.05), fill: "#c98a4b", lift: 5, tin: tg, snd: "pop", from: [0, -200, 60], art: `<circle cx="1135" cy="722" r="8" fill="#5a3a20"/><circle cx="1164" cy="742" r="7" fill="#5a3a20"/><circle cx="1140" cy="752" r="6" fill="#5a3a20"/><circle cx="1166" cy="716" r="5" fill="#5a3a20"/>`, anim: (t, s) => ({ r: [0, 8][Math.floor(s / 4) % 2] }) });
+}
+
+      // ===== earth.js =====
+// Scène 2 : la Terre coupée en deux, pour « comment on le sait » et le résumé.
+scene("S2", [["main", 0]]);
+board("main", 0, 1080);
+{
+  const L = "main",
+    T5 = scn("s5").start,
+    EX = 720,
+    EY = 560;
+  const stars = (w, h) => Array.from({ length: 70 }, (_, i) => `<circle cx="${f1(rnd(i) * w)}" cy="${f1(rnd(i + 99) * h)}" r="${f1(2 + rnd(i + 7) * 3)}" fill="#fff6e0" opacity="${f1(0.4 + rnd(i + 3) * 0.6)}"/>`).join("");
+  P({ layer: L, pts: rect(56, 40, 1808, 1000, 4, 7), fill: "#1f2a44", stock: "sugar", lift: 8, boil: 0.4, extra: stars });
+  tape(30, 26, -8, L);
+  tape(1774, 30, 7, L);
+  const t0 = T5 + 0.5;
+  P({ layer: L, pts: blob(EX, EY, 432, 432, 48, 3, 0.012), fill: "#7c5a3a", stock: "sugar", torn: 1, dw: 9, lift: 9, tin: t0, from: [0, -80, -8], boil: 0.4 });
+  P({ layer: L, pts: blob(EX, EY, 410, 410, 44, 13, 0.012), fill: "#e56a2c", stock: "marble", torn: 2, deckle: false, lift: 4, tin: t0 + 0.13, snd: false, from: [0, -80, 8], boil: 0.4 });
+  P({ layer: L, pts: blob(EX, EY, 236, 236, 36, 23, 0.014), fill: "#f6a623", torn: 2, dw: 8, lift: 7, tin: t0 + 0.27, from: [0, -80, -8], extra: dots("p-half", 0.6), boil: 0.4 });
+  P({ layer: L, pts: blob(EX, EY, 86, 86, 22, 33, 0.02), fill: "#ffe066", torn: 1, dw: 6, lift: 7, tin: t0 + 0.4, snd: false, from: [0, -80, 8], extra: dots("p-half2", 0.7), anim: (t, s) => ({ s: [1, 1.05][Math.floor(s / 3) % 2] }) });
+  letters("comment ?", 1200, 90, { layer: L, tin: cue("s5-1", "comment"), tout: cue("s5-3") - 0.3, size: 70, shift: 2 });
+
+  // ----- Les tremblements de terre -----
+  const tq = cue("s5-2", "tremblements"),
+    tw = cue("s5-2", "secousses"),
+    te = cue("s5-2", "écoute"),
+    tEnd = cue("s5-3") - 0.3;
+  const QX = EX - 425;
+  P({ layer: L, pts: starPts(QX, EY, 96, 50, 10, 0.3), fill: "#e4472a", lift: 8, tin: tq, tout: tEnd, snd: "zap", from: [-60, 0, 30], anim: (t, s) => ({ s: [1, 1.18][s % 2], r: [0, 10][s % 2] }) });
+  for (let k = 1; k <= 7; k++) {
+    const r = 110 * k,
+      pts = [];
+    for (let i = -8; i <= 8; i++) pts.push([QX + Math.cos((i * 6.5 * Math.PI) / 180) * (r + 8), EY + Math.sin((i * 6.5 * Math.PI) / 180) * (r + 8)]);
+    for (let i = 8; i >= -8; i--) pts.push([QX + Math.cos((i * 6.5 * Math.PI) / 180) * (r - 8), EY + Math.sin((i * 6.5 * Math.PI) / 180) * (r - 8)]);
+    P({ layer: L, pts, fill: "#fff6e0", lift: 3, boil: 0.5, anim: (t, s) => ({ o: t >= tw && t < tEnd && (((Math.floor(s / 2) - k) % 10) + 10) % 10 < 3 ? 1 : 0 }) });
+  }
+  // le sismographe
+  let zz = "M1290 470";
+  for (let i = 1; i <= 26; i++) zz += `L${1290 + i * 17} ${470 + (i % 2 ? -1 : 1) * (8 + rnd(i) * 46 * (i > 8 && i < 20 ? 1 : 0.25))}`;
+  P({ layer: L, pts: rect(1260, 360, 520, 220, 5, 5), fill: "#f7f0dc", lift: 8, tin: te - 0.4, tout: tEnd, snd: "pop", rot: 2, from: [200, 0, 10], extra: dots("p-grid", 0.5), art: `<path d="${zz}" fill="none" stroke="#e4472a" stroke-width="6" stroke-linejoin="round"/>` });
+  P({ layer: L, pts: [[1150, 448], [1290, 462], [1290, 476], [1150, 490]], fill: "#2b2b2b", lift: 5, tin: te - 0.3, tout: tEnd, snd: false, pivot: [1160, 470], anim: (t, s) => ({ r: [0, 9, -7, 5, -10, 3][s % 6] }) });
+  label(1280, 620, "on écoute les secousses", { layer: L, tin: te, tout: tEnd, fs: 38, rot: -2 });
+  label(1300, 760, "comme une échographie", { layer: L, tin: cue("s5-2", "échographie"), tout: tEnd, fs: 38, rot: 3, fill: "#2b2b2b", ink: "#ffd84a" });
+
+  // ----- Le résumé -----
+  const link = (x0, y0, x1, y1, tin) => {
+    const a = Math.atan2(y1 - y0, x1 - x0),
+      nx = -Math.sin(a) * 4,
+      ny = Math.cos(a) * 4;
+    P({ layer: L, pts: [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]], fill: "#fff6e0", lift: 2, tin, snd: false, from: [0, 0, 0] });
+    P({ layer: L, pts: blob(x1, y1, 13, 13, 8, 2, 0.05), fill: "#fff6e0", lift: 2, tin, snd: false, from: [0, 0, 0] });
+  };
+  const REC = [
+    ["la croûte", cue("s5-3", "croûte"), 190, 1010, 240, 56],
+    ["le manteau", cue("s5-3", "manteau"), 380, 1010, 470, 56],
+    ["le noyau liquide", cue("s5-3", "noyau"), 550, 880, 600, 50],
+    ["la boule de fer", cue("s5-3", "boule"), 700, 740, 585, 50],
+  ];
+  for (const [txt, tin, y, px, py, fs] of REC) {
+    link(1290, y + 44, px, py, tin);
+    label(1280, y, txt, { layer: L, tin, fs, rot: (y % 4) - 2 });
+  }
+  // ----- La pression -----
+  const tp = cue("s5-4", "pression");
+  for (const deg of [70, 110, 150, 180, 210, 250, 290]) {
+    const a = (deg * Math.PI) / 180,
+      R = 610;
+    P({ layer: L, pts: arrowPts(EX + Math.cos(a) * R, EY + Math.sin(a) * R, 150, deg + 180, 34), fill: "#e4472a", lift: 7, tin: tp + (deg % 7) * 0.04, snd: deg === 180 ? "whoosh" : false, from: [Math.cos(a) * 200, Math.sin(a) * 200, 0], press: { d: [-Math.cos(a) * 24, -Math.sin(a) * 24], t0: tp + 0.4, per: 3 } });
+  }
+  label(100, 70, "la pression", { layer: L, tin: tp, fs: 54, rot: -3, fill: "#2b2b2b", ink: "#ffd84a" });
+
+  // ----- La fin -----
+  const tr = cue("s6-1", "range");
+  const sh = { layer: L, pivot: [210, 1000], rot: 24, tin: tr, from: [-300, 0, -40], seed: 900, boil: 0.8, rb: 0.3, anim: (t, s) => ({ r: [0, 1.5][Math.floor(s / 4) % 2] }) };
+  P({ ...sh, snd: "whoosh", pts: rect(198, 650, 24, 260, 1, 1.5), fill: "#b98a55", stock: "kraft", lift: 6 });
+  P({ ...sh, snd: false, pts: rect(168, 634, 84, 26, 2, 2), fill: "#d9482f", lift: 6 });
+  P({ ...sh, snd: false, pts: [[166, 890], [254, 890], [248, 960], [210, 996], [172, 960]], fill: "#9aa6b2", lift: 7 });
+  label(100, 190, "6 400 km… trop loin !", { layer: L, tin: cue("s6-1", "loin"), fs: 40, rot: 2 });
+  const th = cue("s6-2", "hoquet");
+  P({ layer: L, pts: starPts(1350, 905, 125, 78, 11, 0.2), fill: "#d9486e", lift: 9, tin: th, snd: "zap", from: [0, 0, -30], anim: (t, s) => ({ s: [1, 1.1][Math.floor(s / 2) % 2], y: [0, -14][Math.floor(s / 2) % 2] }), over: (w, h) => `<text x="${w / 2}" y="${h / 2 + 17}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="50" fill="#fff6e0">HIC !</text>` });
+  label(300, 950, "La prochaine fois : le hoquet !", { layer: L, tin: cue("s6-3", "prochaine"), fs: 48, rot: -1, from: [0, 90, -4] });
+}
+label(1560, 975, "Kidi-science", { layer: "fixed", tin: scn("s0").start + 1.3, snd: false, fs: 34, rot: -2, fill: "#2f5bd3", ink: "#fff6e0" });
+
+      // ===== run.js =====
+// Dessin pose par pose : une seule fonction place chaque papier selon le temps du film.
+{
+  const S1 = SCENES.S1,
+    S2 = SCENES.S2,
+    T5 = scn("s5").start,
+    k5 = Math.round(T5 * FPS);
+  const grain = document.getElementById("grain"),
+    lamp = document.getElementById("lamp");
+  const POP = [1, 0.4, -0.08, 0];
+  const SLIDE = [1920, 1100, 420, 60, -24, 0];
+  const draw = (time) => {
+    const step = Math.floor(time * FPS + 1e-4);
+    const t = step / FPS;
+    const cy = S1.cam(t);
+    const in2 = step - k5;
+    const on1 = in2 < SLIDE.length - 1,
+      on2 = in2 >= 0;
+    S1.root.style.visibility = on1 ? "visible" : "hidden";
+    S2.root.style.visibility = on2 ? "visible" : "hidden";
+    if (on1) for (const n in S1.layers) S1.layers[n].el.style.transform = `translateY(${f1(-(cy < 0 ? cy : cy * S1.layers[n].k))}px)`;
+    if (on2) S2.root.style.transform = `translateX(${SLIDE[in2] ?? 0}px)`;
+    const b = Math.floor(step / 2);
+    for (const p of pieces) {
+      let o = p.sc === S1 ? on1 : p.sc === S2 ? on2 : true;
+      if (o && p.sc === S1) {
+        const c = cy < 0 ? cy : cy * p.k;
+        if (p.y1 < c || p.y0 > c + 1080) o = false;
+      }
+      let x = 0,
+        y = 0,
+        r = p.rot,
+        sx = 1,
+        sy = 1;
+      if (o && p.tin != null) {
+        const k = step - Math.round(p.tin * FPS);
+        if (k < 0) o = false;
+        else {
+          const f = POP[k] ?? 0;
+          x += p.from[0] * f;
+          y += p.from[1] * f;
+          r += p.from[2] * f;
+        }
+      }
+      if (o && p.tout != null && t >= p.tout) o = false;
+      if (o && p.alt && Math.floor(step / p.alt[0]) % p.alt[2] !== p.alt[1]) o = false;
+      if (o && p.anim) {
+        const a = p.anim(t, step);
+        if (a) {
+          x += a.x || 0;
+          y += a.y || 0;
+          r += a.r || 0;
+          sx *= (a.s ?? 1) * (a.sx ?? 1);
+          sy *= (a.s ?? 1) * (a.sy ?? 1);
+          if (a.o === 0) o = false;
+        }
+      }
+      if (!o) {
+        if (p.vis !== 0) p.el.style.visibility = "hidden";
+        p.vis = 0;
+        continue;
+      }
+      if (p.press && t >= p.press.t0 && Math.floor(step / p.press.per) % 2) {
+        x += p.press.d[0];
+        y += p.press.d[1];
+      }
+      x += (rnd(p.seed + b * 3.1) - 0.5) * 2 * p.boil;
+      y += (rnd(p.seed + b * 5.3 + 1) - 0.5) * 2 * p.boil;
+      r += (rnd(p.seed + b * 7.7 + 2) - 0.5) * 2 * p.rb;
+      if (p.vis !== 1) p.el.style.visibility = "inherit";
+      p.vis = 1;
+      p.el.style.transform = `translate(${f1(x)}px,${f1(y)}px) rotate(${r.toFixed(2)}deg) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+    }
+    grain.style.transform = `translate(${f1((rnd(step * 1.3) - 0.5) * 100)}px,${f1((rnd(step * 2.1 + 5) - 0.5) * 100)}px)`;
+    lamp.style.opacity = (0.93 + rnd(b * 1.9) * 0.07).toFixed(3);
+  };
+  const tl = gsap.timeline({ paused: true });
+  const tick = { v: 0 };
+  tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: () => draw(tl.time()) }, 0);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+  draw(0);
+}
+    </script>
+  </body>
+</html>
