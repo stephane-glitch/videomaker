@@ -1,0 +1,1378 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: #d96a00;
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="205.4" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="205.4" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.6" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s0" class="clip" data-start="7.6" data-duration="20.6" data-track-index="1">
+        <div id="s0-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s0-draw"></g></svg>
+          <div class="note" id="s0-n1" style="left: 130px; top: 880px">Une flamme n’est pas un objet : c’est quelque chose qui se passe</div>
+          <div class="note" id="s0-n2" style="left: 1240px; top: 880px; background: #ffe14d">Il faut trois joueurs</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">C’est quoi, une flamme ?</div>
+        </div>
+      </section>
+
+      <section id="s1" class="clip" data-start="28.2" data-duration="28.2" data-track-index="1">
+        <div id="s1-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s1-draw"></g></svg>
+          <div class="note" id="s1-n1" style="left: 1130px; top: 880px">Plus assez d’oxygène : elle étouffe</div>
+          <div class="note" id="s1-n2" style="left: 130px; top: 880px; background: #ffe14d">Le feu respire, comme toi</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Le triangle du feu</div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="56.4" data-duration="34" data-track-index="1">
+        <div id="s2-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s2-draw"></g></svg>
+          <div id="s2-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s2-n1" style="left: 1150px; top: 880px; background: #ffe14d">Pas de la magie : de la chimie !</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Dans la bougie</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="90.4" data-duration="37.9" data-track-index="1">
+        <div id="s3-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s3-draw"></g></svg>
+          <div id="s3-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s3-n1" style="left: 130px; top: 880px">L’air chaud est léger : il monte</div>
+          <div class="note" id="s3-n2" style="left: 1230px; top: 880px">Dans l’espace : une boule bleue</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Les couleurs de la flamme</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="128.3" data-duration="27.4" data-track-index="1">
+        <div id="s4-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-draw"></g></svg>
+          <div id="s4-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s4-n1" style="left: 130px; top: 880px">Le bois ne disparaît pas : il s’envole en gaz</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Où passe le bois ?</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="155.7" data-duration="23.4" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s5-draw"></g></svg>
+          <div class="note" id="s5-c1" style="left: 190px; top: 740px">On enlève la chaleur</div>
+          <div class="note" id="s5-c2" style="left: 800px; top: 740px">On enlève l’air</div>
+          <div class="note" id="s5-c3" style="left: 1330px; top: 740px">On enlève le combustible</div>
+          <div class="note" id="s5-n1" style="left: 130px; top: 880px">Toi : tu t’éloignes et tu préviens un adulte</div>
+          <div class="note" id="s5-n2" style="left: 1290px; top: 868px; background: #ffe14d; font-size: 46px">Pompiers : le 18</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Éteindre un feu</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="179.1" data-duration="26.3" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            .s6-card {
+              position: absolute;
+              top: 330px;
+              width: 500px;
+              height: 300px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              border-radius: 34px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 44px;
+              font-weight: 600;
+              line-height: 1.15;
+              padding: 30px;
+            }
+            .s6-card b {
+              position: absolute;
+              left: -24px;
+              top: -24px;
+              width: 76px;
+              height: 76px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 3.5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 44px;
+            }
+            #s6-atch {
+              position: absolute;
+              left: 1000px;
+              top: 330px;
+              font-size: 84px; line-height: 1.1;
+              font-weight: 700;
+              color: #c25e00;
+              white-space: nowrap;
+            }
+            #s6-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s6-end .d {
+              color: var(--fire);
+            }
+            #s6-end .s {
+              color: var(--blue);
+            }
+            #s6-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s6-main" class="in">
+            <div id="s6-cards" class="in">
+              <div class="s6-card" id="s6-k1" style="left: 130px"><b>1</b>Le feu est une transformation</div>
+              <div class="s6-card" id="s6-k2" style="left: 710px"><b>2</b>Combustible, air, chaleur</div>
+              <div class="s6-card" id="s6-k3" style="left: 1290px"><b>3</b>On en enlève un : il s’éteint</div>
+            </div>
+            <div id="s6-b" class="in">
+              <svg class="stage" viewBox="0 0 1920 1080"><g id="s6-draw"></g></svg>
+              <div id="s6-atch">Pourquoi la mer<br />est salée ?</div>
+            </div>
+            <div class="note" id="s6-next" style="left: 590px; top: 900px; background: #ffe14d">La prochaine fois : la mer salée !</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s6-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s6-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="8.2" data-duration="4.58" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="13.05" data-duration="5.31" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="18.63" data-duration="3.95" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="22.85" data-duration="4.71" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="28.6" data-duration="10.95" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="39.82" data-duration="2.91" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="43" data-duration="3.92" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-4" src="assets/vo/s1-4.mp3" data-start="47.44" data-duration="3.95" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-5" src="assets/vo/s1-5.mp3" data-start="51.66" data-duration="4.11" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="56.8" data-duration="2.25" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="59.32" data-duration="8.63" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="68.22" data-duration="4.5" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="72.99" data-duration="8.26" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="81.77" data-duration="3.06" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-6" src="assets/vo/s2-6.mp3" data-start="85.3" data-duration="4.53" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="90.8" data-duration="4.5" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="95.57" data-duration="11.39" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="107.38" data-duration="5.05" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="112.7" data-duration="5.57" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-5" src="assets/vo/s3-5.mp3" data-start="118.54" data-duration="4.89" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-6" src="assets/vo/s3-6.mp3" data-start="123.7" data-duration="4.01" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="128.7" data-duration="5.47" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="134.44" data-duration="11.65" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="146.56" data-duration="5.23" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="152.31" data-duration="2.8" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="156.1" data-duration="2.83" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="159.2" data-duration="11.84" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="171.31" data-duration="2.48" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="174.06" data-duration="4.45" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="179.5" data-duration="9.23" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="189" data-duration="2.8" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="192.32" data-duration="4.65" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="197.24" data-duration="4.11" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="8.2" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="49.94" data-duration="44.75" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="91.68" data-duration="44.75" data-track-index="7" data-volume="0.16"></audio>
+      <audio id="fx-3-fond" src="assets/sfx/fond.mp3" data-start="133.42" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-4-fond" src="assets/sfx/fond.mp3" data-start="175.16" data-duration="30.22" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-5-pop" src="assets/sfx/pop.mp3" data-start="2.98" data-duration="0.61" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-6-jingle" src="assets/sfx/jingle.mp3" data-start="3.98" data-duration="3.51" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.85" data-duration="1.39" data-track-index="6" data-volume="0.4"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="27.95" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="56.15" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="90.15" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="128.05" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-12-whoosh" src="assets/sfx/whoosh.mp3" data-start="155.45" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-13-whoosh" src="assets/sfx/whoosh.mp3" data-start="178.85" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-14-whoosh" src="assets/sfx/whoosh.mp3" data-start="9.09" data-duration="1.39" data-track-index="7" data-volume="0.3"></audio>
+      <audio id="fx-15-zap" src="assets/sfx/zap.mp3" data-start="39.16" data-duration="0.5" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-16-whoosh" src="assets/sfx/whoosh.mp3" data-start="75.46" data-duration="1.39" data-track-index="6" data-volume="0.3"></audio>
+      <audio id="fx-17-chime" src="assets/sfx/chime.mp3" data-start="82.04" data-duration="1.21" data-track-index="7" data-volume="0.35"></audio>
+      <audio id="fx-18-chime" src="assets/sfx/chime.mp3" data-start="177.92" data-duration="1.21" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="fx-19-jingle" src="assets/sfx/jingle.mp3" data-start="202.5" data-duration="2.83" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-20-tic" src="assets/sfx/tic.mp3" data-start="14.81" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-21-pop" src="assets/sfx/pop.mp3" data-start="26.4" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-22-tic" src="assets/sfx/tic.mp3" data-start="49.32" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-23-pop" src="assets/sfx/pop.mp3" data-start="52.95" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-24-tic" src="assets/sfx/tic.mp3" data-start="61.32" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-25-tic" src="assets/sfx/tic.mp3" data-start="63.33" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-26-tic" src="assets/sfx/tic.mp3" data-start="65.98" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-27-tic" src="assets/sfx/tic.mp3" data-start="76.44" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-28-pop" src="assets/sfx/pop.mp3" data-start="86.22" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-29-tic" src="assets/sfx/tic.mp3" data-start="97.91" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-30-tic" src="assets/sfx/tic.mp3" data-start="105.73" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-31-tic" src="assets/sfx/tic.mp3" data-start="116.77" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-32-tic" src="assets/sfx/tic.mp3" data-start="126.18" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-33-tic" src="assets/sfx/tic.mp3" data-start="140.15" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-34-tic" src="assets/sfx/tic.mp3" data-start="141.59" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-35-tic" src="assets/sfx/tic.mp3" data-start="143.17" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-36-tic" src="assets/sfx/tic.mp3" data-start="148.02" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-37-tic" src="assets/sfx/tic.mp3" data-start="160.43" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-38-tic" src="assets/sfx/tic.mp3" data-start="162.72" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-39-tic" src="assets/sfx/tic.mp3" data-start="168.07" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-40-tic" src="assets/sfx/tic.mp3" data-start="174.1" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-41-pop" src="assets/sfx/pop.mp3" data-start="177.72" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-42-tic" src="assets/sfx/tic.mp3" data-start="180.92" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-43-tic" src="assets/sfx/tic.mp3" data-start="183.2" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-44-tic" src="assets/sfx/tic.mp3" data-start="187.66" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-45-pop" src="assets/sfx/pop.mp3" data-start="200.45" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-46-tic" src="assets/sfx/tic.mp3" data-start="203.1" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":205.4,"scenes":{"g":{"start":0,"end":7.6},"s0":{"start":7.6,"end":28.2},"s1":{"start":28.2,"end":56.4},"s2":{"start":56.4,"end":90.4},"s3":{"start":90.4,"end":128.3},"s4":{"start":128.3,"end":155.7},"s5":{"start":155.7,"end":179.1},"s6":{"start":179.1,"end":205.4}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":7.6,"end":27.58},"s1":{"start":28.2,"end":55.79},"s2":{"start":56.4,"end":89.85},"s3":{"start":90.4,"end":127.73},"s4":{"start":128.3,"end":155.13},"s5":{"start":155.7,"end":178.53},"s6":{"start":179.1,"end":201.37}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":8.2,"end":12.8,"who":"zoe","words":[["Max,",8.59,8.61],["quand",8.64,8.77],["je",8.82,8.93],["souffle",8.99,9.33],["mes",9.35,9.41],["bougies",9.45,9.65],["d'anniversaire,",9.69,10.53],["la",10.58,10.69],["flamme",10.74,11.09],["disparaît.",11.17,11.73],["Mais",11.81,12.13],["elle",12.16,12.29],["va",12.34,12.45],["où",12.5,12.61],["?",12.69,12.77]]},"s0-2":{"start":13.05,"end":18.38,"who":"max","words":[["Nulle",13.28,13.47],["part.",13.52,13.82],["Une",13.92,14.25],["flamme,",14.3,14.64],["ce",14.66,14.68],["n'est",14.73,14.86],["pas",14.88,14.95],["un",14.97,15.03],["objet.",15.11,15.73],["C'est",15.75,15.82],["quelque",15.85,16.08],["chose",16.11,16.25],["qui",16.29,16.42],["est",16.45,16.51],["en",16.57,16.68],["train",16.73,16.95],["de",16.98,17.03],["se",17.06,17.12],["passer.",17.18,18.42]]},"s0-3":{"start":18.63,"end":22.6,"who":"zoe","words":[["Comme",18.79,18.88],["une",18.92,19.04],["partie",19.1,19.44],["de",19.47,19.52],["foot",19.6,19.92],["?",19.96,20],["Quand",20.19,20.64],["elle",20.67,20.8],["est",20.82,20.88],["finie,",20.94,21.44],["elle",21.47,21.6],["n'est",21.62,21.68],["rangée",21.73,22],["nulle",22.04,22.16],["part.",22.22,22.56]]},"s0-4":{"start":22.85,"end":27.58,"who":"max","words":[["Exactement.",23.27,23.97],["Et",24.05,24.23],["pour",24.26,24.4],["jouer",24.44,24.66],["cette",24.69,24.83],["partie-là,",24.88,25.7],["il",25.76,25.88],["faut",25.93,26.14],["trois",26.2,26.49],["joueurs.",26.55,27.62]]},"s1-1":{"start":28.6,"end":39.57,"who":"max","words":[["Premier",28.82,28.94],["joueur",28.97,29.2],[":",29.29,29.37],["quelque",29.41,29.63],["chose",29.66,29.81],["à",29.85,29.89],["brûler.",29.95,30.33],["Du",30.5,30.85],["bois,",30.94,31.55],["du",31.58,31.63],["papier,",31.7,32.5],["de",32.53,32.59],["la",32.65,32.76],["cire.",32.85,33.37],["Deuxième",33.63,34.5],[":",34.72,34.94],["l'air,",34.98,35.42],["parce",35.44,35.55],["qu'il",35.58,35.72],["contient",35.77,36.07],["de",36.1,36.15],["l'oxygène.",36.16,36.77],["Troisième",36.94,37.9],[":",38.03,38.16],["de",38.19,38.24],["la",38.3,38.42],["chaleur,",38.48,38.94],["pour",38.97,39.11],["démarrer.",39.16,39.63]]},"s1-2":{"start":39.82,"end":42.75,"who":"zoe","words":[["Un",40,40.01],["triangle,",40.07,40.65],["quoi.",40.7,41.29],["Et",41.42,41.69],["si",41.74,41.85],["j'enlève",41.89,42.17],["un",42.19,42.25],["côté",42.31,42.57],["?",42.65,42.73]]},"s1-3":{"start":43,"end":46.94,"who":"max","words":[["Plus",43.27,43.34],["de",43.39,43.51],["feu.",43.57,44.21],["Regarde",44.31,44.9],[":",45.16,45.42],["je",45.48,45.6],["pose",45.65,45.86],["un",45.89,45.94],["verre",45.99,46.21],["sur",46.23,46.29],["la",46.35,46.47],["bougie.",46.51,46.99]]},"s1-4":{"start":47.44,"end":51.41,"who":"zoe","words":[["Elle",47.63,47.64],["n'a",47.68,47.8],["plus",47.83,47.96],["assez",48,48.2],["d'oxygène…",48.22,48.84],["elle",48.97,49.48],["s'éteint.",49.52,50.04],["Elle",50.18,50.76],["étouffe",50.84,51.24],["!",51.32,51.4]]},"s1-5":{"start":51.66,"end":55.79,"who":"max","words":[["Voilà.",51.87,52.57],["Le",52.72,53.01],["feu",53.05,53.18],["respire,",53.25,53.79],["comme",53.92,54.57],["toi.",54.64,55.79]]},"s2-1":{"start":56.8,"end":59.07,"who":"zoe","words":[["Et",57.05,57.05],["dans",57.08,57.21],["une",57.25,57.37],["bougie,",57.41,57.77],["c'est",57.81,57.93],["la",57.96,58.01],["mèche",58.09,58.41],["qui",58.43,58.49],["brûle",58.57,58.89],["?",58.97,59.05]]},"s2-2":{"start":59.32,"end":67.97,"who":"max","words":[["Presque",59.59,59.83],["pas.",59.89,60.53],["La",60.67,60.96],["chaleur",61.02,61.31],["fait",61.34,61.48],["fondre",61.52,61.83],["la",61.86,61.92],["cire.",62,62.44],["La",62.58,62.87],["cire",62.92,63.05],["liquide",63.12,63.48],["grimpe",63.53,63.83],["dans",63.85,63.92],["la",63.97,64.09],["mèche,",64.13,64.61],["et",64.64,64.7],["là-haut,",64.76,65.22],["elle",65.24,65.31],["se",65.37,65.48],["transforme",65.53,66],["en",66.03,66.09],["gaz.",66.18,66.53],["C'est",66.66,66.87],["ce",66.93,67.05],["gaz",67.13,67.39],["qui",67.44,67.57],["brûle.",67.6,68]]},"s2-3":{"start":68.22,"end":72.74,"who":"zoe","words":[["Attends.",68.49,68.9],["La",69.19,69.78],["flamme,",69.84,70.34],["c'est",70.58,70.98],["du",71.03,71.14],["gaz",71.26,71.62],["de",71.65,71.7],["bougie",71.76,72.1],["qui",72.14,72.26],["brûle",72.31,72.58],["?",72.66,72.74]]},"s2-4":{"start":72.99,"end":81.27,"who":"max","words":[["Oui.",73.12,73.6],["Et",73.7,73.9],["je",73.96,74.08],["peux",74.11,74.25],["le",74.28,74.34],["prouver.",74.37,75.03],["Je",75.12,75.29],["souffle…",75.36,76.16],["tu",76.22,76.34],["vois",76.37,76.51],["la",76.54,76.6],["fumée",76.64,76.95],["blanche",76.98,77.29],["?",77.42,77.56],["C'est",77.69,77.9],["de",77.93,77.99],["la",78.02,78.08],["cire",78.12,78.34],["en",78.37,78.42],["gaz.",78.51,78.86],["J'approche",79.21,79.99],["une",80.01,80.08],["allumette",80.12,80.51],["de",80.54,80.6],["la",80.63,80.69],["fumée…",80.77,81.29]]},"s2-5":{"start":81.77,"end":84.85,"who":"zoe","words":[["La",82.16,82.17],["flamme",82.2,82.41],["a",82.45,82.49],["sauté",82.54,82.81],["sur",82.85,82.97],["la",83.02,83.13],["mèche",83.17,83.53],["!",83.69,83.85],["C'est",83.89,84.01],["de",84.04,84.09],["la",84.12,84.17],["magie",84.25,84.65],["!",84.73,84.81]]},"s2-6":{"start":85.3,"end":89.85,"who":"max","words":[["Non.",85.59,85.69],["C'est",85.95,86.3],["de",86.33,86.39],["la",86.42,86.47],["chimie.",86.52,86.91],["C'est",87.13,87.52],["mieux",87.56,87.78],[":",88.08,88.39],["ça",88.44,88.56],["marche",88.62,88.99],["à",89.04,89.08],["tous",89.13,89.34],["les",89.39,89.52],["coups.",89.56,89.86]]},"s3-1":{"start":90.8,"end":95.32,"who":"zoe","words":[["Pourquoi",91.12,91.29],["la",91.34,91.45],["flamme",91.5,91.77],["est",91.81,91.93],["bleue",91.97,92.17],["en",92.22,92.33],["bas",92.39,92.57],["et",92.65,92.81],["jaune",92.89,93.21],["en",93.24,93.29],["haut",93.34,93.53],["?",94.41,95.29]]},"s3-2":{"start":95.57,"end":106.98,"who":"max","words":[["En",95.79,95.82],["bas,",95.88,96.34],["le",96.4,96.51],["gaz",96.6,96.86],["brûle",96.89,97.12],["très",97.17,97.38],["bien",97.43,97.64],[":",97.82,97.99],["c'est",98.03,98.16],["bleu,",98.21,98.64],["et",98.71,98.86],["très",98.91,99.12],["chaud.",99.16,99.86],["Plus",99.95,100.34],["haut,",100.39,100.95],["il",101,101.12],["reste",101.18,101.47],["de",101.55,101.73],["minuscules",101.77,102.34],["grains",102.37,102.6],["noirs,",102.69,103.29],["la",103.35,103.47],["suie.",103.53,103.82],["Ils",104.03,104.69],["chauffent",104.71,105.03],["tellement",105.05,105.38],["qu'ils",105.53,105.99],["brillent",106.03,106.34],["en",106.37,106.42],["jaune.",106.51,107.03]]},"s3-3":{"start":107.38,"end":112.45,"who":"zoe","words":[["Donc",108.02,108.03],["le",108.11,108.27],["jaune,",108.35,108.83],["ce",108.99,109.31],["sont",109.42,109.87],["des",109.93,110.11],["poussières",110.19,110.99],["qui",111.05,111.23],["font",111.28,111.47],["les",111.51,111.63],["ampoules.",111.71,112.43]]},"s3-4":{"start":112.7,"end":118.29,"who":"max","words":[["Joli.",112.96,113.53],["Et",113.7,114.05],["la",114.11,114.22],["flamme",114.29,114.74],["pointe",114.79,115.09],["vers",115.13,115.27],["le",115.32,115.44],["haut",115.48,115.61],["parce",115.69,116.05],["que",116.09,116.22],["l'air",116.27,116.48],["chaud",116.53,116.74],["est",116.77,116.83],["léger",116.92,117.27],[":",117.4,117.53],["il",117.58,117.7],["monte.",117.77,118.31]]},"s3-5":{"start":118.54,"end":123.45,"who":"zoe","words":[["Et",119.1,119.11],["dans",119.14,119.27],["l'espace,",119.31,119.91],["où",119.99,120.15],["rien",120.2,120.39],["ne",120.42,120.47],["monte",120.53,120.87],["?",122.15,123.43]]},"s3-6":{"start":123.7,"end":127.73,"who":"max","words":[["Dans",123.84,123.86],["une",123.88,123.95],["station",124,124.38],["spatiale,",124.47,125.34],["une",125.36,125.42],["flamme",125.49,125.86],["est",125.9,126.03],["une",126.08,126.21],["petite",126.26,126.55],["boule",126.58,126.82],["bleue.",126.86,127.77]]},"s4-1":{"start":128.7,"end":134.19,"who":"zoe","words":[["Quand",129.31,129.5],["une",129.56,129.74],["bûche",129.78,129.98],["a",130.06,130.14],["brûlé,",130.19,131.02],["il",131.05,131.1],["ne",131.15,131.26],["reste",131.3,131.5],["qu'un",131.55,131.74],["peu",131.78,131.9],["de",131.95,132.06],["cendre.",132.1,132.54],["Où",132.78,133.1],["est",133.12,133.18],["passé",133.23,133.5],["le",133.53,133.58],["reste",133.65,133.98],["?",134.06,134.14]]},"s4-2":{"start":134.44,"end":146.11,"who":"max","words":[["Dans",134.65,134.69],["l'air.",134.73,135.56],["En",135.7,135.99],["brûlant,",136.05,136.86],["le",136.92,137.04],["bois",137.09,137.3],["se",137.36,137.47],["transforme",137.52,138.08],["en",138.14,138.25],["gaz",138.34,138.6],["invisibles",138.69,139.38],[":",139.69,139.99],["de",140.02,140.08],["la",140.11,140.17],["vapeur",140.25,140.69],["d'eau",140.73,140.95],["et",141.07,141.3],["du",141.36,141.47],["gaz",141.54,141.73],["carbonique.",141.79,143.21],["La",143.27,143.38],["cendre,",143.47,144.34],["c'est",144.38,144.51],["ce",144.57,144.69],["qui",144.73,144.86],["ne",144.89,144.95],["peut",145.02,145.3],["pas",145.34,145.47],["brûler.",145.59,146.17]]},"s4-3":{"start":146.56,"end":151.81,"who":"zoe","words":[["Alors",146.83,146.92],["la",146.97,147.08],["bûche",147.16,147.56],["est",147.6,147.72],["sortie",147.78,148.12],["par",148.16,148.28],["la",148.31,148.36],["cheminée.",148.42,149.28],["Comme",149.37,149.72],["le",149.75,149.8],["père",149.84,150.04],["Noël,",150.09,150.52],["mais",150.55,150.68],["dans",150.73,150.92],["l'autre",150.96,151.24],["sens.",151.32,151.8]]},"s4-4":{"start":152.31,"end":155.13,"who":"max","words":[["Je",152.48,152.48],["n'avais",152.52,152.91],["jamais",152.95,153.17],["vu",153.23,153.35],["ça",153.4,153.52],["comme",153.55,153.69],["ça.",153.78,155.17]]},"s5-1":{"start":156.1,"end":158.95,"who":"zoe","words":[["Et",156.35,156.35],["pour",156.4,156.59],["éteindre",156.63,156.99],["un",157.04,157.15],["feu,",157.21,157.63],["on",157.71,157.87],["casse",157.91,158.11],["le",158.14,158.19],["triangle",158.25,158.75],["?",158.83,158.91]]},"s5-2":{"start":159.2,"end":171.06,"who":"max","words":[["Tu",159.33,159.33],["as",159.39,159.5],["tout",159.52,159.59],["compris.",159.63,160.03],["L'eau",160.33,160.81],["enlève",160.93,161.42],["la",161.45,161.5],["chaleur.",161.56,162.03],["Un",162.23,162.63],["couvercle",162.72,163.33],["sur",163.4,163.59],["la",163.62,163.68],["poêle",163.77,164.11],["enlève",164.23,164.72],["l'air.",164.77,165.24],["Et",165.45,165.85],["en",165.91,166.03],["forêt,",166.09,166.81],["les",166.85,166.98],["pompiers",167.03,167.59],["enlèvent",167.65,167.94],["les",168,168.2],["arbres",168.27,168.63],["devant",168.68,168.98],["le",169.01,169.07],["feu",169.13,169.33],[":",169.63,169.94],["plus",169.99,170.2],["rien",170.27,170.55],["à",170.59,170.63],["brûler.",170.69,171.07]]},"s5-3":{"start":171.31,"end":173.81,"who":"zoe","words":[["Et",172.1,172.11],["moi,",172.17,172.43],["j'enlève",172.47,172.83],["quoi",172.88,173.07],["?",173.43,173.79]]},"s5-4":{"start":174.06,"end":178.53,"who":"max","words":[["Toi,",174.19,174.37],["tu",174.4,174.45],["t'éloignes",174.5,175.06],["et",175.18,175.41],["tu",175.47,175.59],["préviens",175.65,176.02],["un",176.05,176.11],["adulte.",176.17,176.63],["Les",176.72,176.98],["pompiers,",177.02,177.76],["c'est",177.78,177.85],["le",177.88,177.93],["dix-huit.",178.02,178.54]]},"s6-1":{"start":179.5,"end":188.75,"who":"zoe","words":[["Je",179.69,179.7],["résume",179.78,180.18],[":",180.38,180.58],["le",180.61,180.66],["feu,",180.76,181.14],["c'est",181.18,181.38],["une",181.4,181.46],["transformation.",181.52,182.58],["Il",182.66,182.82],["lui",182.86,182.98],["faut",183.04,183.3],["du",183.38,183.54],["combustible,",183.6,184.58],["de",184.61,184.66],["l'air",184.7,185.06],["et",185.14,185.3],["de",185.33,185.38],["la",185.43,185.54],["chaleur.",185.59,186.42],["Et",186.5,186.66],["si",186.71,186.82],["on",186.85,186.9],["en",186.95,187.06],["enlève",187.11,187.46],["un,",187.51,188.02],["il",188.07,188.18],["s'éteint.",188.26,188.74]]},"s6-2":{"start":189,"end":191.82,"who":"max","words":[["Parfait.",189.21,189.74],["Tu",189.83,190],["peux",190.05,190.26],["souffler",190.28,190.52],["tes",190.56,190.69],["bougies.",190.74,191.83]]},"s6-3":{"start":192.32,"end":196.99,"who":"zoe","words":[["Dis,",192.49,192.73],["Max…",192.79,193.61],["à",193.65,193.69],["la",193.72,193.77],["plage,",193.84,194.25],["j'ai",194.29,194.41],["bu",194.46,194.57],["la",194.6,194.65],["tasse.",194.73,195.21],["Pourquoi",195.34,195.93],["la",195.98,196.09],["mer",196.15,196.33],["est",196.37,196.49],["salée",196.55,196.81],["?",196.89,196.97]]},"s6-4":{"start":197.24,"end":201.37,"who":"max","words":[["Ah,",197.46,197.66],["ça…",197.78,198.23],["c'est",198.34,198.53],["une",198.55,198.62],["histoire",198.66,198.97],["de",199.02,199.14],["cailloux",199.2,199.58],["et",199.63,199.75],["de",199.78,199.84],["pluie.",199.9,200.27],["La",200.42,200.71],["prochaine",200.75,201.05],["fois",201.09,201.23],["!",201.32,201.4]]}}};
+
+      const CFG_SUBJECT = "#gi-pollen";
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) =>
+    h[0] === "#"
+      ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      : h.match(/\d+/g).map(Number);
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+// chaque apparition est notée : scripts/autosfx.cjs en tire un petit bruitage
+const SFX_LOG = (window.__SFX = []);
+const show = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "tic"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "pop"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  SFX_LOG.push([t, "tic"]);
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- Hasard reproductible (même valeur à chaque rendu) et petites formes ---
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+// va-et-vient entre 0 et 1 (rebond sur les bords)
+const tri = (x) => {
+  const u = ((x % 2) + 2) % 2;
+  return u < 1 ? u : 2 - u;
+};
+// boule avec contour et reflet
+const ball = (x, y, r, fill, o = {}) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+const txt = (x, y, s, size, o = {}) =>
+  `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
+const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
+
+// --- Chemin fermé ou ouvert fait de segments droits : longueur et point à une distance donnée ---
+const mkPath = (pts, closed = true) => {
+  const P = closed ? pts.concat([pts[0]]) : pts;
+  const seg = [];
+  let L = 0;
+  for (let i = 1; i < P.length; i++) {
+    const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+    seg.push([L, d, P[i - 1], P[i]]);
+    L += d;
+  }
+  const at = (s) => {
+    const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    return P[P.length - 1];
+  };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
+};
+// fil électrique : gaine sombre + âme claire
+const wireSVG = (d, col = "#F2C9A0", w = 26) =>
+  `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
+// ampoule : on = 0 (éteinte) à 1 (allumée)
+const bulbSVG = (x, y, on, k = 1) =>
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
+  `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
+  `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
+  `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
+
+// --- Petites formes de l'épisode « gravité » ---
+// un bonhomme tout simple (tête ronde, corps en capsule), pieds en (x, y)
+const figSVG = (x, y, k = 1, col = C.blue) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-14 0 V-34 M14 0 V-34" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><rect x="-28" y="-104" width="56" height="78" rx="26" fill="${col}" class="ink"/><circle cx="0" cy="-134" r="30" fill="#FFD9B8" class="ink"/></g>`;
+// la tartine : face confiture vers le haut quand l'angle vaut 0
+const toastSVG = (x, y, rot, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
+// la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
+const earthSVG = (x, y, r, rot = 0) => {
+  const blob = (a, d, w, h) =>
+    `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
+};
+// flèche droite de (x1, y1) vers (x2, y2)
+const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
+  const a = Math.atan2(y2 - y1, x2 - x1),
+    h = w * 2.2;
+  const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
+  return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+};
+
+// --- Formes de l'épisode « lumière » ---
+const RAINBOW = ["#E0455E", "#FF8A1F", "#FFD23F", "#3DBE8B", "#2F5BD3", "#8E5BD6"];
+// le Soleil, centré en (x, y)
+const sunSVG = (x, y, r, t = 0) => {
+  let s = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU + t * 0.3;
+    s += `<path d="M${f2(x + (r + 14) * Math.cos(a))} ${f2(y + (r + 14) * Math.sin(a))} L${f2(x + (r + 44) * Math.cos(a))} ${f2(y + (r + 44) * Math.sin(a))}" stroke="${C.fire}" stroke-width="10" stroke-linecap="round"/>`;
+  }
+  return s + `<circle cx="${x}" cy="${y}" r="${r}" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+};
+// un rayon : trait coloré bordé de sombre, dessiné jusqu'à la fraction u de sa longueur
+const raySVG = (x1, y1, x2, y2, col, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const x = lerp(x1, x2, Math.min(1, u)),
+    y = lerp(y1, y2, Math.min(1, u));
+  return `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${C.ink}" stroke-width="${w + 6}" stroke-linecap="round"/><path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+};
+// un rayon installé, avec des petits traits blancs qui filent dedans pour montrer le sens
+const beamSVG = (x1, y1, x2, y2, col, t, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const k = Math.min(1, u),
+    x = lerp(x1, x2, k),
+    y = lerp(y1, y2, k);
+  return (
+    raySVG(x1, y1, x2, y2, col, u, w) +
+    `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`
+  );
+};
+// un œil vu de face, centré en (x, y)
+const eyeSVG = (x, y, k = 1, iris = "#3DBE8B") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M-110 0 Q0 -90 110 0 Q0 90 -110 0 Z" fill="#fff" class="ink" stroke-width="6"/><circle r="44" fill="${iris}" class="ink"/><circle r="20" fill="${C.ink}"/><circle cx="-12" cy="-14" r="9" fill="#fff"/></g>`;
+// un chat assis, pieds en (x, y)
+const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${col}" stroke-width="20" stroke-linecap="round"/><ellipse cx="0" cy="-80" rx="78" ry="96" fill="${col}" class="ink" stroke-width="5"/><circle cx="0" cy="-210" r="66" fill="${col}" class="ink" stroke-width="5"/><path d="M-56 -244 L-64 -300 L-18 -268 Z M56 -244 L64 -300 L18 -268 Z" fill="${col}" class="ink" stroke-width="5"/><circle cx="-24" cy="-216" r="9" fill="${C.ink}"/><circle cx="24" cy="-216" r="9" fill="${C.ink}"/><path d="M-8 -194 L8 -194 L0 -184 Z" fill="#F7A8B8" class="ink" stroke-width="3"/></g>`;
+
+// --- Petites formes de l'épisode « allergies » ---
+// un grain de pollen : boule jaune à picots, l'air innocent
+const pollenSVG = (x, y, r, rot = 0, op = 1) => {
+  let s = "";
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * TAU + rot;
+    s += `<path d="M${f2(x + r * 0.9 * Math.cos(a))} ${f2(y + r * 0.9 * Math.sin(a))} L${f2(x + r * 1.45 * Math.cos(a))} ${f2(y + r * 1.45 * Math.sin(a))}" stroke="${C.ink}" stroke-width="${f2(r * 0.18)}" stroke-linecap="round"/>`;
+  }
+  return `<g opacity="${f2(op)}">${s}<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${C.hot}" class="ink" stroke-width="4"/><circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><path d="M${f2(x - r * 0.25)} ${f2(y + r * 0.3)} Q${f2(x)} ${f2(y + r * 0.55)} ${f2(x + r * 0.25)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.1)}" stroke-linecap="round"/></g>`;
+};
+// un virus : boule verte à ventouses, l'air méchant ; k = taille (1 → 0 quand il est avalé)
+const virusSVG = (x, y, r, rot = 0, k = 1) => {
+  if (k <= 0.02) return "";
+  let s = "";
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * TAU + rot;
+    s += `<path d="M${f2(r * 0.9 * Math.cos(a))} ${f2(r * 0.9 * Math.sin(a))} L${f2(r * 1.4 * Math.cos(a))} ${f2(r * 1.4 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/><circle cx="${f2(r * 1.5 * Math.cos(a))}" cy="${f2(r * 1.5 * Math.sin(a))}" r="${f2(r * 0.2)}" fill="#3DBE8B" class="ink" stroke-width="3"/>`;
+  }
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})">${s}<circle r="${r}" fill="#3DBE8B" class="ink" stroke-width="4"/><path d="M${f2(-r * 0.55)} ${f2(-r * 0.4)} L${f2(-r * 0.15)} ${f2(-r * 0.2)} M${f2(r * 0.55)} ${f2(-r * 0.4)} L${f2(r * 0.15)} ${f2(-r * 0.2)}" stroke="${C.ink}" stroke-width="6" stroke-linecap="round"/><circle cx="${f2(-r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><path d="M${f2(-r * 0.3)} ${f2(r * 0.5)} Q0 ${f2(r * 0.3)} ${f2(r * 0.3)} ${f2(r * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/></g>`;
+};
+// un globule blanc, « garde » du corps : mood 0 = tranquille, 1 = en alerte ; look = -1…1 (direction du regard)
+const guardSVG = (x, y, r, t, mood = 0, look = 0) => {
+  const w = 0.05 * Math.sin(t * 3 + x * 0.01),
+    ex = look * r * 0.14;
+  let s = `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * (1 + w))}" ry="${f2(r * (1 - w))}" fill="#fff" class="ink" stroke-width="5"/><ellipse cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.5)}" rx="${f2(r * 0.22)}" ry="${f2(r * 0.12)}" fill="#DCE6F5"/>`;
+  s += `<circle cx="${f2(x - r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/>`;
+  if (mood > 0.5) {
+    s += `<path d="M${f2(x - r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x - r * 0.14 + ex)} ${f2(y - r * 0.26)} M${f2(x + r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x + r * 0.14 + ex)} ${f2(y - r * 0.26)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/><path d="M${f2(x - r * 0.22 + ex)} ${f2(y + r * 0.4)} H${f2(x + r * 0.22 + ex)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+    s += `<g transform="translate(${f2(x)} ${f2(y - r * 1.55)})"><circle r="${f2(r * 0.36)}" fill="#E0455E" class="ink" stroke-width="4"/><text y="${f2(r * 0.2)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${f2(r * 0.56)}" fill="#fff">!</text></g>`;
+  } else
+    s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+  return s;
+};
+// un anticorps : une antenne en Y, pied en (x, y), tournée de rot degrés
+const antibodySVG = (x, y, rot, k = 1, op = 1) => {
+  const d = "M0 0 V-30 M0 -30 L-18 -56 M0 -30 L18 -56";
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})" opacity="${f2(op)}" fill="none" stroke-linecap="round"><path d="${d}" stroke="${C.ink}" stroke-width="15"/><path d="${d}" stroke="${C.fire}" stroke-width="8"/></g>`;
+};
+// la cellule pleine de sacs (mastocyte) : n antennes plantées dessus, burst 0 → 1 = les sacs éclatent et l'histamine sort
+const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
+  let s = "";
+  for (let i = 0; i < nAnt; i++) {
+    const a = (i / nAnt) * TAU + 0.4;
+    s += antibodySVG(
+      x + (r - 6) * Math.cos(a),
+      y + (r - 6) * Math.sin(a),
+      (a * 180) / Math.PI + 90,
+      antK,
+    );
+  }
+  s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#EBDDFB" class="ink" stroke-width="6"/><circle cx="${f2(x + r * 0.1)}" cy="${f2(y + r * 0.05)}" r="${f2(r * 0.3)}" fill="#C9B1EE" class="ink" stroke-width="4"/>`;
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * TAU + rnd(i) * 0.3,
+      d0 = r * (0.5 + 0.3 * rnd(i + 20)),
+      d1 = r + 60 + rnd(i + 40) * 190;
+    const d = lerp(d0, d1, burst) + (burst > 0 ? 10 * Math.sin(t * 2 + i) : 0);
+    s += `<circle cx="${f2(x + d * Math.cos(a))}" cy="${f2(y + d * Math.sin(a))}" r="${f2(lerp(r * 0.1, 13, burst))}" fill="${C.fire}" stroke="${C.ink}" stroke-width="3"/>`;
+  }
+  return s;
+};
+// un vaisseau sanguin en coupe, avec ses globules rouges qui défilent
+const vesselSVG = (t, id) => {
+  let s = `<defs><clipPath id="${id}"><rect x="130" y="270" width="1660" height="520"/></clipPath></defs><rect x="130" y="270" width="1660" height="520" fill="#FFE9E6"/><g clip-path="url(#${id})">`;
+  for (let i = 0; i < 16; i++) {
+    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800),
+      y = 330 + rnd(i + 9) * 400;
+    s += `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="36" ry="26" fill="#F29AA6" opacity="0.75"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="16" ry="11" fill="#E77888" opacity="0.75"/>`;
+  }
+  return (
+    s +
+    `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`
+  );
+};
+// une fleur toute simple, pied en (x, y)
+const flowerSVG = (x, y, k = 1) => {
+  let s = `<path d="M0 0 V-300" stroke="#3DBE8B" stroke-width="20" stroke-linecap="round"/><path d="M0 -140 q-90 -20 -110 -90 q90 0 110 90 Z" fill="#3DBE8B" class="ink"/>`;
+  for (let i = 0; i < 7; i++) {
+    const a = (i / 7) * TAU + 0.2,
+      px = 96 * Math.cos(a),
+      py = -360 + 96 * Math.sin(a);
+    s += `<ellipse cx="${f2(px)}" cy="${f2(py)}" rx="62" ry="40" transform="rotate(${f2((a * 180) / Math.PI)} ${f2(px)} ${f2(py)})" fill="#F7A8B8" class="ink"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}<circle cx="0" cy="-360" r="56" fill="${C.hot}" class="ink" stroke-width="5"/></g>`;
+};
+
+// --- Petites formes de l'épisode « feu » ---
+// une flamme vivante : pied en (x, y), hauteur h ; o.k = vigueur 0…1, o.blue = flamme toute bleue, o.lean = penche (px)
+const flameSVG = (x, y, h, t, o = {}) => {
+  const k = o.k ?? 1;
+  if (k <= 0.02) return "";
+  const H = h * k * (1 + 0.06 * Math.sin(t * 11 + x)), sway = (o.lean ?? 0) + H * (0.07 * Math.sin(t * 9 + x * 0.01) + 0.04 * Math.sin(t * 14.3 + 1));
+  const lay = (s, col, op = 1) => {
+    const hh = H * s, w = hh * 0.36;
+    return `<path d="M${f2(x)} ${f2(y)} C ${f2(x - w)} ${f2(y)}, ${f2(x - w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + sway * s)} ${f2(y - hh)} C ${f2(x + w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + w)} ${f2(y)}, ${f2(x)} ${f2(y)} Z" fill="${col}" opacity="${op}"${s === 1 ? ` stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"` : ""}/>`;
+  };
+  return o.blue ? lay(1, "#5F86F0") + lay(0.6, "#BFD4FF") : lay(1, C.fire) + lay(0.66, C.hot) + lay(0.3, "#5F86F0", 0.9);
+};
+// une bougie : pied en (x, y), largeur w, hauteur h (la mèche dépasse de 24)
+const candleSVG = (x, y, w, h, col = "#FBF1D8") =>
+  `<rect x="${f2(x - w / 2)}" y="${f2(y - h)}" width="${w}" height="${h}" rx="${f2(w * 0.12)}" fill="${col}" class="ink" stroke-width="4"/><ellipse cx="${x}" cy="${f2(y - h + 3)}" rx="${f2(w * 0.36)}" ry="${f2(w * 0.1)}" fill="#fff" opacity="0.8"/><path d="M${x} ${f2(y - h)} v-24" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/>`;
+// un filet de fumée qui monte en ondulant depuis (x, y) ; k = 0…1 (hauteur), col = couleur
+const smokeSVG = (x, y, t, k = 1, col = "#fff", n = 14, H = 260) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = ((t * 0.45 + i / n) % 1) * k, yy = y - u * H, xx = x + 26 * Math.sin(u * 7 + t * 2 + i) * u;
+    s += `<circle cx="${f2(xx)}" cy="${f2(yy)}" r="${f2(8 + 16 * u)}" fill="${col}" stroke="${C.smoke}" stroke-width="2.5" opacity="${f2((1 - u / (k || 1)) * 0.9)}"/>`;
+  }
+  return s;
+};
+// une bûche couchée, centre (x, y), longueur L, épaisseur e
+const logSVG = (x, y, L, e) =>
+  `<rect x="${f2(x - L / 2)}" y="${f2(y - e / 2)}" width="${f2(L)}" height="${f2(e)}" rx="${f2(e / 2)}" fill="#B9772E" class="ink" stroke-width="4"/><ellipse cx="${f2(x + L / 2 - e * 0.32)}" cy="${f2(y)}" rx="${f2(e * 0.3)}" ry="${f2(e * 0.42)}" fill="#EBC07E" class="ink" stroke-width="3"/><path d="M${f2(x - L * 0.3)} ${f2(y - e * 0.12)} h${f2(L * 0.3)} M${f2(x - L * 0.2)} ${f2(y + e * 0.16)} h${f2(L * 0.24)}" stroke="#8A5A22" stroke-width="3" stroke-linecap="round"/>`;
+// un sapin tout simple, pied en (x, y), hauteur h
+const treeSVG = (x, y, h, col = "#3DBE8B") =>
+  `<rect x="${f2(x - h * 0.05)}" y="${f2(y - h * 0.22)}" width="${f2(h * 0.1)}" height="${f2(h * 0.22)}" fill="#B9772E" class="ink" stroke-width="3"/><path d="M${f2(x)} ${f2(y - h)} L${f2(x + h * 0.3)} ${f2(y - h * 0.2)} H${f2(x - h * 0.3)} Z" fill="${col}" class="ink" stroke-width="4"/>`;
+
+      // ===== g.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
+  const SUBJECT = CFG_SUBJECT;
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const OTHERS = ICONS.filter((i) => i !== SUBJECT);
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
+  const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // L'objet du jour vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag"].concat(OTHERS),
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to(SUBJECT, { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to(SUBJECT, { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s0-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s0").start,
+  );
+})();
+
+      // ===== s0.js =====
+// ---------- Scène 0 : le gâteau d'anniversaire ; on souffle, la flamme « disparaît » ----------
+(() => {
+  // l'icône du générique devient une flamme pour cet épisode
+  document.getElementById("gi-pollen-g").innerHTML = flameSVG(75, 132, 112, 0);
+  const tB = cue("s0-1", "souffle") + 0.25, tR = cue("s0-2", "passer") - 0.6, tF = cue("s0-3", "foot") - 0.5, t3 = cue("s0-4", "trois") - 0.3;
+  const CX = [560, 700, 840];
+  onDraw("s0", (t) => {
+    const out = ramp(t, tB, tB + 0.35), back = ramp(t, tR, tR + 0.5);
+    let s = `<path d="M130 850 H1790" class="ink" stroke-width="6"/>`;
+    // le gâteau
+    s += `<rect x="400" y="640" width="600" height="210" rx="34" fill="#F7A8B8" class="ink" stroke-width="5"/><path d="M400 700 q50 60 100 0 q50 60 100 0 q50 60 100 0 q50 60 100 0 q50 60 100 0 q50 60 100 0" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/><rect x="360" y="840" width="680" height="26" rx="13" fill="#fff" class="ink" stroke-width="4"/>`;
+    CX.forEach((x, i) => {
+      s += candleSVG(x, 644, 34, 130, ["#8FD3FF", "#FFE14D", "#3DBE8B"][i]);
+      const k = (1 - out) + back * (i === 1 ? 1 : 0);
+      s += flameSVG(x, 494, 96, t + i, { k, lean: -60 * out * (1 - back) });
+      if (out > 0 && k < 0.5) s += smokeSVG(x, 490, t + i * 0.3, Math.min(1, (t - tB) * 0.8) * (1 - ramp(t, tB + 3.5, tB + 5)), "#fff", 9, 220);
+    });
+    // le souffle
+    const b = (t - tB + 0.25) / 0.7;
+    if (b > 0 && b < 1) for (let i = 0; i < 5; i++) s += `<path d="M${f2(150 + b * 300)} ${f2(430 + i * 30)} h${f2(120 + i * 12)}" stroke="${C.air}" stroke-width="12" stroke-linecap="round" opacity="${f2(1 - b)}"/>`;
+    // la partie de foot : un ballon qui rebondit
+    const u = (t - tF) / 3.2;
+    if (u > 0 && u < 1) {
+      const bx = 1100 + u * 620, by = 820 - Math.abs(Math.sin(u * Math.PI * 3)) * 300 * (1 - u * 0.6);
+      s += `<g transform="rotate(${f2(u * 720)} ${f2(bx)} ${f2(by)})"><circle cx="${f2(bx)}" cy="${f2(by)}" r="44" fill="#fff" class="ink" stroke-width="5"/><path d="M${f2(bx)} ${f2(by - 18)} l17 12 l-7 20 h-20 l-7 -20 Z" fill="${C.ink}"/><path d="M${f2(bx)} ${f2(by - 18)} v-24 M${f2(bx + 17)} ${f2(by - 6)} l22 -8 M${f2(bx + 10)} ${f2(by + 14)} l14 20 M${f2(bx - 10)} ${f2(by + 14)} l-14 20 M${f2(bx - 17)} ${f2(by - 6)} l-22 -8" stroke="${C.ink}" stroke-width="4"/></g>`;
+    }
+    // les trois joueurs : trois pastilles numérotées
+    for (let i = 0; i < 3; i++) {
+      const k = ramp(t, t3 + i * 0.18, t3 + 0.3 + i * 0.18);
+      if (k > 0) s += `<g transform="translate(${1300 + i * 170} ${f2(520 + 10 * Math.sin(t * 3 + i))}) scale(${f2(k)})"><circle r="64" fill="${[C.fire, C.air, C.hot][i]}" class="ink" stroke-width="5"/>${txt(0, 24, String(i + 1), 72, { w: 700 })}</g>`;
+    }
+    $("#s0-draw").innerHTML = s;
+  });
+  show("#s0-n1", cue("s0-2", "objet") - 0.3);
+  pop("#s0-n2", t3 + 0.5);
+})();
+
+      // ===== s1.js =====
+// ---------- Scène 1 : le triangle du feu ; on pose un verre sur la bougie, elle s'éteint ----------
+(() => {
+  const T = [cue("s1-1", "brûler") - 0.4, cue("s1-1", "air") - 0.4, cue("s1-1", "chaleur") - 0.4], tOn = cue("s1-1", "démarrer") - 0.2;
+  const tQ = cue("s1-2", "enlève") - 0.2, tG = cue("s1-3", "verre") - 0.9, tOff0 = cue("s1-4", "oxygène") - 0.6, tOff = cue("s1-4", "éteint");
+  const A = [960, 240], B = [600, 800], Cc = [1320, 800];
+  const side = (p, q, col, k, lab, off) => {
+    if (k <= 0) return "";
+    const x2 = lerp(p[0], q[0], k), y2 = lerp(p[1], q[1], k), mx = (p[0] + q[0]) / 2 + off[0], my = (p[1] + q[1]) / 2 + off[1];
+    return `<path d="M${p[0]} ${p[1]} L${f2(x2)} ${f2(y2)}" stroke="${C.ink}" stroke-width="44" stroke-linecap="round"/><path d="M${p[0]} ${p[1]} L${f2(x2)} ${f2(y2)}" stroke="${col}" stroke-width="32" stroke-linecap="round"/>` + (k > 0.9 ? txt(mx, my, lab, 40, { anchor: off[0] < 0 ? "end" : off[0] > 0 ? "start" : "middle" }) : "");
+  };
+  onDraw("s1", (t) => {
+    const mv = ramp(t, tG - 0.6, tG), air = 1 - ramp(t, tOff0, tOff), wob = t > tQ && t < tG ? 10 * Math.sin((t - tQ) * 14) * (1 - ramp(t, tQ, tQ + 1.2)) : 0;
+    let g = side(B, A, "#B9772E", ramp(t, T[0], T[0] + 0.5), "À brûler", [-60, 0]);
+    g += `<g transform="translate(${f2(wob + 80 * (1 - air))} 0)" opacity="${f2(0.25 + 0.75 * air)}">` + side(A, Cc, C.air, ramp(t, T[1], T[1] + 0.5), "L’air (oxygène)", [60, 0]) + `</g>`;
+    g += side(Cc, B, C.fire, ramp(t, T[2], T[2] + 0.5), "La chaleur", [0, 84]);
+    g += flameSVG(960, 720, 300, t, { k: ramp(t, tOn, tOn + 0.5) * air });
+    let s = `<g transform="translate(${f2(-360 * mv)} ${f2(60 * mv)}) scale(${f2(1 - 0.22 * mv)})" transform-origin="960 540">${g}</g>`;
+    // la bougie et son verre
+    if (mv > 0) {
+      const gx = 1380, down = ramp(t, tG, tG + 0.9), gy = lerp(-420, 0, down);
+      let c = `<path d="M1100 800 H1660" class="ink" stroke-width="6"/>` + candleSVG(gx, 798, 60, 230) + flameSVG(gx, 544, 130, t, { k: air });
+      if (air < 0.6) c += smokeSVG(gx, 540, t, 1 - air, "#fff", 8, 180);
+      // les grains d'oxygène enfermés : ils s'épuisent
+      for (let i = 0; i < 14; i++) if (down > 0.95) c += `<circle cx="${f2(gx - 150 + rnd(i) * 300 + 8 * Math.sin(t * 2 + i))}" cy="${f2(380 + rnd(i + 20) * 380 + 8 * Math.cos(t * 2.3 + i))}" r="12" fill="${C.air}" stroke="${C.ink}" stroke-width="3" opacity="${f2(i / 14 < air ? 1 : 0.12)}"/>`;
+      c += `<g transform="translate(0 ${f2(gy)})"><path d="M${gx - 190} 800 V400 Q${gx - 190} 330 ${gx - 120} 330 H${gx + 120} Q${gx + 190} 330 ${gx + 190} 400 V800" fill="#CFEFFF" fill-opacity="0.35" class="ink" stroke-width="6"/><path d="M${gx - 150} 420 V640" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.8"/></g>`;
+      s += `<g opacity="${f2(mv)}">${c}</g>`;
+    }
+    $("#s1-draw").innerHTML = s;
+  });
+  show("#s1-n1", tOff - 0.2);
+  pop("#s1-n2", cue("s1-5", "respire") - 0.3);
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : dans la bougie, la cire fond, grimpe, devient un gaz ; la preuve par la fumée ----------
+(() => {
+  const tM = cue("s2-2", "fondre") - 0.4, tUp = cue("s2-2", "grimpe") - 0.4, tGz = cue("s2-2", "gaz") - 0.5, tBr = cue("s2-2", "brûle") - 0.3;
+  const tBl = cue("s2-4", "souffle") + 0.3, tMa = cue("s2-4", "allumette") - 0.8, tJ = cue("s2-5", "sauté") - 0.7;
+  const X = 700, TOP = 470;
+  onDraw("s2", (t) => {
+    const off = ramp(t, tBl, tBl + 0.3), on2 = ramp(t, tJ + 0.45, tJ + 0.7), k = 1 - off + on2;
+    let s = `<path d="M130 850 H1790" class="ink" stroke-width="6"/>`;
+    // la bougie en coupe
+    s += `<rect x="${X - 150}" y="${TOP}" width="300" height="380" rx="20" fill="#FBF1D8" class="ink" stroke-width="5"/>`;
+    const melt = ramp(t, tM, tM + 0.8);
+    s += `<path d="M${X - 130} ${TOP + 4} Q${X} ${TOP + 30 + 26 * melt} ${X + 130} ${TOP + 4} Z" fill="${mixHex("#FBF1D8", "#FFE9A8", melt)}" class="ink" stroke-width="4"/>`;
+    s += `<path d="M${X} ${TOP + 150} V${TOP - 60}" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/>`;
+    // les ondes de chaleur qui descendent vers la cire
+    if (t > tM && k > 0.5) for (let i = 0; i < 3; i++) { const u = (t * 0.9 + i / 3) % 1; s += `<path d="M${X - 90 + i * 90} ${f2(TOP - 90 + u * 80)} q16 14 0 28 q-16 14 0 28" fill="none" stroke="${C.fire}" stroke-width="7" stroke-linecap="round" opacity="${f2((1 - u) * melt)}"/>`; }
+    // les gouttes de cire qui grimpent dans la mèche
+    if (t > tUp) for (let i = 0; i < 5; i++) { const u = (t * 0.7 + i / 5) % 1; s += `<circle cx="${f2(X + 5 * Math.sin(u * 20))}" cy="${f2(TOP + 40 - u * 96)}" r="9" fill="#FFD23F" stroke="${C.ink}" stroke-width="3" opacity="${f2(k > 0.5 || off > 0 ? 1 : 0)}"/>`; }
+    // le gaz de cire autour du haut de la mèche
+    if (t > tGz) for (let i = 0; i < 10; i++) { const u = (t * 0.8 + rnd(i)) % 1, a = rnd(i + 9) * TAU; s += `<circle cx="${f2(X + (14 + u * 54) * Math.cos(a))}" cy="${f2(TOP - 74 - u * 60 + 20 * Math.sin(a))}" r="${f2(6 + u * 5)}" fill="#fff" stroke="${C.smoke}" stroke-width="2.5" opacity="${f2(1 - u)}"/>`; }
+    s += flameSVG(X, TOP - 56, 230 * (1 + 0.12 * ramp(t, tBr, tBr + 0.3) * (1 - ramp(t, tBr + 0.3, tBr + 0.9))), t, { k, lean: -80 * off * (1 - on2) });
+    // on souffle : la fumée blanche monte ; l'allumette s'approche, la flamme redescend le long de la fumée
+    if (off > 0 && on2 < 1) {
+      const b = (t - tBl + 0.3) / 0.7;
+      if (b > 0 && b < 1) for (let i = 0; i < 4; i++) s += `<path d="M${f2(180 + b * 260)} ${f2(330 + i * 28)} h110" stroke="${C.air}" stroke-width="12" stroke-linecap="round" opacity="${f2(1 - b)}"/>`;
+      s += smokeSVG(X, TOP - 64, t, Math.min(1, (t - tBl) * 0.7) * (1 - on2), "#fff", 16, 300);
+      const m = ramp(t, tMa, tMa + 1.0), mx = lerp(1300, X + 70, m), my = lerp(120, TOP - 320, m);
+      if (m > 0) s += `<g opacity="${f2(1 - on2)}"><path d="M${f2(mx)} ${f2(my)} l150 -70" stroke="#EBC07E" stroke-width="16" stroke-linecap="round"/><circle cx="${f2(mx)}" cy="${f2(my)}" r="13" fill="#E0455E" class="ink" stroke-width="3"/>${flameSVG(mx, my - 6, 70, t + 2)}</g>`;
+      const j = ramp(t, tJ, tJ + 0.5);
+      if (j > 0 && j < 1) s += flameSVG(X + 30 * (1 - j), lerp(TOP - 300, TOP - 60, j), 90, t * 2);
+    }
+    $("#s2-draw").innerHTML = s;
+  });
+  const l1 = label("s2", "s2-l1", [X + 60, TOP + 18], [1080, 560], "1. La cire fond", "la chaleur de la flamme la rend liquide");
+  const l2 = label("s2", "s2-l2", [X + 8, TOP - 20], [1080, 430], "2. Elle grimpe dans la mèche", "comme l’eau dans une éponge");
+  const l3 = label("s2", "s2-l3", [X + 50, TOP - 110], [1080, 300], "3. Elle devient un gaz", "et c’est ce gaz qui brûle");
+  showLabel(l1, tM + 0.2); showLabel(l2, tUp + 0.2); showLabel(l3, tGz + 0.3);
+  [l1, l2, l3].forEach((l) => hideLabel(l, tBl - 0.4));
+  const l4 = label("s2", "s2-l4", [X - 30, TOP - 240], [240, 240], "La fumée blanche", "de la cire en gaz");
+  showLabel(l4, cue("s2-4", "fumée") - 0.2); hideLabel(l4, tJ + 0.5);
+  pop("#s2-n1", cue("s2-6", "chimie") - 0.3);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : bleu en bas, jaune en haut ; la flamme monte ; dans l'espace, une boule bleue ----------
+(() => {
+  const tB = cue("s3-2", "bleu") - 0.4, tS = cue("s3-2", "suie") - 0.6, tY = cue("s3-2", "brillent") - 0.5, tUp = cue("s3-4", "monte") - 1.6, tSp = cue("s3-5", "espace") - 0.5;
+  const X = 620, Y = 800;
+  onDraw("s3", (t) => {
+    let s = `<path d="M${X} ${Y + 40} V${Y - 30}" stroke="${C.ink}" stroke-width="16" stroke-linecap="round"/><rect x="${X - 130}" y="${Y + 30}" width="260" height="40" rx="14" fill="#FBF1D8" class="ink" stroke-width="5"/>`;
+    s += flameSVG(X, Y - 10, 560, t * 0.7);
+    // le bas bleu mis en avant
+    const hb = ramp(t, tB, tB + 0.4) * (1 - ramp(t, tS, tS + 0.4));
+    if (hb > 0) s += `<ellipse cx="${X}" cy="${Y - 70}" rx="${f2(130 + 8 * Math.sin(t * 6))}" ry="90" fill="none" stroke="${C.blue}" stroke-width="8" stroke-dasharray="18 14" opacity="${f2(hb)}"/>`;
+    // les grains de suie : noirs, puis brillants
+    if (t > tS) for (let i = 0; i < 16; i++) {
+      const u = (t * 0.35 + rnd(i)) % 1, glow = ramp(t, tY, tY + 0.6);
+      const x = X + (rnd(i + 30) - 0.5) * 150 * (1 - u), y = Y - 170 - u * 300;
+      s += `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(7 + 4 * glow)}" fill="${mixHex("#1F2A44", "#FFF6B0", glow)}" stroke="${glow > 0.5 ? C.fire : C.ink}" stroke-width="2.5" opacity="${f2(Math.sin(u * Math.PI))}"/>`;
+    }
+    // l'air chaud monte
+    const up = ramp(t, tUp, tUp + 0.5) * (1 - ramp(t, tSp - 0.3, tSp));
+    if (up > 0) for (let i = 0; i < 4; i++) { const u = (t * 0.5 + i / 4) % 1, x = X + (i < 2 ? -250 - i * 70 : 250 + (i - 2) * 70); s += arrowSVG(x, Y - 80 - u * 300, x, Y - 220 - u * 300, C.fire, 12, up * Math.sin(u * Math.PI)); }
+    // dans la station spatiale
+    const sp = ramp(t, tSp, tSp + 0.5);
+    if (sp > 0) {
+      let g = `<rect x="1160" y="280" width="600" height="520" rx="40" fill="#1B2445" class="ink" stroke-width="6"/>`;
+      for (let i = 0; i < 26; i++) g += `<circle cx="${f2(1180 + rnd(i) * 560)}" cy="${f2(300 + rnd(i + 50) * 480)}" r="${f2(2 + rnd(i + 9) * 2.5)}" fill="#fff" opacity="${f2(0.4 + 0.5 * Math.abs(Math.sin(t * 2 + i)))}"/>`;
+      const fy = 560 + 10 * Math.sin(t * 1.4), r = 92 + 5 * Math.sin(t * 7);
+      g += `<path d="M1460 ${fy + 130} V${fy + 30}" stroke="#D9DEE8" stroke-width="12" stroke-linecap="round"/><circle cx="1460" cy="${f2(fy)}" r="${f2(r + 26)}" fill="#5F86F0" opacity="0.3"/><circle cx="1460" cy="${f2(fy)}" r="${f2(r)}" fill="#5F86F0" stroke="#BFD4FF" stroke-width="5"/><circle cx="1460" cy="${f2(fy)}" r="${f2(r * 0.55)}" fill="#BFD4FF"/>`;
+      s += `<g opacity="${f2(sp)}" transform="translate(0 ${f2(30 * (1 - sp))})">${g}</g>`;
+    }
+    $("#s3-draw").innerHTML = s;
+  });
+  const l1 = label("s3", "s3-l1", [X + 70, Y - 60], [1010, 700], "Bleu", "le gaz brûle très bien : très chaud");
+  const l2 = label("s3", "s3-l2", [X + 60, Y - 360], [1010, 420], "Jaune", "des grains de suie qui brillent");
+  showLabel(l1, tB + 0.1); showLabel(l2, tY + 0.2);
+  [l1, l2].forEach((l) => hideLabel(l, tSp - 0.3));
+  show("#s3-n1", tUp + 0.6);
+  show("#s3-n2", cue("s3-6", "boule") - 0.4);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : la bûche devient des gaz invisibles et un peu de cendre ; elle sort par la cheminée ----------
+(() => {
+  const S = scn("s4");
+  const tV = cue("s4-2", "vapeur") - 0.4, tG = cue("s4-2", "carbonique") - 0.6, tA = cue("s4-2", "cendre") - 0.5, tH = cue("s4-3", "cheminée") - 0.8, tN = cue("s4-3", "Noël") - 0.5;
+  const X = 560, Y = 760;
+  const bubble = (x, y, r, col, lab, op) => `<g opacity="${f2(op)}"><circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="${col}" fill-opacity="0.35" stroke="${C.ink}" stroke-width="3.5" stroke-dasharray="10 8"/>${txt(x, y + 10, lab, 28)}</g>`;
+  onDraw("s4", (t) => {
+    const burn = ramp(t, S.start + 0.3, tA + 1.5), hs = ramp(t, tH, tH + 0.6);
+    let g = `<path d="M130 850 H1100" class="ink" stroke-width="6"/><path d="M${X - 260} 850 v-40 M${X + 260} 850 v-40" class="ink" stroke-width="12"/><path d="M${X - 300} 808 H${X + 300}" class="ink" stroke-width="10"/>`;
+    // la bûche rétrécit, le tas de cendre grandit
+    const L = lerp(460, 150, burn), e = lerp(120, 44, burn);
+    g += `<path d="M${X - 200} 804 Q${X} ${f2(804 - 70 * burn)} ${X + 200} 804 Z" fill="#C8CDD6" class="ink" stroke-width="4"/>`;
+    if (burn < 0.98) g += logSVG(X, Y - 20 + 36 * burn, L, e) + flameSVG(X - L * 0.2, Y - 60 + 40 * burn, 250 * (1 - 0.7 * burn), t) + flameSVG(X + L * 0.18, Y - 60 + 40 * burn, 200 * (1 - 0.7 * burn), t + 1.3);
+    // les gaz invisibles qui montent
+    for (let i = 0; i < 6; i++) {
+      const water = i % 2 === 0, t0 = water ? tV : tG;
+      if (t < t0) continue;
+      const u = ((t - t0) * 0.16 + i * 0.17) % 1, x = X - 160 + i * 64 + 26 * Math.sin(u * 6 + i), y = Y - 180 - u * 440;
+      g += bubble(x, y, 58, water ? C.air : C.smoke, water ? "eau" : "CO₂", Math.sin(u * Math.PI) * (1 - hs * 0.2));
+    }
+    let s = `<g transform="translate(${f2(-150 * hs)} 0)">${g}</g>`;
+    // la maison : tout sort par la cheminée… et le père Noël fait le chemin inverse
+    if (hs > 0) {
+      let h = `<path d="M1180 850 V560 L1450 380 L1720 560 V850 Z" fill="#fff" class="ink" stroke-width="5"/><path d="M1130 590 L1450 360 L1770 590" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/><path d="M1130 590 L1450 360 L1770 590" fill="none" stroke="#E0455E" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/><rect x="1590" y="340" width="80" height="170" fill="#E0455E" class="ink" stroke-width="5"/><rect x="1390" y="660" width="120" height="190" rx="12" fill="${C.blue}" class="ink" stroke-width="5"/>`;
+      for (let i = 0; i < 5; i++) { const u = (t * 0.3 + i / 5) % 1; h += bubble(1630 + 30 * Math.sin(u * 6 + i), 330 - u * 200, 26 + u * 16, i % 2 ? C.smoke : C.air, "", 1 - u); }
+      const n = ramp(t, tN, tN + 1.2);
+      if (n > 0 && n < 1) h += `<g transform="translate(1630 ${f2(lerp(40, 330, n))}) rotate(${f2(-20 + 30 * Math.sin(n * 9))})"><path d="M-40 30 L0 -60 L40 30 Z" fill="#E0455E" class="ink" stroke-width="4"/><rect x="-48" y="22" width="96" height="22" rx="11" fill="#fff" class="ink" stroke-width="4"/><circle cx="0" cy="-64" r="14" fill="#fff" class="ink" stroke-width="4"/></g>`;
+      s += `<g opacity="${f2(hs)}">${h}</g>`;
+    }
+    $("#s4-draw").innerHTML = s;
+  });
+  const lA = label("s4", "s4-l-a", [X + 60, 790], [1000, 700], "La cendre", "ce qui ne peut pas brûler");
+  showLabel(lA, tA + 0.2); hideLabel(lA, tH - 0.2);
+  const lV = label("s4", "s4-l-v", [X - 150, 470], [150, 600], "Vapeur d’eau", "invisible");
+  const lG = label("s4", "s4-l-g", [X + 170, 430], [1000, 480], "Gaz carbonique", "invisible lui aussi");
+  showLabel(lV, tV + 0.3); showLabel(lG, tG + 0.4);
+  [lV, lG].forEach((l) => hideLabel(l, tH - 0.2));
+  show("#s4-n1", tH + 0.4);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : éteindre, c'est casser le triangle : l'eau, le couvercle, la coupure dans la forêt ----------
+(() => {
+  const tW = cue("s5-2", "eau") - 0.4, tL = cue("s5-2", "couvercle") - 0.5, tT = cue("s5-2", "arbres") - 0.8, tK = cue("s5-4", "éloignes") - 0.4;
+  const card = (x, k, body) => (k <= 0 ? "" : `<g transform="translate(0 ${f2(40 * (1 - k))})" opacity="${f2(k)}"><rect x="${x}" y="250" width="500" height="460" rx="34" fill="#fff" class="ink" stroke-width="4"/>${body}</g>`);
+  onDraw("s5", (t) => {
+    let s = "";
+    // 1. l'eau refroidit
+    const w = ramp(t, tW + 0.5, tW + 2.2);
+    let b = logSVG(400, 640, 260, 60) + flameSVG(400, 612, 230, t, { k: 1 - w });
+    for (let i = 0; i < 7; i++) { const u = (t * 1.3 + i / 7) % 1; if (t > tW) b += `<path d="M${f2(300 + i * 34)} ${f2(290 + u * 260)} q-10 16 0 24 q10 -8 0 -24 Z" fill="${C.air}" class="ink" stroke-width="2.5" opacity="${f2(1 - u * 0.5)}"/>`; }
+    if (w > 0.3) b += smokeSVG(400, 600, t, w, "#fff", 8, 200);
+    s += card(150, ramp(t, tW - 0.3, tW + 0.1), b);
+    // 2. le couvercle étouffe
+    const l = ramp(t, tL + 0.3, tL + 1.1), out = ramp(t, tL + 1.1, tL + 1.9);
+    b = `<path d="M760 620 H1080 V650 Q1080 680 1050 680 H790 Q760 680 760 650 Z" fill="#39425C" class="ink" stroke-width="4"/><path d="M1080 640 H1180" stroke="${C.ink}" stroke-width="22" stroke-linecap="round"/>` + flameSVG(870, 622, 190, t, { k: 1 - out }) + flameSVG(980, 622, 150, t + 1, { k: 1 - out });
+    b += `<g transform="translate(0 ${f2(lerp(-260, 0, l))})"><path d="M750 620 Q920 540 1090 620 Z" fill="#9AA6B8" class="ink" stroke-width="4"/><circle cx="920" cy="566" r="18" fill="#39425C" class="ink" stroke-width="4"/></g>`;
+    s += card(710, ramp(t, tL - 0.3, tL + 0.1), b);
+    // 3. la coupure : plus rien à brûler
+    const cut = ramp(t, tT + 0.4, tT + 1.2), adv = ramp(t, tT - 0.5, tT + 3);
+    b = `<path d="M1300 690 H1740" class="ink" stroke-width="5"/>`;
+    for (let i = 0; i < 7; i++) {
+      const x = 1340 + i * 60, gap = i === 3 || i === 4;
+      if (gap) b += cut < 1 ? `<g opacity="${f2(1 - cut)}" transform="translate(0 ${f2(-60 * cut)})">${treeSVG(x, 688, 170)}</g>` + (cut > 0 ? `<rect x="${x - 12}" y="664" width="24" height="24" fill="#B9772E" class="ink" stroke-width="3" opacity="${f2(cut)}"/>` : "") : `<rect x="${x - 12}" y="664" width="24" height="24" fill="#B9772E" class="ink" stroke-width="3"/>`;
+      else {
+        const burning = i < 3 && adv > (i + 0.5) / 4;
+        b += treeSVG(x, 688, 170, burning ? "#5A4A3A" : "#3DBE8B") + (burning ? flameSVG(x, 580, 130, t + i, { k: 1 - ramp(t, tT + 3.2, tT + 4.5) }) : "");
+      }
+    }
+    s += card(1270, ramp(t, tT - 0.5, tT - 0.1), b);
+    $("#s5-draw").innerHTML = s;
+  });
+  show("#s5-c1", tW + 0.5); show("#s5-c2", tL + 0.5); show("#s5-c3", tT + 0.6);
+  show("#s5-n1", tK);
+  pop("#s5-n2", cue("s5-4", "dix") - 0.3);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : le résumé, puis la plage : pourquoi la mer est salée ? ----------
+(() => {
+  const S = scn("s6");
+  const tSp = cue("s6-3", "plage") - 0.6;
+  onDraw("s6", (t) => {
+    if (t < tSp - 0.3) return;
+    // la mer, les vagues, et quelqu'un qui boit la tasse
+    let s = `<circle cx="330" cy="330" r="70" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+    for (let r = 0; r < 3; r++) {
+      let d = `M130 ${640 + r * 70}`;
+      for (let i = 0; i <= 12; i++) d += ` q30 ${f2(-26 * Math.sin(t * 2 + r))} 60 0 t60 0`;
+      s += `<path d="${d} V900 H130 Z" fill="${["#8FD3FF", "#5FB4F0", "#2F7BD3"][r]}" class="ink" stroke-width="4"/>`;
+    }
+    const by = 650 + 12 * Math.sin(t * 2.4);
+    s += `<circle cx="640" cy="${f2(by)}" r="44" fill="#FFD9B8" class="ink" stroke-width="4"/><circle cx="626" cy="${f2(by - 6)}" r="6" fill="${C.ink}"/><circle cx="654" cy="${f2(by - 6)}" r="6" fill="${C.ink}"/><ellipse cx="640" cy="${f2(by + 16)}" rx="10" ry="${f2(7 + 4 * Math.sin(t * 5))}" fill="${C.ink}"/>`;
+    for (let i = 0; i < 6; i++) { const u = (t * 0.5 + i / 6) % 1; s += `<rect x="${f2(250 + i * 130 + 10 * Math.sin(t + i))}" y="${f2(760 + 40 * Math.sin(u * TAU))}" width="14" height="14" fill="#fff" class="ink" stroke-width="2.5" transform="rotate(${f2(t * 40 + i * 30)} ${f2(257 + i * 130)} ${f2(767)})"/>`; }
+    $("#s6-draw").innerHTML = s;
+  });
+  show("#s6-k1", cue("s6-1", "transformation") - 0.6, { y: 50 });
+  show("#s6-k2", cue("s6-1", "combustible") - 0.4, { y: 50 });
+  show("#s6-k3", cue("s6-1", "éteint") - 0.6, { y: 50 });
+  tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
+  tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
+  tl.fromTo("#s6-atch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: OUT }, cue("s6-3", "mer") - 0.5);
+  pop("#s6-next", cue("s6-4", "prochaine") - 0.3);
+  const tEnd = S.end - 3.2;
+  tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  show("#s6-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (le générique → première scène est un zoom, géré dans g.js).
+{
+  const ids = Object.keys(SCHED.scenes);
+  for (let i = 2; i < ids.length; i++) seam(ids[i - 1], ids[i]);
+}
+
+// Un seul « tic » sur toute la durée : redessine les animations à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>

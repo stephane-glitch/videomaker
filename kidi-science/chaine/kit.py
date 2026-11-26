@@ -24,6 +24,12 @@ EPS = [
     ("ep07-allergies", "Pourquoi j'éternue au printemps ? Les allergies", "Pourquoi j’éternue ?",
      "Le pollen n'a rien fait : c'est le corps qui en fait trop. Zoé et Max rencontrent les globules blancs, leurs antennes, et l'histamine qui fait éternuer.",
      ["allergie", "pollen", "globules blancs", "histamine", "système immunitaire"], ("s3", 0.55)),
+    ("ep08-feu", "C'est quoi, une flamme ? Le feu", "C’est quoi, une flamme ?",
+     "Quand on souffle une bougie, où va la flamme ? Zoé et Max découvrent le triangle du feu, ce qui brûle vraiment dans une bougie, pourquoi la flamme est bleue et jaune, et comment on éteint un feu.",
+     ["feu", "flamme", "combustion", "bougie", "triangle du feu"], ("s3", 0.55)),
+    ("ep09-mer", "Pourquoi la mer est salée ?", "Pourquoi la mer est salée ?",
+     "Le sel de la mer vient… des montagnes. Zoé et Max suivent son voyage : la pluie qui grignote les rochers, les rivières, puis la mer, où l'eau s'évapore et où le sel reste.",
+     ["mer", "sel", "eau de mer", "cycle de l'eau", "mer Morte"], ("s3", 0.6)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
