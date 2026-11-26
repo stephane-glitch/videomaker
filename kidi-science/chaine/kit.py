@@ -84,6 +84,9 @@ EPS = [
     ("ep27-abeilles", "Comment les abeilles font le miel ?", "Comment les abeilles font le miel ?",
      "Le miel ne sort pas d'une cuisine : tout commence dans une fleur. Zoé et Max suivent le nectar, de la langue de l'abeille jusqu'à l'alvéole de cire, le séchage à coups d'ailes, la réserve pour l'hiver, et le pollen qui fait naître les fruits.",
      ["abeilles", "miel", "ruche", "pollinisation", "nature"], ("s3", 0.3)),
+    ("ep28-sous-nos-pieds", "Qu'y a-t-il sous nos pieds ?", "Qu'y a-t-il sous nos pieds ?",
+     "Et si on creusait un trou tout droit dans le jardin ? Zoé et Max descendent en papier découpé : la terre, la croûte, le manteau, puis le noyau de fer. À chaque étage, la pression écrase un peu plus fort… jusqu'à fabriquer de la pierre et des diamants.",
+     ["Terre", "croûte terrestre", "manteau", "noyau", "pression", "géologie"], ("s4", 0.75)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

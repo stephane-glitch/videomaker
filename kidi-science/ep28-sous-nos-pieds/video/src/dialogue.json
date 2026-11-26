@@ -1,0 +1,144 @@
+[
+  { "id": "g-1", "scene": "g", "who": "zoe", "text": "Dis… comment ça marche ?" },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Dis, Max… si je creuse un trou dans le jardin, tout droit, sans m'arrêter… j'arrive où ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Au centre de la Terre ! Mais prévois un goûter : c'est à plus de six mille kilomètres."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Six mille ?! Bon… je prends une plus grande pelle."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Au début, c'est facile. Tu creuses dans la terre du jardin : des racines, des vers de terre, des cailloux."
+  },
+  { "id": "s1-2", "scene": "s1", "who": "zoe", "text": "Et un vieil os de dinosaure ?" },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Plutôt celui du chien du voisin ! Mais cette terre, c'est une couche toute fine : quelques mètres, pas plus."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "En dessous, ta pelle cogne : de la roche dure. C'est la croûte terrestre."
+  },
+  { "id": "s2-2", "scene": "s2", "who": "zoe", "text": "Comme la croûte du pain ?" },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Exactement ! Et plus tu descends, plus toute la roche du dessus pèse sur celle du dessous. Ça s'appelle la pression."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Comme quand je suis tout en bas d'une pile de copains ?"
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Voilà ! Écrasés pendant des millions d'années, le sable et la boue deviennent de la pierre. C'est la pression qui fabrique ces couches."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "max",
+    "text": "Le trou le plus profond jamais creusé fait douze kilomètres. Il a fallu vingt ans… et il n'a même pas traversé la croûte !"
+  },
+  { "id": "s2-7", "scene": "s2", "who": "zoe", "text": "Vingt ans ?! Mon goûter sera périmé." },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Sous la croûte, voici le manteau : presque trois mille kilomètres de roche brûlante."
+  },
+  { "id": "s3-2", "scene": "s3", "who": "zoe", "text": "Elle a fondu, alors ?" },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Presque pas ! La pression la serre si fort qu'elle reste solide. Mais elle coule tout doucement, comme une pâte très épaisse… à la vitesse où poussent tes ongles."
+  },
+  { "id": "s3-4", "scene": "s3", "who": "zoe", "text": "Et il y a des trésors, là-dedans ?" },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "max",
+    "text": "Oui ! La pression écrase du carbone, le même que dans la mine de ton crayon, et le transforme en diamant."
+  },
+  { "id": "s3-6", "scene": "s3", "who": "zoe", "text": "Un crayon en diamant ? Je veux !" },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Encore plus bas, le noyau. D'abord, un océan de fer fondu."
+  },
+  { "id": "s4-2", "scene": "s4", "who": "zoe", "text": "Du métal liquide ?!" },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Oui. Et tout au centre, une énorme boule de fer, aussi chaude que la surface du Soleil."
+  },
+  { "id": "s4-4", "scene": "s4", "who": "zoe", "text": "Et elle ne fond pas, elle ?" },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "max",
+    "text": "Non ! Tout le poids de la Terre appuie dessus. La pression est tellement forte que le fer reste dur."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Mais si personne n'y est allé… comment on le sait ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Grâce aux tremblements de terre ! Leurs secousses traversent la planète, et on les écoute de l'autre côté. Comme une échographie géante."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "max",
+    "text": "Donc, sous tes pieds : la croûte, le manteau, le noyau liquide… et la boule de fer, tout au centre."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et c'est la pression qui serre tout ça de plus en plus fort !"
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Bon… je range ma pelle. C'est trop loin, le centre de la Terre."
+  },
+  { "id": "s6-2", "scene": "s6", "who": "zoe", "text": "Dis, Max… et le hoquet, ça vient d'où ?" },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "max",
+    "text": "D'un muscle qui n'en fait qu'à sa tête. La prochaine fois !"
+  }
+]
