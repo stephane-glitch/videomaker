@@ -1,0 +1,13 @@
+[
+  { "file": "fond", "at": 5.4, "loop": 41.74, "volume": 0.15 },
+  { "file": "pop", "at": 0.45, "volume": 0.4 },
+  { "file": "jingle", "at": ["g-1", "marche"], "offset": 1.2, "volume": 0.45 },
+  { "file": "whoosh", "at": ["@s0", "start"], "offset": -0.2, "volume": 0.25 },
+  { "file": "whoosh", "at": ["@s1", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "whoosh", "at": ["@s2", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "whoosh", "at": ["@s3", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "whoosh", "at": ["@s4", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "whoosh", "at": ["@s5", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "whoosh", "at": ["@s6", "start"], "offset": -0.2, "volume": 0.22 },
+  { "file": "jingle", "at": ["@s6", "end"], "offset": -2.9, "volume": 0.45, "dur": 2.85 }
+]

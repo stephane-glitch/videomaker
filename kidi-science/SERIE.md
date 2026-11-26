@@ -122,6 +122,7 @@ Demandés : **le feu**, **l'eau de mer (pourquoi elle est salée)**, et **une vi
 | La vie       | Les plantes                     | Comment une graine devient un arbre ?    |
 | La vie       | Les abeilles                    | Comment les abeilles font le miel ?      |
 | La Terre     | Sous nos pieds (papier découpé) | Qu'y a-t-il sous nos pieds ?             |
+| La vie       | La chenille (dessin animé)      | Comment une chenille devient papillon ?  |
 | Le corps     | Le hoquet (à faire)             | D'où vient le hoquet ?                   |
 
 ## Rythme : constat et règles pour les prochains épisodes

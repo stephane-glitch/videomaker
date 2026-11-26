@@ -87,6 +87,9 @@ EPS = [
     ("ep28-sous-nos-pieds", "Qu'y a-t-il sous nos pieds ?", "Qu'y a-t-il sous nos pieds ?",
      "Et si on creusait un trou tout droit dans le jardin ? Zoé et Max descendent en papier découpé : la terre, la croûte, le manteau, puis le noyau de fer. À chaque étage, la pression écrase un peu plus fort… jusqu'à fabriquer de la pierre et des diamants.",
      ["Terre", "croûte terrestre", "manteau", "noyau", "pression", "géologie"], ("s4", 0.75)),
+    ("ep29-chenille-papillon", "Comment une chenille devient papillon ?", "Comment une chenille devient papillon ?",
+     "Une chenille, c'est un bébé papillon ! Zoé et Max la suivent en dessin animé : l'œuf minuscule, les feuilles dévorées, les mues, la chrysalide où tout se reconstruit, puis les ailes fripées qui se gonflent avant le premier envol.",
+     ["chenille", "papillon", "chrysalide", "métamorphose", "insectes", "nature"], ("s4", 0.62)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
