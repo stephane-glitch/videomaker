@@ -1,0 +1,164 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, Internet, c'est dans les nuages ? Tout le monde parle du cloud."
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Pas du tout. Internet, c'est surtout des câbles."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Des câbles ? Mais mon téléphone n'a pas de fil !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Lui, non. Mais juste après la box, tout voyage dans des fils."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Internet, ce sont des milliards d'appareils reliés entre eux. Des téléphones, des tablettes, des consoles… et d'énormes ordinateurs appelés serveurs, qui gardent les vidéos et les sites."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc quand je regarde une vidéo, elle vient d'un serveur."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Oui. Parfois de l'autre côté de la planète."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et elle vient comment ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Ton téléphone envoie sa demande par ondes jusqu'à la box. Ensuite, elle file dans des câbles, sous les rues, puis sous les océans."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Sous les océans ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Des câbles gros comme un tuyau d'arrosage, posés au fond de la mer. À l'intérieur, des fils de verre, où l'information voyage sous forme de lumière."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Et la vidéo ne voyage pas d'un seul bloc. Elle est découpée en milliers de petits paquets. Chaque paquet porte une adresse, et prend son propre chemin."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et à l'arrivée ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Ton téléphone les remet dans l'ordre."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Comme un puzzle envoyé par la poste, pièce par pièce !"
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et qui leur montre la route ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Des appareils appelés routeurs. À chaque carrefour, ils lisent l'adresse et choisissent le meilleur chemin. Si une route est bouchée, ils en prennent une autre."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Des GPS pour paquets."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et tout ça prend combien de temps ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Moins d'une seconde. La lumière pourrait faire plusieurs fois le tour de la Terre en une seconde."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Alors pourquoi ma vidéo rame ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Ça, c'est quand trop de monde regarde en même temps. Un embouteillage de paquets."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : Internet, ce sont des appareils reliés par des câbles. Les informations voyagent en petits paquets. Et des routeurs leur montrent le chemin."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Message bien reçu."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et un aimant, pourquoi ça colle au frigo ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ça, c'est une force invisible. La prochaine fois !"
+  }
+]

@@ -69,6 +69,9 @@ EPS = [
     ("ep22-avion", "Comment vole un avion ?", "Comment vole un avion ?",
      "Un avion pèse le poids de cent éléphants, et pourtant il tient en l'air. Zoé et Max expliquent la vitesse, le secret de l'aile, la portance, les quatre forces du vol, le décollage et les volets pour tourner.",
      ["avion", "voler", "portance", "aile", "transports"], ("s3", 0.5)),
+    ("ep23-internet", "Internet, ça passe par où ?", "Internet, ça passe par où ?",
+     "Internet n'est pas dans les nuages : ce sont surtout des câbles, jusqu'au fond des océans. Zoé et Max suivent une vidéo découpée en petits paquets, guidée par les routeurs, à la vitesse de la lumière.",
+     ["Internet", "câbles sous-marins", "réseau", "numérique", "technologie"], ("s4", 0.5)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
