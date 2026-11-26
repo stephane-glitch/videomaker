@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: #d96a00;
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="182.7" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="182.7" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.6" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s0" class="clip" data-start="7.6" data-duration="16.7" data-track-index="1">
+        <div id="s0-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s0-draw"></g></svg>
+          <div class="note" id="s0-n1" style="left: 900px; top: 880px; background: #ffe14d">Un toboggan de sept mètres, bien rangé</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Où va ce que je mange ?</div>
+        </div>
+      </section>
+
+      <section id="s1" class="clip" data-start="24.3" data-duration="30.3" data-track-index="1">
+        <div id="s1-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s1-draw"></g></svg>
+          <div class="note" id="s1-n1" style="left: 700px; top: 880px">Les dents écrasent, la salive commence le travail</div>
+          <div class="note" id="s1-n2" style="left: 700px; top: 880px">L’œsophage pousse, comme un tube de dentifrice</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">La bouche et l’œsophage</div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="54.6" data-duration="26.3" data-track-index="1">
+        <div id="s2-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s2-draw"></g></svg>
+          <div class="note" id="s2-n1" style="left: 700px; top: 880px">Il malaxe pendant 2 à 3 heures, avec un jus acide</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">L’estomac</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="80.9" data-duration="29.9" data-track-index="1">
+        <div id="s3-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s3-draw"></g></svg>
+          <div id="s3-labels" class="in"><svg class="stage" viewBox="0 0 1920 1080"></svg></div>
+          <div class="note" id="s3-n1" style="left: 700px; top: 880px; background: #ffe14d">Le bon passe dans le sang, qui le livre partout</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">L’intestin grêle</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="110.8" data-duration="28.6" data-track-index="1">
+        <div id="s4-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-draw"></g></svg>
+          <div class="note" id="s4-n1" style="left: 700px; top: 880px">Il récupère l’eau, avec l’aide de milliards de bactéries</div>
+          <div class="note" id="s4-n2" style="left: 700px; top: 880px; background: #ffe14d">Le voyage complet : un à deux jours</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Le gros intestin</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="139.4" data-duration="18.8" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s5-draw"></g></svg>
+          <div class="note" id="s5-n1" style="left: 130px; top: 880px">Les muscles brassent de l’air et du liquide</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Le ventre qui gargouille</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="158.2" data-duration="24.5" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            .s6-card {
+              position: absolute;
+              top: 330px;
+              width: 500px;
+              height: 300px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              border-radius: 34px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 44px;
+              font-weight: 600;
+              line-height: 1.15;
+              padding: 30px;
+            }
+            .s6-card b {
+              position: absolute;
+              left: -24px;
+              top: -24px;
+              width: 76px;
+              height: 76px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 3.5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 44px;
+            }
+            #s6-atch {
+              position: absolute;
+              left: 1000px;
+              top: 330px;
+              font-size: 84px; line-height: 1.1;
+              font-weight: 700;
+              color: #c25e00;
+              white-space: nowrap;
+            }
+            #s6-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s6-end .d {
+              color: var(--fire);
+            }
+            #s6-end .s {
+              color: var(--blue);
+            }
+            #s6-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s6-main" class="in">
+            <div id="s6-cards" class="in">
+              <div class="s6-card" id="s6-k1" style="left: 130px"><b>1</b>La bouche écrase, l’estomac malaxe</div>
+              <div class="s6-card" id="s6-k2" style="left: 710px"><b>2</b>L’intestin grêle donne le bon au sang</div>
+              <div class="s6-card" id="s6-k3" style="left: 1290px"><b>3</b>Le gros intestin récupère l’eau</div>
+            </div>
+            <div id="s6-b" class="in">
+              <svg class="stage" viewBox="0 0 1920 1080"><g id="s6-draw"></g></svg>
+              <div id="s6-atch">Pourquoi<br />on dort ?</div>
+            </div>
+            <div class="note" id="s6-next" style="left: 590px; top: 900px; background: #ffe14d">La prochaine fois : le sommeil !</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s6-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s6-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="8.2" data-duration="2.83" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="11.3" data-duration="5.83" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="17.55" data-duration="2.98" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="20.8" data-duration="2.88" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="24.7" data-duration="7.22" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="32.34" data-duration="3.61" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="36.22" data-duration="9.75" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-4" src="assets/vo/s1-4.mp3" data-start="46.39" data-duration="3.95" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-5" src="assets/vo/s1-5.mp3" data-start="50.76" data-duration="3.22" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="55" data-duration="9.04" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="64.46" data-duration="2.91" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="67.64" data-duration="4.97" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="72.88" data-duration="2.98" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-5" src="assets/vo/s2-5.mp3" data-start="76.13" data-duration="2.1" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-6" src="assets/vo/s2-6.mp3" data-start="78.75" data-duration="1.55" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="81.3" data-duration="8.89" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="90.46" data-duration="2.75" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="93.48" data-duration="9.49" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="103.39" data-duration="3.84" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-5" src="assets/vo/s3-5.mp3" data-start="107.5" data-duration="2.7" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="111.2" data-duration="4.89" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="116.36" data-duration="8.71" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="125.49" data-duration="2.33" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="128.24" data-duration="4.08" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-5" src="assets/vo/s4-5.mp3" data-start="132.59" data-duration="3.06" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-6" src="assets/vo/s4-6.mp3" data-start="135.92" data-duration="2.88" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="139.8" data-duration="4.42" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="144.49" data-duration="7.32" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="152.28" data-duration="2.99" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="155.74" data-duration="1.83" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="158.6" data-duration="7.61" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="166.63" data-duration="2.17" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="169.32" data-duration="5.13" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="174.72" data-duration="4" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="8.2" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="49.94" data-duration="44.75" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="91.68" data-duration="44.75" data-track-index="7" data-volume="0.16"></audio>
+      <audio id="fx-3-fond" src="assets/sfx/fond.mp3" data-start="133.42" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-4-fond" src="assets/sfx/fond.mp3" data-start="175.16" data-duration="7.52" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-5-pop" src="assets/sfx/pop.mp3" data-start="2.98" data-duration="0.61" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="fx-6-jingle" src="assets/sfx/jingle.mp3" data-start="3.98" data-duration="3.51" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.85" data-duration="1.39" data-track-index="6" data-volume="0.4"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="24.05" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="54.35" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="80.65" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="110.55" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-12-whoosh" src="assets/sfx/whoosh.mp3" data-start="139.15" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-13-whoosh" src="assets/sfx/whoosh.mp3" data-start="157.95" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-14-pop" src="assets/sfx/pop.mp3" data-start="14.17" data-duration="0.61" data-track-index="7" data-volume="0.35"></audio>
+      <audio id="fx-15-chime" src="assets/sfx/chime.mp3" data-start="103.81" data-duration="1.21" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="fx-16-pop" src="assets/sfx/pop.mp3" data-start="126.32" data-duration="0.61" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-17-jingle" src="assets/sfx/jingle.mp3" data-start="179.8" data-duration="2.83" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="fx-18-pop" src="assets/sfx/pop.mp3" data-start="21.02" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-19-tic" src="assets/sfx/tic.mp3" data-start="27.43" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-20-tic" src="assets/sfx/tic.mp3" data-start="44.02" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-21-tic" src="assets/sfx/tic.mp3" data-start="63.55" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-22-tic" src="assets/sfx/tic.mp3" data-start="96.75" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-23-tic" src="assets/sfx/tic.mp3" data-start="101.65" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-24-pop" src="assets/sfx/pop.mp3" data-start="103.71" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-25-tic" src="assets/sfx/tic.mp3" data-start="122.37" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-26-pop" src="assets/sfx/pop.mp3" data-start="136.52" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-27-tic" src="assets/sfx/tic.mp3" data-start="145.15" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-28-tic" src="assets/sfx/tic.mp3" data-start="159.4" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-29-tic" src="assets/sfx/tic.mp3" data-start="162.01" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-30-tic" src="assets/sfx/tic.mp3" data-start="164.29" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-31-pop" src="assets/sfx/pop.mp3" data-start="177.64" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-32-tic" src="assets/sfx/tic.mp3" data-start="180.4" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":182.7,"scenes":{"g":{"start":0,"end":7.6},"s0":{"start":7.6,"end":24.3},"s1":{"start":24.3,"end":54.6},"s2":{"start":54.6,"end":80.9},"s3":{"start":80.9,"end":110.8},"s4":{"start":110.8,"end":139.4},"s5":{"start":139.4,"end":158.2},"s6":{"start":158.2,"end":182.7}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":7.6,"end":23.7},"s1":{"start":24.3,"end":54},"s2":{"start":54.6,"end":80.32},"s3":{"start":80.9,"end":110.22},"s4":{"start":110.8,"end":138.82},"s5":{"start":139.4,"end":157.59},"s6":{"start":158.2,"end":178.74}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":8.2,"end":11.05,"who":"zoe","words":[["Max,",8.67,8.77],["ma",8.82,8.93],["tartine",8.98,9.33],["de",9.36,9.41],["ce",9.46,9.57],["matin,",9.61,9.97],["elle",10,10.13],["est",10.15,10.21],["où,",10.26,10.61],["maintenant",10.63,10.85],["?",10.93,11.01]]},"s0-2":{"start":11.3,"end":17.15,"who":"max","words":[["Elle",11.51,11.55],["voyage.",11.65,12.68],["Elle",12.77,13.11],["a",13.16,13.2],["pris",13.25,13.46],["un",13.49,13.55],["toboggan",13.61,14.07],["de",14.16,14.33],["sept",14.37,14.51],["mètres",14.64,15.03],["de",15.06,15.11],["long,",15.17,15.55],["plié",15.61,15.98],["dans",16.02,16.16],["ton",16.2,16.33],["ventre.",16.38,17.2]]},"s0-3":{"start":17.55,"end":20.55,"who":"zoe","words":[["Sept",17.89,17.91],["mètres",17.99,18.31],["?",18.59,18.87],["Je",18.9,18.95],["ne",18.98,19.03],["mesure",19.07,19.35],["même",19.38,19.51],["pas",19.55,19.67],["un",19.7,19.75],["mètre",19.79,19.91],["cinquante",19.95,20.31],["!",20.43,20.55]]},"s0-4":{"start":20.8,"end":23.7,"who":"max","words":[["C'est",21.05,21.14],["très",21.19,21.4],["bien",21.43,21.57],["rangé.",21.62,22.27],["Suivons-la",22.35,22.87],["depuis",22.91,23.14],["le",23.17,23.22],["départ.",23.28,23.74]]},"s1-1":{"start":24.7,"end":31.94,"who":"max","words":[["Première",24.88,25.13],["étape",25.18,25.56],[":",25.73,25.91],["la",25.97,26.08],["bouche.",26.12,26.6],["Tes",26.8,27.39],["dents",27.43,27.73],["écrasent",27.86,28.26],["la",28.31,28.43],["tartine,",28.48,29.04],["et",29.18,29.47],["ta",29.53,29.65],["salive",29.71,30.08],["commence",30.14,30.6],["déjà",30.71,31.12],["à",31.17,31.21],["la",31.27,31.39],["transformer.",31.43,31.99]]},"s1-2":{"start":32.34,"end":35.97,"who":"zoe","words":[["Donc",32.73,32.9],["quand",32.94,33.14],["Maman",33.18,33.46],["dit",33.52,33.7],[":",33.82,33.94],["mâche",33.98,34.26],["bien,",34.31,34.58],["c'est",34.74,35.06],["scientifique.",35.11,35.94]]},"s1-3":{"start":36.22,"end":45.99,"who":"max","words":[["Tout",36.43,36.47],["à",36.56,36.64],["fait.",36.7,36.99],["Ensuite,",37.22,38.12],["tu",38.18,38.29],["avales",38.38,38.73],[":",39.03,39.34],["la",39.37,39.43],["bouchée",39.51,39.86],["descend",39.9,40.21],["dans",40.24,40.38],["un",40.41,40.47],["tube,",40.54,40.9],["l'œsophage.",41.08,42.12],["Ses",42.25,42.64],["muscles",42.7,43.08],["la",43.16,43.34],["poussent,",43.38,44.03],["comme",44.06,44.21],["on",44.24,44.29],["presse",44.35,44.64],["un",44.7,44.82],["tube",44.87,45.08],["de",45.11,45.16],["dentifrice.",45.22,46.03]]},"s1-4":{"start":46.39,"end":50.36,"who":"zoe","words":[["Alors",47.33,47.43],["ça",47.48,47.59],["marcherait",47.63,48.15],["même",48.21,48.47],["la",48.52,48.63],["tête",48.66,48.79],["en",48.82,48.87],["bas",48.91,49.03],["?",49.67,50.31]]},"s1-5":{"start":50.76,"end":54,"who":"max","words":[["Oui.",50.97,51.5],["Mais",51.57,51.84],["ne",51.93,52.11],["mange",52.15,52.37],["pas",52.41,52.54],["la",52.57,52.63],["tête",52.68,52.89],["en",52.92,52.98],["bas.",53.02,54.02]]},"s2-1":{"start":55,"end":64.06,"who":"max","words":[["Deuxième",55.28,55.6],["étape",55.65,56.03],[":",56.25,56.47],["l'estomac.",56.51,57.16],["C'est",57.6,58.12],["une",58.14,58.21],["poche",58.29,58.55],["musclée",58.64,59.16],["qui",59.25,59.51],["malaxe",59.57,60.03],["la",60.06,60.12],["nourriture",60.15,60.81],["pendant",60.87,61.25],["deux",61.3,61.51],["ou",61.54,61.6],["trois",61.64,61.86],["heures,",61.92,62.47],["avec",62.54,62.81],["un",62.84,62.9],["jus",62.99,63.25],["très",63.32,63.6],["acide.",63.65,64.12]]},"s2-2":{"start":64.46,"end":67.39,"who":"zoe","words":[["Acide",64.78,65.11],["?",65.51,65.91],["Et",65.94,65.99],["il",66.04,66.15],["ne",66.18,66.23],["se",66.28,66.39],["digère",66.45,66.79],["pas",66.81,66.87],["lui-même",66.91,67.27],["?",67.31,67.35]]},"s2-3":{"start":67.64,"end":72.63,"who":"max","words":[["Bonne",67.77,67.89],["question.",67.95,68.8],["Sa",68.93,69.2],["paroi",69.24,69.54],["est",69.56,69.63],["tapissée",69.7,70.15],["d'une",70.2,70.41],["couche",70.43,70.67],["gluante",70.74,71.2],["qui",71.24,71.37],["la",71.4,71.46],["protège.",71.53,72.59]]},"s2-4":{"start":72.88,"end":75.88,"who":"zoe","words":[["Et",73.07,73.08],["ma",73.13,73.24],["tartine",73.3,73.72],["devient",73.76,74.04],["quoi",74.1,74.36],["?",75.12,75.88]]},"s2-5":{"start":76.13,"end":78.25,"who":"max","words":[["Une",76.34,76.35],["sorte",76.4,76.69],["de",76.78,76.95],["soupe",77.04,77.48],["épaisse.",77.53,78.26]]},"s2-6":{"start":78.75,"end":80.32,"who":"zoe","words":[["Je",79.07,79.08],["préférais",79.14,79.56],["la",79.59,79.64],["tartine.",79.69,80.28]]},"s3-1":{"start":81.3,"end":90.21,"who":"max","words":[["Troisième",81.51,81.78],["étape,",81.86,82.47],["la",82.56,82.73],["plus",82.78,82.99],["longue",83.03,83.34],[":",83.56,83.78],["l'intestin",83.82,84.38],["grêle.",84.44,84.91],["Six",85.06,85.52],["mètres",85.6,85.95],["de",85.98,86.04],["tuyau,",86.12,86.56],["repliés",86.65,87.25],["sur",87.3,87.43],["eux-mêmes.",87.45,88.21],["C'est",88.25,88.38],["là",88.44,88.56],["que",88.6,88.73],["le",88.76,88.82],["bon",88.91,89.17],["passe",89.24,89.6],["dans",89.62,89.69],["ton",89.73,89.86],["sang.",89.93,90.21]]},"s3-2":{"start":90.46,"end":93.23,"who":"zoe","words":[["Comment",90.79,90.81],["ça",90.83,90.89],["passe",90.95,91.29],["?",91.41,91.53],["Il",91.55,91.61],["y",91.63,91.65],["a",91.67,91.69],["des",91.71,91.77],["trous",91.81,92.01],["?",92.61,93.21]]},"s3-3":{"start":93.48,"end":102.99,"who":"max","words":[["Presque.",93.83,94.51],["La",94.62,94.86],["paroi",94.92,95.29],["est",95.31,95.38],["couverte",95.42,95.9],["de",95.99,96.16],["millions",96.21,96.6],["de",96.65,96.77],["petits",96.82,97.12],["doigts,",97.15,97.64],["les",97.68,97.81],["villosités.",97.88,98.68],["Ils",98.88,99.46],["attrapent",99.52,99.9],["les",99.92,99.99],["nutriments",100.05,100.6],["et",100.65,100.77],["les",100.79,100.86],["donnent",100.89,101.12],["au",101.15,101.2],["sang,",101.27,101.81],["qui",101.83,101.9],["les",101.94,102.07],["livre",102.15,102.51],["partout.",102.56,103.03]]},"s3-4":{"start":103.39,"end":107.25,"who":"zoe","words":[["Le",103.95,103.95],["livreur",104.01,104.59],["!",104.75,104.91],["Celui",104.95,105.15],["de",105.18,105.23],["la",105.26,105.31],["dernière",105.35,105.63],["fois.",105.69,107.23]]},"s3-5":{"start":107.5,"end":110.22,"who":"max","words":[["Le",107.79,107.8],["même.",107.87,108.58],["Tu",108.73,109.02],["vois,",109.05,109.28],["tout",109.35,109.63],["est",109.67,109.8],["relié.",109.85,110.24]]},"s4-1":{"start":111.2,"end":116.11,"who":"zoe","words":[["Et",113.28,113.36],["ce",113.42,113.55],["qui",113.62,116.08],["ne",116.08,116.08],["sert",116.08,116.08],["à",116.08,116.08],["rien",116.08,116.08],["?",116.08,116.08]]},"s4-2":{"start":116.36,"end":125.09,"who":"max","words":[["Ça",116.48,116.52],["continue",116.57,116.96],["dans",116.99,117.13],["le",117.16,117.22],["gros",117.25,117.39],["intestin.",117.44,118],["Lui,",118.13,118.52],["il",118.7,119.05],["récupère",119.1,119.57],["l'eau.",119.61,119.83],["Et",120.15,120.79],["il",120.84,120.96],["héberge",121.02,121.39],["des",121.46,121.65],["milliards",121.76,122.44],["de",122.47,122.52],["bactéries,",122.57,123.48],["qui",123.52,123.65],["nous",123.69,123.83],["aident",123.87,124],["à",124.05,124.09],["finir",124.13,124.35],["le",124.41,124.52],["travail.",124.58,125.13]]},"s4-3":{"start":125.49,"end":127.84,"who":"zoe","words":[["J'ai",125.64,125.76],["des",125.8,125.92],["milliards",125.99,126.48],["de",126.51,126.56],["colocataires",126.62,127.12],["dans",127.15,127.28],["le",127.31,127.36],["ventre",127.41,127.68],["?",127.76,127.84]]},"s4-4":{"start":128.24,"end":132.34,"who":"max","words":[["Et",128.37,128.4],["ils",128.45,128.58],["ne",128.61,128.67],["paient",128.72,129.01],["pas",129.03,129.1],["de",129.13,129.19],["loyer.",129.24,129.62],["Ce",129.77,130.06],["qui",130.1,130.23],["reste",130.29,130.58],["à",130.62,130.66],["la",130.69,130.75],["fin",130.82,131.01],["sort",131.13,131.62],["aux",131.64,131.71],["toilettes.",131.76,132.4]]},"s4-5":{"start":132.59,"end":135.67,"who":"zoe","words":[["Le",132.77,132.78],["voyage",132.83,133.18],["complet",133.23,133.58],["dure",133.62,133.82],["combien",133.86,134.14],["de",134.19,134.3],["temps",134.32,134.46],["?",135.06,135.66]]},"s4-6":{"start":135.92,"end":138.82,"who":"max","words":[["Entre",136.29,136.43],["un",136.49,136.6],["et",136.66,136.78],["deux",136.8,136.86],["jours.",136.92,138.86]]},"s5-1":{"start":139.8,"end":144.24,"who":"zoe","words":[["Et",141,141.01],["quand",141.05,141.25],["mon",141.31,141.49],["ventre",141.55,141.89],["gargouille",141.99,142.53],["en",142.58,142.69],["classe",142.75,143.09],["?",143.65,144.21]]},"s5-2":{"start":144.49,"end":151.83,"who":"max","words":[["Ce",144.72,144.73],["sont",144.77,144.91],["tes",144.95,145.08],["muscles",145.15,145.6],["qui",145.65,145.78],["brassent",145.85,146.3],["de",146.33,146.39],["l'air",146.47,146.91],["et",146.99,147.17],["du",147.23,147.34],["liquide.",147.39,147.86],["Estomac",148.06,148.91],["vide",148.99,149.34],["ou",149.46,149.69],["plein,",149.75,150.47],["ils",150.52,150.65],["travaillent",150.7,151.34],["tout",151.36,151.43],["le",151.49,151.6],["temps.",151.63,151.86]]},"s5-3":{"start":152.28,"end":155.29,"who":"zoe","words":[["Donc",152.45,152.53],["ce",152.56,152.61],["n'est",152.65,152.77],["pas",152.81,152.93],["moi.",153.01,153.85],["C'est",154.15,154.53],["mon",154.57,154.69],["tuyau.",154.75,155.25]]},"s5-4":{"start":155.74,"end":157.59,"who":"max","words":[["Tu",156.02,156.08],["peux",156.11,156.25],["essayer",156.29,156.68],["cette",156.71,156.86],["excuse.",156.95,157.64]]},"s6-1":{"start":158.6,"end":166.23,"who":"zoe","words":[["Je",158.99,159],["résume",159.08,159.48],[":",159.64,159.8],["la",159.85,159.96],["bouche",160,160.28],["écrase,",160.36,160.92],["l'estomac",161,161.56],["malaxe,",161.62,162.2],["l'intestin",162.24,162.76],["grêle",162.81,163.08],["donne",163.12,163.32],["le",163.35,163.4],["bon",163.48,163.72],["au",163.75,163.8],["sang,",163.86,164.6],["et",164.65,164.76],["le",164.79,164.84],["gros",164.89,165.08],["intestin",165.13,165.48],["récupère",165.53,165.96],["l'eau.",166,166.2]]},"s6-2":{"start":166.63,"end":168.82,"who":"max","words":[["Digéré",166.92,167.32],["à",167.53,167.75],["la",167.81,167.92],["perfection.",168,168.88]]},"s6-3":{"start":169.32,"end":174.47,"who":"zoe","words":[["Dis,",169.48,169.49],["Max…",169.61,170.37],["après",170.41,170.61],["le",170.64,170.69],["déjeuner,",170.72,171.25],["j'ai",171.33,171.65],["toujours",171.69,172.05],["envie",172.09,172.29],["de",172.32,172.37],["dormir.",172.42,172.93],["Pourquoi",173.07,173.73],["on",173.78,173.89],["dort",173.97,174.29],["?",174.37,174.45]]},"s6-4":{"start":174.72,"end":178.74,"who":"max","words":[["Parce",174.93,175.02],["que",175.04,175.11],["ton",175.15,175.28],["cerveau",175.37,175.81],["fait",175.89,176.24],["le",176.27,176.33],["ménage",176.41,176.85],["la",176.88,176.94],["nuit.",176.99,177.28],["La",177.49,177.89],["prochaine",177.94,178.24],["fois",178.29,178.5],["!",178.63,178.76]]}}};
+
+      const CFG_SUBJECT = "#gi-apple";
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) =>
+    h[0] === "#"
+      ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      : h.match(/\d+/g).map(Number);
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+// chaque apparition est notée : scripts/autosfx.cjs en tire un petit bruitage
+const SFX_LOG = (window.__SFX = []);
+const show = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "tic"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "pop"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  SFX_LOG.push([t, "tic"]);
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- Hasard reproductible (même valeur à chaque rendu) et petites formes ---
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+// va-et-vient entre 0 et 1 (rebond sur les bords)
+const tri = (x) => {
+  const u = ((x % 2) + 2) % 2;
+  return u < 1 ? u : 2 - u;
+};
+// boule avec contour et reflet
+const ball = (x, y, r, fill, o = {}) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+const txt = (x, y, s, size, o = {}) =>
+  `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
+const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
+
+// --- Chemin fermé ou ouvert fait de segments droits : longueur et point à une distance donnée ---
+const mkPath = (pts, closed = true) => {
+  const P = closed ? pts.concat([pts[0]]) : pts;
+  const seg = [];
+  let L = 0;
+  for (let i = 1; i < P.length; i++) {
+    const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+    seg.push([L, d, P[i - 1], P[i]]);
+    L += d;
+  }
+  const at = (s) => {
+    const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    return P[P.length - 1];
+  };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
+};
+// fil électrique : gaine sombre + âme claire
+const wireSVG = (d, col = "#F2C9A0", w = 26) =>
+  `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
+// ampoule : on = 0 (éteinte) à 1 (allumée)
+const bulbSVG = (x, y, on, k = 1) =>
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
+  `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
+  `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
+  `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
+
+// --- Petites formes de l'épisode « gravité » ---
+// un bonhomme tout simple (tête ronde, corps en capsule), pieds en (x, y)
+const figSVG = (x, y, k = 1, col = C.blue) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-14 0 V-34 M14 0 V-34" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><rect x="-28" y="-104" width="56" height="78" rx="26" fill="${col}" class="ink"/><circle cx="0" cy="-134" r="30" fill="#FFD9B8" class="ink"/></g>`;
+// la tartine : face confiture vers le haut quand l'angle vaut 0
+const toastSVG = (x, y, rot, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
+// la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
+const earthSVG = (x, y, r, rot = 0) => {
+  const blob = (a, d, w, h) =>
+    `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
+};
+// flèche droite de (x1, y1) vers (x2, y2)
+const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
+  const a = Math.atan2(y2 - y1, x2 - x1),
+    h = w * 2.2;
+  const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
+  return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+};
+
+// --- Formes de l'épisode « lumière » ---
+const RAINBOW = ["#E0455E", "#FF8A1F", "#FFD23F", "#3DBE8B", "#2F5BD3", "#8E5BD6"];
+// le Soleil, centré en (x, y)
+const sunSVG = (x, y, r, t = 0) => {
+  let s = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU + t * 0.3;
+    s += `<path d="M${f2(x + (r + 14) * Math.cos(a))} ${f2(y + (r + 14) * Math.sin(a))} L${f2(x + (r + 44) * Math.cos(a))} ${f2(y + (r + 44) * Math.sin(a))}" stroke="${C.fire}" stroke-width="10" stroke-linecap="round"/>`;
+  }
+  return s + `<circle cx="${x}" cy="${y}" r="${r}" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+};
+// un rayon : trait coloré bordé de sombre, dessiné jusqu'à la fraction u de sa longueur
+const raySVG = (x1, y1, x2, y2, col, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const x = lerp(x1, x2, Math.min(1, u)),
+    y = lerp(y1, y2, Math.min(1, u));
+  return `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${C.ink}" stroke-width="${w + 6}" stroke-linecap="round"/><path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+};
+// un rayon installé, avec des petits traits blancs qui filent dedans pour montrer le sens
+const beamSVG = (x1, y1, x2, y2, col, t, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const k = Math.min(1, u),
+    x = lerp(x1, x2, k),
+    y = lerp(y1, y2, k);
+  return (
+    raySVG(x1, y1, x2, y2, col, u, w) +
+    `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`
+  );
+};
+// un œil vu de face, centré en (x, y)
+const eyeSVG = (x, y, k = 1, iris = "#3DBE8B") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M-110 0 Q0 -90 110 0 Q0 90 -110 0 Z" fill="#fff" class="ink" stroke-width="6"/><circle r="44" fill="${iris}" class="ink"/><circle r="20" fill="${C.ink}"/><circle cx="-12" cy="-14" r="9" fill="#fff"/></g>`;
+// un chat assis, pieds en (x, y)
+const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${col}" stroke-width="20" stroke-linecap="round"/><ellipse cx="0" cy="-80" rx="78" ry="96" fill="${col}" class="ink" stroke-width="5"/><circle cx="0" cy="-210" r="66" fill="${col}" class="ink" stroke-width="5"/><path d="M-56 -244 L-64 -300 L-18 -268 Z M56 -244 L64 -300 L18 -268 Z" fill="${col}" class="ink" stroke-width="5"/><circle cx="-24" cy="-216" r="9" fill="${C.ink}"/><circle cx="24" cy="-216" r="9" fill="${C.ink}"/><path d="M-8 -194 L8 -194 L0 -184 Z" fill="#F7A8B8" class="ink" stroke-width="3"/></g>`;
+
+// --- Petites formes de l'épisode « allergies » ---
+// un grain de pollen : boule jaune à picots, l'air innocent
+const pollenSVG = (x, y, r, rot = 0, op = 1) => {
+  let s = "";
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * TAU + rot;
+    s += `<path d="M${f2(x + r * 0.9 * Math.cos(a))} ${f2(y + r * 0.9 * Math.sin(a))} L${f2(x + r * 1.45 * Math.cos(a))} ${f2(y + r * 1.45 * Math.sin(a))}" stroke="${C.ink}" stroke-width="${f2(r * 0.18)}" stroke-linecap="round"/>`;
+  }
+  return `<g opacity="${f2(op)}">${s}<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${C.hot}" class="ink" stroke-width="4"/><circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><path d="M${f2(x - r * 0.25)} ${f2(y + r * 0.3)} Q${f2(x)} ${f2(y + r * 0.55)} ${f2(x + r * 0.25)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.1)}" stroke-linecap="round"/></g>`;
+};
+// un virus : boule verte à ventouses, l'air méchant ; k = taille (1 → 0 quand il est avalé)
+const virusSVG = (x, y, r, rot = 0, k = 1) => {
+  if (k <= 0.02) return "";
+  let s = "";
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * TAU + rot;
+    s += `<path d="M${f2(r * 0.9 * Math.cos(a))} ${f2(r * 0.9 * Math.sin(a))} L${f2(r * 1.4 * Math.cos(a))} ${f2(r * 1.4 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/><circle cx="${f2(r * 1.5 * Math.cos(a))}" cy="${f2(r * 1.5 * Math.sin(a))}" r="${f2(r * 0.2)}" fill="#3DBE8B" class="ink" stroke-width="3"/>`;
+  }
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})">${s}<circle r="${r}" fill="#3DBE8B" class="ink" stroke-width="4"/><path d="M${f2(-r * 0.55)} ${f2(-r * 0.4)} L${f2(-r * 0.15)} ${f2(-r * 0.2)} M${f2(r * 0.55)} ${f2(-r * 0.4)} L${f2(r * 0.15)} ${f2(-r * 0.2)}" stroke="${C.ink}" stroke-width="6" stroke-linecap="round"/><circle cx="${f2(-r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><path d="M${f2(-r * 0.3)} ${f2(r * 0.5)} Q0 ${f2(r * 0.3)} ${f2(r * 0.3)} ${f2(r * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/></g>`;
+};
+// un globule blanc, « garde » du corps : mood 0 = tranquille, 1 = en alerte ; look = -1…1 (direction du regard)
+const guardSVG = (x, y, r, t, mood = 0, look = 0) => {
+  const w = 0.05 * Math.sin(t * 3 + x * 0.01),
+    ex = look * r * 0.14;
+  let s = `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * (1 + w))}" ry="${f2(r * (1 - w))}" fill="#fff" class="ink" stroke-width="5"/><ellipse cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.5)}" rx="${f2(r * 0.22)}" ry="${f2(r * 0.12)}" fill="#DCE6F5"/>`;
+  s += `<circle cx="${f2(x - r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/>`;
+  if (mood > 0.5) {
+    s += `<path d="M${f2(x - r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x - r * 0.14 + ex)} ${f2(y - r * 0.26)} M${f2(x + r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x + r * 0.14 + ex)} ${f2(y - r * 0.26)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/><path d="M${f2(x - r * 0.22 + ex)} ${f2(y + r * 0.4)} H${f2(x + r * 0.22 + ex)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+    s += `<g transform="translate(${f2(x)} ${f2(y - r * 1.55)})"><circle r="${f2(r * 0.36)}" fill="#E0455E" class="ink" stroke-width="4"/><text y="${f2(r * 0.2)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${f2(r * 0.56)}" fill="#fff">!</text></g>`;
+  } else
+    s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+  return s;
+};
+// un anticorps : une antenne en Y, pied en (x, y), tournée de rot degrés
+const antibodySVG = (x, y, rot, k = 1, op = 1) => {
+  const d = "M0 0 V-30 M0 -30 L-18 -56 M0 -30 L18 -56";
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})" opacity="${f2(op)}" fill="none" stroke-linecap="round"><path d="${d}" stroke="${C.ink}" stroke-width="15"/><path d="${d}" stroke="${C.fire}" stroke-width="8"/></g>`;
+};
+// la cellule pleine de sacs (mastocyte) : n antennes plantées dessus, burst 0 → 1 = les sacs éclatent et l'histamine sort
+const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
+  let s = "";
+  for (let i = 0; i < nAnt; i++) {
+    const a = (i / nAnt) * TAU + 0.4;
+    s += antibodySVG(
+      x + (r - 6) * Math.cos(a),
+      y + (r - 6) * Math.sin(a),
+      (a * 180) / Math.PI + 90,
+      antK,
+    );
+  }
+  s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#EBDDFB" class="ink" stroke-width="6"/><circle cx="${f2(x + r * 0.1)}" cy="${f2(y + r * 0.05)}" r="${f2(r * 0.3)}" fill="#C9B1EE" class="ink" stroke-width="4"/>`;
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * TAU + rnd(i) * 0.3,
+      d0 = r * (0.5 + 0.3 * rnd(i + 20)),
+      d1 = r + 60 + rnd(i + 40) * 190;
+    const d = lerp(d0, d1, burst) + (burst > 0 ? 10 * Math.sin(t * 2 + i) : 0);
+    s += `<circle cx="${f2(x + d * Math.cos(a))}" cy="${f2(y + d * Math.sin(a))}" r="${f2(lerp(r * 0.1, 13, burst))}" fill="${C.fire}" stroke="${C.ink}" stroke-width="3"/>`;
+  }
+  return s;
+};
+// un vaisseau sanguin en coupe, avec ses globules rouges qui défilent
+const vesselSVG = (t, id) => {
+  let s = `<defs><clipPath id="${id}"><rect x="130" y="270" width="1660" height="520"/></clipPath></defs><rect x="130" y="270" width="1660" height="520" fill="#FFE9E6"/><g clip-path="url(#${id})">`;
+  for (let i = 0; i < 16; i++) {
+    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800),
+      y = 330 + rnd(i + 9) * 400;
+    s += `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="36" ry="26" fill="#F29AA6" opacity="0.75"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="16" ry="11" fill="#E77888" opacity="0.75"/>`;
+  }
+  return (
+    s +
+    `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`
+  );
+};
+// une fleur toute simple, pied en (x, y)
+const flowerSVG = (x, y, k = 1) => {
+  let s = `<path d="M0 0 V-300" stroke="#3DBE8B" stroke-width="20" stroke-linecap="round"/><path d="M0 -140 q-90 -20 -110 -90 q90 0 110 90 Z" fill="#3DBE8B" class="ink"/>`;
+  for (let i = 0; i < 7; i++) {
+    const a = (i / 7) * TAU + 0.2,
+      px = 96 * Math.cos(a),
+      py = -360 + 96 * Math.sin(a);
+    s += `<ellipse cx="${f2(px)}" cy="${f2(py)}" rx="62" ry="40" transform="rotate(${f2((a * 180) / Math.PI)} ${f2(px)} ${f2(py)})" fill="#F7A8B8" class="ink"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}<circle cx="0" cy="-360" r="56" fill="${C.hot}" class="ink" stroke-width="5"/></g>`;
+};
+
+// --- Petites formes de l'épisode « feu » ---
+// une flamme vivante : pied en (x, y), hauteur h ; o.k = vigueur 0…1, o.blue = flamme toute bleue, o.lean = penche (px)
+const flameSVG = (x, y, h, t, o = {}) => {
+  const k = o.k ?? 1;
+  if (k <= 0.02) return "";
+  const H = h * k * (1 + 0.06 * Math.sin(t * 11 + x)),
+    sway = (o.lean ?? 0) + H * (0.07 * Math.sin(t * 9 + x * 0.01) + 0.04 * Math.sin(t * 14.3 + 1));
+  const lay = (s, col, op = 1) => {
+    const hh = H * s,
+      w = hh * 0.36;
+    return `<path d="M${f2(x)} ${f2(y)} C ${f2(x - w)} ${f2(y)}, ${f2(x - w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + sway * s)} ${f2(y - hh)} C ${f2(x + w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + w)} ${f2(y)}, ${f2(x)} ${f2(y)} Z" fill="${col}" opacity="${op}"${s === 1 ? ` stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"` : ""}/>`;
+  };
+  return o.blue
+    ? lay(1, "#5F86F0") + lay(0.6, "#BFD4FF")
+    : lay(1, C.fire) + lay(0.66, C.hot) + lay(0.3, "#5F86F0", 0.9);
+};
+// une bougie : pied en (x, y), largeur w, hauteur h (la mèche dépasse de 24)
+const candleSVG = (x, y, w, h, col = "#FBF1D8") =>
+  `<rect x="${f2(x - w / 2)}" y="${f2(y - h)}" width="${w}" height="${h}" rx="${f2(w * 0.12)}" fill="${col}" class="ink" stroke-width="4"/><ellipse cx="${x}" cy="${f2(y - h + 3)}" rx="${f2(w * 0.36)}" ry="${f2(w * 0.1)}" fill="#fff" opacity="0.8"/><path d="M${x} ${f2(y - h)} v-24" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/>`;
+// un filet de fumée qui monte en ondulant depuis (x, y) ; k = 0…1 (hauteur), col = couleur
+const smokeSVG = (x, y, t, k = 1, col = "#fff", n = 14, H = 260) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = ((t * 0.45 + i / n) % 1) * k,
+      yy = y - u * H,
+      xx = x + 26 * Math.sin(u * 7 + t * 2 + i) * u;
+    s += `<circle cx="${f2(xx)}" cy="${f2(yy)}" r="${f2(8 + 16 * u)}" fill="${col}" stroke="${C.smoke}" stroke-width="2.5" opacity="${f2((1 - u / (k || 1)) * 0.9)}"/>`;
+  }
+  return s;
+};
+// une bûche couchée, centre (x, y), longueur L, épaisseur e
+const logSVG = (x, y, L, e) =>
+  `<rect x="${f2(x - L / 2)}" y="${f2(y - e / 2)}" width="${f2(L)}" height="${f2(e)}" rx="${f2(e / 2)}" fill="#B9772E" class="ink" stroke-width="4"/><ellipse cx="${f2(x + L / 2 - e * 0.32)}" cy="${f2(y)}" rx="${f2(e * 0.3)}" ry="${f2(e * 0.42)}" fill="#EBC07E" class="ink" stroke-width="3"/><path d="M${f2(x - L * 0.3)} ${f2(y - e * 0.12)} h${f2(L * 0.3)} M${f2(x - L * 0.2)} ${f2(y + e * 0.16)} h${f2(L * 0.24)}" stroke="#8A5A22" stroke-width="3" stroke-linecap="round"/>`;
+// un sapin tout simple, pied en (x, y), hauteur h
+const treeSVG = (x, y, h, col = "#3DBE8B") =>
+  `<rect x="${f2(x - h * 0.05)}" y="${f2(y - h * 0.22)}" width="${f2(h * 0.1)}" height="${f2(h * 0.22)}" fill="#B9772E" class="ink" stroke-width="3"/><path d="M${f2(x)} ${f2(y - h)} L${f2(x + h * 0.3)} ${f2(y - h * 0.2)} H${f2(x - h * 0.3)} Z" fill="${col}" class="ink" stroke-width="4"/>`;
+
+// --- Petites formes de l'épisode « mer salée » ---
+// la mer : trois bandes de vagues entre x0 et x1, surface en y, fond en yb
+const seaSVG = (x0, x1, y, yb, t) => {
+  let s = "";
+  for (let r = 0; r < 3; r++) {
+    const yy = y + r * (yb - y) * 0.28,
+      n = Math.ceil((x1 - x0) / 120);
+    let d = `M${x0} ${f2(yy)}`;
+    for (let i = 0; i < n; i++) d += ` q30 ${f2(-22 * Math.sin(t * 2 + r * 1.3))} 60 0 t60 0`;
+    s += `<path d="${d} V${yb} H${x0} Z" fill="${["#8FD3FF", "#5FB4F0", "#2F7BD3"][r]}" class="ink" stroke-width="4"/>`;
+  }
+  return s;
+};
+// une montagne : sommet en (x, y), base de largeur w en yb
+const mountSVG = (x, y, w, yb, snow = true) =>
+  `<path d="M${f2(x - w / 2)} ${yb} L${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w / 2)} ${yb} Z" fill="#9AA6B8" class="ink" stroke-width="5"/>` +
+  (snow
+    ? `<path d="M${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w * 0.06)} ${f2(y + (yb - y) * 0.22)} L${x} ${f2(y + (yb - y) * 0.32)} L${f2(x - w * 0.06)} ${f2(y + (yb - y) * 0.2)} Z" fill="#fff" class="ink" stroke-width="4"/>`
+    : "");
+// un nuage : centre (x, y), taille k, plus ou moins gris (g = 0…1)
+const cloudSVG = (x, y, k = 1, g = 0) => {
+  const col = mixHex("#FFFFFF", "#A7AFBA", g);
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-120 30 a46 46 0 0 1 14 -88 a70 70 0 0 1 128 -22 a56 56 0 0 1 96 46 a40 40 0 0 1 -8 64 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+};
+// un grain de sel : petit cube blanc
+const saltSVG = (x, y, r = 8, rot = 0, op = 1) =>
+  `<rect x="${f2(x - r)}" y="${f2(y - r)}" width="${f2(r * 2)}" height="${f2(r * 2)}" rx="${f2(r * 0.25)}" fill="#fff" stroke="${C.ink}" stroke-width="2.5" opacity="${f2(op)}" transform="rotate(${f2(rot)} ${f2(x)} ${f2(y)})"/>`;
+// la pluie entre x0 et x1, de y0 à y1
+const rainSVG = (x0, x1, y0, y1, t, n = 14, op = 1) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = (t * 1.4 + rnd(i * 3)) % 1,
+      x = x0 + rnd(i) * (x1 - x0) - u * 30,
+      y = lerp(y0, y1, u);
+    s += `<path d="M${f2(x)} ${f2(y)} l-8 26" stroke="${C.blue}" stroke-width="6" stroke-linecap="round" opacity="${f2(op * (1 - u * 0.4))}"/>`;
+  }
+  return s;
+};
+
+// --- Petites formes de l'épisode « odorat » ---
+// une molécule d'odeur : trois petites boules collées
+const molSVG = (x, y, r = 9, col = "#FF8A1F", rot = 0, op = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})" opacity="${f2(op)}"><circle cx="${f2(-r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="${f2(r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="0" cy="${f2(-r * 0.7)}" r="${r}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/></g>`;
+// un point le long d'une ligne brisée P (u de 0 à 1)
+const along = (P, u) => {
+  const f = clamp(u) * (P.length - 1),
+    i = Math.min(P.length - 2, Math.floor(f)),
+    k = f - i;
+  return [lerp(P[i][0], P[i + 1][0], k), lerp(P[i][1], P[i + 1][1], k)];
+};
+// une tête de profil (regarde à gauche) coupée pour montrer l'intérieur du nez ; centre (x, y), échelle k ; blocked = nez bouché 0…1
+const headCutSVG = (x, y, k = 1, blocked = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-40 -300 C 160 -320, 300 -180, 290 20 C 284 160, 220 250, 120 300 H-120 C -140 250, -200 250, -230 210 C -250 180, -230 150, -250 130 C -280 110, -250 80, -270 60 C -330 40, -360 0, -300 -20 C -260 -40, -240 -120, -220 -180 C -190 -260, -130 -296, -40 -300 Z" fill="#FFD9B8" class="ink" stroke-width="6"/><path d="M-292 6 C -240 -10, -200 -60, -150 -110 C -100 -150, -20 -150, 20 -100 C 60 -50, 60 40, 40 130 C 20 80, -20 40, -80 30 C -160 20, -230 30, -292 6 Z" fill="#F7B9B0" class="ink" stroke-width="4"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.hot}" stroke-width="18" stroke-linecap="round"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.ink}" stroke-width="3" stroke-dasharray="3 9"/><path d="M-60 -150 C -40 -230, 80 -260, 150 -200 C 220 -140, 200 -60, 140 -40 C 90 -24, 40 -60, 20 -110" fill="#F7A8B8" class="ink" stroke-width="4"/><path d="M-60 -136 C -50 -160, -20 -160, -10 -140" fill="none" class="ink" stroke-width="8" stroke-linecap="round"/>` +
+  (blocked > 0
+    ? `<path d="M-250 -4 C -220 -30, -190 -50, -160 -80 C -140 -40, -150 0, -200 14 Z" fill="#B7DB8A" class="ink" stroke-width="4" opacity="${f2(blocked)}"/>`
+    : "") +
+  `</g>`;
+// un chien assis de profil (regarde à droite), pieds en (x, y)
+const dogSVG = (x, y, k = 1, t = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="#B9772E" stroke-width="20" stroke-linecap="round"/><ellipse cx="-20" cy="-90" rx="100" ry="110" fill="#B9772E" class="ink" stroke-width="5"/><rect x="20" y="-70" width="34" height="74" rx="14" fill="#B9772E" class="ink" stroke-width="5"/><circle cx="60" cy="-220" r="76" fill="#B9772E" class="ink" stroke-width="5"/><path d="M90 -230 H190 Q210 -230 204 -206 L190 -180 H100 Z" fill="#D9A260" class="ink" stroke-width="5"/><circle cx="204" cy="${f2(-222 + 3 * Math.sin(t * 14))}" r="16" fill="${C.ink}"/><circle cx="84" cy="-240" r="9" fill="${C.ink}"/><path d="M20 -280 Q-30 -250 -6 -170 Q30 -190 40 -270 Z" fill="#8A5A22" class="ink" stroke-width="5"/></g>`;
+
+// --- Petites formes de l'épisode « goût » ---
+// une cloche d'alarme : ring = 0…1
+const bellSVG = (x, y, ring, t, k = 1) =>
+  `<g transform="translate(${x} ${y}) scale(${k}) rotate(${f2(16 * ring * Math.sin(t * 22))})"><path d="M-60 40 Q-60 -70 0 -80 Q60 -70 60 40 Z" fill="${C.hot}" class="ink" stroke-width="5"/><rect x="-74" y="34" width="148" height="20" rx="10" fill="${C.hot}" class="ink" stroke-width="5"/><circle cy="66" r="14" fill="${C.ink}"/></g>` +
+  (ring > 0.2
+    ? [-1, 1]
+        .map(
+          (d) =>
+            `<path d="M${x + d * 90 * k} ${y - 50 * k} q${d * 26} 40 0 80" fill="none" stroke="${C.fire}" stroke-width="8" stroke-linecap="round" opacity="${f2(ring)}"/>`,
+        )
+        .join("")
+    : "");
+// une langue vue de dessus, pointe en bas : centre (x, y), échelle k ; bumps = papilles visibles 0…1
+const tongueSVG = (x, y, k = 1, bumps = 1, col = "#F08A9B") => {
+  let s = `<path d="M-150 -260 H150 V60 Q150 260 0 260 Q-150 260 -150 60 Z" fill="${col}" class="ink" stroke-width="${f2(6 / k)}"/><path d="M0 -240 V150" stroke="#D76A7E" stroke-width="${f2(7 / k)}" stroke-linecap="round"/>`;
+  if (bumps > 0)
+    for (let i = 0; i < 46; i++) {
+      const bx = (rnd(i) - 0.5) * 250,
+        by = -230 + rnd(i + 80) * 440;
+      if (Math.abs(bx) < 16 || (by > 60 && Math.hypot(bx / 150, (by - 60) / 200) > 0.85)) continue;
+      s += `<circle cx="${f2(bx)}" cy="${f2(by)}" r="${f2(7 + 4 * rnd(i + 9))}" fill="#F7B5C0" stroke="#D76A7E" stroke-width="2" opacity="${f2(bumps)}"/>`;
+    }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}</g>`;
+};
+// une fraise, centre (x, y)
+const berrySVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-50 -30 Q-60 50 0 80 Q60 50 50 -30 Q0 -60 -50 -30 Z" fill="#E0455E" class="ink" stroke-width="5"/><path d="M-40 -34 L-10 -60 L0 -40 L10 -60 L40 -34 Q0 -14 -40 -34 Z" fill="#3DBE8B" class="ink" stroke-width="4"/><g fill="#FFE14D"><circle cx="-20" cy="0" r="4"/><circle cx="14" cy="-6" r="4"/><circle cx="-4" cy="30" r="4"/><circle cx="24" cy="24" r="4"/></g></g>`;
+
+// --- Petites formes de l'épisode « toucher » ---
+// un cerveau, centre (x, y)
+const brainSVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-110 20 C -150 -40, -110 -110, -40 -100 C -10 -150, 80 -140, 96 -84 C 150 -70, 160 10, 110 40 C 100 90, 20 100, -10 70 C -60 100, -120 70, -110 20 Z" fill="#F7A8B8" class="ink" stroke-width="5"/><path d="M-40 -100 C -20 -60, -50 -30, -20 0 M96 -84 C 60 -60, 80 -20, 40 0" fill="none" class="ink" stroke-width="4"/></g>`;
+// une main ouverte, doigts vers le haut : poignet en (x, y), échelle k, tournée de rot degrés
+const handSVG = (x, y, k = 1, rot = 0, col = "#FFD9B8") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><path d="M-60 0 V-140 Q-60 -170 -40 -170 Q-20 -170 -20 -140 V-250 Q-20 -276 0 -276 Q20 -276 20 -250 V-270 Q20 -296 40 -296 Q60 -296 60 -270 V-240 Q60 -264 80 -264 Q100 -264 100 -240 V-120 L130 -170 Q150 -196 168 -180 Q180 -166 168 -140 L110 -30 V0 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+// un message nerveux : une étincelle qui file le long de la ligne brisée P (u de 0 à 1)
+const sparkSVG = (P, u, col = C.spark, r = 16) => {
+  if (u <= 0 || u >= 1) return "";
+  const [x, y] = along(P, u);
+  return `<circle cx="${f2(x)}" cy="${f2(y)}" r="${r + 8}" fill="${col}" opacity="0.35"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="${col}" class="ink" stroke-width="3"/>`;
+};
+const pathD = (P) => P.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+
+// --- Petites formes de l'épisode « vue » ---
+// un œil vu de face : centre (x, y), rayon r de l'iris, p = taille de la pupille (0…1)
+const frontEyeSVG = (x, y, r, p = 0.45, iris = "#3DBE8B", closed = 0) =>
+  closed > 0.5
+    ? `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 0.8)} ${f2(x + r * 2.2)} ${f2(y)}" fill="none" class="ink" stroke-width="${f2(r * 0.12)}" stroke-linecap="round"/>`
+    : `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y - r * 1.9)} ${f2(x + r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 1.9)} ${f2(x - r * 2.2)} ${f2(y)} Z" fill="#fff" class="ink" stroke-width="${f2(r * 0.09)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${iris}" class="ink" stroke-width="${f2(r * 0.07)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r * p)}" fill="${C.ink}"/><circle cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.4)}" r="${f2(r * 0.16)}" fill="#fff"/>`;
+// un œil en coupe : centre (x, y), rayon r ; la lumière entre par la gauche
+const eyeCutSVG = (x, y, r) =>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" class="ink" stroke-width="6"/><path d="M${f2(x + r * 0.5)} ${f2(y - r * 0.86)} A ${r} ${r} 0 0 1 ${f2(x + r * 0.5)} ${f2(y + r * 0.86)}" fill="none" stroke="#E0455E" stroke-width="16" stroke-linecap="round"/><path d="M${f2(x - r * 0.9)} ${f2(y - r * 0.42)} Q${f2(x - r * 1.3)} ${y} ${f2(x - r * 0.9)} ${f2(y + r * 0.42)}" fill="#CFEFFF" class="ink" stroke-width="5"/><path d="M${f2(x - r * 0.84)} ${f2(y - r * 0.5)} V${f2(y - r * 0.18)} M${f2(x - r * 0.84)} ${f2(y + r * 0.18)} V${f2(y + r * 0.5)}" stroke="#3DBE8B" stroke-width="16" stroke-linecap="round"/><ellipse cx="${f2(x - r * 0.62)}" cy="${y}" rx="${f2(r * 0.14)}" ry="${f2(r * 0.34)}" fill="#DFF3FF" class="ink" stroke-width="5"/>`;
+
+// --- Petites formes de l'épisode « volcans » ---
+// une fontaine de lave qui jaillit de (x, y) ; k = force 0…1
+const lavaSVG = (x, y, t, k = 1, n = 14, spread = 70) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = (t * 0.7 + i / n) % 1,
+      a = rad(-90 + (rnd(i) - 0.5) * spread),
+      v = (420 + rnd(i + 9) * 200) * k;
+    s += `<circle cx="${f2(x + Math.cos(a) * v * u)}" cy="${f2(y + Math.sin(a) * v * u + 520 * k * u * u)}" r="${f2((16 - 8 * u) * (0.4 + 0.6 * k))}" fill="${i % 2 ? C.fire : "#E0455E"}" class="ink" stroke-width="3" opacity="${f2(Math.min(1, k * 3))}"/>`;
+  }
+  return s;
+};
+// un cône de volcan : base de x0 à x1 en yb, sommet plat de largeur w en y
+const coneSVG = (x0, x1, yb, y, w, col = "#6B5B4E") => {
+  const xm = (x0 + x1) / 2;
+  return `<path d="M${x0} ${yb} L${f2(xm - w / 2)} ${y} H${f2(xm + w / 2)} L${x1} ${yb} Z" fill="${col}" class="ink" stroke-width="6"/>`;
+};
+
+// --- Petites formes de l'épisode « pluie et nuages » ---
+// un éléphant de profil (regarde à gauche), centre (x, y)
+const elephSVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><ellipse rx="90" ry="64" fill="#A7AFBA" class="ink" stroke-width="5"/><circle cx="-90" cy="-30" r="50" fill="#A7AFBA" class="ink" stroke-width="5"/><path d="M-130 -20 Q-170 40 -140 80" fill="none" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M-130 -20 Q-170 40 -140 80" fill="none" stroke="#A7AFBA" stroke-width="16" stroke-linecap="round"/><ellipse cx="-70" cy="-40" rx="26" ry="36" fill="#8E96A3" class="ink" stroke-width="4"/><circle cx="-106" cy="-40" r="6" fill="${C.ink}"/><rect x="-60" y="40" width="30" height="50" rx="8" fill="#A7AFBA" class="ink" stroke-width="5"/><rect x="30" y="40" width="30" height="50" rx="8" fill="#A7AFBA" class="ink" stroke-width="5"/></g>`;
+// une gouttelette : petit disque bleu clair
+const dropletSVG = (x, y, r = 6, op = 1) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="#8FD3FF" stroke="${C.blue}" stroke-width="2" opacity="${f2(op)}"/>`;
+// de la vapeur d'eau (invisible) : une bulle en pointillés
+const vaporSVG = (x, y, r = 22, op = 1) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="#8FD3FF" fill-opacity="0.18" stroke="${C.blue}" stroke-width="3" stroke-dasharray="7 7" opacity="${f2(op)}"/>`;
+
+// --- Petites formes de l'épisode « cœur » ---
+// le battement : deux coups rapprochés puis une pause ; bpm = battements par minute ; renvoie 0…1
+const beatAt = (t, bpm = 80) => {
+  const ph = ((t * bpm) / 60) % 1;
+  return Math.exp(-ph * 14) + 0.7 * Math.exp(-Math.abs(ph - 0.28) * 22);
+};
+// un cœur de dessin, centre (x, y), échelle k
+const heartSVG = (x, y, k = 1, col = "#E0455E") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M0 100 C -150 -10, -130 -130, -60 -130 C -20 -130, 0 -100, 0 -80 C 0 -100, 20 -130, 60 -130 C 130 -130, 150 -10, 0 100 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/><path d="M-70 -90 Q-90 -60 -76 -30" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.7"/></g>`;
+// un globule rouge, centre (x, y) ; cargo = "o2" (colis bleu), "co2" (sac gris) ou rien
+const rbcSVG = (x, y, r = 30, cargo = "", op = 1) =>
+  `<g opacity="${f2(op)}"><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${r}" ry="${f2(r * 0.74)}" fill="#E0455E" class="ink" stroke-width="4"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * 0.45)}" ry="${f2(r * 0.3)}" fill="#C2334A"/>` +
+  (cargo === "o2"
+    ? `<rect x="${f2(x - 16)}" y="${f2(y - r * 0.74 - 30)}" width="32" height="28" rx="6" fill="#8FD3FF" class="ink" stroke-width="3"/>`
+    : cargo === "co2"
+      ? `<path d="M${f2(x - 16)} ${f2(y - r * 0.74 - 4)} q-6 -30 16 -30 q22 0 16 30 Z" fill="#A7AFBA" class="ink" stroke-width="3"/>`
+      : "") +
+  `</g>`;
+
+// --- Petites formes de l'épisode « digestion » ---
+// le trajet de la nourriture, en coordonnées du plan (voir tractSVG) : bouche, œsophage, estomac, intestin grêle, gros intestin
+const TRACT = [[0, -300], [0, -150], [60, -90], [90, -30], [-90, 30], [90, 70], [-90, 110], [90, 150], [-90, 190], [-150, 230], [-150, 0], [150, 0], [150, 250], [20, 290]];
+// le plan du tube digestif : centre (x, y), échelle k ; stage = étape mise en avant (0 bouche/œsophage, 1 estomac, 2 grêle, 3 gros, -1 tout) ; u = position de la tartine (0…1, ou -1)
+const tractSVG = (x, y, k, stage, u, t) => {
+  const op = (i) => (stage < 0 || stage === i ? 1 : 0.3), seg = (a, b) => pathD(TRACT.slice(a, b + 1));
+  const pipe = (d, w, col, o) => `<g opacity="${o}"><path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w + 10}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  let s = `<circle cx="0" cy="-340" r="70" fill="#FFD9B8" class="ink" stroke-width="5" opacity="0.9"/><rect x="-210" y="-250" width="420" height="580" rx="120" fill="#fff" class="ink" stroke-width="5" opacity="0.9"/>`;
+  s += pipe(seg(10, 13), 34, "#D9A260", op(3)) + pipe(seg(3, 9), 22, "#F7B9B0", op(2)) + pipe(seg(0, 1), 22, "#F08A9B", op(0));
+  s += `<g opacity="${op(1)}"><path d="M0 -150 Q110 -150 110 -80 Q110 -20 40 -20 Q-20 -20 -10 -90 Z" fill="#F7A8B8" class="ink" stroke-width="5"/></g>`;
+  if (u >= 0) { const [px, py] = along(TRACT, u); s += `<circle cx="${f2(px)}" cy="${f2(py)}" r="${f2(15 + 3 * Math.sin(t * 8))}" fill="${C.hot}" class="ink" stroke-width="4"/>`; }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}</g>`;
+};
+
+      // ===== g.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
+  const SUBJECT = CFG_SUBJECT;
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const OTHERS = ICONS.filter((i) => i !== SUBJECT);
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
+  const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // L'objet du jour vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag"].concat(OTHERS),
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to(SUBJECT, { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to(SUBJECT, { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s0-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s0").start,
+  );
+})();
+
+      // ===== s0.js =====
+// ---------- Scène 0 : la tartine voyage dans un toboggan de sept mètres, plié dans le ventre ----------
+(() => {
+  const tT = cue("s0-2", "toboggan") - 0.5, tS = cue("s0-2", "sept") - 0.4, tC = cue("s0-3", "cinquante") - 1.2;
+  onDraw("s0", (t) => {
+    const u = ((t - scn("s0").start) * 0.07) % 1;
+    let s = tractSVG(520, 560, 0.95, -1, ramp(t, tT, tT + 0.3) > 0 ? u : -1, t);
+    if (t < tT) s += toastSVG(900 + 10 * Math.sin(t * 3), 420 + 10 * Math.cos(t * 2), -8, 0.9) + txt(1100, 460, "?", 160, { w: 700, fill: "#C25E00" });
+    // le tuyau déroulé : sept mètres, à côté d'une enfant d'un mètre quarante
+    const r = ramp(t, tS, tS + 1.2);
+    if (r > 0) {
+      s += `<path d="M900 420 H${f2(900 + 860 * r)}" stroke="${C.ink}" stroke-width="44" stroke-linecap="round"/><path d="M900 420 H${f2(900 + 860 * r)}" stroke="#F7B9B0" stroke-width="32" stroke-linecap="round"/>`;
+      for (let i = 1; i <= 7; i++) if (r > i / 7 - 0.02) s += `<path d="M${900 + i * 122.8} 460 v24" class="ink" stroke-width="5"/>` + txt(900 + i * 122.8, 524, i + " m", 30, { w: 700 });
+      const c = ramp(t, tC, tC + 0.4);
+      if (c > 0) s += `<g opacity="${f2(c)}">${figSVG(986, 800, 1.5, C.blue)}<path d="M900 836 H1072" class="ink" stroke-width="6"/><path d="M900 600 v236 M1072 600 v236" class="ink" stroke-width="3" stroke-dasharray="8 8"/>${txt(1230, 720, "1,40 m", 46, { w: 700, fill: C.blue })}</g>`;
+    }
+    $("#s0-draw").innerHTML = s;
+  });
+  pop("#s0-n1", cue("s0-4", "rangé") - 0.6);
+})();
+
+      // ===== s1.js =====
+// ---------- Scène 1 : la bouche (les dents, la salive), puis l'œsophage qui pousse comme un tube de dentifrice ----------
+(() => {
+  const tD = cue("s1-1", "dents") - 0.4, tSa = cue("s1-1", "salive") - 0.5, tAv = cue("s1-3", "avales") - 0.4, tDe = cue("s1-3", "dentifrice") - 1.6, tUp = cue("s1-4", "tête") - 0.6, tNo = cue("s1-5", "mange") - 0.6;
+  onDraw("s1", (t) => {
+    const oe = ramp(t, tAv, tAv + 0.6), mapU = lerp(0, 1 / 13, oe);
+    let s = tractSVG(360, 560, 0.75, 0, mapU, t);
+    if (oe < 1) {
+      // la bouche en gros plan : les dents montent et descendent sur la tartine
+      const ch = 34 * Math.abs(Math.sin(t * 7)) * ramp(t, tD, tD + 0.3);
+      let g = `<rect x="900" y="330" width="760" height="420" rx="120" fill="#7A2231" class="ink" stroke-width="8"/>`;
+      g += toastSVG(1280, 540, 0, 1.2 * (1 - 0.3 * ramp(t, tD, tAv)));
+      for (let i = 0; i < 7; i++) g += `<rect x="${950 + i * 96}" y="${f2(330 + ch - 6)}" width="84" height="110" rx="20" fill="#fff" class="ink" stroke-width="5"/><rect x="${950 + i * 96}" y="${f2(640 - ch + 6)}" width="84" height="110" rx="20" fill="#fff" class="ink" stroke-width="5"/>`;
+      const sa = ramp(t, tSa, tSa + 0.4);
+      if (sa > 0) for (let i = 0; i < 6; i++) { const u = (t * 0.8 + i / 6) % 1; g += `<path d="M${1000 + i * 110} ${f2(460 + u * 80)} q-10 16 0 24 q10 -8 0 -24 Z" fill="${C.air}" class="ink" stroke-width="2.5" opacity="${f2(sa * (1 - u))}"/>`; }
+      s += `<g opacity="${f2(1 - oe)}">${g}</g>`;
+    }
+    if (oe > 0) {
+      // l'œsophage : un anneau de muscles se resserre derrière la bouchée et la pousse
+      const up = ramp(t, tUp, tUp + 0.5) * (1 - ramp(t, tNo, tNo + 0.5)), u = ((t - tAv) * 0.22) % 1, by = lerp(350, 720, u);
+      let g = `<path d="M1200 330 V740" stroke="${C.ink}" stroke-width="150" stroke-linecap="round"/><path d="M1200 330 V740" stroke="#F08A9B" stroke-width="134" stroke-linecap="round"/>`;
+      g += `<ellipse cx="1200" cy="${f2(by)}" rx="52" ry="60" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+      g += `<path d="M1125 ${f2(by - 86)} q40 30 0 60 M1275 ${f2(by - 86)} q-40 30 0 60" fill="none" stroke="#C2334A" stroke-width="16" stroke-linecap="round"/>` + arrowSVG(1340, by - 70, 1340, by + 10, C.fire, 14, 0.9);
+      const de = ramp(t, tDe, tDe + 0.4) * (1 - up);
+      if (de > 0) g += `<g opacity="${f2(de)}" transform="translate(1560 520) rotate(20)"><path d="M-60 -160 H60 L40 120 H-40 Z" fill="#8FD3FF" class="ink" stroke-width="6"/><rect x="-26" y="120" width="52" height="40" fill="#fff" class="ink" stroke-width="5"/><path d="M0 164 q${f2(10 * Math.sin(t * 6))} 40 0 ${f2(60 + 20 * Math.sin(t * 3))}" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round"/><path d="M-70 -60 q20 -20 0 -50 M70 -60 q-20 -20 0 -50" fill="none" stroke="${C.fire}" stroke-width="9" stroke-linecap="round"/></g>`;
+      s += `<g opacity="${f2(oe)}" transform="rotate(${f2(180 * up)} 1200 530)">${g}</g>`;
+    }
+    $("#s1-draw").innerHTML = s;
+  });
+  show("#s1-n1", tD + 0.4);
+  tl.to("#s1-n1", { opacity: 0, duration: 0.3 }, tAv);
+  show("#s1-n2", tDe + 0.4);
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : l'estomac malaxe pendant des heures avec un jus acide ; la tartine devient une soupe ----------
+(() => {
+  const tMa = cue("s2-1", "malaxe") - 0.5, tH = cue("s2-1", "heures") - 0.8, tAc = cue("s2-1", "acide") - 0.6, tGl = cue("s2-3", "gluante") - 0.8, tSo = cue("s2-5", "soupe") - 0.8;
+  const X = 1260, Y = 540;
+  onDraw("s2", (t) => {
+    const so = ramp(t, tMa, tSo + 0.5), w = 18 * Math.sin(t * 3) * ramp(t, tMa, tMa + 0.4), gl = ramp(t, tGl, tGl + 0.4);
+    let s = tractSVG(360, 560, 0.75, 1, lerp(1 / 13, 3 / 13, 0.5 + 0.5 * Math.sin(t * 1.5)), t);
+    // la poche, qui se tord en malaxant
+    const d = `M${X - 60} ${Y - 300} C ${X + 60} ${Y - 300}, ${X + 300 + w} ${Y - 240}, ${X + 300 + w} ${Y - 20} C ${X + 300 - w} ${Y + 200}, ${X + 80} ${Y + 280 + w}, ${X - 120} ${Y + 250} C ${X - 300 - w} ${Y + 220}, ${X - 320} ${Y + 40 - w}, ${X - 200} ${Y - 60} C ${X - 120} ${Y - 130}, ${X - 140} ${Y - 220}, ${X - 60} ${Y - 300} Z`;
+    s += `<path d="${d}" fill="#F7A8B8" class="ink" stroke-width="7"/>` + (gl > 0 ? `<path d="${d}" fill="none" stroke="#B7DB8A" stroke-width="22" opacity="${f2(gl)}" transform="translate(${X * 0.06} ${Y * 0.06}) scale(0.94)"/>` : "");
+    s += `<clipPath id="s2-c"><path d="${d}" transform="translate(${X * 0.1} ${Y * 0.1}) scale(0.9)"/></clipPath><g clip-path="url(#s2-c)"><rect x="${X - 340}" y="${f2(Y + 20 - 60 * so + 10 * Math.sin(t * 2))}" width="700" height="400" fill="${mixHex("#FFF3C4", "#E6B45A", so)}"/>`;
+    // les morceaux de tartine tournent et rétrécissent
+    for (let i = 0; i < 6; i++) { const a = t * 1.4 + (i / 6) * TAU, r = 120 + 30 * Math.sin(t + i); s += `<rect x="${f2(X + r * Math.cos(a) - 30 * (1 - so))}" y="${f2(Y + 90 + 60 * Math.sin(a) - 20 * (1 - so))}" width="${f2(60 * (1 - so))}" height="${f2(40 * (1 - so))}" rx="8" fill="#EBC07E" class="ink" stroke-width="3" transform="rotate(${f2(a * 60)} ${f2(X + r * Math.cos(a))} ${f2(Y + 90 + 60 * Math.sin(a))})"/>`; }
+    s += `</g>`;
+    // les gouttes de jus acide
+    const ac = ramp(t, tAc, tAc + 0.4);
+    if (ac > 0) for (let i = 0; i < 7; i++) { const u = (t * 0.7 + i / 7) % 1, a = rad(-150 + i * 22); s += `<circle cx="${f2(X + 30 + (230 - u * 120) * Math.cos(a))}" cy="${f2(Y - 40 + (210 - u * 110) * Math.sin(a))}" r="11" fill="#D6E84A" class="ink" stroke-width="3" opacity="${f2(ac * (1 - u))}"/>`; }
+    // l'horloge
+    const h = ramp(t, tH, tH + 0.4);
+    if (h > 0) s += `<g opacity="${f2(h)}" transform="translate(1700 320)"><circle r="76" fill="#fff" class="ink" stroke-width="6"/><path d="M0 0 V-50" class="ink" stroke-width="7" stroke-linecap="round" transform="rotate(${f2(t * 120)})"/><path d="M0 0 V-34" class="ink" stroke-width="9" stroke-linecap="round" transform="rotate(${f2(t * 10)})"/>${txt(0, 130, "2 à 3 h", 40, { w: 700 })}</g>`;
+    $("#s2-draw").innerHTML = s;
+  });
+  show("#s2-n1", tAc + 0.5);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : l'intestin grêle, six mètres ; ses villosités donnent le bon au sang, le livreur ----------
+(() => {
+  const tSi = cue("s3-1", "Six") - 0.4, tDo = cue("s3-3", "doigts") - 1.0, tNu = cue("s3-3", "nutriments") - 0.6, tLi = cue("s3-3", "livre") - 0.8;
+  const X0 = 760, W = 1000, YW = 560;
+  onDraw("s3", (t) => {
+    let s = tractSVG(360, 560, 0.75, 2, lerp(3 / 13, 9 / 13, ((t - scn("s3").start) * 0.06) % 1), t);
+    const six = ramp(t, tSi, tSi + 0.3) * (1 - ramp(t, tDo - 0.3, tDo));
+    if (six > 0) s += `<g transform="translate(1260 520) scale(${f2(six * (1 + 0.04 * Math.sin(t * 6)))})">${txt(0, 0, "6 mètres", 150, { w: 700, fill: "#C25E00" })}</g>`;
+    // le gros plan : la paroi et ses petits doigts, la soupe au-dessus, le sang en dessous
+    const z = ramp(t, tDo, tDo + 0.5);
+    if (z > 0) {
+      let g = `<rect x="${X0}" y="260" width="${W}" height="560" rx="34" fill="#FFF3C4" class="ink" stroke-width="6"/><clipPath id="s3-c"><rect x="${X0 + 6}" y="266" width="${W - 12}" height="548" rx="30"/></clipPath><g clip-path="url(#s3-c)">`;
+      let d = `M${X0} ${YW}`;
+      for (let i = 0; i < 8; i++) { const x = X0 + i * 125; d += ` L${x + 20} ${YW} Q${x + 20} ${f2(YW - 190 + 8 * Math.sin(t * 2 + i))} ${x + 62} ${f2(YW - 190 + 8 * Math.sin(t * 2 + i))} Q${x + 105} ${f2(YW - 190 + 8 * Math.sin(t * 2 + i))} ${x + 105} ${YW}`; }
+      g += `<path d="${d} L${X0 + W} ${YW} V830 H${X0} Z" fill="#F7B9B0" class="ink" stroke-width="5"/>`;
+      g += `<rect x="${X0}" y="690" width="${W}" height="90" fill="#FFE9E6" class="ink" stroke-width="4"/>`;
+      // les nutriments descendent dans les doigts, puis partent avec le sang
+      const nu = ramp(t, tNu, tNu + 0.4), li = ramp(t, tLi, tLi + 0.4);
+      for (let i = 0; i < 12; i++) { const u = (t * 0.25 + rnd(i)) % 1, x = X0 + 62 + (i % 8) * 125; g += `<circle cx="${f2(x + 10 * Math.sin(t * 3 + i))}" cy="${f2(lerp(300, 300 + 380 * nu, u))}" r="11" fill="${C.hot}" class="ink" stroke-width="3" opacity="${f2(Math.sin(u * Math.PI))}"/>`; }
+      for (let i = 0; i < 5; i++) { const u = (t * 0.2 + i / 5) % 1; g += rbcSVG(X0 + u * W, 735, 26) + (li > 0 ? `<circle cx="${f2(X0 + u * W)}" cy="700" r="10" fill="${C.hot}" class="ink" stroke-width="3" opacity="${f2(li)}"/>` : ""); }
+      g += `</g>`;
+      s += `<g opacity="${f2(z)}" transform="translate(${f2(40 * (1 - z))} 0)">${g}</g>`;
+    }
+    $("#s3-draw").innerHTML = s;
+  });
+  const l1 = label("s3", "s3-l1", [X0 + 310, 420], [X0 + 120, 150], "Les villosités", "des millions de petits doigts");
+  const l2 = label("s3", "s3-l2", [X0 + 700, 735], [X0 + 620, 150], "Le sang", "il emporte les nutriments");
+  showLabel(l1, tDo + 0.6); showLabel(l2, tLi + 0.3);
+  pop("#s3-n1", cue("s3-4", "livreur") - 0.3);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : le gros intestin récupère l'eau et héberge des milliards de bactéries ; un à deux jours de voyage ----------
+(() => {
+  const tE = cue("s4-2", "eau") - 0.8, tB = cue("s4-2", "bactéries") - 0.8, tT = cue("s4-4", "toilettes") - 0.8, tJ = cue("s4-6", "jours") - 0.8;
+  const bact = (x, y, rot, col, t, i) => `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><rect x="-34" y="-18" width="68" height="36" rx="18" fill="${col}" class="ink" stroke-width="4"/><circle cx="-10" cy="-3" r="4" fill="${C.ink}"/><circle cx="8" cy="-3" r="4" fill="${C.ink}"/><path d="M-8 7 q7 6 14 0" fill="none" class="ink" stroke-width="3"/><path d="M34 0 q${f2(14 + 6 * Math.sin(t * 9 + i))} -10 26 0" fill="none" class="ink" stroke-width="3"/></g>`;
+  onDraw("s4", (t) => {
+    const to = ramp(t, tT, tT + 0.5);
+    let s = tractSVG(360, 560, 0.75, 3, lerp(9 / 13, 1, ((t - scn("s4").start) * 0.05) % 1), t);
+    let g = `<path d="M820 600 H1720" stroke="${C.ink}" stroke-width="330" stroke-linecap="round"/><path d="M820 600 H1720" stroke="#D9A260" stroke-width="312" stroke-linecap="round"/><path d="M820 600 H1720" stroke="#E6B45A" stroke-width="220" stroke-linecap="round" opacity="0.6"/>`;
+    // l'eau quitte la purée et rejoint la paroi
+    const e = ramp(t, tE, tE + 0.4);
+    if (e > 0) for (let i = 0; i < 10; i++) { const u = (t * 0.4 + i / 10) % 1, up = i % 2 ? -1 : 1; g += `<path d="M${860 + i * 90} ${f2(600 + up * u * 130)} q-10 16 0 24 q10 -8 0 -24 Z" fill="${C.air}" class="ink" stroke-width="2.5" opacity="${f2(e * (1 - u * 0.4))}"/>`; }
+    // les bactéries, colocataires
+    const b = ramp(t, tB, tB + 0.5);
+    if (b > 0) for (let i = 0; i < 9; i++) g += `<g opacity="${f2(b)}">${bact(900 + (i % 5) * 180 + 20 * Math.sin(t * 1.5 + i), 550 + Math.floor(i / 5) * 100 + 14 * Math.cos(t * 2 + i), 20 * Math.sin(t + i), ["#3DBE8B", "#8E5BD6", "#5F86F0", "#F7A8B8"][i % 4], t, i)}</g>`;
+    s += `<g opacity="${f2(1 - 0.85 * to)}">${g}</g>`;
+    // la sortie
+    if (to > 0) s += `<g opacity="${f2(to)}" transform="translate(1280 ${f2(620 + 20 * (1 - to))})"><rect x="-150" y="-260" width="300" height="200" rx="24" fill="#fff" class="ink" stroke-width="6"/><path d="M-170 -60 H170 Q170 110 0 110 Q-170 110 -170 -60 Z" fill="#fff" class="ink" stroke-width="6"/><rect x="-60" y="110" width="120" height="120" rx="14" fill="#fff" class="ink" stroke-width="6"/><circle cx="110" cy="-200" r="16" fill="#9AA6B8" class="ink" stroke-width="4"/></g>`;
+    const j = ramp(t, tJ, tJ + 0.3);
+    if (j > 0) s += `<g transform="translate(1280 240) scale(${f2(j * (1 + 0.04 * Math.sin(t * 6)))})">${txt(0, 0, "1 à 2 jours", 110, { w: 700, fill: "#C25E00" })}</g>`;
+    $("#s4-draw").innerHTML = s;
+  });
+  show("#s4-n1", tB + 0.6);
+  tl.to("#s4-n1", { opacity: 0, duration: 0.3 }, tT);
+  pop("#s4-n2", tJ + 0.4);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : le ventre qui gargouille : les muscles brassent de l'air et du liquide ----------
+(() => {
+  const tG = cue("s5-1", "gargouille") - 0.6, tM = cue("s5-2", "muscles") - 0.6;
+  onDraw("s5", (t) => {
+    const g = ramp(t, tG, tG + 0.3), m = ramp(t, tM, tM + 0.5);
+    let s = `<path d="M130 850 H1790" class="ink" stroke-width="6"/>` + figSVG(460, 848, 3.2, C.blue);
+    // les ondes du gargouillis
+    for (let i = 0; i < 3; i++) { const u = (t * 1.2 + i / 3) % 1; s += `<path d="M${f2(560 + u * 160)} ${f2(600 - 40 - i * 10)} q30 40 0 80" fill="none" stroke="${C.fire}" stroke-width="10" stroke-linecap="round" opacity="${f2(g * (1 - u))}"/>`; }
+    s += `<g transform="translate(820 ${f2(470 + 8 * Math.sin(t * 9))}) rotate(-8)" opacity="${f2(g)}">${txt(0, 0, "Grrrr…", 90, { w: 700, fill: "#C25E00" })}</g>`;
+    // dans le tuyau : des bulles d'air et du liquide, poussés par les muscles
+    if (m > 0) {
+      let h = `<path d="M1000 620 H1720" stroke="${C.ink}" stroke-width="210" stroke-linecap="round"/><path d="M1000 620 H1720" stroke="#F7B9B0" stroke-width="194" stroke-linecap="round"/><clipPath id="s5-c"><rect x="910" y="530" width="900" height="180" rx="90"/></clipPath><g clip-path="url(#s5-c)"><path d="M900 ${f2(640 + 12 * Math.sin(t * 4))} q100 ${f2(-40 * Math.sin(t * 5))} 200 0 t200 0 t200 0 t200 0 t200 0 V720 H900 Z" fill="#E6B45A"/>`;
+      for (let i = 0; i < 6; i++) { const u = (t * 0.3 + i / 6) % 1; h += `<circle cx="${f2(940 + u * 820)}" cy="${f2(590 + 20 * Math.sin(t * 6 + i))}" r="${f2(18 + 8 * Math.sin(t * 4 + i))}" fill="#fff" fill-opacity="0.85" class="ink" stroke-width="3"/>`; }
+      h += `</g>`;
+      const sq = 1000 + (((t - tM) * 160) % 720);
+      h += `<path d="M${f2(sq)} 520 q30 40 0 80 M${f2(sq)} 720 q30 -40 0 -80" fill="none" stroke="#C2334A" stroke-width="16" stroke-linecap="round"/>`;
+      s += `<g opacity="${f2(m)}">${h}</g>`;
+    }
+    $("#s5-draw").innerHTML = s;
+  });
+  show("#s5-n1", tM + 0.6);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : le résumé, puis le lit sous la lune : pourquoi on dort ? ----------
+(() => {
+  const S = scn("s6");
+  const tSp = cue("s6-3", "dormir") - 1.4;
+  onDraw("s6", (t) => {
+    if (t < tSp - 0.3) return;
+    // la lune, le lit, et les « z » qui s'envolent
+    let s = `<circle cx="330" cy="330" r="70" fill="#FFF6B0" class="ink" stroke-width="5"/><circle cx="364" cy="306" r="60" fill="#FDF2E0"/>`;
+    s += `<rect x="330" y="640" width="560" height="120" rx="30" fill="${C.blue}" class="ink" stroke-width="6"/><rect x="300" y="740" width="620" height="34" rx="12" fill="#B9772E" class="ink" stroke-width="5"/><rect x="300" y="560" width="40" height="210" rx="12" fill="#B9772E" class="ink" stroke-width="5"/><ellipse cx="450" cy="630" rx="90" ry="40" fill="#fff" class="ink" stroke-width="5"/><circle cx="470" cy="${f2(596 + 3 * Math.sin(t * 2))}" r="52" fill="#FFD9B8" class="ink" stroke-width="5"/><path d="M448 600 h16 M482 600 h16" class="ink" stroke-width="5" stroke-linecap="round"/><path d="M420 590 Q470 520 520 590 Z" fill="${C.ink}"/>`;
+    for (let i = 0; i < 3; i++) { const u = (t * 0.3 + i / 3) % 1; s += txt(560 + i * 50 + 30 * u, 520 - u * 140 - i * 24, "z", 50 + i * 18, { w: 700, fill: C.blue, op: 1 - u }); }
+    $("#s6-draw").innerHTML = s;
+  });
+  show("#s6-k1", cue("s6-1", "bouche") - 0.6, { y: 50 });
+  show("#s6-k2", cue("s6-1", "grêle") - 0.8, { y: 50 });
+  show("#s6-k3", cue("s6-1", "gros") - 0.6, { y: 50 });
+  tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
+  tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
+  tl.fromTo("#s6-atch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: OUT }, cue("s6-3", "dormir") - 0.2);
+  pop("#s6-next", cue("s6-4", "prochaine") - 0.3);
+  const tEnd = S.end - 3.2;
+  tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  show("#s6-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (le générique → première scène est un zoom, géré dans g.js).
+{
+  const ids = Object.keys(SCHED.scenes);
+  for (let i = 2; i < ids.length; i++) seam(ids[i - 1], ids[i]);
+}
+
+// Un seul « tic » sur toute la durée : redessine les animations à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>

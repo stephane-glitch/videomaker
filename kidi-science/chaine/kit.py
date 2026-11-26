@@ -54,6 +54,9 @@ EPS = [
     ("ep17-digestion", "Où va ce que je mange ? La digestion", "Où va ce que je mange ?",
      "Une tartine part pour un voyage de sept mètres. Zoé et Max la suivent étape par étape : la bouche, l'œsophage, l'estomac, l'intestin grêle qui nourrit le sang, et le gros intestin avec ses milliards de bactéries.",
      ["digestion", "estomac", "intestin", "corps humain", "alimentation"], ("s3", 0.75)),
+    ("ep18-sommeil", "Pourquoi on dort ? Le sommeil", "Pourquoi on dort ?",
+     "Dormir, ce n'est pas ne rien faire. Zoé et Max découvrent les trois chantiers de la nuit : le cerveau range ce qu'on a appris, il fait le ménage, et le corps grandit. Avec les cycles du sommeil et le piège des écrans.",
+     ["sommeil", "dormir", "rêves", "cerveau", "corps humain"], ("s4", 0.6)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, pourquoi il fait froid en hiver ? Je sais : la Terre s'éloigne du Soleil !"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Bien tenté, mais non. En janvier, la Terre est même au plus près du Soleil."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Quoi ? Plus près, et on gèle ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "La distance ne compte presque pas. Le secret, c'est que la Terre est penchée."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "La Terre tourne sur elle-même comme une toupie, mais une toupie qui penche. Et elle garde toujours la même inclinaison, pendant qu'elle fait le tour du Soleil en un an."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc parfois, c'est le haut qui penche vers le Soleil, et parfois le bas."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tu as tout deviné."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Quand notre moitié de la Terre penche vers le Soleil, il monte haut dans le ciel. Ses rayons arrivent bien droit : ils chauffent fort. Et les journées sont longues. C'est l'été."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Six mois plus tard, c'est l'inverse. Le Soleil reste bas, ses rayons arrivent de biais et s'étalent. Les journées sont courtes. C'est l'hiver."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Comme une lampe de poche : bien en face, le rond est petit et très lumineux. De travers, il est grand et tout pâle."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "C'est exactement l'expérience à faire."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Attends. Si le haut a l'été… le bas a l'hiver ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Oui. Les saisons sont inversées. En Australie, Noël tombe en plein été."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Le père Noël en short et en tongs !"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Sur une planche de surf, parfois."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et au milieu, à l'équateur ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Il fait chaud toute l'année : le Soleil y est toujours haut. Aux pôles, c'est le contraire, et c'est encore plus étrange : six mois de jour, puis six mois de nuit."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Six mois sans aller au lit ? Je déménage."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Il fait moins trente. Prends un pull."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et le printemps et l'automne ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Ce sont les entre-deux : aucune moitié ne penche vers le Soleil. Le jour et la nuit durent presque pareil."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Quatre saisons pour un seul tour. C'est bien organisé."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la Terre est penchée. Quand notre moitié regarde le Soleil, c'est l'été. Quand elle regarde ailleurs, c'est l'hiver."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu es brillante en toute saison."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et la Lune, pourquoi elle change de forme tous les soirs ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Elle ne change pas. C'est l'éclairage qui change. La prochaine fois !"
+  }
+]

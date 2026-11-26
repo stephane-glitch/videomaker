@@ -1,0 +1,182 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, pourquoi on dort ? On perd un temps fou ! Huit heures à ne rien faire."
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "À ne rien faire ? La nuit, ton cerveau travaille presque autant que le jour."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Il fait des heures sup pendant que je ronfle ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Trois gros chantiers. Regarde."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Premier chantier : le rangement. Dans la journée, tu apprends des tas de choses, et elles s'entassent en vrac. La nuit, ton cerveau trie : il garde l'important et le range dans ta mémoire."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "C'est pour ça que ma poésie, je la sais mieux le lendemain matin !"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Dormir, ça fait partie d'apprendre."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc faire la sieste, c'est réviser."
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "N'exagérons rien."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Deuxième chantier : le ménage. En travaillant, ton cerveau fabrique des déchets. Pendant le sommeil, un liquide circule entre les cellules et les rince."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Une machine à laver dans la tête."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Et elle ne tourne bien que quand tu dors."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Troisième chantier : le corps. Pendant le sommeil profond, il libère l'hormone de croissance. Tes os s'allongent, tes muscles se réparent."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Attends. On grandit en dormant ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Surtout en dormant."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Si je dors douze heures, je serai basketteuse."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "max",
+    "text": "Bien essayé."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et les rêves, ils arrivent quand ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "La nuit avance par cycles d'environ une heure et demie : sommeil léger, sommeil profond, puis sommeil paradoxal. C'est là que tu rêves le plus. Tes yeux bougent, mais ton corps reste immobile."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Heureusement. Hier, j'ai rêvé que je volais."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Ton cerveau a débranché tes muscles exprès."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et comment mon corps sait que c'est l'heure ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Quand la lumière baisse, ton cerveau fabrique une hormone du sommeil, la mélatonine. Mais la lumière des écrans le trompe : il croit qu'il fait encore jour."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Voilà pourquoi la tablette doit dormir avant moi."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Je n'aurais pas dit mieux. À ton âge, il te faut neuf à douze heures de sommeil."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la nuit, mon cerveau range ce que j'ai appris, il fait le ménage, et mon corps grandit."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Dors là-dessus."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… pourquoi il fait nuit si tôt en hiver, et pourquoi il fait froid ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parce que la Terre est penchée. La prochaine fois !"
+  }
+]
