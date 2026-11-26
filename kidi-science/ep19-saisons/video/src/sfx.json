@@ -60,28 +60,22 @@
     "volume": 0.25
   },
   {
-    "file": "pop",
-    "at": ["s0-4", "Trois"],
+    "file": "zap",
+    "at": ["s0-2", "non"],
     "offset": -0.1,
+    "volume": 0.2
+  },
+  {
+    "file": "chime",
+    "at": ["s0-4", "penchée"],
+    "offset": -0.2,
+    "volume": 0.3
+  },
+  {
+    "file": "pop",
+    "at": ["s3-3", "short"],
+    "offset": -0.3,
     "volume": 0.35
-  },
-  {
-    "file": "chime",
-    "at": ["s1-1", "mémoire"],
-    "offset": -0.2,
-    "volume": 0.3
-  },
-  {
-    "file": "whoosh",
-    "at": ["s2-1", "liquide"],
-    "offset": 0.2,
-    "volume": 0.3
-  },
-  {
-    "file": "chime",
-    "at": ["s4-2", "rêves"],
-    "offset": -0.2,
-    "volume": 0.3
   },
   {
     "file": "jingle",

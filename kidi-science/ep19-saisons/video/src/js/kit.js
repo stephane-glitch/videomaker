@@ -663,3 +663,11 @@ const zzzSVG = (x, y, t, col = C.blue) => {
 // la lune en croissant, centre (x, y)
 const moonSVG = (x, y, r = 70, bg = "#FDF2E0") =>
   `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFF6B0" class="ink" stroke-width="5"/><circle cx="${f2(x + r * 0.5)}" cy="${f2(y - r * 0.35)}" r="${f2(r * 0.86)}" fill="${bg}"/>`;
+
+// --- Petites formes de l'épisode « saisons » ---
+// la Terre penchée sur son axe : centre (x, y), rayon r, tilt en degrés (positif = le haut penche à droite), spin = rotation propre
+const tiltEarthSVG = (x, y, r, tilt, spin = 0) =>
+  `<g transform="rotate(${f2(tilt)} ${f2(x)} ${f2(y)})">${earthSVG(x, y, r, spin)}<path d="M${f2(x)} ${f2(y - r * 1.35)} V${f2(y + r * 1.35)}" class="ink" stroke-width="${f2(Math.max(4, r * 0.05))}" stroke-linecap="round" stroke-dasharray="${f2(r * 0.12)} ${f2(r * 0.1)}"/></g>`;
+// l'ombre de la nuit sur la moitié droite d'un disque (le Soleil est à gauche)
+const nightSVG = (x, y, r, op = 0.45) =>
+  `<path d="M${f2(x)} ${f2(y - r)} A ${r} ${r} 0 0 1 ${f2(x)} ${f2(y + r)} Z" fill="#1B2445" opacity="${op}"/>`;

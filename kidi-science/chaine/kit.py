@@ -57,6 +57,9 @@ EPS = [
     ("ep18-sommeil", "Pourquoi on dort ? Le sommeil", "Pourquoi on dort ?",
      "Dormir, ce n'est pas ne rien faire. Zoé et Max découvrent les trois chantiers de la nuit : le cerveau range ce qu'on a appris, il fait le ménage, et le corps grandit. Avec les cycles du sommeil et le piège des écrans.",
      ["sommeil", "dormir", "rêves", "cerveau", "corps humain"], ("s4", 0.6)),
+    ("ep19-saisons", "Pourquoi il fait froid en hiver ? Les saisons", "Pourquoi il fait froid en hiver ?",
+     "Non, la Terre ne s'éloigne pas du Soleil en hiver : elle est penchée. Zoé et Max expliquent l'été et l'hiver avec une lampe de poche, les saisons inversées en Australie, et les six mois de jour des pôles.",
+     ["saisons", "hiver", "été", "Terre", "Soleil"], ("s2", 0.2)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

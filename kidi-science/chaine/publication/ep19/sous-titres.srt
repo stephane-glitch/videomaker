@@ -1,0 +1,183 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,740 --> 00:00:10,970
+Max, pourquoi il fait froid en hiver ?
+
+3
+00:00:11,120 --> 00:00:14,130
+Je sais : la Terre s'éloigne du Soleil !
+
+4
+00:00:14,680 --> 00:00:20,570
+Bien tenté, mais non. En janvier, la Terre est même au plus près du Soleil.
+
+5
+00:00:21,080 --> 00:00:22,840
+Quoi ? Plus près, et on gèle ?
+
+6
+00:00:23,350 --> 00:00:27,120
+La distance ne compte presque pas. Le secret,
+
+7
+00:00:27,160 --> 00:00:29,030
+c'est que la Terre est penchée.
+
+8
+00:00:30,290 --> 00:00:32,760
+La Terre tourne sur elle-même comme une toupie,
+
+9
+00:00:32,810 --> 00:00:36,930
+mais une toupie qui penche. Et elle garde toujours la même inclinaison,
+
+10
+00:00:36,970 --> 00:00:39,280
+pendant qu'elle fait le tour du Soleil en un an.
+
+11
+00:00:39,810 --> 00:00:42,140
+Donc parfois, c'est le haut qui penche vers le Soleil,
+
+12
+00:00:42,490 --> 00:00:43,820
+et parfois le bas.
+
+13
+00:00:44,230 --> 00:00:45,190
+Tu as tout deviné.
+
+14
+00:00:46,400 --> 00:00:49,410
+Quand notre moitié de la Terre penche vers le Soleil,
+
+15
+00:00:49,430 --> 00:00:53,140
+il monte haut dans le ciel. Ses rayons arrivent bien droit :
+
+16
+00:00:53,190 --> 00:00:56,270
+ils chauffent fort. Et les journées sont longues.
+
+17
+00:00:56,540 --> 00:00:57,490
+C'est l'été.
+
+18
+00:00:57,870 --> 00:01:01,670
+Six mois plus tard, c'est l'inverse. Le Soleil reste bas,
+
+19
+00:01:01,710 --> 00:01:04,450
+ses rayons arrivent de biais et s'étalent.
+
+20
+00:01:04,470 --> 00:01:06,800
+Les journées sont courtes. C'est l'hiver.
+
+21
+00:01:07,340 --> 00:01:09,750
+Comme une lampe de poche : bien en face,
+
+22
+00:01:09,800 --> 00:01:13,190
+le rond est petit et très lumineux. De travers,
+
+23
+00:01:13,320 --> 00:01:15,110
+il est grand et tout pâle.
+
+24
+00:01:15,520 --> 00:01:18,310
+C'est exactement l'expérience à faire.
+
+25
+00:01:20,600 --> 00:01:24,980
+Attends. Si le haut a l'été… le bas a l'hiver ?
+
+26
+00:01:25,480 --> 00:01:29,170
+Oui. Les saisons sont inversées. En Australie,
+
+27
+00:01:29,260 --> 00:01:30,830
+Noël tombe en plein été.
+
+28
+00:01:32,280 --> 00:01:34,920
+Le père Noël en short et en tongs !
+
+29
+00:01:35,680 --> 00:01:37,250
+Sur une planche de surf, parfois.
+
+30
+00:01:38,370 --> 00:01:39,890
+Et au milieu, à l'équateur ?
+
+31
+00:01:40,390 --> 00:01:44,420
+Il fait chaud toute l'année : le Soleil y est toujours haut.
+
+32
+00:01:44,680 --> 00:01:49,020
+Aux pôles, c'est le contraire, et c'est encore plus étrange :
+
+33
+00:01:49,090 --> 00:01:52,680
+six mois de jour, puis six mois de nuit.
+
+34
+00:01:53,350 --> 00:01:55,920
+Six mois sans aller au lit ? Je déménage.
+
+35
+00:01:56,540 --> 00:01:58,750
+Il fait moins trente. Prends un pull.
+
+36
+00:02:00,730 --> 00:02:04,020
+Et le printemps et l'automne ?
+
+37
+00:02:04,440 --> 00:02:08,870
+Ce sont les entre-deux : aucune moitié ne penche vers le Soleil.
+
+38
+00:02:09,030 --> 00:02:11,870
+Le jour et la nuit durent presque pareil.
+
+39
+00:02:12,430 --> 00:02:15,720
+Quatre saisons pour un seul tour. C'est bien organisé.
+
+40
+00:02:16,950 --> 00:02:21,430
+Je résume : la Terre est penchée. Quand notre moitié regarde le Soleil,
+
+41
+00:02:21,470 --> 00:02:23,670
+c'est l'été. Quand elle regarde ailleurs,
+
+42
+00:02:23,710 --> 00:02:24,510
+c'est l'hiver.
+
+43
+00:02:25,120 --> 00:02:27,070
+Tu es brillante en toute saison.
+
+44
+00:02:27,850 --> 00:02:31,860
+Dis, Max… et la Lune, pourquoi elle change de forme tous les soirs ?
+
+45
+00:02:32,320 --> 00:02:35,260
+Elle ne change pas. C'est l'éclairage qui change.
+
+46
+00:02:35,290 --> 00:02:36,130
+La prochaine fois !
