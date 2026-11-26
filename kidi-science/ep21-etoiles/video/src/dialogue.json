@@ -1,0 +1,176 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, les étoiles, ce sont des petites lampes accrochées au ciel ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Pas du tout. Chaque étoile est un soleil."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Un soleil ? Mais elles sont minuscules !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Parce qu'elles sont très, très loin. Comme les phares d'une voiture au bout de la route."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Une étoile, c'est une énorme boule de gaz brûlant. Au centre, il fait des millions de degrés. Elle fabrique sa lumière toute seule."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Pas comme la Lune, qui emprunte celle du Soleil."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Et notre Soleil est une étoile comme les autres. On pourrait y ranger un million de Terres."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et c'est une étoile moyenne ? Ça promet."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et l'étoile la plus proche, après le Soleil ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Elle s'appelle Proxima du Centaure. Sa lumière met plus de quatre ans pour arriver jusqu'à nous. Celle du Soleil met huit minutes."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Donc la lumière que je vois ce soir est partie il y a quatre ans ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Quand tu regardes les étoiles, tu regardes le passé."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et le jour, elles vont où ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Nulle part. Elles sont toujours là. Mais le Soleil éclaire tellement le ciel qu'on ne les voit plus."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Comme une bougie en plein soleil."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Et si elles scintillent, c'est à cause de l'air qui bouge au-dessus de nous. Il fait trembler leur lumière."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Regarde bien : elles n'ont pas toutes la même couleur. Les bleues sont les plus chaudes. Les rouges sont les moins chaudes."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "C'est le contraire des robinets !"
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Eh oui. Et notre Soleil, jaune, est entre les deux."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Il y en a combien, des étoiles ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "À l'œil nu, on en voit environ trois mille. Mais dans notre galaxie, la Voie lactée, il y en a plus de cent milliards."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et il y a d'autres galaxies ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Des milliards."
+  },
+  {
+    "id": "s5-5",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "J'ai le vertige."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : une étoile est un soleil très lointain. C'est une boule de gaz qui fabrique sa lumière. Et cette lumière met des années à nous arriver."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu es brillante."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et un avion, comment ça tient en l'air ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ah, ça… C'est l'air qui le porte. La prochaine fois !"
+  }
+]

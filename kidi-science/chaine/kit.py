@@ -60,6 +60,12 @@ EPS = [
     ("ep19-saisons", "Pourquoi il fait froid en hiver ? Les saisons", "Pourquoi il fait froid en hiver ?",
      "Non, la Terre ne s'éloigne pas du Soleil en hiver : elle est penchée. Zoé et Max expliquent l'été et l'hiver avec une lampe de poche, les saisons inversées en Australie, et les six mois de jour des pôles.",
      ["saisons", "hiver", "été", "Terre", "Soleil"], ("s2", 0.2)),
+    ("ep20-lune", "Pourquoi la Lune change de forme ? Les phases de la Lune", "Pourquoi la Lune change de forme ?",
+     "Personne ne grignote la Lune, et ce n'est pas l'ombre de la Terre. Zoé et Max expliquent les phases de la Lune, l'astuce de la Lune menteuse, pourquoi on voit toujours la même face, et les pas des astronautes.",
+     ["Lune", "phases de la Lune", "espace", "astronomie", "Terre"], ("s2", 0.85)),
+    ("ep21-etoiles", "C'est quoi, une étoile ?", "C'est quoi, une étoile ?",
+     "Les étoiles ne sont pas des petites lampes : ce sont des soleils, très loin. Zoé et Max découvrent les boules de gaz brûlant, la lumière qui voyage pendant des années, les couleurs des étoiles et les milliards de galaxies.",
+     ["étoiles", "Soleil", "galaxie", "espace", "astronomie"], ("s4", 0.9)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

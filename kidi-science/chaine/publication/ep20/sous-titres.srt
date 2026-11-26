@@ -1,0 +1,187 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,690 --> 00:00:10,960
+Max, la Lune change de forme tous les soirs.
+
+3
+00:00:11,040 --> 00:00:12,160
+Quelqu'un la grignote ?
+
+4
+00:00:12,850 --> 00:00:17,970
+Personne. Elle est toujours ronde, et toujours entière.
+
+5
+00:00:18,500 --> 00:00:21,860
+Alors c'est l'ombre de la Terre qui la cache !
+
+6
+00:00:22,410 --> 00:00:24,480
+Presque tout le monde le croit. Mais non.
+
+7
+00:00:24,740 --> 00:00:27,000
+C'est une histoire d'éclairage.
+
+8
+00:00:28,130 --> 00:00:30,320
+D'abord, la Lune ne brille pas toute seule.
+
+9
+00:00:30,500 --> 00:00:34,760
+C'est un gros caillou gris. Elle renvoie simplement la lumière du Soleil,
+
+10
+00:00:34,800 --> 00:00:35,710
+comme un miroir.
+
+11
+00:00:36,310 --> 00:00:39,350
+Un caillou éclairé par une lampe géante.
+
+12
+00:00:39,820 --> 00:00:42,490
+Voilà. Et comme pour une balle sous une lampe,
+
+13
+00:00:42,530 --> 00:00:47,010
+une moitié est éclairée, l'autre est dans le noir. Toujours.
+
+14
+00:00:48,290 --> 00:00:50,850
+Maintenant, la Lune tourne autour de la Terre,
+
+15
+00:00:50,900 --> 00:00:53,890
+en un mois environ. Selon l'endroit où elle se trouve,
+
+16
+00:00:53,920 --> 00:00:56,850
+nous voyons plus ou moins de sa moitié éclairée.
+
+17
+00:00:57,170 --> 00:00:59,040
+Quand elle est entre le Soleil et nous,
+
+18
+00:00:59,070 --> 00:01:02,390
+on ne voit que son côté sombre : c'est la nouvelle lune.
+
+19
+00:01:02,520 --> 00:01:06,260
+De l'autre côté de la Terre, on voit toute la moitié éclairée :
+
+20
+00:01:06,260 --> 00:01:07,210
+c'est la pleine lune.
+
+21
+00:01:08,360 --> 00:01:10,680
+Et entre les deux, on la voit de profil :
+
+22
+00:01:10,710 --> 00:01:12,520
+un croissant, puis un quartier.
+
+23
+00:01:13,010 --> 00:01:15,450
+Tu viens d'expliquer les phases de la Lune.
+
+24
+00:01:16,570 --> 00:01:19,290
+Et comment je sais si elle grossit ou si elle rétrécit ?
+
+25
+00:01:19,800 --> 00:01:23,480
+Il y a une astuce : la Lune est une menteuse.
+
+26
+00:01:23,680 --> 00:01:27,830
+Quand elle dessine un C, comme le mot croît,
+
+27
+00:01:27,880 --> 00:01:31,480
+elle décroît. Et quand elle dessine un D,
+
+28
+00:01:31,600 --> 00:01:34,520
+comme le mot décroît, elle croît.
+
+29
+00:01:35,240 --> 00:01:36,530
+Elle dit le contraire de ce qu'elle fait.
+
+30
+00:01:36,730 --> 00:01:38,130
+Comme mon cousin.
+
+31
+00:01:38,570 --> 00:01:40,740
+Ça marche chez nous, dans l'hémisphère nord.
+
+32
+00:01:42,010 --> 00:01:44,180
+Pourquoi on voit toujours les mêmes taches dessus ?
+
+33
+00:01:44,600 --> 00:01:46,700
+Parce qu'elle nous montre toujours la même face.
+
+34
+00:01:46,750 --> 00:01:50,790
+Elle tourne sur elle-même exactement à la vitesse où elle tourne autour de nous.
+
+35
+00:01:51,340 --> 00:01:54,230
+Elle ne nous tourne jamais le dos. C'est poli.
+
+36
+00:01:54,800 --> 00:01:58,130
+Personne n'avait vu sa face cachée avant l'arrivée des sondes spatiales.
+
+37
+00:01:59,690 --> 00:02:01,460
+Et elle est loin ?
+
+38
+00:02:01,840 --> 00:02:03,960
+Trois cent quatre-vingt mille kilomètres.
+
+39
+00:02:03,990 --> 00:02:07,610
+En voiture, sans s'arrêter, il faudrait presque six mois.
+
+40
+00:02:08,130 --> 00:02:10,370
+Et les pas des astronautes, ils y sont encore ?
+
+41
+00:02:10,770 --> 00:02:14,430
+Oui. Là-haut, il n'y a ni vent ni pluie pour les effacer.
+
+42
+00:02:15,620 --> 00:02:19,430
+Je résume : la Lune est toujours à moitié éclairée.
+
+43
+00:02:19,650 --> 00:02:24,790
+En tournant autour de nous, elle nous montre cette moitié plus ou moins de face.
+
+44
+00:02:25,490 --> 00:02:28,980
+Tu es dans la lune… mais dans le bon sens.
+
+45
+00:02:30,210 --> 00:02:33,390
+Dis, Max… et les étoiles, ce sont des petites lunes ?
+
+46
+00:02:34,080 --> 00:02:37,420
+Oh non. Ce sont des soleils, très, très loin.
+
+47
+00:02:37,680 --> 00:02:38,980
+La prochaine fois !
