@@ -48,6 +48,9 @@ EPS = [
     ("ep15-pluie", "D'où vient la pluie ? Les nuages", "D’où vient la pluie ?",
      "Un nuage pèse aussi lourd qu'un troupeau d'éléphants, et pourtant il flotte. Zoé et Max suivent l'eau : elle s'évapore, monte, redevient gouttelettes, puis retombe en pluie… depuis le temps des dinosaures.",
      ["pluie", "nuages", "cycle de l'eau", "météo", "évaporation"], ("s3", 0.55)),
+    ("ep16-coeur", "Pourquoi mon cœur bat ? Le cœur et le sang", "Pourquoi mon cœur bat ?",
+     "Le cœur est une pompe grosse comme le poing, qui bat cent mille fois par jour. Zoé et Max suivent le sang, livreur d'oxygène : le grand circuit en huit, les artères et les veines, le boum-boum des valves.",
+     ["cœur", "sang", "circulation", "pouls", "corps humain"], ("s2", 0.75)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, quand je cours, mon cœur cogne comme un tambour. Il est en colère ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Non, il travaille. Ton cœur est une pompe. Et c'est un muscle, gros comme ton poing."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Si petit ? Et il ne s'arrête jamais ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Jamais. Cent mille battements par jour, sans une seule pause."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Son travail : pousser le sang partout dans ton corps. Le sang, c'est le livreur. Ses globules rouges transportent l'oxygène, et il apporte aussi la nourriture à chaque cellule."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Un livreur… et il repart à vide ?"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Non. Au retour, il emporte les déchets, comme le gaz carbonique."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Livreur et éboueur. Il mérite une augmentation."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Regarde le circuit. Le cœur, ce sont deux pompes collées. La première envoie le sang vers les poumons : là, il fait le plein d'oxygène."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Il revient au cœur, et la deuxième pompe l'envoie dans tout le corps, jusqu'au bout des orteils. Puis il revient, et ça recommence."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Ça fait un huit ! Avec le cœur au milieu."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Bien vu. Et un tour complet prend à peu près une minute."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et le sang passe par où ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Par des tuyaux. Les artères l'emmènent loin du cœur. Les veines le ramènent. Et entre les deux, des tuyaux si fins qu'on ne les voit pas : les capillaires."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Sur les schémas, les veines sont bleues. Mon sang est bleu ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Non, il est toujours rouge. Le bleu, c'est juste pour s'y retrouver sur le schéma."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "On m'a menti pendant des années."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et le bruit ? Boum-boum, boum-boum."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Ce sont des petites portes, les valves. Elles claquent en se refermant, pour que le sang ne reparte pas en arrière."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Des portes anti-retour. Comme au métro."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Et tu peux sentir chaque battement : pose deux doigts sur ton poignet. C'est ton pouls."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Alors pourquoi il s'emballe quand je cours ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Parce que tes muscles réclament plus d'oxygène. Le cœur bat plus vite pour livrer plus de sang. Et tu respires plus fort, pour faire entrer plus d'air."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Toute l'usine accélère en même temps."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Et quand tu t'arrêtes, tout se calme. Pas besoin d'y penser."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : mon cœur est une double pompe. Le sang va chercher l'oxygène dans les poumons, le livre partout, et revient."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu as tout compris. De tout cœur, bravo."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… ma tartine de ce matin, elle est où, maintenant ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Quelque part dans un tuyau de plusieurs mètres. La prochaine fois !"
+  }
+]

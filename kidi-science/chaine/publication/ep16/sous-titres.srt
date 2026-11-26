@@ -1,0 +1,207 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,620 --> 00:00:11,520
+Max, quand je cours, mon cœur cogne comme un tambour.
+
+3
+00:00:11,630 --> 00:00:12,560
+Il est en colère ?
+
+4
+00:00:13,080 --> 00:00:15,320
+Non, il travaille. Ton cœur est une pompe.
+
+5
+00:00:15,410 --> 00:00:18,280
+Et c'est un muscle, gros comme ton poing.
+
+6
+00:00:18,970 --> 00:00:21,460
+Si petit ? Et il ne s'arrête jamais ?
+
+7
+00:00:22,060 --> 00:00:24,680
+Jamais. Cent mille battements par jour,
+
+8
+00:00:24,770 --> 00:00:26,160
+sans une seule pause.
+
+9
+00:00:27,310 --> 00:00:30,690
+Son travail : pousser le sang partout dans ton corps.
+
+10
+00:00:30,770 --> 00:00:34,910
+Le sang, c'est le livreur. Ses globules rouges transportent l'oxygène,
+
+11
+00:00:34,940 --> 00:00:37,260
+et il apporte aussi la nourriture à chaque cellule.
+
+12
+00:00:37,780 --> 00:00:40,100
+Un livreur… et il repart à vide ?
+
+13
+00:00:40,610 --> 00:00:43,490
+Non. Au retour, il emporte les déchets,
+
+14
+00:00:43,520 --> 00:00:44,710
+comme le gaz carbonique.
+
+15
+00:00:45,420 --> 00:00:48,870
+Livreur et éboueur. Il mérite une augmentation.
+
+16
+00:00:50,260 --> 00:00:53,960
+Regarde le circuit. Le cœur, ce sont deux pompes collées.
+
+17
+00:00:53,990 --> 00:00:56,220
+La première envoie le sang vers les poumons :
+
+18
+00:00:56,310 --> 00:00:58,570
+là, il fait le plein d'oxygène.
+
+19
+00:00:58,930 --> 00:01:02,620
+Il revient au cœur, et la deuxième pompe l'envoie dans tout le corps,
+
+20
+00:01:02,670 --> 00:01:05,310
+jusqu'au bout des orteils. Puis il revient,
+
+21
+00:01:05,490 --> 00:01:06,790
+et ça recommence.
+
+22
+00:01:07,300 --> 00:01:10,030
+Ça fait un huit ! Avec le cœur au milieu.
+
+23
+00:01:10,590 --> 00:01:14,820
+Bien vu. Et un tour complet prend à peu près une minute.
+
+24
+00:01:15,990 --> 00:01:18,320
+Et le sang passe par où ?
+
+25
+00:01:18,810 --> 00:01:22,230
+Par des tuyaux. Les artères l'emmènent loin du cœur.
+
+26
+00:01:22,300 --> 00:01:25,660
+Les veines le ramènent. Et entre les deux,
+
+27
+00:01:25,700 --> 00:01:28,880
+des tuyaux si fins qu'on ne les voit pas :
+
+28
+00:01:28,940 --> 00:01:30,090
+les capillaires.
+
+29
+00:01:30,610 --> 00:01:32,540
+Sur les schémas, les veines sont bleues.
+
+30
+00:01:32,760 --> 00:01:34,220
+Mon sang est bleu ?
+
+31
+00:01:34,760 --> 00:01:39,260
+Non, il est toujours rouge. Le bleu, c'est juste pour s'y retrouver sur le schéma.
+
+32
+00:01:39,840 --> 00:01:41,600
+On m'a menti pendant des années.
+
+33
+00:01:42,800 --> 00:01:45,680
+Et le bruit ? Boum-boum, boum-boum.
+
+34
+00:01:46,160 --> 00:01:48,000
+Ce sont des petites portes, les valves.
+
+35
+00:01:48,140 --> 00:01:52,260
+Elles claquent en se refermant, pour que le sang ne reparte pas en arrière.
+
+36
+00:01:53,170 --> 00:01:55,880
+Des portes anti-retour. Comme au métro.
+
+37
+00:01:56,710 --> 00:01:59,850
+Et tu peux sentir chaque battement : pose deux doigts sur ton poignet.
+
+38
+00:02:00,070 --> 00:02:01,070
+C'est ton pouls.
+
+39
+00:02:02,840 --> 00:02:04,850
+Alors pourquoi il s'emballe quand je cours ?
+
+40
+00:02:05,260 --> 00:02:07,540
+Parce que tes muscles réclament plus d'oxygène.
+
+41
+00:02:07,740 --> 00:02:11,190
+Le cœur bat plus vite pour livrer plus de sang.
+
+42
+00:02:11,220 --> 00:02:14,060
+Et tu respires plus fort, pour faire entrer plus d'air.
+
+43
+00:02:14,710 --> 00:02:16,490
+Toute l'usine accélère en même temps.
+
+44
+00:02:16,900 --> 00:02:20,640
+Et quand tu t'arrêtes, tout se calme. Pas besoin d'y penser.
+
+45
+00:02:22,390 --> 00:02:25,280
+Je résume : mon cœur est une double pompe.
+
+46
+00:02:25,520 --> 00:02:28,240
+Le sang va chercher l'oxygène dans les poumons,
+
+47
+00:02:28,320 --> 00:02:30,560
+le livre partout, et revient.
+
+48
+00:02:31,200 --> 00:02:34,770
+Tu as tout compris. De tout cœur, bravo.
+
+49
+00:02:35,590 --> 00:02:38,010
+Dis, Max… ma tartine de ce matin, elle est où,
+
+50
+00:02:38,040 --> 00:02:38,840
+maintenant ?
+
+51
+00:02:38,950 --> 00:02:41,160
+Quelque part dans un tuyau de plusieurs mètres.
+
+52
+00:02:41,420 --> 00:02:42,640
+La prochaine fois !
