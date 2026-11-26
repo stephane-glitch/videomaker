@@ -1,0 +1,170 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, la Lune change de forme tous les soirs. Quelqu'un la grignote ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Personne. Elle est toujours ronde, et toujours entière."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Alors c'est l'ombre de la Terre qui la cache !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque tout le monde le croit. Mais non. C'est une histoire d'éclairage."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "D'abord, la Lune ne brille pas toute seule. C'est un gros caillou gris. Elle renvoie simplement la lumière du Soleil, comme un miroir."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Un caillou éclairé par une lampe géante."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Voilà. Et comme pour une balle sous une lampe, une moitié est éclairée, l'autre est dans le noir. Toujours."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Maintenant, la Lune tourne autour de la Terre, en un mois environ. Selon l'endroit où elle se trouve, nous voyons plus ou moins de sa moitié éclairée."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Quand elle est entre le Soleil et nous, on ne voit que son côté sombre : c'est la nouvelle lune. De l'autre côté de la Terre, on voit toute la moitié éclairée : c'est la pleine lune."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et entre les deux, on la voit de profil : un croissant, puis un quartier."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Tu viens d'expliquer les phases de la Lune."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et comment je sais si elle grossit ou si elle rétrécit ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Il y a une astuce : la Lune est une menteuse. Quand elle dessine un C, comme le mot croît, elle décroît. Et quand elle dessine un D, comme le mot décroît, elle croît."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Elle dit le contraire de ce qu'elle fait. Comme mon cousin."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Ça marche chez nous, dans l'hémisphère nord."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Pourquoi on voit toujours les mêmes taches dessus ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Parce qu'elle nous montre toujours la même face. Elle tourne sur elle-même exactement à la vitesse où elle tourne autour de nous."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Elle ne nous tourne jamais le dos. C'est poli."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Personne n'avait vu sa face cachée avant l'arrivée des sondes spatiales."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et elle est loin ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Trois cent quatre-vingt mille kilomètres. En voiture, sans s'arrêter, il faudrait presque six mois."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et les pas des astronautes, ils y sont encore ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Oui. Là-haut, il n'y a ni vent ni pluie pour les effacer."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la Lune est toujours à moitié éclairée. En tournant autour de nous, elle nous montre cette moitié plus ou moins de face."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu es dans la lune… mais dans le bon sens."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et les étoiles, ce sont des petites lunes ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Oh non. Ce sont des soleils, très, très loin. La prochaine fois !"
+  }
+]

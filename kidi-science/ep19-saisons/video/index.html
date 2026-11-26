@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche une voiture ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 500;
+        src: url("assets/fonts/fredoka-500.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      :root {
+        --paper: #fff8ec;
+        --ink: #1f2a44;
+        --blue: #2f5bd3;
+        --blue-l: #5f86f0;
+        --blue-d: #1e3f9e;
+        --fire: #ff8a1f;
+        --hot: #ffd23f;
+        --spark: #ffe14d;
+        --air: #8fd3ff;
+        --smoke: #a7afba;
+        --sub: #55607a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff8ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        color: var(--ink);
+        background: #fff8ec;
+      }
+      .clip,
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      svg {
+        display: block;
+        overflow: visible;
+      }
+      .stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .ink {
+        stroke: #1f2a44;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      #bg-paper {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 75% at 50% 45%, #fffdf7 0%, #fcefd9 100%);
+      }
+      #bg-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(31, 42, 68, 0.07) 2px, transparent 2.5px);
+        background-size: 36px 36px;
+      }
+      /* pastilles : logo et chapitre */
+      .logo-pill {
+        position: absolute;
+        left: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 30px;
+        border-radius: 36px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        font-size: 42px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .logo-pill .d {
+        color: #d96a00;
+      }
+      .logo-pill .s {
+        color: var(--blue);
+      }
+      .chap {
+        position: absolute;
+        right: 64px;
+        top: 52px;
+        height: 72px;
+        padding: 0 38px;
+        border-radius: 36px;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 36px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* étiquettes */
+      .lab {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .lab .lt {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .lab .ls {
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--sub);
+        line-height: 1.2;
+      }
+      .lab.r {
+        text-align: right;
+      }
+      .big {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .note {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 26px;
+        padding: 16px 28px;
+        font-size: 38px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .panel {
+        position: absolute;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        border-radius: 34px;
+        overflow: hidden;
+      }
+      /* barre d'étapes (les 4 temps) */
+      .steps {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 950px;
+        display: flex;
+        justify-content: center;
+        gap: 26px;
+      }
+      .stp {
+        width: 270px;
+        height: 78px;
+        border-radius: 39px;
+        background: #fff;
+        border: 3.5px solid var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .stp b {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        flex: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="160.1" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="160.1" data-track-index="0">
+        <div id="bg-paper"></div>
+        <div id="bg-dots"></div>
+      </div>
+
+      <section id="g" class="clip" data-start="0" data-duration="7.6" data-track-index="1">
+        <div id="g-in" class="in">
+          <style>
+            #g-logo {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 400px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #g-logo .d {
+              color: var(--fire);
+            }
+            #g-logo .s {
+              color: var(--blue);
+            }
+            #g-tag {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 610px;
+              text-align: center;
+              font-size: 50px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+            .g-ico {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 150px;
+              height: 150px;
+            }
+            #g-box {
+              position: absolute;
+              left: 760px;
+              top: 520px;
+              width: 400px;
+              height: 360px;
+            }
+          </style>
+          <div id="g-logo">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="g-tag">Dis… comment ça marche ?</div>
+
+          <svg class="g-ico" id="gi-gear" viewBox="0 0 150 150"><g id="gi-gear-g"></g></svg>
+          <svg class="g-ico" id="gi-atom" viewBox="0 0 150 150" fill="none">
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(60 75 75)" />
+            <ellipse cx="75" cy="75" rx="64" ry="24" stroke="#1f2a44" stroke-width="5" transform="rotate(-60 75 75)" />
+            <circle cx="75" cy="75" r="17" fill="#ffe14d" class="ink" />
+          </svg>
+          <svg class="g-ico" id="gi-drop" viewBox="0 0 150 150">
+            <path d="M75 14 C 108 60, 122 82, 122 100 A 47 47 0 0 1 28 100 C 28 82, 42 60, 75 14 Z" fill="#8fd3ff" class="ink" stroke-width="5" />
+            <path d="M52 104 A 24 24 0 0 0 72 124" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <svg class="g-ico" id="gi-apple" viewBox="0 0 150 150">
+            <path d="M75 48 C 50 30, 20 46, 22 82 C 24 116, 50 138, 75 126 C 100 138, 126 116, 128 82 C 130 46, 100 30, 75 48 Z" fill="#ff8a1f" class="ink" stroke-width="5" />
+            <path d="M75 48 C 74 34, 80 22, 90 16" fill="none" class="ink" stroke-width="6" />
+            <path d="M90 26 C 104 12, 122 16, 126 22 C 116 36, 100 36, 90 26 Z" fill="#3dbe8b" class="ink" stroke-width="4" />
+          </svg>
+          <svg class="g-ico" id="gi-pollen" viewBox="0 0 150 150">
+            <g id="gi-pollen-g"></g>
+          </svg>
+          <svg class="g-ico" id="gi-car" viewBox="0 0 150 150">
+            <path d="M14 96 L14 78 Q16 66 30 64 L46 60 Q58 36 76 36 L104 36 Q118 36 128 60 L134 64 Q140 68 140 80 L140 96 Z" fill="#3dbe8b" class="ink" stroke-width="5" />
+            <path d="M54 60 Q62 46 76 46 L88 46 L88 60 Z M96 46 L104 46 Q112 46 120 60 L96 60 Z" fill="#d6f1ff" class="ink" stroke-width="3" />
+            <circle cx="46" cy="98" r="17" fill="#1f2a44" /><circle cx="46" cy="98" r="7" fill="#fff" />
+            <circle cx="110" cy="98" r="17" fill="#1f2a44" /><circle cx="110" cy="98" r="7" fill="#fff" />
+          </svg>
+
+          <svg id="g-box" viewBox="0 0 400 360">
+            <g id="g-lid">
+              <path d="M20 150 L380 150 L380 110 Q380 96 366 96 L34 96 Q20 96 20 110 Z" fill="#5f86f0" class="ink" stroke-width="5" />
+              <rect x="170" y="78" width="60" height="22" rx="8" fill="#1e3f9e" class="ink" stroke-width="4" />
+            </g>
+            <path d="M36 150 L364 150 L352 330 Q350 346 334 346 L66 346 Q50 346 48 330 Z" fill="#2f5bd3" class="ink" stroke-width="5" />
+            <path d="M66 180 L66 318" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+            <text x="200" y="298" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="150" fill="#ffe14d" stroke="#1f2a44" stroke-width="5" paint-order="stroke">?</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="s0" class="clip" data-start="7.6" data-duration="22" data-track-index="1">
+        <div id="s0-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s0-draw"></g></svg>
+          <div class="note" id="s0-n1" style="left: 130px; top: 880px">En janvier, la Terre est au plus près du Soleil</div>
+          <div class="note" id="s0-n2" style="left: 1040px; top: 880px; background: #ffe14d">Le secret : la Terre est penchée</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Pourquoi il fait froid en hiver ?</div>
+        </div>
+      </section>
+
+      <section id="s1" class="clip" data-start="29.6" data-duration="16.2" data-track-index="1">
+        <div id="s1-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s1-draw"></g></svg>
+          <div class="note" id="s1-n1" style="left: 130px; top: 880px">Toujours la même inclinaison, tout autour du Soleil</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Une toupie qui penche</div>
+        </div>
+      </section>
+
+      <section id="s2" class="clip" data-start="45.8" data-duration="33.1" data-track-index="1">
+        <div id="s2-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s2-draw"></g></svg>
+          <div class="note" id="s2-n1" style="left: 130px; top: 880px">Été : rayons bien droits, journées longues</div>
+          <div class="note" id="s2-n2" style="left: 130px; top: 880px">Hiver : rayons de biais, journées courtes</div>
+          <div class="note" id="s2-n3" style="left: 130px; top: 880px; background: #ffe14d">Essaie avec une lampe de poche !</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Été, hiver</div>
+        </div>
+      </section>
+
+      <section id="s3" class="clip" data-start="78.9" data-duration="18.9" data-track-index="1">
+        <div id="s3-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s3-draw"></g></svg>
+          <div class="note" id="s3-n1" style="left: 130px; top: 880px; background: #ffe14d">En Australie, Noël tombe en plein été</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Les saisons à l’envers</div>
+        </div>
+      </section>
+
+      <section id="s4" class="clip" data-start="97.8" data-duration="21.5" data-track-index="1">
+        <div id="s4-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s4-draw"></g></svg>
+          <div class="note" id="s4-n1" style="left: 130px; top: 880px">Équateur : chaud toute l’année</div>
+          <div class="note" id="s4-n2" style="left: 980px; top: 880px">Pôles : six mois de jour, six mois de nuit</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">L’équateur et les pôles</div>
+        </div>
+      </section>
+
+      <section id="s5" class="clip" data-start="119.3" data-duration="17" data-track-index="1">
+        <div id="s5-in" class="in">
+          <svg class="stage" viewBox="0 0 1920 1080"><g id="s5-draw"></g></svg>
+          <div class="note" id="s5-n1" style="left: 130px; top: 880px">Printemps, automne : le jour et la nuit durent presque pareil</div>
+          <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div class="chap">Quatre saisons, un tour</div>
+        </div>
+      </section>
+
+      <section id="s6" class="clip" data-start="136.3" data-duration="23.8" data-track-index="1">
+        <div id="s6-in" class="in">
+          <style>
+            .s6-card {
+              position: absolute;
+              top: 330px;
+              width: 500px;
+              height: 300px;
+              background: #fff;
+              border: 3.5px solid var(--ink);
+              border-radius: 34px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 44px;
+              font-weight: 600;
+              line-height: 1.15;
+              padding: 30px;
+            }
+            .s6-card b {
+              position: absolute;
+              left: -24px;
+              top: -24px;
+              width: 76px;
+              height: 76px;
+              border-radius: 50%;
+              background: var(--hot);
+              border: 3.5px solid var(--ink);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 44px;
+            }
+            #s6-atch {
+              position: absolute;
+              left: 1000px;
+              top: 330px;
+              font-size: 84px; line-height: 1.1;
+              font-weight: 700;
+              color: #c25e00;
+              white-space: nowrap;
+            }
+            #s6-end {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 380px;
+              text-align: center;
+              font-size: 190px;
+              font-weight: 700;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            #s6-end .d {
+              color: var(--fire);
+            }
+            #s6-end .s {
+              color: var(--blue);
+            }
+            #s6-bye {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 600px;
+              text-align: center;
+              font-size: 54px;
+              font-weight: 600;
+              color: var(--sub);
+            }
+          </style>
+          <div id="s6-main" class="in">
+            <div id="s6-cards" class="in">
+              <div class="s6-card" id="s6-k1" style="left: 130px"><b>1</b>La Terre est penchée</div>
+              <div class="s6-card" id="s6-k2" style="left: 710px"><b>2</b>Notre moitié regarde le Soleil : l’été</div>
+              <div class="s6-card" id="s6-k3" style="left: 1290px"><b>3</b>Elle regarde ailleurs : l’hiver</div>
+            </div>
+            <div id="s6-b" class="in">
+              <svg class="stage" viewBox="0 0 1920 1080"><g id="s6-draw"></g></svg>
+              <div id="s6-atch">Pourquoi la Lune<br />change de forme ?</div>
+            </div>
+            <div class="note" id="s6-next" style="left: 590px; top: 900px; background: #ffe14d">La prochaine fois : la Lune !</div>
+            <div class="logo-pill">Kidi<span class="d">-</span><span class="s">science</span></div>
+            <div class="chap">En résumé</div>
+          </div>
+          <div id="s6-end">Kidi<span class="d">-</span><span class="s">science</span></div>
+          <div id="s6-bye">À bientôt !</div>
+        </div>
+      </section>
+
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="8.2" data-duration="5.94" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="14.41" data-duration="6.09" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="20.92" data-duration="1.94" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="23.13" data-duration="5.83" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="30" data-duration="9.23" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="39.65" data-duration="4.18" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="44.1" data-duration="1.05" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="46.2" data-duration="11.21" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="57.68" data-duration="9.05" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="67.15" data-duration="7.94" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-4" src="assets/vo/s2-4.mp3" data-start="75.36" data-duration="2.88" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="79.3" data-duration="5.7" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="85.27" data-duration="5.49" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="91.23" data-duration="3.69" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="95.39" data-duration="1.84" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="98.2" data-duration="1.7" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="100.17" data-duration="12.44" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="113.03" data-duration="2.91" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-4" src="assets/vo/s4-4.mp3" data-start="116.41" data-duration="2.28" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="119.7" data-duration="4.34" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="124.31" data-duration="7.51" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="132.24" data-duration="3.45" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="136.7" data-duration="7.79" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="144.91" data-duration="2.1" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="147.53" data-duration="4.34" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="152.14" data-duration="3.92" data-track-index="4" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="8.2" data-duration="44.75" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="49.94" data-duration="44.75" data-track-index="6" data-volume="0.16"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="91.68" data-duration="44.75" data-track-index="7" data-volume="0.16"></audio>
+      <audio id="fx-3-fond" src="assets/sfx/fond.mp3" data-start="133.42" data-duration="26.66" data-track-index="5" data-volume="0.16"></audio>
+      <audio id="fx-4-pop" src="assets/sfx/pop.mp3" data-start="2.98" data-duration="0.61" data-track-index="6" data-volume="0.4"></audio>
+      <audio id="fx-5-jingle" src="assets/sfx/jingle.mp3" data-start="3.98" data-duration="3.51" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="fx-6-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.85" data-duration="1.39" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="29.35" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="45.55" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="78.65" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="97.55" data-duration="1.39" data-track-index="6" data-volume="0.25"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="119.05" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-12-whoosh" src="assets/sfx/whoosh.mp3" data-start="136.05" data-duration="1.39" data-track-index="5" data-volume="0.25"></audio>
+      <audio id="fx-13-zap" src="assets/sfx/zap.mp3" data-start="15.75" data-duration="0.5" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-14-chime" src="assets/sfx/chime.mp3" data-start="28.27" data-duration="1.21" data-track-index="7" data-volume="0.3"></audio>
+      <audio id="fx-15-pop" src="assets/sfx/pop.mp3" data-start="93.18" data-duration="0.61" data-track-index="5" data-volume="0.35"></audio>
+      <audio id="fx-16-jingle" src="assets/sfx/jingle.mp3" data-start="157.2" data-duration="2.83" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-17-tic" src="assets/sfx/tic.mp3" data-start="17.37" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-18-pop" src="assets/sfx/pop.mp3" data-start="28.27" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-19-tic" src="assets/sfx/tic.mp3" data-start="35.73" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-20-tic" src="assets/sfx/tic.mp3" data-start="52.29" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-21-tic" src="assets/sfx/tic.mp3" data-start="62.33" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-22-pop" src="assets/sfx/pop.mp3" data-start="76.27" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-23-pop" src="assets/sfx/pop.mp3" data-start="88.37" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-24-tic" src="assets/sfx/tic.mp3" data-start="100.73" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-25-tic" src="assets/sfx/tic.mp3" data-start="111.55" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-26-tic" src="assets/sfx/tic.mp3" data-start="130.41" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-27-tic" src="assets/sfx/tic.mp3" data-start="137.97" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-28-tic" src="assets/sfx/tic.mp3" data-start="140.03" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-29-tic" src="assets/sfx/tic.mp3" data-start="142.27" data-duration="0.19" data-track-index="7" data-volume="0.2"></audio>
+      <audio id="fx-30-pop" src="assets/sfx/pop.mp3" data-start="155.09" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-31-tic" src="assets/sfx/tic.mp3" data-start="157.8" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+    </div>
+
+    <script>
+      const SCHED = {"total":160.1,"scenes":{"g":{"start":0,"end":7.6},"s0":{"start":7.6,"end":29.6},"s1":{"start":29.6,"end":45.8},"s2":{"start":45.8,"end":78.9},"s3":{"start":78.9,"end":97.8},"s4":{"start":97.8,"end":119.3},"s5":{"start":119.3,"end":136.3},"s6":{"start":136.3,"end":160.1}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":7.6,"end":28.98},"s1":{"start":29.6,"end":45.17},"s2":{"start":45.8,"end":78.26},"s3":{"start":78.9,"end":97.25},"s4":{"start":97.8,"end":118.71},"s5":{"start":119.3,"end":135.71},"s6":{"start":136.3,"end":156.08}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":8.2,"end":14.16,"who":"zoe","words":[["Max,",8.74,8.93],["pourquoi",8.97,9.25],["il",9.3,9.41],["fait",9.44,9.57],["froid",9.61,9.89],["en",9.92,9.97],["hiver",10.05,10.53],["?",10.75,10.97],["Je",11.12,11.41],["sais",11.49,11.81],[":",12.01,12.21],["la",12.26,12.37],["Terre",12.45,12.77],["s'éloigne",12.85,13.33],["du",13.36,13.41],["Soleil",13.49,13.97],["!",14.05,14.13]]},"s0-2":{"start":14.41,"end":20.52,"who":"max","words":[["Bien",14.68,14.75],["tenté,",14.8,15.44],["mais",15.51,15.79],["non.",15.85,16.48],["En",16.63,16.92],["janvier,",16.97,17.53],["la",17.59,17.7],["Terre",17.77,18.05],["est",18.12,18.31],["même",18.35,18.49],["au",18.54,18.66],["plus",18.71,18.92],["près",19.02,19.44],["du",19.53,19.7],["Soleil.",19.77,20.57]]},"s0-3":{"start":20.92,"end":22.88,"who":"zoe","words":[["Quoi",21.08,21.16],["?",21.32,21.48],["Plus",21.51,21.64],["près,",21.71,21.96],["et",22.04,22.2],["on",22.26,22.36],["gèle",22.44,22.68],["?",22.76,22.84]]},"s0-4":{"start":23.13,"end":28.98,"who":"max","words":[["La",23.35,23.38],["distance",23.46,24.07],["ne",24.13,24.25],["compte",24.29,24.51],["presque",24.56,24.94],["pas.",25.01,25.29],["Le",25.58,26.16],["secret,",26.24,27.12],["c'est",27.16,27.29],["que",27.34,27.47],["la",27.5,27.55],["Terre",27.66,28.07],["est",28.16,28.42],["penchée.",28.47,29.03]]},"s1-1":{"start":30,"end":39.25,"who":"max","words":[["La",30.29,30.32],["Terre",30.37,30.58],["tourne",30.64,30.93],["sur",30.98,31.11],["elle-même",31.14,31.54],["comme",31.58,31.8],["une",31.82,31.89],["toupie,",31.98,32.76],["mais",32.81,33.02],["une",33.06,33.19],["toupie",33.24,33.54],["qui",33.58,33.72],["penche.",33.76,34.15],["Et",34.38,34.85],["elle",34.86,34.93],["garde",34.98,35.28],["toujours",35.33,35.72],["la",35.74,35.8],["même",35.84,35.98],["inclinaison,",36.03,36.93],["pendant",36.97,37.19],["qu'elle",37.22,37.37],["fait",37.4,37.54],["le",37.57,37.63],["tour",37.68,37.89],["du",37.92,37.98],["Soleil",38.05,38.5],["en",38.61,38.85],["un",38.9,39.02],["an.",39.11,39.28]]},"s1-2":{"start":39.65,"end":43.85,"who":"zoe","words":[["Donc",39.81,39.82],["parfois,",39.9,40.34],["c'est",40.36,40.46],["le",40.51,40.62],["haut",40.67,40.86],["qui",40.9,41.02],["penche",41.08,41.34],["vers",41.37,41.5],["le",41.53,41.58],["Soleil,",41.64,42.14],["et",42.49,43.18],["parfois",43.22,43.42],["le",43.47,43.58],["bas.",43.64,43.82]]},"s1-3":{"start":44.1,"end":45.17,"who":"max","words":[["Tu",44.23,44.23],["as",44.26,44.32],["tout",44.36,44.49],["deviné.",44.54,45.19]]},"s2-1":{"start":46.2,"end":57.43,"who":"max","words":[["Quand",46.4,46.45],["notre",46.49,46.71],["moitié",46.77,47.23],["de",47.26,47.32],["la",47.35,47.41],["Terre",47.47,47.75],["penche",47.84,48.19],["vers",48.22,48.36],["le",48.39,48.45],["Soleil,",48.52,49.41],["il",49.43,49.49],["monte",49.56,50.06],["haut",50.1,50.28],["dans",50.29,50.36],["le",50.39,50.45],["ciel.",50.54,50.97],["Ses",51.12,51.58],["rayons",51.64,51.93],["arrivent",51.97,52.36],["bien",52.4,52.54],["droit",52.59,52.88],[":",53.01,53.14],["ils",53.19,53.32],["chauffent",53.36,53.75],["fort.",53.82,54.19],["Et",54.36,54.71],["les",54.75,54.88],["journées",54.93,55.32],["sont",55.39,55.67],["longues.",55.74,56.27],["C'est",56.54,56.88],["l'été.",56.93,57.49]]},"s2-2":{"start":57.68,"end":66.75,"who":"max","words":[["Six",57.87,57.93],["mois",57.97,58.11],["plus",58.14,58.28],["tard,",58.35,58.89],["c'est",58.93,59.06],["l'inverse.",59.1,59.67],["Le",59.9,60.37],["Soleil",60.42,60.71],["reste",60.77,61.06],["bas,",61.13,61.67],["ses",61.71,61.84],["rayons",61.89,62.11],["arrivent",62.15,62.45],["de",62.48,62.54],["biais",62.63,62.97],["et",63.06,63.24],["s'étalent.",63.32,64.45],["Les",64.47,64.54],["journées",64.58,64.89],["sont",64.92,65.06],["courtes.",65.11,66.11],["C'est",66.15,66.28],["l'hiver.",66.32,66.8]]},"s2-3":{"start":67.15,"end":75.11,"who":"zoe","words":[["Comme",67.34,67.43],["une",67.45,67.51],["lampe",67.55,67.75],["de",67.8,67.91],["poche",67.96,68.23],[":",68.51,68.79],["bien",68.84,69.03],["en",69.08,69.19],["face,",69.27,69.75],["le",69.8,69.91],["rond",69.96,70.15],["est",70.19,70.31],["petit",70.36,70.63],["et",70.71,70.87],["très",70.95,71.27],["lumineux.",71.31,72.11],["De",72.23,72.47],["travers,",72.55,73.19],["il",73.32,73.59],["est",73.61,73.67],["grand",73.74,74.07],["et",74.18,74.39],["tout",74.42,74.55],["pâle.",74.63,75.11]]},"s2-4":{"start":75.36,"end":78.26,"who":"max","words":[["C'est",75.52,75.61],["exactement",75.73,76.65],["l'expérience",76.87,77.78],["à",77.83,77.87],["faire.",77.92,78.31]]},"s3-1":{"start":79.3,"end":85.02,"who":"zoe","words":[["Attends.",80.6,80.64],["Si",80.65,80.66],["le",80.66,80.82],["haut",80.9,81.34],["a",81.46,81.46],["l'été…",81.46,81.7],["le",81.75,81.86],["bas",81.94,82.26],["a",82.58,82.69],["l'hiver",82.79,84.82],["?",84.9,84.98]]},"s3-2":{"start":85.27,"end":90.78,"who":"max","words":[["Oui.",85.48,86.22],["Les",86.33,86.65],["saisons",86.71,87],["sont",87.05,87.26],["inversées.",87.32,87.87],["En",88.01,88.3],["Australie,",88.37,89.17],["Noël",89.26,89.61],["tombe",89.67,89.96],["en",90.01,90.13],["plein",90.17,90.39],["été.",90.48,90.83]]},"s3-3":{"start":91.23,"end":94.94,"who":"zoe","words":[["Le",92.28,92.44],["père",92.56,92.84],["Noël",92.92,93.24],["en",93.29,93.4],["short",93.48,93.88],["et",93.93,94.04],["en",94.09,94.2],["tongs",94.32,94.76],["!",94.84,94.92]]},"s3-4":{"start":95.39,"end":97.25,"who":"max","words":[["Sur",95.68,95.69],["une",95.73,95.86],["planche",95.89,96.12],["de",96.15,96.21],["surf,",96.29,96.77],["parfois.",96.81,97.25]]},"s4-1":{"start":98.2,"end":99.92,"who":"zoe","words":[["Et",98.37,98.37],["au",98.4,98.45],["milieu,",98.51,98.93],["à",98.97,99.01],["l'équateur",99.05,99.73],["?",99.81,99.89]]},"s4-2":{"start":100.17,"end":112.63,"who":"max","words":[["Il",100.39,100.42],["fait",100.47,100.68],["chaud",100.73,101.02],["toute",101.1,101.46],["l'année",101.5,101.81],[":",102.02,102.24],["le",102.3,102.42],["Soleil",102.5,103.02],["y",103.2,103.37],["est",103.42,103.55],["toujours",103.59,103.98],["haut.",104.05,104.42],["Aux",104.68,105.46],["pôles,",105.5,105.89],["c'est",105.94,106.07],["le",106.1,106.15],["contraire,",106.2,106.94],["et",106.99,107.11],["c'est",107.15,107.29],["encore",107.34,107.63],["plus",107.69,107.89],["étrange",107.98,108.68],[":",108.85,109.02],["six",109.09,109.29],["mois",109.34,109.55],["de",109.6,109.72],["jour,",109.81,110.24],["puis",110.38,110.94],["six",111.07,111.46],["mois",111.51,111.72],["de",111.84,112.07],["nuit.",112.15,112.68]]},"s4-3":{"start":113.03,"end":115.96,"who":"zoe","words":[["Six",113.35,113.36],["mois",113.42,113.68],["sans",113.73,113.92],["aller",113.96,114.16],["au",114.19,114.24],["lit",114.28,114.4],["?",114.72,115.04],["Je",115.07,115.12],["déménage.",115.18,115.92]]},"s4-4":{"start":116.41,"end":118.71,"who":"max","words":[["Il",116.54,116.57],["fait",116.63,116.84],["moins",116.86,117.01],["trente.",117.07,117.62],["Prends",117.73,118.14],["un",118.2,118.31],["pull.",118.37,118.75]]},"s5-1":{"start":119.7,"end":124.06,"who":"zoe","words":[["Et",120.73,120.74],["le",120.77,120.82],["printemps",120.87,121.3],["et",121.33,121.38],["l'automne",121.42,121.86],["?",122.94,124.02]]},"s5-2":{"start":124.31,"end":131.84,"who":"max","words":[["Ce",124.44,124.47],["sont",124.51,124.65],["les",124.69,124.82],["entre-deux",124.88,125.34],[":",125.82,126.3],["aucune",126.37,126.65],["moitié",126.71,127.17],["ne",127.23,127.34],["penche",127.39,127.69],["vers",127.71,127.78],["le",127.84,127.95],["Soleil.",128,128.87],["Le",129.03,129.34],["jour",129.41,129.69],["et",129.72,129.78],["la",129.81,129.87],["nuit",129.94,130.21],["durent",130.34,130.82],["presque",130.87,131.26],["pareil.",131.31,131.87]]},"s5-3":{"start":132.24,"end":135.71,"who":"zoe","words":[["Quatre",132.43,132.6],["saisons",132.68,133],["pour",133.03,133.16],["un",133.21,133.32],["seul",133.37,133.56],["tour.",133.65,134.32],["C'est",134.46,134.68],["bien",134.74,135],["organisé.",135.06,135.72]]},"s6-1":{"start":136.7,"end":144.51,"who":"zoe","words":[["Je",136.95,136.95],["résume",137.03,137.43],[":",137.67,137.91],["la",137.99,138.15],["Terre",138.21,138.55],["est",138.59,138.71],["penchée.",138.77,139.27],["Quand",139.4,139.75],["notre",139.79,139.99],["moitié",140.04,140.39],["regarde",140.45,140.79],["le",140.82,140.87],["Soleil,",140.93,141.43],["c'est",141.47,141.59],["l'été.",141.63,142.07],["Quand",142.18,142.47],["elle",142.5,142.63],["regarde",142.69,143.03],["ailleurs,",143.07,143.67],["c'est",143.71,143.83],["l'hiver.",143.87,144.47]]},"s6-2":{"start":144.91,"end":147.03,"who":"max","words":[["Tu",145.12,145.15],["es",145.21,145.33],["brillante",145.38,145.93],["en",146.08,146.37],["toute",146.41,146.63],["saison.",146.68,147.07]]},"s6-3":{"start":147.53,"end":151.89,"who":"zoe","words":[["Dis,",147.85,147.86],["Max…",147.96,149.06],["et",149.11,149.22],["la",149.25,149.3],["Lune,",149.38,149.86],["pourquoi",149.9,150.18],["elle",150.2,150.26],["change",150.31,150.58],["de",150.63,150.74],["forme",150.78,150.98],["tous",151.01,151.14],["les",151.18,151.3],["soirs",151.38,151.78],["?",151.82,151.86]]},"s6-4":{"start":152.14,"end":156.08,"who":"max","words":[["Elle",152.32,152.39],["ne",152.42,152.48],["change",152.53,152.83],["pas.",152.89,153.35],["C'est",153.48,153.7],["l'éclairage",153.74,154.3],["qui",154.33,154.39],["change.",154.45,155.26],["La",155.29,155.35],["prochaine",155.39,155.78],["fois",155.82,155.96],["!",156.04,156.13]]}}};
+
+      const CFG_SUBJECT = "#gi-pollen";
+
+      // ===== kit.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Boîte à outils commune : couleurs, temps, repères de voix, engrenages, étiquettes.
+const C = {
+  ink: "#1F2A44",
+  paper: "#FFF8EC",
+  top: "#F4F6FA",
+  side: "#D3DAE6",
+  inner: "#B9C3D3",
+  cut: "#F6E7C8",
+  hatch: "#E6CF9F",
+  blue: "#2F5BD3",
+  blueL: "#5F86F0",
+  blueD: "#1E3F9E",
+  fire: "#FF8A1F",
+  hot: "#FFD23F",
+  spark: "#FFE14D",
+  air: "#8FD3FF",
+  smoke: "#A7AFBA",
+  metal: "#9AA6B8",
+};
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const easeIO = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeO = (u) => 1 - Math.pow(1 - u, 3);
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ramp = (t, a, b) => easeIO(lin(t, a, b));
+const rampO = (t, a, b) => easeO(lin(t, a, b));
+const f2 = (n) => Math.round(n * 100) / 100;
+const TAU = Math.PI * 2;
+const mixHex = (a, b, u) => {
+  const p = (h) =>
+    h[0] === "#"
+      ? [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      : h.match(/\d+/g).map(Number);
+  const A = p(a),
+    B = p(b);
+  return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(",") + ")";
+};
+
+// --- Repères : moment (en secondes du film) où un mot est prononcé ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+
+// --- Timeline principale et dessin image par image ---
+const tl = gsap.timeline({ paused: true });
+const DRAWS = [];
+// Enregistre une fonction de dessin appelée à chaque image tant que la scène est à l'écran.
+const onDraw = (sceneId, fn) =>
+  DRAWS.push({ a: scn(sceneId).start - 0.2, b: scn(sceneId).end + 0.2, fn });
+const drawAll = () => {
+  const t = tl.time();
+  for (const d of DRAWS) if (t >= d.a && t <= d.b) d.fn(t);
+};
+
+const OUT = "power3.out";
+const INN = "power3.in";
+// Apparition standard (léger glissement + fondu).
+// chaque apparition est notée : scripts/autosfx.cjs en tire un petit bruitage
+const SFX_LOG = (window.__SFX = []);
+const show = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "tic"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 24, scale: o.s ?? 1 },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: o.d ?? 0.45,
+      ease: o.e ?? OUT,
+      stagger: o.st ?? 0,
+    },
+    t,
+  );
+const pop = (sel, t, o = {}) =>
+  SFX_LOG.push([t, "pop"]) &&
+  tl.fromTo(
+    sel,
+    { opacity: 0, scale: o.s ?? 0.4 },
+    { opacity: 1, scale: 1, duration: o.d ?? 0.4, ease: "back.out(1.7)", stagger: o.st ?? 0 },
+    t,
+  );
+const hide = (sel, t, o = {}) =>
+  tl.to(
+    sel,
+    { opacity: 0, x: o.x ?? 0, y: o.y ?? 0, scale: o.s ?? 1, duration: o.d ?? 0.3, ease: INN },
+    t,
+  );
+// Couture « dans le courant » : sortie vers la gauche, entrée par la droite.
+const seam = (a, b) => {
+  const cut = scn(b).start;
+  tl.to(`#${a}-in`, { x: -240, opacity: 0, duration: 0.32, ease: INN }, cut - 0.32);
+  tl.fromTo(
+    `#${b}-in`,
+    { x: 240, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" },
+    cut,
+  );
+};
+
+// --- Engrenage : contour à dents trapézoïdales ---
+const gearPath = (cx, cy, r, n, rot, depth) => {
+  const d = depth ?? Math.min(r * 0.22, 26);
+  const ro = r + d / 2,
+    ri = r - d / 2,
+    p = TAU / n;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * p;
+    const pts = [
+      [ri, a - 0.27 * p],
+      [ro, a - 0.13 * p],
+      [ro, a + 0.13 * p],
+      [ri, a + 0.27 * p],
+    ];
+    for (const [rr, aa] of pts)
+      s += `${s ? "L" : "M"}${f2(cx + rr * Math.cos(aa))} ${f2(cy + rr * Math.sin(aa))}`;
+  }
+  return s + "Z";
+};
+// Rotation de l'engrenage B pour qu'il engrène avec A (phi = direction de A vers B).
+const meshRot = (rotA, nA, nB, phi) => phi + Math.PI - Math.PI / nB - ((rotA - phi) * nA) / nB;
+// Engrenage complet (corps, moyeu, repère) en SVG.
+const gearSVG = (cx, cy, r, n, rot, fill = C.blue, hub = C.blueD) =>
+  `<path d="${gearPath(cx, cy, r, n, rot)}" fill="${fill}" class="ink"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(r * 0.52)}" fill="${hub}" opacity="0.35"/>` +
+  `<circle cx="${cx}" cy="${cy}" r="${f2(Math.max(10, r * 0.16))}" fill="#fff" class="ink"/>` +
+  `<circle cx="${f2(cx + r * 0.62 * Math.cos(rot))}" cy="${f2(cy + r * 0.62 * Math.sin(rot))}" r="${f2(Math.max(6, r * 0.08))}" fill="#fff" opacity="0.9"/>`;
+
+// --- Étiquette avec trait de rappel : créée une fois au chargement ---
+// p = point visé, t = coin du texte, align = "l" (texte à droite du point) ou "r".
+const label = (sceneId, id, p, t, title, sub, o = {}) => {
+  const host = document.getElementById(`${sceneId}-labels`);
+  const svg = host.querySelector("svg");
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", `${id}-ln`);
+  // Le trait arrive sur le côté du texte si le point est en dehors, sinon dessous ou dessus.
+  const h = sub ? 86 : 48,
+    right = o.align === "r";
+  let ex, ey;
+  if (!right && p[0] < t[0] - 30) [ex, ey] = [t[0] - 14, t[1] + 24];
+  else if (right && p[0] > t[0] + 30) [ex, ey] = [t[0] + 14, t[1] + 24];
+  else
+    [ex, ey] = [
+      right ? clamp(p[0], t[0] - 170, t[0] - 20) : clamp(p[0], t[0] + 20, t[0] + 170),
+      p[1] > t[1] ? t[1] + h + 8 : t[1] - 8,
+    ];
+  g.innerHTML =
+    `<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>` +
+    `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${C.ink}" stroke-width="3.5"/>`;
+  svg.appendChild(g);
+  const d = document.createElement("div");
+  d.id = id;
+  d.className = "lab" + (o.align === "r" ? " r" : "");
+  d.style.top = t[1] + "px";
+  if (o.align === "r") d.style.right = 1920 - t[0] + "px";
+  else d.style.left = t[0] + "px";
+  d.innerHTML =
+    `<div class="lt" style="color:${o.color ?? C.ink}">${title}</div>` +
+    (sub ? `<div class="ls">${sub}</div>` : "");
+  host.appendChild(d);
+  return [`#${id}`, `#${id}-ln`];
+};
+const showLabel = (sel, t) => {
+  SFX_LOG.push([t, "tic"]);
+  tl.fromTo(sel[1], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: OUT }, t);
+  tl.fromTo(
+    sel[0],
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.4, ease: OUT },
+    t + 0.05,
+  );
+};
+const hideLabel = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.25, ease: INN }, t);
+
+// --- Vitesse définie par segments linéaires [[t, v], …] : valeur et intégrale (distance, angle) ---
+const rateAt = (kf, t) => {
+  if (t <= kf[0][0]) return kf[0][1];
+  for (let i = 1; i < kf.length; i++)
+    if (t <= kf[i][0])
+      return lerp(kf[i - 1][1], kf[i][1], (t - kf[i - 1][0]) / (kf[i][0] - kf[i - 1][0]));
+  return kf[kf.length - 1][1];
+};
+const integ = (kf, t) => {
+  let s = 0;
+  for (let i = 1; i < kf.length; i++) {
+    const [ta, va] = kf[i - 1],
+      [tb, vb] = kf[i];
+    if (t <= ta) return s;
+    const te = Math.min(t, tb),
+      ve = va + ((vb - va) * (te - ta)) / (tb - ta);
+    s += ((va + ve) / 2) * (te - ta);
+    if (t <= tb) return s;
+  }
+  const [tn, vn] = kf[kf.length - 1];
+  return s + vn * (t - tn);
+};
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- Hasard reproductible (même valeur à chaque rendu) et petites formes ---
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+// va-et-vient entre 0 et 1 (rebond sur les bords)
+const tri = (x) => {
+  const u = ((x % 2) + 2) % 2;
+  return u < 1 ? u : 2 - u;
+};
+// boule avec contour et reflet
+const ball = (x, y, r, fill, o = {}) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${fill}" stroke="${C.ink}" stroke-width="${o.w ?? 4}" opacity="${o.op ?? 1}"/>` +
+  (o.plain
+    ? ""
+    : `<circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.34)}" r="${f2(r * 0.22)}" fill="#fff" opacity="${f2(0.7 * (o.op ?? 1))}"/>`);
+const txt = (x, y, s, size, o = {}) =>
+  `<text x="${f2(x)}" y="${f2(y)}" text-anchor="${o.anchor ?? "middle"}" font-family="Fredoka" font-weight="${o.w ?? 600}" font-size="${size}" fill="${o.fill ?? C.ink}" opacity="${o.op ?? 1}">${s}</text>`;
+const ATOM = { H: ["#FFFFFF", 30], O: ["#E0455E", 48], C: ["#3A4256", 52], N: ["#5F86F0", 48] };
+
+// --- Chemin fermé ou ouvert fait de segments droits : longueur et point à une distance donnée ---
+const mkPath = (pts, closed = true) => {
+  const P = closed ? pts.concat([pts[0]]) : pts;
+  const seg = [];
+  let L = 0;
+  for (let i = 1; i < P.length; i++) {
+    const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+    seg.push([L, d, P[i - 1], P[i]]);
+    L += d;
+  }
+  const at = (s) => {
+    const u = closed ? ((s % L) + L) % L : clamp(s, 0, L);
+    for (const [a, d, p, q] of seg)
+      if (u <= a + d) return [lerp(p[0], q[0], (u - a) / d), lerp(p[1], q[1], (u - a) / d)];
+    return P[P.length - 1];
+  };
+  return {
+    L,
+    at,
+    d: P.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join("") + (closed ? "Z" : ""),
+  };
+};
+// fil électrique : gaine sombre + âme claire
+const wireSVG = (d, col = "#F2C9A0", w = 26) =>
+  `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w - 10}" stroke-linejoin="round" stroke-linecap="round"/>`;
+// ampoule : on = 0 (éteinte) à 1 (allumée)
+const bulbSVG = (x, y, on, k = 1) =>
+  (on > 0.02
+    ? `<circle cx="${x}" cy="${f2(y - 20 * k)}" r="${f2(190 * k * on)}" fill="${C.spark}" opacity="${f2(0.38 * on)}"/>`
+    : "") +
+  `<path d="M${x} ${f2(y - 120 * k)} C ${f2(x + 96 * k)} ${f2(y - 120 * k)}, ${f2(x + 130 * k)} ${f2(y - 24 * k)}, ${f2(x + 70 * k)} ${f2(y + 46 * k)} C ${f2(x + 54 * k)} ${f2(y + 70 * k)}, ${f2(x + 52 * k)} ${f2(y + 92 * k)}, ${f2(x + 52 * k)} ${f2(y + 112 * k)} H${f2(x - 52 * k)} C ${f2(x - 52 * k)} ${f2(y + 92 * k)}, ${f2(x - 54 * k)} ${f2(y + 70 * k)}, ${f2(x - 70 * k)} ${f2(y + 46 * k)} C ${f2(x - 130 * k)} ${f2(y - 24 * k)}, ${f2(x - 96 * k)} ${f2(y - 120 * k)}, ${x} ${f2(y - 120 * k)} Z" fill="${mixHex("#FFFFFF", "#FFE14D", on)}" class="ink" stroke-width="5"/>` +
+  `<path d="M${f2(x - 24 * k)} ${f2(y + 60 * k)} L${f2(x - 10 * k)} ${f2(y - 6 * k)} L${f2(x + 10 * k)} ${f2(y + 30 * k)} L${f2(x + 24 * k)} ${f2(y - 6 * k)}" fill="none" stroke="${on > 0.5 ? C.fire : C.ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>` +
+  `<rect x="${f2(x - 48 * k)}" y="${f2(y + 112 * k)}" width="${f2(96 * k)}" height="${f2(60 * k)}" rx="12" fill="${C.metal}" class="ink"/>`;
+
+// --- Petites formes de l'épisode « gravité » ---
+// un bonhomme tout simple (tête ronde, corps en capsule), pieds en (x, y)
+const figSVG = (x, y, k = 1, col = C.blue) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-14 0 V-34 M14 0 V-34" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><rect x="-28" y="-104" width="56" height="78" rx="26" fill="${col}" class="ink"/><circle cx="0" cy="-134" r="30" fill="#FFD9B8" class="ink"/></g>`;
+// la tartine : face confiture vers le haut quand l'angle vaut 0
+const toastSVG = (x, y, rot, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><rect x="-120" y="-20" width="240" height="44" rx="18" fill="#EBC07E" stroke="#B9772E" stroke-width="8"/><rect x="-110" y="-34" width="220" height="22" rx="11" fill="#E0455E"/><rect x="-120" y="-20" width="240" height="44" rx="18" fill="none" class="ink" stroke-width="3"/></g>`;
+// la Terre : disque bleu, continents verts, centrée en (x, y), rayon r, tournée de rot degrés
+const earthSVG = (x, y, r, rot = 0) => {
+  const blob = (a, d, w, h) =>
+    `<ellipse cx="${f2(d * Math.cos(rad(a)))}" cy="${f2(d * Math.sin(rad(a)))}" rx="${f2(w)}" ry="${f2(h)}" transform="rotate(${a + 20} ${f2(d * Math.cos(rad(a)))} ${f2(d * Math.sin(rad(a)))})" fill="#6CC98A"/>`;
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})"><circle r="${r}" fill="#5FB7E8" class="ink" stroke-width="5"/><clipPath id="ec${Math.round(x)}${Math.round(r)}"><circle r="${r - 3}"/></clipPath><g clip-path="url(#ec${Math.round(x)}${Math.round(r)})">${blob(-70, r * 0.5, r * 0.42, r * 0.26)}${blob(40, r * 0.62, r * 0.3, r * 0.4)}${blob(150, r * 0.55, r * 0.36, r * 0.22)}${blob(250, r * 0.78, r * 0.3, r * 0.16)}<ellipse cx="${f2(-r * 0.3)}" cy="${f2(-r * 0.4)}" rx="${f2(r * 0.5)}" ry="${f2(r * 0.3)}" fill="#fff" opacity="0.16"/></g></g>`;
+};
+// flèche droite de (x1, y1) vers (x2, y2)
+const arrowSVG = (x1, y1, x2, y2, col = C.fire, w = 14, op = 1) => {
+  const a = Math.atan2(y2 - y1, x2 - x1),
+    h = w * 2.2;
+  const p = (da) => `${f2(x2 - h * Math.cos(a + da))} ${f2(y2 - h * Math.sin(a + da))}`;
+  return `<g opacity="${f2(op)}"><path d="M${f2(x1)} ${f2(y1)} L${f2(x2)} ${f2(y2)} M${p(0.5)} L${f2(x2)} ${f2(y2)} L${p(-0.5)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+};
+
+// --- Formes de l'épisode « lumière » ---
+const RAINBOW = ["#E0455E", "#FF8A1F", "#FFD23F", "#3DBE8B", "#2F5BD3", "#8E5BD6"];
+// le Soleil, centré en (x, y)
+const sunSVG = (x, y, r, t = 0) => {
+  let s = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU + t * 0.3;
+    s += `<path d="M${f2(x + (r + 14) * Math.cos(a))} ${f2(y + (r + 14) * Math.sin(a))} L${f2(x + (r + 44) * Math.cos(a))} ${f2(y + (r + 44) * Math.sin(a))}" stroke="${C.fire}" stroke-width="10" stroke-linecap="round"/>`;
+  }
+  return s + `<circle cx="${x}" cy="${y}" r="${r}" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+};
+// un rayon : trait coloré bordé de sombre, dessiné jusqu'à la fraction u de sa longueur
+const raySVG = (x1, y1, x2, y2, col, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const x = lerp(x1, x2, Math.min(1, u)),
+    y = lerp(y1, y2, Math.min(1, u));
+  return `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${C.ink}" stroke-width="${w + 6}" stroke-linecap="round"/><path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+};
+// un rayon installé, avec des petits traits blancs qui filent dedans pour montrer le sens
+const beamSVG = (x1, y1, x2, y2, col, t, u = 1, w = 14) => {
+  if (u <= 0) return "";
+  const k = Math.min(1, u),
+    x = lerp(x1, x2, k),
+    y = lerp(y1, y2, k);
+  return (
+    raySVG(x1, y1, x2, y2, col, u, w) +
+    `<path d="M${f2(x1)} ${f2(y1)} L${f2(x)} ${f2(y)}" stroke="#fff" stroke-width="${f2(w * 0.3)}" stroke-dasharray="26 60" stroke-dashoffset="${f2(-t * 420)}" stroke-linecap="round" opacity="0.8"/>`
+  );
+};
+// un œil vu de face, centré en (x, y)
+const eyeSVG = (x, y, k = 1, iris = "#3DBE8B") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M-110 0 Q0 -90 110 0 Q0 90 -110 0 Z" fill="#fff" class="ink" stroke-width="6"/><circle r="44" fill="${iris}" class="ink"/><circle r="20" fill="${C.ink}"/><circle cx="-12" cy="-14" r="9" fill="#fff"/></g>`;
+// un chat assis, pieds en (x, y)
+const catSVG = (x, y, k = 1, col = "#FF8A1F") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M60 -20 Q150 -30 130 -120" fill="none" stroke="${col}" stroke-width="20" stroke-linecap="round"/><ellipse cx="0" cy="-80" rx="78" ry="96" fill="${col}" class="ink" stroke-width="5"/><circle cx="0" cy="-210" r="66" fill="${col}" class="ink" stroke-width="5"/><path d="M-56 -244 L-64 -300 L-18 -268 Z M56 -244 L64 -300 L18 -268 Z" fill="${col}" class="ink" stroke-width="5"/><circle cx="-24" cy="-216" r="9" fill="${C.ink}"/><circle cx="24" cy="-216" r="9" fill="${C.ink}"/><path d="M-8 -194 L8 -194 L0 -184 Z" fill="#F7A8B8" class="ink" stroke-width="3"/></g>`;
+
+// --- Petites formes de l'épisode « allergies » ---
+// un grain de pollen : boule jaune à picots, l'air innocent
+const pollenSVG = (x, y, r, rot = 0, op = 1) => {
+  let s = "";
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * TAU + rot;
+    s += `<path d="M${f2(x + r * 0.9 * Math.cos(a))} ${f2(y + r * 0.9 * Math.sin(a))} L${f2(x + r * 1.45 * Math.cos(a))} ${f2(y + r * 1.45 * Math.sin(a))}" stroke="${C.ink}" stroke-width="${f2(r * 0.18)}" stroke-linecap="round"/>`;
+  }
+  return `<g opacity="${f2(op)}">${s}<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${C.hot}" class="ink" stroke-width="4"/><circle cx="${f2(x - r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.32)}" cy="${f2(y - r * 0.1)}" r="${f2(r * 0.11)}" fill="${C.ink}"/><path d="M${f2(x - r * 0.25)} ${f2(y + r * 0.3)} Q${f2(x)} ${f2(y + r * 0.55)} ${f2(x + r * 0.25)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.1)}" stroke-linecap="round"/></g>`;
+};
+// un virus : boule verte à ventouses, l'air méchant ; k = taille (1 → 0 quand il est avalé)
+const virusSVG = (x, y, r, rot = 0, k = 1) => {
+  if (k <= 0.02) return "";
+  let s = "";
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * TAU + rot;
+    s += `<path d="M${f2(r * 0.9 * Math.cos(a))} ${f2(r * 0.9 * Math.sin(a))} L${f2(r * 1.4 * Math.cos(a))} ${f2(r * 1.4 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/><circle cx="${f2(r * 1.5 * Math.cos(a))}" cy="${f2(r * 1.5 * Math.sin(a))}" r="${f2(r * 0.2)}" fill="#3DBE8B" class="ink" stroke-width="3"/>`;
+  }
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})">${s}<circle r="${r}" fill="#3DBE8B" class="ink" stroke-width="4"/><path d="M${f2(-r * 0.55)} ${f2(-r * 0.4)} L${f2(-r * 0.15)} ${f2(-r * 0.2)} M${f2(r * 0.55)} ${f2(-r * 0.4)} L${f2(r * 0.15)} ${f2(-r * 0.2)}" stroke="${C.ink}" stroke-width="6" stroke-linecap="round"/><circle cx="${f2(-r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(r * 0.32)}" cy="0" r="${f2(r * 0.12)}" fill="${C.ink}"/><path d="M${f2(-r * 0.3)} ${f2(r * 0.5)} Q0 ${f2(r * 0.3)} ${f2(r * 0.3)} ${f2(r * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/></g>`;
+};
+// un globule blanc, « garde » du corps : mood 0 = tranquille, 1 = en alerte ; look = -1…1 (direction du regard)
+const guardSVG = (x, y, r, t, mood = 0, look = 0) => {
+  const w = 0.05 * Math.sin(t * 3 + x * 0.01),
+    ex = look * r * 0.14;
+  let s = `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * (1 + w))}" ry="${f2(r * (1 - w))}" fill="#fff" class="ink" stroke-width="5"/><ellipse cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.5)}" rx="${f2(r * 0.22)}" ry="${f2(r * 0.12)}" fill="#DCE6F5"/>`;
+  s += `<circle cx="${f2(x - r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/><circle cx="${f2(x + r * 0.3 + ex)}" cy="${f2(y - r * 0.08)}" r="${f2(r * 0.12)}" fill="${C.ink}"/>`;
+  if (mood > 0.5) {
+    s += `<path d="M${f2(x - r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x - r * 0.14 + ex)} ${f2(y - r * 0.26)} M${f2(x + r * 0.5 + ex)} ${f2(y - r * 0.42)} L${f2(x + r * 0.14 + ex)} ${f2(y - r * 0.26)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/><path d="M${f2(x - r * 0.22 + ex)} ${f2(y + r * 0.4)} H${f2(x + r * 0.22 + ex)}" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+    s += `<g transform="translate(${f2(x)} ${f2(y - r * 1.55)})"><circle r="${f2(r * 0.36)}" fill="#E0455E" class="ink" stroke-width="4"/><text y="${f2(r * 0.2)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${f2(r * 0.56)}" fill="#fff">!</text></g>`;
+  } else
+    s += `<path d="M${f2(x - r * 0.24 + ex)} ${f2(y + r * 0.3)} Q${f2(x + ex)} ${f2(y + r * 0.52)} ${f2(x + r * 0.24 + ex)} ${f2(y + r * 0.3)}" fill="none" stroke="${C.ink}" stroke-width="${f2(r * 0.09)}" stroke-linecap="round"/>`;
+  return s;
+};
+// un anticorps : une antenne en Y, pied en (x, y), tournée de rot degrés
+const antibodySVG = (x, y, rot, k = 1, op = 1) => {
+  const d = "M0 0 V-30 M0 -30 L-18 -56 M0 -30 L18 -56";
+  return `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})" opacity="${f2(op)}" fill="none" stroke-linecap="round"><path d="${d}" stroke="${C.ink}" stroke-width="15"/><path d="${d}" stroke="${C.fire}" stroke-width="8"/></g>`;
+};
+// la cellule pleine de sacs (mastocyte) : n antennes plantées dessus, burst 0 → 1 = les sacs éclatent et l'histamine sort
+const mastSVG = (x, y, r, t, burst = 0, nAnt = 8, antK = 1) => {
+  let s = "";
+  for (let i = 0; i < nAnt; i++) {
+    const a = (i / nAnt) * TAU + 0.4;
+    s += antibodySVG(
+      x + (r - 6) * Math.cos(a),
+      y + (r - 6) * Math.sin(a),
+      (a * 180) / Math.PI + 90,
+      antK,
+    );
+  }
+  s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#EBDDFB" class="ink" stroke-width="6"/><circle cx="${f2(x + r * 0.1)}" cy="${f2(y + r * 0.05)}" r="${f2(r * 0.3)}" fill="#C9B1EE" class="ink" stroke-width="4"/>`;
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * TAU + rnd(i) * 0.3,
+      d0 = r * (0.5 + 0.3 * rnd(i + 20)),
+      d1 = r + 60 + rnd(i + 40) * 190;
+    const d = lerp(d0, d1, burst) + (burst > 0 ? 10 * Math.sin(t * 2 + i) : 0);
+    s += `<circle cx="${f2(x + d * Math.cos(a))}" cy="${f2(y + d * Math.sin(a))}" r="${f2(lerp(r * 0.1, 13, burst))}" fill="${C.fire}" stroke="${C.ink}" stroke-width="3"/>`;
+  }
+  return s;
+};
+// un vaisseau sanguin en coupe, avec ses globules rouges qui défilent
+const vesselSVG = (t, id) => {
+  let s = `<defs><clipPath id="${id}"><rect x="130" y="270" width="1660" height="520"/></clipPath></defs><rect x="130" y="270" width="1660" height="520" fill="#FFE9E6"/><g clip-path="url(#${id})">`;
+  for (let i = 0; i < 16; i++) {
+    const x = 60 + ((rnd(i) * 1800 + t * 70 * (0.7 + rnd(i + 5) * 0.6)) % 1800),
+      y = 330 + rnd(i + 9) * 400;
+    s += `<ellipse cx="${f2(x)}" cy="${f2(y)}" rx="36" ry="26" fill="#F29AA6" opacity="0.75"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="16" ry="11" fill="#E77888" opacity="0.75"/>`;
+  }
+  return (
+    s +
+    `</g><rect x="130" y="246" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/><rect x="130" y="784" width="1660" height="30" rx="12" fill="#E0455E" class="ink"/>`
+  );
+};
+// une fleur toute simple, pied en (x, y)
+const flowerSVG = (x, y, k = 1) => {
+  let s = `<path d="M0 0 V-300" stroke="#3DBE8B" stroke-width="20" stroke-linecap="round"/><path d="M0 -140 q-90 -20 -110 -90 q90 0 110 90 Z" fill="#3DBE8B" class="ink"/>`;
+  for (let i = 0; i < 7; i++) {
+    const a = (i / 7) * TAU + 0.2,
+      px = 96 * Math.cos(a),
+      py = -360 + 96 * Math.sin(a);
+    s += `<ellipse cx="${f2(px)}" cy="${f2(py)}" rx="62" ry="40" transform="rotate(${f2((a * 180) / Math.PI)} ${f2(px)} ${f2(py)})" fill="#F7A8B8" class="ink"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}<circle cx="0" cy="-360" r="56" fill="${C.hot}" class="ink" stroke-width="5"/></g>`;
+};
+
+// --- Petites formes de l'épisode « feu » ---
+// une flamme vivante : pied en (x, y), hauteur h ; o.k = vigueur 0…1, o.blue = flamme toute bleue, o.lean = penche (px)
+const flameSVG = (x, y, h, t, o = {}) => {
+  const k = o.k ?? 1;
+  if (k <= 0.02) return "";
+  const H = h * k * (1 + 0.06 * Math.sin(t * 11 + x)),
+    sway = (o.lean ?? 0) + H * (0.07 * Math.sin(t * 9 + x * 0.01) + 0.04 * Math.sin(t * 14.3 + 1));
+  const lay = (s, col, op = 1) => {
+    const hh = H * s,
+      w = hh * 0.36;
+    return `<path d="M${f2(x)} ${f2(y)} C ${f2(x - w)} ${f2(y)}, ${f2(x - w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + sway * s)} ${f2(y - hh)} C ${f2(x + w * 1.15)} ${f2(y - hh * 0.5)}, ${f2(x + w)} ${f2(y)}, ${f2(x)} ${f2(y)} Z" fill="${col}" opacity="${op}"${s === 1 ? ` stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"` : ""}/>`;
+  };
+  return o.blue
+    ? lay(1, "#5F86F0") + lay(0.6, "#BFD4FF")
+    : lay(1, C.fire) + lay(0.66, C.hot) + lay(0.3, "#5F86F0", 0.9);
+};
+// une bougie : pied en (x, y), largeur w, hauteur h (la mèche dépasse de 24)
+const candleSVG = (x, y, w, h, col = "#FBF1D8") =>
+  `<rect x="${f2(x - w / 2)}" y="${f2(y - h)}" width="${w}" height="${h}" rx="${f2(w * 0.12)}" fill="${col}" class="ink" stroke-width="4"/><ellipse cx="${x}" cy="${f2(y - h + 3)}" rx="${f2(w * 0.36)}" ry="${f2(w * 0.1)}" fill="#fff" opacity="0.8"/><path d="M${x} ${f2(y - h)} v-24" stroke="${C.ink}" stroke-width="5" stroke-linecap="round"/>`;
+// un filet de fumée qui monte en ondulant depuis (x, y) ; k = 0…1 (hauteur), col = couleur
+const smokeSVG = (x, y, t, k = 1, col = "#fff", n = 14, H = 260) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = ((t * 0.45 + i / n) % 1) * k,
+      yy = y - u * H,
+      xx = x + 26 * Math.sin(u * 7 + t * 2 + i) * u;
+    s += `<circle cx="${f2(xx)}" cy="${f2(yy)}" r="${f2(8 + 16 * u)}" fill="${col}" stroke="${C.smoke}" stroke-width="2.5" opacity="${f2((1 - u / (k || 1)) * 0.9)}"/>`;
+  }
+  return s;
+};
+// une bûche couchée, centre (x, y), longueur L, épaisseur e
+const logSVG = (x, y, L, e) =>
+  `<rect x="${f2(x - L / 2)}" y="${f2(y - e / 2)}" width="${f2(L)}" height="${f2(e)}" rx="${f2(e / 2)}" fill="#B9772E" class="ink" stroke-width="4"/><ellipse cx="${f2(x + L / 2 - e * 0.32)}" cy="${f2(y)}" rx="${f2(e * 0.3)}" ry="${f2(e * 0.42)}" fill="#EBC07E" class="ink" stroke-width="3"/><path d="M${f2(x - L * 0.3)} ${f2(y - e * 0.12)} h${f2(L * 0.3)} M${f2(x - L * 0.2)} ${f2(y + e * 0.16)} h${f2(L * 0.24)}" stroke="#8A5A22" stroke-width="3" stroke-linecap="round"/>`;
+// un sapin tout simple, pied en (x, y), hauteur h
+const treeSVG = (x, y, h, col = "#3DBE8B") =>
+  `<rect x="${f2(x - h * 0.05)}" y="${f2(y - h * 0.22)}" width="${f2(h * 0.1)}" height="${f2(h * 0.22)}" fill="#B9772E" class="ink" stroke-width="3"/><path d="M${f2(x)} ${f2(y - h)} L${f2(x + h * 0.3)} ${f2(y - h * 0.2)} H${f2(x - h * 0.3)} Z" fill="${col}" class="ink" stroke-width="4"/>`;
+
+// --- Petites formes de l'épisode « mer salée » ---
+// la mer : trois bandes de vagues entre x0 et x1, surface en y, fond en yb
+const seaSVG = (x0, x1, y, yb, t) => {
+  let s = "";
+  for (let r = 0; r < 3; r++) {
+    const yy = y + r * (yb - y) * 0.28,
+      n = Math.ceil((x1 - x0) / 120);
+    let d = `M${x0} ${f2(yy)}`;
+    for (let i = 0; i < n; i++) d += ` q30 ${f2(-22 * Math.sin(t * 2 + r * 1.3))} 60 0 t60 0`;
+    s += `<path d="${d} V${yb} H${x0} Z" fill="${["#8FD3FF", "#5FB4F0", "#2F7BD3"][r]}" class="ink" stroke-width="4"/>`;
+  }
+  return s;
+};
+// une montagne : sommet en (x, y), base de largeur w en yb
+const mountSVG = (x, y, w, yb, snow = true) =>
+  `<path d="M${f2(x - w / 2)} ${yb} L${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w / 2)} ${yb} Z" fill="#9AA6B8" class="ink" stroke-width="5"/>` +
+  (snow
+    ? `<path d="M${f2(x - w * 0.12)} ${f2(y + (yb - y) * 0.2)} L${x} ${y} L${f2(x + w * 0.16)} ${f2(y + (yb - y) * 0.3)} L${f2(x + w * 0.06)} ${f2(y + (yb - y) * 0.22)} L${x} ${f2(y + (yb - y) * 0.32)} L${f2(x - w * 0.06)} ${f2(y + (yb - y) * 0.2)} Z" fill="#fff" class="ink" stroke-width="4"/>`
+    : "");
+// un nuage : centre (x, y), taille k, plus ou moins gris (g = 0…1)
+const cloudSVG = (x, y, k = 1, g = 0) => {
+  const col = mixHex("#FFFFFF", "#A7AFBA", g);
+  return `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-120 30 a46 46 0 0 1 14 -88 a70 70 0 0 1 128 -22 a56 56 0 0 1 96 46 a40 40 0 0 1 -8 64 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+};
+// un grain de sel : petit cube blanc
+const saltSVG = (x, y, r = 8, rot = 0, op = 1) =>
+  `<rect x="${f2(x - r)}" y="${f2(y - r)}" width="${f2(r * 2)}" height="${f2(r * 2)}" rx="${f2(r * 0.25)}" fill="#fff" stroke="${C.ink}" stroke-width="2.5" opacity="${f2(op)}" transform="rotate(${f2(rot)} ${f2(x)} ${f2(y)})"/>`;
+// la pluie entre x0 et x1, de y0 à y1
+const rainSVG = (x0, x1, y0, y1, t, n = 14, op = 1) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = (t * 1.4 + rnd(i * 3)) % 1,
+      x = x0 + rnd(i) * (x1 - x0) - u * 30,
+      y = lerp(y0, y1, u);
+    s += `<path d="M${f2(x)} ${f2(y)} l-8 26" stroke="${C.blue}" stroke-width="6" stroke-linecap="round" opacity="${f2(op * (1 - u * 0.4))}"/>`;
+  }
+  return s;
+};
+
+// --- Petites formes de l'épisode « odorat » ---
+// une molécule d'odeur : trois petites boules collées
+const molSVG = (x, y, r = 9, col = "#FF8A1F", rot = 0, op = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)})" opacity="${f2(op)}"><circle cx="${f2(-r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="${f2(r * 0.9)}" cy="0" r="${f2(r * 0.8)}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/><circle cx="0" cy="${f2(-r * 0.7)}" r="${r}" fill="${col}" stroke="${C.ink}" stroke-width="2.5"/></g>`;
+// un point le long d'une ligne brisée P (u de 0 à 1)
+const along = (P, u) => {
+  const f = clamp(u) * (P.length - 1),
+    i = Math.min(P.length - 2, Math.floor(f)),
+    k = f - i;
+  return [lerp(P[i][0], P[i + 1][0], k), lerp(P[i][1], P[i + 1][1], k)];
+};
+// une tête de profil (regarde à gauche) coupée pour montrer l'intérieur du nez ; centre (x, y), échelle k ; blocked = nez bouché 0…1
+const headCutSVG = (x, y, k = 1, blocked = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-40 -300 C 160 -320, 300 -180, 290 20 C 284 160, 220 250, 120 300 H-120 C -140 250, -200 250, -230 210 C -250 180, -230 150, -250 130 C -280 110, -250 80, -270 60 C -330 40, -360 0, -300 -20 C -260 -40, -240 -120, -220 -180 C -190 -260, -130 -296, -40 -300 Z" fill="#FFD9B8" class="ink" stroke-width="6"/><path d="M-292 6 C -240 -10, -200 -60, -150 -110 C -100 -150, -20 -150, 20 -100 C 60 -50, 60 40, 40 130 C 20 80, -20 40, -80 30 C -160 20, -230 30, -292 6 Z" fill="#F7B9B0" class="ink" stroke-width="4"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.hot}" stroke-width="18" stroke-linecap="round"/><path d="M-140 -112 C -90 -146, -20 -144, 14 -104" fill="none" stroke="${C.ink}" stroke-width="3" stroke-dasharray="3 9"/><path d="M-60 -150 C -40 -230, 80 -260, 150 -200 C 220 -140, 200 -60, 140 -40 C 90 -24, 40 -60, 20 -110" fill="#F7A8B8" class="ink" stroke-width="4"/><path d="M-60 -136 C -50 -160, -20 -160, -10 -140" fill="none" class="ink" stroke-width="8" stroke-linecap="round"/>` +
+  (blocked > 0
+    ? `<path d="M-250 -4 C -220 -30, -190 -50, -160 -80 C -140 -40, -150 0, -200 14 Z" fill="#B7DB8A" class="ink" stroke-width="4" opacity="${f2(blocked)}"/>`
+    : "") +
+  `</g>`;
+// un chien assis de profil (regarde à droite), pieds en (x, y)
+const dogSVG = (x, y, k = 1, t = 0) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="${C.ink}" stroke-width="30" stroke-linecap="round"/><path d="M-90 -40 Q-150 ${f2(-120 + 30 * Math.sin(t * 9))} -120 -170" fill="none" stroke="#B9772E" stroke-width="20" stroke-linecap="round"/><ellipse cx="-20" cy="-90" rx="100" ry="110" fill="#B9772E" class="ink" stroke-width="5"/><rect x="20" y="-70" width="34" height="74" rx="14" fill="#B9772E" class="ink" stroke-width="5"/><circle cx="60" cy="-220" r="76" fill="#B9772E" class="ink" stroke-width="5"/><path d="M90 -230 H190 Q210 -230 204 -206 L190 -180 H100 Z" fill="#D9A260" class="ink" stroke-width="5"/><circle cx="204" cy="${f2(-222 + 3 * Math.sin(t * 14))}" r="16" fill="${C.ink}"/><circle cx="84" cy="-240" r="9" fill="${C.ink}"/><path d="M20 -280 Q-30 -250 -6 -170 Q30 -190 40 -270 Z" fill="#8A5A22" class="ink" stroke-width="5"/></g>`;
+
+// --- Petites formes de l'épisode « goût » ---
+// une cloche d'alarme : ring = 0…1
+const bellSVG = (x, y, ring, t, k = 1) =>
+  `<g transform="translate(${x} ${y}) scale(${k}) rotate(${f2(16 * ring * Math.sin(t * 22))})"><path d="M-60 40 Q-60 -70 0 -80 Q60 -70 60 40 Z" fill="${C.hot}" class="ink" stroke-width="5"/><rect x="-74" y="34" width="148" height="20" rx="10" fill="${C.hot}" class="ink" stroke-width="5"/><circle cy="66" r="14" fill="${C.ink}"/></g>` +
+  (ring > 0.2
+    ? [-1, 1]
+        .map(
+          (d) =>
+            `<path d="M${x + d * 90 * k} ${y - 50 * k} q${d * 26} 40 0 80" fill="none" stroke="${C.fire}" stroke-width="8" stroke-linecap="round" opacity="${f2(ring)}"/>`,
+        )
+        .join("")
+    : "");
+// une langue vue de dessus, pointe en bas : centre (x, y), échelle k ; bumps = papilles visibles 0…1
+const tongueSVG = (x, y, k = 1, bumps = 1, col = "#F08A9B") => {
+  let s = `<path d="M-150 -260 H150 V60 Q150 260 0 260 Q-150 260 -150 60 Z" fill="${col}" class="ink" stroke-width="${f2(6 / k)}"/><path d="M0 -240 V150" stroke="#D76A7E" stroke-width="${f2(7 / k)}" stroke-linecap="round"/>`;
+  if (bumps > 0)
+    for (let i = 0; i < 46; i++) {
+      const bx = (rnd(i) - 0.5) * 250,
+        by = -230 + rnd(i + 80) * 440;
+      if (Math.abs(bx) < 16 || (by > 60 && Math.hypot(bx / 150, (by - 60) / 200) > 0.85)) continue;
+      s += `<circle cx="${f2(bx)}" cy="${f2(by)}" r="${f2(7 + 4 * rnd(i + 9))}" fill="#F7B5C0" stroke="#D76A7E" stroke-width="2" opacity="${f2(bumps)}"/>`;
+    }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}</g>`;
+};
+// une fraise, centre (x, y)
+const berrySVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-50 -30 Q-60 50 0 80 Q60 50 50 -30 Q0 -60 -50 -30 Z" fill="#E0455E" class="ink" stroke-width="5"/><path d="M-40 -34 L-10 -60 L0 -40 L10 -60 L40 -34 Q0 -14 -40 -34 Z" fill="#3DBE8B" class="ink" stroke-width="4"/><g fill="#FFE14D"><circle cx="-20" cy="0" r="4"/><circle cx="14" cy="-6" r="4"/><circle cx="-4" cy="30" r="4"/><circle cx="24" cy="24" r="4"/></g></g>`;
+
+// --- Petites formes de l'épisode « toucher » ---
+// un cerveau, centre (x, y)
+const brainSVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M-110 20 C -150 -40, -110 -110, -40 -100 C -10 -150, 80 -140, 96 -84 C 150 -70, 160 10, 110 40 C 100 90, 20 100, -10 70 C -60 100, -120 70, -110 20 Z" fill="#F7A8B8" class="ink" stroke-width="5"/><path d="M-40 -100 C -20 -60, -50 -30, -20 0 M96 -84 C 60 -60, 80 -20, 40 0" fill="none" class="ink" stroke-width="4"/></g>`;
+// une main ouverte, doigts vers le haut : poignet en (x, y), échelle k, tournée de rot degrés
+const handSVG = (x, y, k = 1, rot = 0, col = "#FFD9B8") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) rotate(${f2(rot)}) scale(${f2(k)})"><path d="M-60 0 V-140 Q-60 -170 -40 -170 Q-20 -170 -20 -140 V-250 Q-20 -276 0 -276 Q20 -276 20 -250 V-270 Q20 -296 40 -296 Q60 -296 60 -270 V-240 Q60 -264 80 -264 Q100 -264 100 -240 V-120 L130 -170 Q150 -196 168 -180 Q180 -166 168 -140 L110 -30 V0 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/></g>`;
+// un message nerveux : une étincelle qui file le long de la ligne brisée P (u de 0 à 1)
+const sparkSVG = (P, u, col = C.spark, r = 16) => {
+  if (u <= 0 || u >= 1) return "";
+  const [x, y] = along(P, u);
+  return `<circle cx="${f2(x)}" cy="${f2(y)}" r="${r + 8}" fill="${col}" opacity="0.35"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="${col}" class="ink" stroke-width="3"/>`;
+};
+const pathD = (P) => P.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+
+// --- Petites formes de l'épisode « vue » ---
+// un œil vu de face : centre (x, y), rayon r de l'iris, p = taille de la pupille (0…1)
+const frontEyeSVG = (x, y, r, p = 0.45, iris = "#3DBE8B", closed = 0) =>
+  closed > 0.5
+    ? `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 0.8)} ${f2(x + r * 2.2)} ${f2(y)}" fill="none" class="ink" stroke-width="${f2(r * 0.12)}" stroke-linecap="round"/>`
+    : `<path d="M${f2(x - r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y - r * 1.9)} ${f2(x + r * 2.2)} ${f2(y)} Q${f2(x)} ${f2(y + r * 1.9)} ${f2(x - r * 2.2)} ${f2(y)} Z" fill="#fff" class="ink" stroke-width="${f2(r * 0.09)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${iris}" class="ink" stroke-width="${f2(r * 0.07)}"/><circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r * p)}" fill="${C.ink}"/><circle cx="${f2(x - r * 0.35)}" cy="${f2(y - r * 0.4)}" r="${f2(r * 0.16)}" fill="#fff"/>`;
+// un œil en coupe : centre (x, y), rayon r ; la lumière entre par la gauche
+const eyeCutSVG = (x, y, r) =>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" class="ink" stroke-width="6"/><path d="M${f2(x + r * 0.5)} ${f2(y - r * 0.86)} A ${r} ${r} 0 0 1 ${f2(x + r * 0.5)} ${f2(y + r * 0.86)}" fill="none" stroke="#E0455E" stroke-width="16" stroke-linecap="round"/><path d="M${f2(x - r * 0.9)} ${f2(y - r * 0.42)} Q${f2(x - r * 1.3)} ${y} ${f2(x - r * 0.9)} ${f2(y + r * 0.42)}" fill="#CFEFFF" class="ink" stroke-width="5"/><path d="M${f2(x - r * 0.84)} ${f2(y - r * 0.5)} V${f2(y - r * 0.18)} M${f2(x - r * 0.84)} ${f2(y + r * 0.18)} V${f2(y + r * 0.5)}" stroke="#3DBE8B" stroke-width="16" stroke-linecap="round"/><ellipse cx="${f2(x - r * 0.62)}" cy="${y}" rx="${f2(r * 0.14)}" ry="${f2(r * 0.34)}" fill="#DFF3FF" class="ink" stroke-width="5"/>`;
+
+// --- Petites formes de l'épisode « volcans » ---
+// une fontaine de lave qui jaillit de (x, y) ; k = force 0…1
+const lavaSVG = (x, y, t, k = 1, n = 14, spread = 70) => {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const u = (t * 0.7 + i / n) % 1,
+      a = rad(-90 + (rnd(i) - 0.5) * spread),
+      v = (420 + rnd(i + 9) * 200) * k;
+    s += `<circle cx="${f2(x + Math.cos(a) * v * u)}" cy="${f2(y + Math.sin(a) * v * u + 520 * k * u * u)}" r="${f2((16 - 8 * u) * (0.4 + 0.6 * k))}" fill="${i % 2 ? C.fire : "#E0455E"}" class="ink" stroke-width="3" opacity="${f2(Math.min(1, k * 3))}"/>`;
+  }
+  return s;
+};
+// un cône de volcan : base de x0 à x1 en yb, sommet plat de largeur w en y
+const coneSVG = (x0, x1, yb, y, w, col = "#6B5B4E") => {
+  const xm = (x0 + x1) / 2;
+  return `<path d="M${x0} ${yb} L${f2(xm - w / 2)} ${y} H${f2(xm + w / 2)} L${x1} ${yb} Z" fill="${col}" class="ink" stroke-width="6"/>`;
+};
+
+// --- Petites formes de l'épisode « pluie et nuages » ---
+// un éléphant de profil (regarde à gauche), centre (x, y)
+const elephSVG = (x, y, k = 1) =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${k})"><ellipse rx="90" ry="64" fill="#A7AFBA" class="ink" stroke-width="5"/><circle cx="-90" cy="-30" r="50" fill="#A7AFBA" class="ink" stroke-width="5"/><path d="M-130 -20 Q-170 40 -140 80" fill="none" stroke="${C.ink}" stroke-width="26" stroke-linecap="round"/><path d="M-130 -20 Q-170 40 -140 80" fill="none" stroke="#A7AFBA" stroke-width="16" stroke-linecap="round"/><ellipse cx="-70" cy="-40" rx="26" ry="36" fill="#8E96A3" class="ink" stroke-width="4"/><circle cx="-106" cy="-40" r="6" fill="${C.ink}"/><rect x="-60" y="40" width="30" height="50" rx="8" fill="#A7AFBA" class="ink" stroke-width="5"/><rect x="30" y="40" width="30" height="50" rx="8" fill="#A7AFBA" class="ink" stroke-width="5"/></g>`;
+// une gouttelette : petit disque bleu clair
+const dropletSVG = (x, y, r = 6, op = 1) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="#8FD3FF" stroke="${C.blue}" stroke-width="2" opacity="${f2(op)}"/>`;
+// de la vapeur d'eau (invisible) : une bulle en pointillés
+const vaporSVG = (x, y, r = 22, op = 1) =>
+  `<circle cx="${f2(x)}" cy="${f2(y)}" r="${r}" fill="#8FD3FF" fill-opacity="0.18" stroke="${C.blue}" stroke-width="3" stroke-dasharray="7 7" opacity="${f2(op)}"/>`;
+
+// --- Petites formes de l'épisode « cœur » ---
+// le battement : deux coups rapprochés puis une pause ; bpm = battements par minute ; renvoie 0…1
+const beatAt = (t, bpm = 80) => {
+  const ph = ((t * bpm) / 60) % 1;
+  return Math.exp(-ph * 14) + 0.7 * Math.exp(-Math.abs(ph - 0.28) * 22);
+};
+// un cœur de dessin, centre (x, y), échelle k
+const heartSVG = (x, y, k = 1, col = "#E0455E") =>
+  `<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(k)})"><path d="M0 100 C -150 -10, -130 -130, -60 -130 C -20 -130, 0 -100, 0 -80 C 0 -100, 20 -130, 60 -130 C 130 -130, 150 -10, 0 100 Z" fill="${col}" class="ink" stroke-width="${f2(5 / k)}"/><path d="M-70 -90 Q-90 -60 -76 -30" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.7"/></g>`;
+// un globule rouge, centre (x, y) ; cargo = "o2" (colis bleu), "co2" (sac gris) ou rien
+const rbcSVG = (x, y, r = 30, cargo = "", op = 1) =>
+  `<g opacity="${f2(op)}"><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${r}" ry="${f2(r * 0.74)}" fill="#E0455E" class="ink" stroke-width="4"/><ellipse cx="${f2(x)}" cy="${f2(y)}" rx="${f2(r * 0.45)}" ry="${f2(r * 0.3)}" fill="#C2334A"/>` +
+  (cargo === "o2"
+    ? `<rect x="${f2(x - 16)}" y="${f2(y - r * 0.74 - 30)}" width="32" height="28" rx="6" fill="#8FD3FF" class="ink" stroke-width="3"/>`
+    : cargo === "co2"
+      ? `<path d="M${f2(x - 16)} ${f2(y - r * 0.74 - 4)} q-6 -30 16 -30 q22 0 16 30 Z" fill="#A7AFBA" class="ink" stroke-width="3"/>`
+      : "") +
+  `</g>`;
+
+// --- Petites formes de l'épisode « digestion » ---
+// le trajet de la nourriture, en coordonnées du plan (voir tractSVG) : bouche, œsophage, estomac, intestin grêle, gros intestin
+const TRACT = [
+  [0, -300],
+  [0, -150],
+  [60, -90],
+  [90, -30],
+  [-90, 30],
+  [90, 70],
+  [-90, 110],
+  [90, 150],
+  [-90, 190],
+  [-150, 230],
+  [-150, 0],
+  [150, 0],
+  [150, 250],
+  [20, 290],
+];
+// le plan du tube digestif : centre (x, y), échelle k ; stage = étape mise en avant (0 bouche/œsophage, 1 estomac, 2 grêle, 3 gros, -1 tout) ; u = position de la tartine (0…1, ou -1)
+const tractSVG = (x, y, k, stage, u, t) => {
+  const op = (i) => (stage < 0 || stage === i ? 1 : 0.3),
+    seg = (a, b) => pathD(TRACT.slice(a, b + 1));
+  const pipe = (d, w, col, o) =>
+    `<g opacity="${o}"><path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w + 10}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  let s = `<circle cx="0" cy="-340" r="70" fill="#FFD9B8" class="ink" stroke-width="5" opacity="0.9"/><rect x="-210" y="-250" width="420" height="580" rx="120" fill="#fff" class="ink" stroke-width="5" opacity="0.9"/>`;
+  s +=
+    pipe(seg(10, 13), 34, "#D9A260", op(3)) +
+    pipe(seg(3, 9), 22, "#F7B9B0", op(2)) +
+    pipe(seg(0, 1), 22, "#F08A9B", op(0));
+  s += `<g opacity="${op(1)}"><path d="M0 -150 Q110 -150 110 -80 Q110 -20 40 -20 Q-20 -20 -10 -90 Z" fill="#F7A8B8" class="ink" stroke-width="5"/></g>`;
+  if (u >= 0) {
+    const [px, py] = along(TRACT, u);
+    s += `<circle cx="${f2(px)}" cy="${f2(py)}" r="${f2(15 + 3 * Math.sin(t * 8))}" fill="${C.hot}" class="ink" stroke-width="4"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${s}</g>`;
+};
+
+// --- Petites formes de l'épisode « sommeil » ---
+// un lit avec une dormeuse : coin bas-gauche du sommier en (x, y), échelle k
+const bedSVG = (x, y, k, t) =>
+  `<g transform="translate(${x} ${y}) scale(${k})"><rect x="30" y="-134" width="560" height="120" rx="30" fill="${C.blue}" class="ink" stroke-width="6"/><rect x="0" y="-34" width="620" height="34" rx="12" fill="#B9772E" class="ink" stroke-width="5"/><rect x="0" y="-214" width="40" height="210" rx="12" fill="#B9772E" class="ink" stroke-width="5"/><ellipse cx="150" cy="-144" rx="90" ry="40" fill="#fff" class="ink" stroke-width="5"/><circle cx="170" cy="${f2(-178 + 3 * Math.sin(t * 2))}" r="52" fill="#FFD9B8" class="ink" stroke-width="5"/><path d="M148 -174 h16 M182 -174 h16" class="ink" stroke-width="5" stroke-linecap="round"/><path d="M120 -184 Q170 -254 220 -184 Z" fill="${C.ink}"/></g>`;
+// les « z » du sommeil qui s'envolent depuis (x, y)
+const zzzSVG = (x, y, t, col = C.blue) => {
+  let s = "";
+  for (let i = 0; i < 3; i++) {
+    const u = (t * 0.3 + i / 3) % 1;
+    s += txt(x + i * 50 + 30 * u, y - u * 140 - i * 24, "z", 50 + i * 18, {
+      w: 700,
+      fill: col,
+      op: 1 - u,
+    });
+  }
+  return s;
+};
+// la lune en croissant, centre (x, y)
+const moonSVG = (x, y, r = 70, bg = "#FDF2E0") =>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFF6B0" class="ink" stroke-width="5"/><circle cx="${f2(x + r * 0.5)}" cy="${f2(y - r * 0.35)}" r="${f2(r * 0.86)}" fill="${bg}"/>`;
+
+// --- Petites formes de l'épisode « saisons » ---
+// la Terre penchée sur son axe : centre (x, y), rayon r, tilt en degrés (positif = le haut penche à droite), spin = rotation propre
+const tiltEarthSVG = (x, y, r, tilt, spin = 0) =>
+  `<g transform="rotate(${f2(tilt)} ${f2(x)} ${f2(y)})">${earthSVG(x, y, r, spin)}<path d="M${f2(x)} ${f2(y - r * 1.35)} V${f2(y + r * 1.35)}" class="ink" stroke-width="${f2(Math.max(4, r * 0.05))}" stroke-linecap="round" stroke-dasharray="${f2(r * 0.12)} ${f2(r * 0.1)}"/></g>`;
+// l'ombre de la nuit sur la moitié droite d'un disque (le Soleil est à gauche)
+const nightSVG = (x, y, r, op = 0.45) => `<path d="M${f2(x)} ${f2(y - r)} A ${r} ${r} 0 0 1 ${f2(x)} ${f2(y + r)} Z" fill="#1B2445" opacity="${op}"/>`;
+
+      // ===== g.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// ---------- Générique : la boîte à questions ----------
+(() => {
+  const T0 = scn("g").start;
+  const tOpen = lineEnd("g-1") + 0.25; // la boîte s'ouvre juste après la question de Zoé
+  document.getElementById("gi-gear-g").innerHTML = gearSVG(75, 75, 52, 9, 0.2);
+  // grain de pollen : boule à picots
+  let pol = "";
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU;
+    pol += `<path d="M${f2(75 + 40 * Math.cos(a))} ${f2(75 + 40 * Math.sin(a))} L${f2(75 + 62 * Math.cos(a))} ${f2(75 + 62 * Math.sin(a))}" stroke="${C.ink}" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById("gi-pollen-g").innerHTML =
+    pol +
+    `<circle cx="75" cy="75" r="42" fill="${C.hot}" class="ink" stroke-width="5"/><circle cx="62" cy="64" r="8" fill="#fff" opacity="0.8"/>`;
+
+  // La boîte s'agite pendant la question, puis le couvercle saute.
+  tl.fromTo(
+    "#g-box",
+    { opacity: 0, y: 120 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+    T0 + 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { rotation: [0, -4, 4, -3, 3, 0] },
+      duration: 0.9,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    cue("g-1", "comment") - 0.1,
+  );
+  tl.to(
+    "#g-box",
+    {
+      keyframes: { scaleY: [1, 0.86, 1.06, 1], scaleX: [1, 1.08, 0.97, 1] },
+      duration: 0.4,
+      ease: "none",
+      transformOrigin: "50% 100%",
+    },
+    tOpen - 0.3,
+  );
+  tl.to(
+    "#g-lid",
+    {
+      y: -260,
+      x: 240,
+      rotation: 70,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.out",
+      transformOrigin: "100% 100%",
+    },
+    tOpen,
+  );
+
+  // Les objets jaillissent en gerbe (départ : centre de la boîte), le sujet de l'épisode en dernier.
+  const from = { x: 885, y: 560 };
+  // SUBJECT = l'objet de l'épisode (sorti en dernier, puis on plonge dedans).
+  const SUBJECT = CFG_SUBJECT;
+  const ICONS = ["#gi-gear", "#gi-atom", "#gi-drop", "#gi-apple", "#gi-pollen", "#gi-car"];
+  const OTHERS = ICONS.filter((i) => i !== SUBJECT);
+  const SLOTS = [
+    [330, 250, -200],
+    [610, 130, 160],
+    [1160, 130, -120],
+    [1440, 250, 220],
+    [250, 560, 140],
+    [1520, 560, 0],
+  ];
+  const items = OTHERS.concat([SUBJECT]).map((sel, i) => [sel, ...SLOTS[i]]);
+  items.forEach(([sel, x, y, rot], i) => {
+    const t = tOpen + 0.08 + i * 0.11;
+    gsap.set(sel, { x: from.x, y: from.y, opacity: 0, scale: 0.2 });
+    tl.to(sel, { opacity: 1, duration: 0.12 }, t);
+    tl.to(sel, { x, duration: 0.75, ease: "power2.out" }, t);
+    tl.to(sel, { y, duration: 0.75, ease: "back.out(2.2)" }, t);
+    tl.to(sel, { scale: 1, rotation: rot === 0 ? 0 : 360, duration: 0.75, ease: "power2.out" }, t);
+  });
+  // La boîte se retire, le logo se forme.
+  tl.to("#g-box", { y: 420, opacity: 0, duration: 0.45, ease: INN }, tOpen + 0.95);
+  tl.fromTo(
+    "#g-logo",
+    { opacity: 0, scale: 0.5, y: 60 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" },
+    tOpen + 1.15,
+  );
+  tl.fromTo(
+    "#g-tag",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.45, ease: OUT },
+    tOpen + 1.6,
+  );
+
+  // L'objet du jour vient au centre : on plonge dedans pour ouvrir l'épisode.
+  const tDive = scn("g").end - 1.25;
+  tl.to(
+    ["#g-logo", "#g-tag"].concat(OTHERS),
+    { opacity: 0, scale: 0.8, duration: 0.35, ease: INN },
+    tDive,
+  );
+  tl.to(SUBJECT, { x: 885, y: 465, scale: 2.2, duration: 0.6, ease: "power2.inOut" }, tDive);
+  tl.to(SUBJECT, { scale: 16, opacity: 0, duration: 0.6, ease: "power3.in" }, tDive + 0.62);
+  tl.fromTo(
+    "#s0-in",
+    { scale: 0.72, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out", transformOrigin: "960px 600px" },
+    scn("s0").start,
+  );
+})();
+
+      // ===== s0.js =====
+// ---------- Scène 0 : « la Terre s'éloigne du Soleil » ? Non : en janvier elle est au plus près. Le secret : elle est penchée ----------
+(() => {
+  // l'icône du générique devient un flocon pour cet épisode
+  document.getElementById("gi-pollen-g").innerHTML = `<g stroke="${C.blue}" stroke-width="10" stroke-linecap="round" fill="none"><path d="M75 15 V135 M23 45 L127 105 M127 45 L23 105"/><path d="M60 28 L75 42 L90 28 M60 122 L75 108 L90 122"/></g>`;
+  const tE = cue("s0-1", "éloigne") - 0.5, tN = cue("s0-2", "non") - 0.2, tJ = cue("s0-2", "janvier") - 0.4, tP = cue("s0-4", "penchée") - 0.6;
+  onDraw("s0", (t) => {
+    const far = ramp(t, tE, tE + 0.8) * (1 - ramp(t, tJ, tJ + 0.8)), near = ramp(t, tJ, tJ + 0.8), tilt = 23 * ramp(t, tP, tP + 0.6);
+    const ex = 1100 + 380 * far - 240 * near, r = 130;
+    let s = sunSVG(400, 520, 120, t);
+    for (let i = 0; i < 4; i++) { const u = (t * 0.5 + i / 4) % 1; s += `<path d="M${f2(560 + u * 200)} ${460 + i * 40} h50" stroke="${C.hot}" stroke-width="10" stroke-linecap="round" opacity="${f2(Math.sin(u * Math.PI))}"/>`; }
+    s += tiltEarthSVG(ex, 520, r, tilt, t * 30);
+    // l'idée de Zoé : plus loin = plus froid ?
+    if (far > 0.2) s += `<g opacity="${f2(far)}"><g transform="translate(${f2(ex)} 300) rotate(${f2(t * 30)})" stroke="${C.blue}" stroke-width="10" stroke-linecap="round"><path d="M-40 0 H40 M-20 -35 L20 35 M20 -35 L-20 35"/></g>${txt(ex, 740, "plus loin ?", 50, { w: 700, fill: C.blue })}</g>`;
+    const x = ramp(t, tN, tN + 0.2) * (1 - near);
+    if (x > 0) s += `<g opacity="${f2(x)}" transform="translate(${f2(ex)} 520) scale(${f2(1.4 - 0.4 * x)})"><path d="M-150 -150 L150 150 M150 -150 L-150 150" stroke="#E0455E" stroke-width="30" stroke-linecap="round"/></g>`;
+    if (near > 0.5) s += txt(ex, 740, "Janvier : au plus près", 46, { w: 700, fill: "#C25E00", op: ramp(near, 0.5, 1) * (1 - ramp(t, tP - 0.3, tP)) });
+    $("#s0-draw").innerHTML = s;
+  });
+  show("#s0-n1", tJ + 0.8);
+  pop("#s0-n2", tP + 0.4);
+})();
+
+      // ===== s1.js =====
+// ---------- Scène 1 : la Terre, une toupie penchée qui garde la même inclinaison tout autour du Soleil ----------
+(() => {
+  const tI = cue("s1-1", "inclinaison") - 0.8, tT = cue("s1-1", "tour", 1) - 0.6, tH = cue("s1-2", "haut") - 0.4, tB = cue("s1-2", "bas") - 0.4;
+  const CX = 960, CY = 540, RX = 640, RY = 220;
+  onDraw("s1", (t) => {
+    const orb = ramp(t, tT, tT + 0.6), go = t > tT ? (t - tT) * 0.42 : 0, th = Math.PI - go;
+    const ex = CX + RX * Math.cos(th), ey = CY + RY * Math.sin(th), big = 1 - orb;
+    let s = "";
+    // l'orbite
+    if (orb > 0) s += `<ellipse cx="${CX}" cy="${CY}" rx="${RX}" ry="${RY}" fill="none" stroke="${C.ink}" stroke-width="4" stroke-dasharray="10 14" opacity="${f2(orb)}"/>`;
+    const sun = sunSVG(CX, CY, lerp(60, 90, orb), t), r = lerp(190, 80, orb), x = lerp(1100, ex, orb), y = lerp(540, ey, orb);
+    let earth = tiltEarthSVG(x, y, r, 23, t * 60);
+    // la flèche de rotation de la toupie
+    if (big > 0.3) earth += `<g opacity="${f2(big)}" transform="rotate(23 ${x} ${y})"><path d="M${x - 120} ${y - 260} q120 -50 240 0" fill="none" stroke="${C.fire}" stroke-width="10" stroke-linecap="round"/><path d="M${x + 120} ${y - 260} l-34 -6 l14 30 Z" fill="${C.fire}"/></g>`;
+    // devant ou derrière le Soleil, selon la position sur l'orbite
+    s += orb > 0 && Math.sin(th) < 0 ? earth + sun : (orb > 0 ? sun : `<g opacity="0.0">${sun}</g>`) + earth;
+    if (orb === 0) s += sunSVG(420, 540, 110, t);
+    // l'axe pointe toujours du même côté
+    const inc = ramp(t, tI, tI + 0.4);
+    if (inc > 0 && orb > 0.9) for (let k = 0; k < 4; k++) { const a = Math.PI - (k * Math.PI) / 2, gx = CX + RX * Math.cos(a), gy = CY + RY * Math.sin(a); s += `<path d="M${f2(gx - 46)} ${f2(gy + 108)} L${f2(gx + 46)} ${f2(gy - 108)}" stroke="${C.fire}" stroke-width="6" stroke-dasharray="6 10" stroke-linecap="round" opacity="0.6"/>`; }
+    // le haut, puis le bas, penchent vers le Soleil
+    if (t > tH && t < tB + 2) s += txt(CX, 250, t < tB ? "Le haut penche vers le Soleil" : "… puis c’est le bas", 46, { w: 700, fill: "#C25E00" });
+    $("#s1-draw").innerHTML = s;
+  });
+  show("#s1-n1", tI + 0.5);
+})();
+
+      // ===== s2.js =====
+// ---------- Scène 2 : été (rayons droits, journées longues), hiver (rayons de biais, journées courtes) ; la lampe de poche ----------
+(() => {
+  const tInv = cue("s2-2", "inverse") - 0.6, tLa = cue("s2-3", "lampe") - 0.6, tFa = cue("s2-3", "face") - 0.4, tTr = cue("s2-3", "travers") - 0.5;
+  const EX = 760, EY = 540, R = 230;
+  onDraw("s2", (t) => {
+    const win = ramp(t, tInv, tInv + 1.0), lamp = ramp(t, tLa, tLa + 0.5), tilt = lerp(-23, 23, win);
+    let g = "";
+    // les rayons du Soleil, qui arrivent de la gauche
+    for (let i = 0; i < 7; i++) { const y = EY - 210 + i * 70, u = (t * 0.6 + i / 7) % 1; g += `<path d="M150 ${y} H${f2(EX - Math.sqrt(Math.max(0, R * R - (y - EY) ** 2)) - 10)}" stroke="${C.hot}" stroke-width="7" opacity="0.5"/><path d="M${f2(150 + u * 300)} ${y} h50" stroke="${C.fire}" stroke-width="9" stroke-linecap="round"/>`; }
+    g += tiltEarthSVG(EX, EY, R, tilt, t * 20) + nightSVG(EX, EY, R);
+    // notre maison, dans la moitié nord
+    const a = rad(-135 + tilt), hx = EX + R * Math.cos(a), hy = EY + R * Math.sin(a);
+    g += `<g transform="translate(${f2(hx)} ${f2(hy)}) rotate(${f2(-135 + tilt + 90)})"><path d="M-22 0 V-30 L0 -52 L22 -30 V0 Z" fill="#fff" class="ink" stroke-width="4"/><path d="M-30 -26 L0 -56 L30 -26" fill="none" stroke="#E0455E" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+    // l'encart : le Soleil dans notre ciel
+    const hgt = lerp(0.9, 0.28, win), sx = 1500, gy = 700, sy = gy - 330 * hgt, sunX = sx - 190 * (1 - hgt);
+    g += `<rect x="1230" y="250" width="540" height="520" rx="34" fill="#DFF3FF" class="ink" stroke-width="5"/><path d="M1230 ${gy} H1770" class="ink" stroke-width="6"/><path d="M1280 ${gy} A 220 ${f2(330 * hgt)} 0 0 1 1720 ${gy}" fill="none" stroke="${C.fire}" stroke-width="5" stroke-dasharray="8 10"/>${sunSVG(sunX, sy, 44, t)}<path d="M${f2(sunX)} ${f2(sy + 60)} L1500 ${gy - 6}" stroke="${C.hot}" stroke-width="${f2(lerp(16, 40, win))}" stroke-linecap="round" opacity="${f2(lerp(0.95, 0.4, win))}"/><path d="M1478 ${gy} V${gy - 30} L1500 ${gy - 52} L1522 ${gy - 30} V${gy} Z" fill="#fff" class="ink" stroke-width="4"/>${txt(1270, 316, win > 0.5 ? "Hiver" : "Été", 54, { w: 700, fill: win > 0.5 ? C.blue : "#C25E00", anchor: "start" })}`;
+    // la longueur du jour
+    const day = lerp(0.66, 0.34, win);
+    g += `<rect x="1280" y="722" width="440" height="30" rx="15" fill="#1B2445"/><rect x="1280" y="722" width="${f2(440 * day)}" height="30" rx="15" fill="${C.hot}"/>`;
+    let s = `<g opacity="${f2(1 - lamp)}">${g}</g>`;
+    if (lamp > 0) {
+      // deux lampes de poche : bien en face, puis de travers
+      const torch = (x, rot, k) => `<g transform="translate(${x} 330) rotate(${rot}) scale(${f2(k)})"><rect x="-40" y="-170" width="80" height="170" rx="16" fill="#39425C" class="ink" stroke-width="5"/><path d="M-60 0 H60 L44 50 H-44 Z" fill="#9AA6B8" class="ink" stroke-width="5"/></g>`;
+      const k1 = ramp(t, tLa + 0.3, tLa + 0.7), k2 = ramp(t, tTr, tTr + 0.4);
+      let h = `<path d="M130 800 H1790" class="ink" stroke-width="6"/>`;
+      if (k1 > 0) h += `<g opacity="${f2(k1)}"><path d="M506 380 L470 790 H650 L614 380 Z" fill="${C.hot}" opacity="0.5"/><ellipse cx="560" cy="800" rx="100" ry="24" fill="${C.hot}" class="ink" stroke-width="4"/>${torch(560, 0, 1)}</g>` + txt(700, 300, "Bien en face", 44, { w: 700, op: ramp(t, tFa, tFa + 0.3), anchor: "start" });
+      if (k2 > 0) h += `<g opacity="${f2(k2)}"><path d="M1170 400 L1140 790 H1700 L1260 370 Z" fill="${C.hot}" opacity="0.22"/><ellipse cx="1420" cy="800" rx="290" ry="28" fill="#FFF0B8" class="ink" stroke-width="4"/>${torch(1180, -40, 1)}</g>` + txt(1420, 260, "De travers", 44, { w: 700, op: k2, anchor: "start" });
+      s += `<g opacity="${f2(lamp)}">${h}</g>`;
+    }
+    $("#s2-draw").innerHTML = s;
+  });
+  show("#s2-n1", cue("s2-1", "droit") - 0.3);
+  tl.to("#s2-n1", { opacity: 0, duration: 0.3 }, cue("s2-2", "inverse") - 0.3);
+  show("#s2-n2", cue("s2-2", "biais") - 0.3);
+  tl.to("#s2-n2", { opacity: 0, duration: 0.3 }, cue("s2-3", "lampe") - 0.5);
+  pop("#s2-n3", cue("s2-4", "expérience") - 0.6);
+})();
+
+      // ===== s3.js =====
+// ---------- Scène 3 : quand le haut a l'été, le bas a l'hiver ; en Australie, Noël en plein été ----------
+(() => {
+  const tB = cue("s3-1", "bas") - 0.5, tAu = cue("s3-2", "Australie") - 0.8, tSh = cue("s3-3", "short") - 0.6, tSu = cue("s3-4", "surf") - 0.6;
+  onDraw("s3", (t) => {
+    const au = ramp(t, tAu, tAu + 0.6);
+    // la Terre penchée : été en haut, hiver en bas
+    let g = sunSVG(330, 540, 100, t) + tiltEarthSVG(960, 540, 240, -23, t * 20) + nightSVG(960, 540, 240);
+    g += txt(1300, 380, "Été", 70, { w: 700, fill: "#C25E00" }) + arrowSVG(1280, 360, 1120, 400, C.fire, 12, 0.9);
+    const b = ramp(t, tB, tB + 0.4);
+    if (b > 0) g += `<g opacity="${f2(b)}">${txt(1300, 760, "Hiver", 70, { w: 700, fill: C.blue })}${arrowSVG(1280, 740, 1120, 700, C.blue, 12, 0.9)}</g>`;
+    let s = `<g opacity="${f2(1 - au)}">${g}</g>`;
+    if (au > 0) {
+      // la plage australienne à Noël
+      const sh = ramp(t, tSh, tSh + 0.4), su = ramp(t, tSu, tSu + 0.6), bob = 14 * Math.sin(t * 3);
+      let h = sunSVG(1500, 300, 90, t) + `<path d="M130 760 Q700 700 1100 850 H130 Z" fill="#F4E2B0" class="ink" stroke-width="5"/>` + seaSVG(900, 1790, 700, 850, t);
+      const fx = lerp(520, 1300, su), fy = lerp(790, 690 + bob, su);
+      if (su > 0) h += `<path d="M${f2(fx - 170)} ${f2(fy + 10)} Q${f2(fx)} ${f2(fy + 50)} ${f2(fx + 170)} ${f2(fy + 10)} Q${f2(fx)} ${f2(fy - 16)} ${f2(fx - 170)} ${f2(fy + 10)} Z" fill="${C.hot}" class="ink" stroke-width="5"/>`;
+      h += figSVG(fx, fy, 2.2, "#E0455E");
+      if (sh > 0) h += `<g opacity="${f2(sh)}"><path d="M${f2(fx - 62)} ${f2(fy - 340)} L${f2(fx)} ${f2(fy - 460)} L${f2(fx + 62)} ${f2(fy - 340)} Z" fill="#E0455E" class="ink" stroke-width="5"/><rect x="${f2(fx - 74)}" y="${f2(fy - 350)}" width="148" height="30" rx="14" fill="#fff" class="ink" stroke-width="4"/><circle cx="${f2(fx)}" cy="${f2(fy - 466)}" r="18" fill="#fff" class="ink" stroke-width="4"/><rect x="${f2(fx - 50)}" y="${f2(fy - 314)}" width="44" height="28" rx="10" fill="${C.ink}"/><rect x="${f2(fx + 6)}" y="${f2(fy - 314)}" width="44" height="28" rx="10" fill="${C.ink}"/><path d="M${f2(fx - 40)} ${f2(fy - 270)} Q${f2(fx)} ${f2(fy - 200)} ${f2(fx + 40)} ${f2(fy - 270)} Z" fill="#fff" class="ink" stroke-width="4"/></g>`;
+      h += txt(520, 330, "25 décembre", 60, { w: 700, fill: "#C25E00" });
+      s += `<g opacity="${f2(au)}">${h}</g>`;
+    }
+    $("#s3-draw").innerHTML = s;
+  });
+  pop("#s3-n1", tAu + 0.8);
+})();
+
+      // ===== s4.js =====
+// ---------- Scène 4 : l'équateur (chaud toute l'année) et les pôles (six mois de jour, six mois de nuit) ----------
+(() => {
+  const tCh = cue("s4-2", "chaud") - 0.5, tPo = cue("s4-2", "pôles") - 0.6, tJo = cue("s4-2", "jour") - 1.0, tNu = cue("s4-2", "nuit") - 1.0, tTr = cue("s4-4", "trente") - 0.5;
+  onDraw("s4", (t) => {
+    const po = ramp(t, tPo, tPo + 0.6);
+    let g = sunSVG(300, 540, 100, t) + tiltEarthSVG(900, 540, 250, -23, t * 20) + nightSVG(900, 540, 250);
+    const ch = ramp(t, tCh, tCh + 0.4);
+    g += `<g transform="rotate(-23 900 540)"><ellipse cx="900" cy="540" rx="250" ry="34" fill="${C.fire}" opacity="${f2(0.55 * (0.3 + 0.7 * ch))}"/></g>` + (ch > 0 ? txt(1360, 560, "L’équateur", 54, { w: 700, fill: "#C25E00", op: ch }) + arrowSVG(1340, 540, 1170, 480, C.fire, 12, ch) : "");
+    let s = `<g opacity="${f2(1 - po)}">${g}</g>`;
+    if (po > 0) {
+      // au pôle : le Soleil tourne au ras de l'horizon sans se coucher… puis la longue nuit
+      const night = ramp(t, tNu, tNu + 1.0), a = t * 0.9;
+      let h = `<rect x="130" y="190" width="1660" height="660" rx="34" fill="${mixHex("#BFE4FF", "#1B2445", night)}" class="ink" stroke-width="5"/><clipPath id="s4-c"><rect x="136" y="196" width="1648" height="648" rx="30"/></clipPath><g clip-path="url(#s4-c)">`;
+      if (night < 1) h += `<g opacity="${f2(1 - night)}">${sunSVG(960 + 620 * Math.cos(a), 560 + 70 * Math.sin(a) + 300 * night, 70, t)}</g>`;
+      if (night > 0) for (let i = 0; i < 40; i++) h += `<circle cx="${f2(160 + rnd(i) * 1600)}" cy="${f2(210 + rnd(i + 50) * 360)}" r="${f2(2 + 2.5 * rnd(i + 9))}" fill="#fff" opacity="${f2(night * (0.4 + 0.5 * Math.abs(Math.sin(t * 2 + i))))}"/>`;
+      h += `<path d="M130 640 Q500 600 900 650 T1790 630 V860 H130 Z" fill="#fff" class="ink" stroke-width="5"/><path d="M700 650 Q700 520 830 520 Q960 520 960 650 Z" fill="#EAF6FF" class="ink" stroke-width="6"/><path d="M800 650 V600 Q800 580 830 580 Q860 580 860 600 V650 Z" fill="${C.ink}"/></g>`;
+      h += txt(960, 300, night > 0.5 ? "Six mois de nuit" : "Six mois de jour", 70, { w: 700, fill: night > 0.5 ? "#fff" : "#C25E00", op: ramp(t, tJo, tJo + 0.4) });
+      const tr = ramp(t, tTr, tTr + 0.3);
+      if (tr > 0) h += `<g transform="translate(1440 720) rotate(-6) scale(${f2(tr * (1 + 0.04 * Math.sin(t * 6)))})">${txt(0, 0, "− 30 °C", 110, { w: 700, fill: C.blue })}</g>`;
+      s += `<g opacity="${f2(po)}">${h}</g>`;
+    }
+    $("#s4-draw").innerHTML = s;
+  });
+  show("#s4-n1", tCh + 0.5);
+  show("#s4-n2", tNu + 0.4);
+})();
+
+      // ===== s5.js =====
+// ---------- Scène 5 : quatre saisons pour un seul tour ; au printemps et à l'automne, jour et nuit s'équilibrent ----------
+(() => {
+  const S = scn("s5");
+  const tPa = cue("s5-2", "pareil") - 1.4, t4 = cue("s5-3", "Quatre") - 0.3;
+  const CX = 960, CY = 520, RX = 640, RY = 220, NAMES = ["Été", "Automne", "Hiver", "Printemps"];
+  onDraw("s5", (t) => {
+    const go = (t - S.start) * 0.5, th = Math.PI - go, ex = CX + RX * Math.cos(th), ey = CY + RY * Math.sin(th);
+    let s = `<ellipse cx="${CX}" cy="${CY}" rx="${RX}" ry="${RY}" fill="none" stroke="${C.ink}" stroke-width="4" stroke-dasharray="10 14"/>`;
+    // les quatre positions et leurs noms (pour notre moitié de la Terre)
+    for (let k = 0; k < 4; k++) { const a = Math.PI - (k * Math.PI) / 2, gx = CX + RX * Math.cos(a), gy = CY + RY * Math.sin(a), near = Math.cos(th - a) > 0.75, on = k % 2 === 1 || t > t4 - 2; s += `<circle cx="${f2(gx)}" cy="${f2(gy)}" r="14" fill="${near ? C.fire : "#fff"}" class="ink" stroke-width="4"/>` + txt(gx + [-130, 0, 130, 0][k], gy + [10, -50, 10, -100][k], NAMES[k], near ? 54 : 44, { w: 700, fill: near ? "#C25E00" : C.ink, op: on ? 1 : 0.5 }); }
+    const sun = sunSVG(CX, CY, 84, t), earth = tiltEarthSVG(ex, ey, 74, 23, t * 60);
+    s += Math.sin(th) < 0 ? earth + sun : sun + earth;
+    // le jour et la nuit à égalité
+    const p = ramp(t, tPa, tPa + 0.4);
+    if (p > 0) s += `<g opacity="${f2(p)}"><rect x="700" y="800" width="520" height="34" rx="17" fill="#1B2445"/><rect x="700" y="800" width="260" height="34" rx="17" fill="${C.hot}"/>${txt(830, 790, "jour", 30, { w: 700 })}${txt(1090, 790, "nuit", 30, { w: 700 })}</g>`;
+    $("#s5-draw").innerHTML = s;
+  });
+  show("#s5-n1", tPa + 0.5);
+})();
+
+      // ===== s6.js =====
+// ---------- Scène 6 : le résumé, puis la Lune et ses formes : annonce du prochain épisode ----------
+(() => {
+  const S = scn("s6");
+  const tSp = cue("s6-3", "Lune") - 0.8;
+  onDraw("s6", (t) => {
+    if (t < tSp - 0.3) return;
+    // la Lune qui passe par ses formes, sur un fond de nuit
+    let s = `<rect x="200" y="330" width="760" height="460" rx="34" fill="#1B2445" class="ink" stroke-width="5"/>`;
+    for (let i = 0; i < 16; i++) s += `<circle cx="${f2(230 + rnd(i) * 700)}" cy="${f2(350 + rnd(i + 30) * 420)}" r="3" fill="#fff" opacity="${f2(0.4 + 0.5 * Math.abs(Math.sin(t * 2 + i)))}"/>`;
+    const ph = ((t - tSp) * 0.25) % 1, k = Math.cos(ph * TAU);
+    s += `<circle cx="580" cy="560" r="150" fill="#39425C"/><path d="M580 410 A 150 150 0 0 1 580 710 A ${f2(Math.abs(k) * 150)} 150 0 0 ${k > 0 ? 0 : 1} 580 410 Z" fill="#FFF6B0"/><circle cx="580" cy="560" r="150" fill="none" class="ink" stroke-width="5"/>`;
+    $("#s6-draw").innerHTML = s;
+  });
+  show("#s6-k1", cue("s6-1", "penchée") - 0.8, { y: 50 });
+  show("#s6-k2", cue("s6-1", "été") - 1.6, { y: 50 });
+  show("#s6-k3", cue("s6-1", "hiver") - 1.6, { y: 50 });
+  tl.to("#s6-cards", { y: -160, opacity: 0, duration: 0.4, ease: INN }, tSp - 0.3);
+  tl.fromTo("#s6-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tSp);
+  tl.fromTo("#s6-atch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: OUT }, cue("s6-3", "Lune") - 0.2);
+  pop("#s6-next", cue("s6-4", "prochaine") - 0.3);
+  const tEnd = S.end - 3.2;
+  tl.to("#s6-main", { y: -200, opacity: 0, duration: 0.45, ease: INN }, tEnd);
+  tl.fromTo("#s6-end", { opacity: 0, scale: 0.5, y: 80 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, tEnd + 0.4);
+  show("#s6-bye", tEnd + 0.9);
+})();
+
+      // ===== main.js =====
+// Coutures entre scènes (le générique → première scène est un zoom, géré dans g.js).
+{
+  const ids = Object.keys(SCHED.scenes);
+  for (let i = 2; i < ids.length; i++) seam(ids[i - 1], ids[i]);
+}
+
+// Un seul « tic » sur toute la durée : redessine les animations à chaque image.
+const tick = { v: 0 };
+tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: drawAll }, 0);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+drawAll();
+    </script>
+  </body>
+</html>

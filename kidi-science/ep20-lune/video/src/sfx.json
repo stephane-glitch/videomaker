@@ -1,0 +1,87 @@
+[
+  {
+    "file": "fond",
+    "at": 8.2,
+    "loop": 41.74,
+    "volume": 0.16
+  },
+  {
+    "file": "pop",
+    "at": ["g-1", "marche"],
+    "offset": 0.95,
+    "volume": 0.4
+  },
+  {
+    "file": "jingle",
+    "at": ["g-1", "marche"],
+    "offset": 1.95,
+    "volume": 0.45
+  },
+  {
+    "file": "whoosh",
+    "at": ["@g", "end"],
+    "offset": -0.75,
+    "volume": 0.4
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s1", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s2", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s3", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s4", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s5", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "whoosh",
+    "at": ["@s6", "start"],
+    "offset": -0.25,
+    "volume": 0.25
+  },
+  {
+    "file": "zap",
+    "at": ["s0-4", "non"],
+    "offset": -0.1,
+    "volume": 0.2
+  },
+  {
+    "file": "chime",
+    "at": ["s2-2", "pleine"],
+    "offset": -0.2,
+    "volume": 0.3
+  },
+  {
+    "file": "pop",
+    "at": ["s3-2", "menteuse"],
+    "offset": -0.2,
+    "volume": 0.35
+  },
+  {
+    "file": "jingle",
+    "at": ["@s6", "end"],
+    "offset": -2.9,
+    "volume": 0.45,
+    "dur": 2.85
+  }
+]
