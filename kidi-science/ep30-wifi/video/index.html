@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche le Wi-Fi ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #173a7c;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        background: #173a7c;
+      }
+      #cv,
+      #lab,
+      .fx {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        display: block;
+      }
+      #grain {
+        left: -60px;
+        top: -60px;
+        width: 2040px;
+        height: 1200px;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+      }
+      #grain img {
+        display: block;
+      }
+      #dip {
+        background: #0d2253;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="127.5" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <filter id="grainF" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="21" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.14  0 0 0 0 0.25  0 0 0 2.4 -1.1" />
+          </filter>
+        </defs>
+      </svg>
+      <canvas id="cv" width="1920" height="1080"></canvas>
+      <svg id="lab" viewBox="0 0 1920 1080" width="1920" height="1080"></svg>
+      <div class="fx" id="grain"><img src="assets/pieces/grain.png" width="2040" height="1200" alt="" /></div>
+      <div class="fx" id="dip"></div>
+      <audio id="vo-g-1" src="assets/vo/g-1.mp3" data-start="0.7" data-duration="1.86" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-1" src="assets/vo/s0-1.mp3" data-start="7.8" data-duration="3.61" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-2" src="assets/vo/s0-2.mp3" data-start="11.68" data-duration="3.14" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s0-3" src="assets/vo/s0-3.mp3" data-start="15.34" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s0-4" src="assets/vo/s0-4.mp3" data-start="18.43" data-duration="6.7" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-1" src="assets/vo/s1-1.mp3" data-start="27.5" data-duration="4.08" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s1-2" src="assets/vo/s1-2.mp3" data-start="31.85" data-duration="2.33" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s1-3" src="assets/vo/s1-3.mp3" data-start="34.6" data-duration="4.19" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-1" src="assets/vo/s2-1.mp3" data-start="41" data-duration="1.7" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s2-2" src="assets/vo/s2-2.mp3" data-start="43.22" data-duration="5.39" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s2-3" src="assets/vo/s2-3.mp3" data-start="49.23" data-duration="3.46" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-1" src="assets/vo/s3-1.mp3" data-start="55.1" data-duration="2.41" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s3-2" src="assets/vo/s3-2.mp3" data-start="58.03" data-duration="8.18" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-3" src="assets/vo/s3-3.mp3" data-start="66.83" data-duration="4.97" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s3-4" src="assets/vo/s3-4.mp3" data-start="72.32" data-duration="1.39" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-1" src="assets/vo/s4-1.mp3" data-start="75.9" data-duration="2.33" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s4-2" src="assets/vo/s4-2.mp3" data-start="78.75" data-duration="5.57" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s4-3" src="assets/vo/s4-3.mp3" data-start="85.24" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-1" src="assets/vo/s5-1.mp3" data-start="90.1" data-duration="5.65" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-2" src="assets/vo/s5-2.mp3" data-start="96.02" data-duration="0.97" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s5-3" src="assets/vo/s5-3.mp3" data-start="97.51" data-duration="4.79" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s5-4" src="assets/vo/s5-4.mp3" data-start="102.82" data-duration="2.67" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-1" src="assets/vo/s6-1.mp3" data-start="107.5" data-duration="4.6" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-2" src="assets/vo/s6-2.mp3" data-start="112.92" data-duration="3.07" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-s6-3" src="assets/vo/s6-3.mp3" data-start="116.51" data-duration="2.09" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-s6-4" src="assets/vo/s6-4.mp3" data-start="119.32" data-duration="3.61" data-track-index="3" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="5.4" data-duration="44.75" data-track-index="5" data-volume="0.15"></audio>
+      <audio id="fx-1-fond" src="assets/sfx/fond.mp3" data-start="47.14" data-duration="44.75" data-track-index="6" data-volume="0.15"></audio>
+      <audio id="fx-2-fond" src="assets/sfx/fond.mp3" data-start="88.88" data-duration="38.6" data-track-index="7" data-volume="0.15"></audio>
+      <audio id="fx-3-pop" src="assets/sfx/pop.mp3" data-start="0.45" data-duration="0.61" data-track-index="5" data-volume="0.4"></audio>
+      <audio id="fx-4-jingle" src="assets/sfx/jingle.mp3" data-start="3.23" data-duration="3.51" data-track-index="6" data-volume="0.45"></audio>
+      <audio id="fx-5-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.2" data-duration="1.39" data-track-index="7" data-volume="0.25"></audio>
+      <audio id="fx-6-whoosh" src="assets/sfx/whoosh.mp3" data-start="25.9" data-duration="1.39" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-7-whoosh" src="assets/sfx/whoosh.mp3" data-start="39.6" data-duration="1.39" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-8-whoosh" src="assets/sfx/whoosh.mp3" data-start="53.7" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-9-whoosh" src="assets/sfx/whoosh.mp3" data-start="74.3" data-duration="1.39" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-10-whoosh" src="assets/sfx/whoosh.mp3" data-start="88.7" data-duration="1.39" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-11-whoosh" src="assets/sfx/whoosh.mp3" data-start="106.1" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-12-jingle" src="assets/sfx/jingle.mp3" data-start="124.6" data-duration="2.83" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="fx-13-whoosh" src="assets/sfx/whoosh.mp3" data-start="14.05" data-duration="1.39" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-14-pop" src="assets/sfx/pop.mp3" data-start="20.65" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-15-chime" src="assets/sfx/chime.mp3" data-start="23.49" data-duration="1.21" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-16-tic" src="assets/sfx/tic.mp3" data-start="30.23" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-17-whoosh" src="assets/sfx/whoosh.mp3" data-start="36.21" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-18-pop" src="assets/sfx/pop.mp3" data-start="44.25" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-19-chime" src="assets/sfx/chime.mp3" data-start="46.47" data-duration="1.21" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-20-whoosh" src="assets/sfx/whoosh.mp3" data-start="51.28" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-21-tic" src="assets/sfx/tic.mp3" data-start="59.81" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-22-pop" src="assets/sfx/pop.mp3" data-start="65.06" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-23-whoosh" src="assets/sfx/whoosh.mp3" data-start="69.83" data-duration="1.39" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-24-chime" src="assets/sfx/chime.mp3" data-start="71.52" data-duration="1.21" data-track-index="5" data-volume="0.22"></audio>
+      <audio id="fx-25-tic" src="assets/sfx/tic.mp3" data-start="82.48" data-duration="0.19" data-track-index="6" data-volume="0.2"></audio>
+      <audio id="fx-26-chime" src="assets/sfx/chime.mp3" data-start="86.98" data-duration="1.21" data-track-index="7" data-volume="0.22"></audio>
+      <audio id="fx-27-pop" src="assets/sfx/pop.mp3" data-start="91.98" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-28-chime" src="assets/sfx/chime.mp3" data-start="100.92" data-duration="1.21" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-29-pop" src="assets/sfx/pop.mp3" data-start="103.23" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-30-tic" src="assets/sfx/tic.mp3" data-start="108.97" data-duration="0.19" data-track-index="5" data-volume="0.2"></audio>
+      <audio id="fx-31-whoosh" src="assets/sfx/whoosh.mp3" data-start="111.32" data-duration="1.39" data-track-index="6" data-volume="0.22"></audio>
+      <audio id="fx-32-pop" src="assets/sfx/pop.mp3" data-start="116.96" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-33-pop" src="assets/sfx/pop.mp3" data-start="123.45" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+    </div>
+    <script>
+      const SCHED = {"total":127.5,"scenes":{"g":{"start":0,"end":6.4},"s0":{"start":6.4,"end":26.1},"s1":{"start":26.1,"end":39.8},"s2":{"start":39.8,"end":53.9},"s3":{"start":53.9,"end":74.5},"s4":{"start":74.5,"end":88.9},"s5":{"start":88.9,"end":106.3},"s6":{"start":106.3,"end":127.5}},"parts":{"g":{"start":0,"end":2.58},"s0":{"start":6.4,"end":25.15},"s1":{"start":26.1,"end":38.81},"s2":{"start":39.8,"end":52.71},"s3":{"start":53.9,"end":73.73},"s4":{"start":74.5,"end":87.93},"s5":{"start":88.9,"end":105.51},"s6":{"start":106.3,"end":122.95}},"lines":{"g-1":{"start":0.7,"end":2.58,"who":"zoe","words":[["Dis…",1.01,1.1],["comment",1.19,1.82],["ça",1.87,1.98],["marche",2.03,2.38],["?",2.46,2.54]]},"s0-1":{"start":7.8,"end":11.43,"who":"zoe","words":[["Dis,",8.11,8.13],["Max…",8.23,8.61],["le",8.66,8.77],["Wi-Fi,",8.82,9.21],["il",9.22,9.25],["passe",9.29,9.49],["par",9.53,9.65],["où",9.7,9.81],["?",9.85,9.89],["Je",10.05,10.37],["ne",10.4,10.45],["vois",10.48,10.61],["aucun",10.65,10.85],["fil",10.95,11.25],["!",11.33,11.41]]},"s0-2":{"start":11.68,"end":14.84,"who":"max","words":[["Normal",11.96,12.11],[":",12.32,12.54],["il",12.57,12.63],["voyage",12.69,13.06],["dans",13.08,13.15],["l'air,",13.19,13.67],["sur",13.71,13.84],["des",13.89,14.02],["ondes",14.05,14.19],["invisibles.",14.25,14.89]]},"s0-3":{"start":15.34,"end":18.03,"who":"zoe","words":[["Des",15.96,16],["ondes",16.08,16.72],["?",16.76,16.8],["Comme",16.82,16.96],["les",16.98,17.04],["vagues",17.12,17.44],["?",17.72,18]]},"s0-4":{"start":18.43,"end":25.15,"who":"max","words":[["Presque",18.75,19.03],["!",19.29,19.55],["Lance",19.59,19.81],["un",19.84,19.9],["caillou",19.95,20.24],["dans",20.26,20.33],["une",20.37,20.5],["mare",20.57,20.85],[":",21.03,21.2],["des",21.24,21.37],["ronds",21.42,21.64],["s'écartent",21.68,22.07],["tout",22.12,22.33],["autour.",22.38,22.77],["Les",22.85,23.11],["ondes",23.17,23.37],["du",23.4,23.46],["Wi-Fi",23.49,23.81],["font",23.84,23.98],["pareil,",24.04,24.51],["mais",24.54,24.68],["dans",24.71,24.85],["l'air.",24.87,25.2]]},"s1-1":{"start":27.5,"end":31.6,"who":"max","words":[["Tout",27.71,27.74],["part",27.81,28.09],["de",28.12,28.18],["la",28.21,28.26],["box.",28.37,29.09],["Internet",29.13,29.48],["y",29.53,29.57],["arrive",29.62,29.92],["par",29.94,30],["un",30.06,30.18],["câble,",30.23,30.79],["caché",30.82,31.05],["dans",31.08,31.22],["le",31.25,31.31],["mur.",31.37,31.66]]},"s1-2":{"start":31.85,"end":34.2,"who":"zoe","words":[["Et",32.32,32.33],["la",32.38,32.49],["box",32.57,32.81],["le",32.84,32.89],["transforme",32.95,33.53],["en",33.56,33.61],["ondes",33.72,34.01],["?",34.09,34.17]]},"s1-3":{"start":34.6,"end":38.81,"who":"max","words":[["Exactement",35.03,35.37],["!",35.58,35.8],["Avec",35.83,35.97],["ses",36.02,36.15],["antennes,",36.21,36.84],["elle",36.88,37.02],["les",37.04,37.1],["envoie",37.19,37.45],["dans",37.5,37.71],["toutes",37.74,37.89],["les",37.91,37.97],["directions.",38.02,38.84]]},"s2-1":{"start":41,"end":42.72,"who":"zoe","words":[["Mais",41.32,41.33],["pourquoi",41.37,41.73],["je",41.78,41.89],["ne",41.92,41.97],["les",41.99,42.05],["vois",42.11,42.37],["pas",42.41,42.53],["?",42.61,42.69]]},"s2-2":{"start":43.22,"end":48.63,"who":"max","words":[["Parce",43.41,43.56],["que",43.58,43.65],["ce",43.7,43.82],["sont",43.85,43.99],["des",44.04,44.17],["ondes",44.25,44.51],["radio.",44.59,45.04],["Des",45.19,45.64],["cousines",45.71,46.17],["de",46.2,46.25],["la",46.31,46.43],["lumière,",46.47,46.95],["que",47.04,47.3],["nos",47.36,47.56],["yeux",47.59,47.73],["ne",47.76,47.82],["savent",47.86,48.08],["pas",48.12,48.25],["voir.",48.32,48.69]]},"s2-3":{"start":49.23,"end":52.71,"who":"zoe","words":[["Dommage…",49.48,50.44],["la",50.49,50.6],["maison",50.63,50.84],["serait",50.9,51.24],["pleine",51.28,51.48],["de",51.53,51.64],["ronds",51.68,51.88],["!",52.28,52.68]]},"s3-1":{"start":55.1,"end":57.53,"who":"zoe","words":[["Et",55.3,55.3],["mon",55.34,55.46],["dessin",55.51,55.82],["animé,",55.85,56.1],["il",56.13,56.18],["est",56.2,56.26],["où,",56.32,56.46],["là-dedans",56.48,56.82],["?",57.18,57.54]]},"s3-2":{"start":58.03,"end":66.23,"who":"max","words":[["Il",58.16,58.19],["est",58.24,58.37],["découpé",58.43,58.89],["en",58.98,59.15],["tout",59.19,59.32],["petits",59.39,59.76],["signaux.",59.81,60.19],["La",60.43,60.89],["box",61,61.32],["fait",61.36,61.5],["vibrer",61.57,61.93],["l'onde,",61.98,62.54],["un",62.57,62.63],["coup",62.68,62.89],["fort,",62.99,63.5],["un",63.56,63.67],["coup",63.71,63.85],["faible",63.9,64.19],[":",64.45,64.72],["c'est",64.76,64.89],["un",64.92,64.98],["code.",65.06,66.28]]},"s3-3":{"start":66.83,"end":71.82,"who":"max","words":[["Ta",67.06,67.07],["tablette",67.12,67.6],["lit",67.68,67.94],["ce",67.97,68.03],["code",68.1,68.38],["et",68.41,68.46],["reconstruit",68.52,68.99],["l'image.",69.03,69.51],["Des",69.57,69.77],["millions",69.83,70.29],["de",70.32,70.38],["signaux,",70.43,70.9],["chaque",70.94,71.16],["seconde",71.22,71.68],["!",71.77,71.86]]},"s3-4":{"start":72.32,"end":73.73,"who":"zoe","words":[["Elle",72.51,72.52],["lit",72.56,72.68],["plus",72.73,72.92],["vite",72.97,73.16],["que",73.2,73.32],["moi…",73.38,73.72]]},"s4-1":{"start":75.9,"end":78.25,"who":"zoe","words":[["Et",76.07,76.07],["pourquoi",76.1,76.31],["ça",76.36,76.47],["marche",76.51,76.79],["mal,",76.85,77.19],["au",77.24,77.35],["fond",77.38,77.51],["du",77.56,77.67],["jardin",77.73,78.07],["?",78.15,78.23]]},"s4-2":{"start":78.75,"end":84.34,"who":"max","words":[["Plus",78.93,79],["on",79.06,79.18],["s'éloigne,",79.22,80.22],["plus",80.25,80.39],["les",80.41,80.48],["ondes",80.57,80.83],["s'affaiblissent.",80.83,81.96],["Et",81.99,82.05],["chaque",82.1,82.39],["mur",82.48,82.74],["en",82.77,82.83],["arrête",82.87,83.18],["un",83.21,83.26],["petit",83.29,83.44],["peu.",83.48,84.39]]},"s4-3":{"start":85.24,"end":87.93,"who":"zoe","words":[["Donc,",85.48,85.73],["près",85.78,85.97],["de",86,86.05],["la",86.08,86.13],["box,",86.23,86.61],["c'est",86.65,86.77],["le",86.82,86.93],["meilleur",86.98,87.41],["endroit",87.45,87.73],["!",87.81,87.89]]},"s5-1":{"start":90.1,"end":95.77,"who":"max","words":[["Autre",90.32,90.42],["chose",90.48,90.77],[":",91.03,91.29],["ta",91.35,91.47],["tablette",91.52,91.9],["répond",91.98,92.42],["!",92.69,92.95],["Elle",92.98,93.12],["envoie",93.18,93.47],["ses",93.56,93.82],["propres",93.87,94.34],["ondes",94.4,94.69],["vers",94.72,94.86],["la",94.89,94.95],["box.",95.06,95.82]]},"s5-2":{"start":96.02,"end":97.01,"who":"zoe","words":[["Elles",96.18,96.19],["se",96.24,96.35],["parlent,",96.38,96.71],["alors",96.73,96.83],["?",96.91,96.99]]},"s5-3":{"start":97.51,"end":102.32,"who":"max","words":[["Sans",97.88,97.98],["arrêt",98.05,98.33],["!",98.59,98.85],["Et",98.88,98.94],["pour",98.97,99.11],["que",99.13,99.2],["les",99.24,99.37],["voisins",99.41,99.63],["n'écoutent",99.68,100.07],["pas,",100.09,100.5],["tout",100.54,100.68],["est",100.72,100.85],["protégé",100.92,101.37],["par",101.42,101.55],["un",101.58,101.63],["mot",101.66,101.72],["de",101.78,101.89],["passe.",101.94,102.33]]},"s5-4":{"start":102.82,"end":105.51,"who":"zoe","words":[["C'est",103.01,103.02],["la",103.07,103.18],["clé",103.23,103.42],["de",103.45,103.5],["la",103.53,103.58],["maison…",103.64,104.06],["mais",104.17,104.62],["pour",104.65,104.78],["les",104.82,104.94],["ondes",105.02,105.34],["!",105.42,105.5]]},"s6-1":{"start":107.5,"end":112.12,"who":"max","words":[["Tu",107.63,107.66],["vois",107.72,107.93],[":",108.36,108.79],["un",108.82,108.88],["câble",108.97,109.32],["jusqu'à",109.36,109.66],["la",109.69,109.75],["box,",109.86,110.71],["puis",110.78,111.06],["des",111.1,111.23],["ondes",111.32,111.58],["jusqu'à",111.62,112.01],["toi.",112.06,112.19]]},"s6-2":{"start":112.92,"end":116.01,"who":"zoe","words":[["Dis,",114.06,114.12],["Max…",114.22,114.68],["je",114.73,114.84],["peux",114.87,115],["avoir",115.04,115.24],["le",115.27,115.32],["mot",115.36,115.48],["de",115.51,115.56],["passe",115.61,115.88],["?",115.92,115.96]]},"s6-3":{"start":116.51,"end":118.62,"who":"max","words":[["Quand",116.64,116.73],["tes",116.77,116.9],["devoirs",116.96,117.25],["seront",117.29,117.51],["finis.",117.55,118.64]]},"s6-4":{"start":119.32,"end":122.95,"who":"zoe","words":[["Les",119.64,119.65],["ondes",119.7,119.97],["passent",120,120.21],["les",120.25,120.37],["murs…",120.41,121.57],["mais",121.63,121.89],["pas",121.95,122.13],["les",122.17,122.29],["devoirs.",122.34,122.93]]}}};
+      // ===== hatch.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Moteur « gouache hachurée » : de grandes formes plates sans contour, dont le volume n'est donné que par
+// des milliers de petits traits qui suivent la forme. Les traits sont redessinés une image sur trois.
+const TAU = Math.PI * 2;
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (u) => u * u * (3 - 2 * u);
+const lerp = (a, b, u) => a + (b - a) * u;
+const f1 = (v) => v.toFixed(1);
+const pop = (t, t0, d = 0.36) => {
+  const u = lin(t, t0, t0 + d);
+  return u === 0 ? 0 : 1 - Math.pow(1 - u, 3) + 0.22 * Math.sin(u * Math.PI) * (1 - u);
+};
+// Une seule famille de couleurs, du plus lumineux au presque noir
+const RAMP = ["#eef8ff", "#c3e3fb", "#8fc1ec", "#5a94d6", "#3467b4", "#1c438a", "#0f2758", "#07122e"];
+const ACC = { red: "#e2452f", yellow: "#ffd84a", skin: "#f3c9a0", green: "#5fc26a", cream: "#f4ecd8", orange: "#f08a3c" };
+
+// --- Repères de voix ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+const T = (id) => scn(id).start;
+const SFX_LOG = (window.__SFX = []);
+const sfx = (t, kind = "pop") => SFX_LOG.push([t, kind]);
+
+// --- Formes ---
+const ictx = document.createElement("canvas").getContext("2d");
+const FLOW = {
+  down:
+    (c = 0.6) =>
+    (x, y, u) =>
+      Math.PI / 2 + (u - 0.5) * c,
+  h: () => (x, y) => (rnd(x * 0.013 + y * 0.021) - 0.5) * 0.16,
+  rad: (cx, cy) => (x, y) => Math.atan2(y - cy, x - cx) + Math.PI / 2,
+  ang: (a) => () => a,
+};
+const LIT = {
+  left: (x, y, u, v) => 0.95 - 0.7 * u - 0.3 * v * v,
+  top: (x, y, u, v) => 0.92 - 0.6 * v,
+  flat: (l) => () => l,
+  glow: (cx, cy, R) => (x, y) => 1 - Math.hypot(x - cx, y - cy) / R,
+};
+const bullet = (cx, base, w, h) => `M${cx - w / 2} ${base}V${base - h + w / 2}Q${cx - w / 2} ${base - h} ${cx} ${base - h}Q${cx + w / 2} ${base - h} ${cx + w / 2} ${base - h + w / 2}V${base}Z`;
+const house = (x, y, w, h, rh) => `M${x} ${y + h}V${y}L${x + w / 2} ${y - rh}L${x + w} ${y}V${y + h}Z`;
+const rr = (x, y, w, h, r = 0) => `M${x + r} ${y}H${x + w - r}Q${x + w} ${y} ${x + w} ${y + r}V${y + h - r}Q${x + w} ${y + h} ${x + w - r} ${y + h}H${x + r}Q${x} ${y + h} ${x} ${y + h - r}V${y + r}Q${x} ${y} ${x + r} ${y}Z`;
+let FID = 0;
+// F(chemin, options) : k = profondeur (0 = très loin, 1 = plan du sujet), lo/hi = tons extrêmes dans RAMP
+function F(d, box, o = {}) {
+  const p = new Path2D(d),
+    seed = ++FID * 53.7,
+    [bx, by, bw, bh] = box;
+  const f = { p, k: o.k ?? 1, lo: o.lo ?? 1, hi: o.hi ?? 6, w: o.w || 3.2, len: o.len || 26, ph: o.ph ?? 1, strokes: [] };
+  f.base = o.base ?? Math.round((f.lo + f.hi) / 2);
+  const flow = o.flow || FLOW.down(),
+    lit = o.lit || LIT.left,
+    n = Math.min(o.max || 7000, (bw * bh) / (o.dens || 190));
+  for (let i = 0; i < n; i++) {
+    const x = bx + rnd(seed + i * 2.13) * bw,
+      y = by + rnd(seed + i * 3.71 + 9) * bh;
+    if (!ictx.isPointInPath(p, x, y)) continue;
+    const u = (x - bx) / bw,
+      v = (y - by) / bh;
+    f.strokes.push([x, y, flow(x, y, u, v), clamp(lit(x, y, u, v) + (rnd(seed + i * 7.7) - 0.5) * 0.34), seed + i, f.len * (0.7 + rnd(seed + i * 1.9) * 0.6)]);
+  }
+  return f;
+}
+const R = (x, y, w, h, o) => F(rr(x, y, w, h, o?.r || 0), [x, y, w, h], o);
+
+// --- Dessin ---
+const cv = document.getElementById("cv"),
+  ctx = cv.getContext("2d");
+const setCam = (c, k) => {
+  const z = 1 + (c[2] - 1) * (0.5 + 0.5 * Math.min(k, 1));
+  ctx.setTransform(z, 0, 0, z, 960 - z * (960 + c[0] * k), 540 - z * (540 + c[1] * k));
+};
+// lumière ajoutée par les ondes : anneaux qui s'écartent d'une source
+function waveL(srcs, x, y, tq) {
+  let L = 0;
+  for (const s of srcs) {
+    const d = Math.hypot(x - s.x, y - s.y),
+      front = s.sp * (tq - s.t0);
+    if (d > front || d > s.rmax || front <= 0) continue;
+    const c = Math.cos((TAU * (d - front)) / s.lam);
+    if (c > 0) L += s.amp * c * c * (1 - d / s.rmax) * (s.att ? s.att(x, y) : 1);
+  }
+  return L;
+}
+function drawForms(S, c, tq, s3, srcs) {
+  for (const f of S.forms) {
+    ctx.save();
+    setCam(c, f.k);
+    ctx.clip(f.p);
+    ctx.fillStyle = RAMP[f.base];
+    ctx.fill(f.p);
+    const B = [[], [], [], [], [], [], [], []],
+      ox = c[0] * (1 - f.k),
+      oy = c[1] * (1 - f.k),
+      band = S.band;
+    for (const st of f.strokes) {
+      let L = st[3];
+      if (f.ph) {
+        if (srcs.length) L += f.ph * waveL(srcs, st[0] + ox, st[1] + oy, tq);
+        if (band) L += band(st[0] + ox, st[1] + oy, tq);
+      }
+      B[clamp(Math.round(f.lo + (1 - L) * (f.hi - f.lo)), 0, 7)].push(st);
+    }
+    ctx.lineCap = "round";
+    ctx.lineWidth = f.w;
+    for (let i = 0; i < 8; i++) {
+      if (!B[i].length) continue;
+      ctx.beginPath();
+      for (const st of B[i]) {
+        const a = st[2] + (rnd(st[4] + s3 * 1.37) - 0.5) * 0.42,
+          x = st[0] + (rnd(st[4] * 1.3 + s3) - 0.5) * 3,
+          y = st[1] + (rnd(st[4] * 1.7 + s3) - 0.5) * 3,
+          l = st[5] / 2,
+          ca = Math.cos(a) * l,
+          sa = Math.sin(a) * l,
+          cu = (rnd(st[4] * 2.3) - 0.5) * l * 0.5;
+        ctx.moveTo(x - ca, y - sa);
+        ctx.quadraticCurveTo(x - sa * 0.3 + cu * 0.3, y + ca * 0.3 + cu, x + ca, y + sa);
+      }
+      ctx.strokeStyle = RAMP[i];
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+// anneaux dessinés en petits traits clairs (on « voit » les ondes)
+function rings(srcs, tq, s3, col = RAMP[0]) {
+  ctx.lineCap = "round";
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = col;
+  ctx.beginPath();
+  for (const s of srcs) {
+    if (s.draw === false) continue;
+    const front = s.sp * (tq - s.t0);
+    for (let j = 0; j < 14; j++) {
+      const r = front - j * s.lam;
+      if (r < 24 || r > s.rmax) continue;
+      const n = Math.floor(r * 0.34),
+        fall = (1 - r / s.rmax) * s.amp;
+      for (let i = 0; i < n; i++) {
+        const th = rnd(j * 31.7 + i * 1.71 + s3 * 0.37 + s.x) * TAU,
+          x = s.x + Math.cos(th) * r,
+          y = s.y + Math.sin(th) * r;
+        if (rnd(i * 3.3 + j + s3) > fall * (s.att ? s.att(x, y) : 1) * 1.5) continue;
+        const a = th + Math.PI / 2 + (rnd(i * 5.1 + s3) - 0.5) * 0.5,
+          l = 9 + rnd(i * 7.3) * 9;
+        ctx.moveTo(x - Math.cos(a) * l, y - Math.sin(a) * l);
+        ctx.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l);
+      }
+    }
+  }
+  ctx.stroke();
+}
+// petits personnages plats (les seules autres couleurs de l'image)
+function kid(x, y, s, o = {}) {
+  const b = o.bob || 0,
+    w = o.walk || 0;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s * (o.flip ? -1 : 1), s);
+  ctx.fillStyle = RAMP[7];
+  ctx.fillRect(-10 + w * 5, -34, 8, 34);
+  ctx.fillRect(2 - w * 5, -34, 8, 34);
+  ctx.fillStyle = o.col || ACC.red;
+  ctx.beginPath();
+  ctx.roundRect(-14, -78 + b, 28, 48, 9);
+  ctx.fill();
+  ctx.fillStyle = ACC.skin;
+  ctx.beginPath();
+  ctx.arc(0, -92 + b, 14, 0, TAU);
+  ctx.fill();
+  ctx.fillStyle = "#3a2a22";
+  ctx.beginPath();
+  ctx.arc(0, -96 + b, 14, Math.PI, TAU);
+  ctx.fill();
+  if (o.tablet !== false) {
+    ctx.fillStyle = ACC.yellow;
+    ctx.save();
+    ctx.translate(18, -58 + b + (o.up ? -34 : 0));
+    ctx.rotate(-0.25);
+    ctx.fillRect(-4, -11, 22, 16);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+const dot = (x, y, r, col) => {
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, TAU);
+  ctx.fill();
+};
+
+// --- Étiquettes (au-dessus du dessin) ---
+function cap(text, x, y, t, t0, o = {}) {
+  const p = pop(t, t0);
+  if (p <= 0 || (o.t1 && t > o.t1)) return "";
+  const fs = o.fs || 44,
+    w = text.length * fs * 0.54 + 64,
+    h = fs * 1.65;
+  return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${o.rot ?? -2}) scale(${p.toFixed(3)})"><rect x="${f1(-w / 2 + 7)}" y="${f1(-h / 2 + 9)}" width="${f1(w)}" height="${f1(h)}" rx="10" fill="#07122e" opacity=".35"/><rect x="${f1(-w / 2)}" y="${f1(-h / 2)}" width="${f1(w)}" height="${f1(h)}" rx="10" fill="${o.fill || ACC.cream}"/><text x="0" y="${f1(fs * 0.35)}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${fs}" fill="${o.ink || "#0f2758"}">${text}</text></g>`;
+}
+const logo = () => `<g transform="translate(1750 1012) rotate(-2)"><rect x="-120" y="-28" width="240" height="56" rx="10" fill="${ACC.cream}"/><text x="0" y="11" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="30" fill="#1c438a">Kidi-science</text></g>`;
+
+// --- Scènes : { a, b, forms, cam(t) → [x, y, zoom], waves(tq) → sources, figs(t, im, tq, s3, srcs), over(t) } ---
+const SC = [];
+
+      // ===== scenes.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs */
+// Les scènes : d'immenses formes hachurées, et de tout petits personnages en bas de l'image.
+const BIG = [-400, -1000, 2900, 2300];
+const skyF = (o = {}) => R(-400, -1000, 2900, 2300, { k: 0.15, lo: 0, hi: 5, flow: FLOW.h(), lit: (x, y) => 1 - Math.abs(y - 620) / 1000, dens: 330, max: 12000, len: 38, ph: 0.5, ...o });
+const groundF = (y, o = {}) => R(-400, y, 2900, 400, { lo: 1, hi: 4, flow: FLOW.h(), lit: (x, yy) => 0.9 - (yy - y) / 260, dens: 150, len: 40, ...o });
+const shadowF = (x, y, w, l) => F(`M${x} ${y}H${x + w}L${x + w + l} ${y + 150}H${x + l}Z`, [x, y, w + l, 150], { lo: 4, hi: 6, flow: FLOW.h(), lit: LIT.flat(0.4), dens: 150, len: 40 });
+const win = (x, y, w, h, col = ACC.yellow) => {
+  ctx.fillStyle = col;
+  ctx.fillRect(x, y, w, h);
+  ctx.fillStyle = RAMP[6];
+  ctx.fillRect(x + w / 2 - 3, y, 6, h);
+  ctx.fillRect(x, y + h / 2 - 3, w, 6);
+};
+const SRC = (x, y, t0, o = {}) => ({ x, y, t0, sp: 300, lam: 130, amp: 0.8, rmax: 1500, ...o });
+
+// ================= La rue, le soir (générique, s0, s6) =================
+const STREET = [
+  skyF(),
+  ...[0, 1, 2, 3, 4, 5, 6].map((i) => F(bullet(60 + i * 360, 930, 300, 520 + rnd(i) * 260), [-90 + i * 360, 100, 300, 830], { k: 0.4, lo: 2, hi: 4, dens: 210 })),
+  F(house(140, 330, 700, 620, 300), [140, 30, 700, 920], { k: 0.75, lo: 1, hi: 6 }),
+  F(house(1100, 420, 640, 540, 250), [1100, 170, 640, 790], { k: 0.75, lo: 1, hi: 6 }),
+  groundF(930),
+  shadowF(120, 935, 560, 520),
+  shadowF(1080, 935, 500, 480),
+  F(bullet(-60, 1200, 420, 1250), [-270, -50, 420, 1250], { k: 1.2, lo: 3, hi: 7 }),
+  F(bullet(2010, 1200, 380, 1100), [1820, 100, 380, 1100], { k: 1.2, lo: 3, hi: 7 }),
+];
+const streetWins = (c, on = true) => {
+  setCam(c, 0.75);
+  win(300, 470, 110, 130, on ? ACC.yellow : RAMP[5]);
+  win(560, 470, 110, 130, RAMP[5]);
+  win(1340, 560, 110, 120, on ? ACC.orange : RAMP[5]);
+  setCam(c, 1);
+};
+{
+  const t0 = T("s0"),
+    tPond = cue("s0-3") - 0.3,
+    tW = cue("s0-2", "ondes");
+  sfx(tW, "whoosh");
+  SC.push({
+    a: 0,
+    b: tPond,
+    forms: STREET,
+    cam: (t) => [0, lerp(-640, 0, ease(lin(t, t0 - 1.6, t0 + 0.8))), 1 + 0.04 * lin(t, 0, tPond)],
+    waves: () => [SRC(355 * 0.75 + 240, 600, tW, { amp: 0.9 })],
+    figs: (t, im, tq, s3, srcs, c) => {
+      streetWins(c);
+      rings(srcs, tq, s3);
+      kid(1000, 936, 1, { bob: [0, -2][Math.floor(im / 8) % 2], up: t > cue("s0-1", "vois") && t < tW });
+    },
+    over: (t) =>
+      (t < t0 - 1 ? `<g transform="translate(960 400) rotate(-2) scale(${pop(t, 0.4, 0.5).toFixed(3)})"><rect x="-470" y="-100" width="960" height="220" rx="16" fill="#07122e" opacity=".35"/><rect x="-480" y="-110" width="960" height="220" rx="16" fill="${ACC.cream}"/><text x="0" y="48" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="140" fill="#1c438a">Kidi-science</text></g>` + cap("Comment marche le Wi-Fi ?", 960, 610, t, cue("g-1") + 2.2, { fs: 56, rot: 1.5 }) : "") + cap("aucun fil ?", 1210, 800, t, cue("s0-1", "aucun"), { t1: tW }) + cap("des ondes invisibles", 1260, 800, t, tW + 0.3) + (t > t0 ? logo() : ""),
+  });
+  // ----- La mare -----
+  const tTh = cue("s0-4", "caillou"),
+    tSp = tTh + 0.7,
+    tAir = cue("s0-4", "Wi-Fi");
+  sfx(tSp, "pop");
+  sfx(tAir, "chime");
+  SC.push({
+    a: tPond,
+    b: T("s1"),
+    forms: [
+      R(-400, -200, 2900, 1500, { lo: 1, hi: 5, flow: FLOW.rad(960, 520), lit: (x, y) => 0.55 + 0.25 * Math.sin(y * 0.01), dens: 150, max: 16000, len: 34 }),
+      ...[0, 1, 2, 3, 4].map((i) => F(bullet(120 + i * 70 + (i > 2 ? 1500 : 0), 1200, 46, 700 + rnd(i) * 420), [97 + i * 70 + (i > 2 ? 1500 : 0), 80, 46, 1120], { k: 1.15, lo: 4, hi: 7, dens: 110 })),
+      groundF(950, { lo: 0, hi: 3 }),
+    ],
+    cam: (t) => [0, 0, 1 + 0.05 * lin(t, tPond, T("s1"))],
+    waves: () => [SRC(960, 520, tSp, { sp: 230, lam: 120, amp: 1, rmax: 1200 })],
+    figs: (t, im, tq, s3, srcs) => {
+      rings(srcs, tq, s3);
+      const u = lin(t, tTh, tSp);
+      if (u > 0 && u < 1) dot(lerp(450, 960, u), lerp(860, 520, u) - Math.sin(u * Math.PI) * 300, 10, RAMP[7]);
+      kid(420, 956, 1, { tablet: false, bob: u > 0 && u < 0.4 ? -8 : 0 });
+    },
+    over: (t) => cap("un caillou dans la mare…", 1380, 960, t, tTh - 0.3, { t1: tAir }) + cap("le Wi-Fi : pareil, mais dans l'air", 1300, 960, t, tAir, { fs: 42 }) + logo(),
+  });
+}
+
+// ================= s1 : la box, immense =================
+{
+  const t0 = T("s1"),
+    tCa = cue("s1-1", "câble"),
+    tTr = cue("s1-2", "transforme"),
+    tAn = cue("s1-3", "antennes");
+  sfx(tCa, "tic");
+  sfx(tAn, "whoosh");
+  SC.push({
+    a: t0,
+    b: T("s2"),
+    forms: [
+      R(-400, -600, 2900, 1500, { k: 0.3, lo: 1, hi: 4, flow: FLOW.down(0.3), lit: LIT.glow(960, 300, 1500), dens: 300, max: 9000, len: 36, ph: 0.6 }),
+      groundF(800, { lo: 2, hi: 5 }),
+      shadowF(480, 805, 980, 420),
+      R(590, 60, 64, 440, { r: 32, lo: 2, hi: 6, dens: 90 }),
+      R(1290, 60, 64, 440, { r: 32, lo: 2, hi: 6, dens: 90 }),
+      R(430, 470, 1060, 334, { r: 70, lo: 0, hi: 5, flow: FLOW.h(), lit: (x, y, u, v) => 0.95 - 0.5 * u - 0.45 * v * v, dens: 120, max: 9000, len: 34, ph: 0.4 }),
+    ],
+    cam: (t) => [0, lerp(40, -60, ease(lin(t, t0, T("s2")))), 1 + 0.05 * lin(t, t0, T("s2"))],
+    waves: () => [SRC(622, 70, tAn, { amp: 0.9 }), SRC(1322, 70, tAn + 0.25, { amp: 0.9 }), SRC(960, 470, tTr, { amp: 0.4, rmax: 700, draw: false })],
+    figs: (t, im, tq, s3, srcs) => {
+      // le câble qui sort du mur, et les signaux qui y courent
+      ctx.lineCap = "round";
+      ctx.strokeStyle = RAMP[7];
+      ctx.lineWidth = 26;
+      ctx.beginPath();
+      ctx.moveTo(-60, 560);
+      ctx.bezierCurveTo(150, 560, 200, 720, 440, 700);
+      ctx.stroke();
+      if (t > tCa)
+        for (let i = 0; i < 5; i++) {
+          const u = (tq * 0.7 + i * 0.2) % 1,
+            m = 1 - u,
+            x = m * m * m * -60 + 3 * m * m * u * 150 + 3 * m * u * u * 200 + u * u * u * 440,
+            y = m * m * m * 560 + 3 * m * m * u * 560 + 3 * m * u * u * 720 + u * u * u * 700;
+          dot(x, y, 9, ACC.yellow);
+        }
+      for (let i = 0; i < 4; i++) dot(560 + i * 70, 640, 16, i === 3 ? (Math.floor(im / 6) % 2 ? ACC.red : RAMP[6]) : ACC.green);
+      rings(srcs, tq, s3);
+      kid(1690, 806, 1, { flip: true, bob: [0, -2][Math.floor(im / 8) % 2], up: t > tAn });
+    },
+    over: (t) => cap("la box", 960, 930, t, cue("s1-1", "box"), { fs: 60 }) + cap("Internet arrive par un câble", 420, 400, t, tCa, { t1: tTr, fs: 40, rot: 2 }) + cap("… et repart en ondes", 420, 400, t, tTr, { fs: 40, rot: 2 }) + logo(),
+  });
+}
+
+// ================= s2 : des ondes radio, cousines de la lumière =================
+{
+  const t0 = T("s2"),
+    tOn = cue("s2-2", "ondes"),
+    tLu = cue("s2-2", "lumière"),
+    tYe = cue("s2-2", "yeux"),
+    tPl = cue("s2-3", "pleine");
+  sfx(tOn, "pop");
+  sfx(tLu, "chime");
+  sfx(tPl, "whoosh");
+  SC.push({
+    a: t0,
+    b: T("s3"),
+    forms: [
+      R(-400, -600, 2900, 1700, { k: 0.3, lo: 2, hi: 5, flow: FLOW.down(0.3), lit: LIT.flat(0.5), dens: 300, max: 9000, len: 36 }),
+      groundF(860, { lo: 2, hi: 5 }),
+      F("M190 300L360 300L640 862L-90 862Z", [-90, 300, 730, 562], { lo: 0, hi: 3, flow: FLOW.down(0.9), lit: (x, y, u, v) => 1 - 0.5 * v, dens: 120 }),
+      F("M150 300L400 300L350 110L200 110Z", [150, 110, 250, 190], { lo: 0, hi: 2, dens: 80 }),
+      R(262, 300, 26, 562, { lo: 5, hi: 7, dens: 60 }),
+      R(820, 360, 760, 260, { r: 90, lo: 4, hi: 7 }),
+      R(760, 540, 880, 322, { r: 70, lo: 3, hi: 7, flow: FLOW.down(0.4) }),
+      R(1700, 640, 190, 222, { r: 8, lo: 3, hi: 6 }),
+      R(1720, 592, 150, 50, { r: 14, lo: 0, hi: 3, flow: FLOW.h(), dens: 70 }),
+    ],
+    cam: (t) => [lerp(-30, 30, lin(t, t0, T("s3"))), 0, 1.03],
+    waves: (tq) => {
+      const a = tq < tOn ? 0 : tq < tYe ? 0.8 : tq < tPl ? 0.8 * (1 - lin(tq, tYe, tYe + 0.8)) : 1;
+      return a <= 0.01 ? [] : [SRC(1795, 580, tq < tPl ? tOn : tPl - 3, { amp: a, lam: 120 }), ...(tq >= tPl ? [SRC(200, 200, tPl - 2, { amp: 0.6, lam: 150 }), SRC(900, 1100, tPl - 2.5, { amp: 0.5, lam: 110 })] : [])];
+    },
+    figs: (t, im, tq, s3, srcs) => {
+      dot(1750, 617, 7, ACC.green);
+      rings(srcs, tq, s3);
+      kid(600, 866, 1, { bob: [0, -2][Math.floor(im / 8) % 2], tablet: false, flip: t > tLu && t < tYe });
+    },
+    over: (t) => cap("?", 600, 690, t, cue("s2-1", "vois"), { t1: tOn, fs: 70 }) + cap("des ondes radio", 1500, 250, t, tOn, { rot: 3 }) + cap("la lumière", 320, 950, t, tLu, { rot: -3 }) + cap("invisibles pour nos yeux", 1420, 960, t, tYe, { t1: tPl, fs: 40 }) + cap("des ronds partout !", 1420, 960, t, tPl, { fs: 46 }) + logo(),
+  });
+}
+
+// ================= s3 : le code, un coup fort, un coup faible =================
+{
+  const t0 = T("s3"),
+    tSi = cue("s3-2", "signaux"),
+    tFo = cue("s3-2", "fort"),
+    tFa = cue("s3-2", "faible"),
+    tCo = cue("s3-2", "code"),
+    tRe = cue("s3-3", "reconstruit"),
+    tMi = cue("s3-3", "millions"),
+    tE = lineEnd("s3-3");
+  sfx(tSi, "tic");
+  sfx(tCo, "pop");
+  sfx(tMi, "whoosh");
+  sfx(tE - 0.3, "chime");
+  const CODE = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0];
+  // l'image qui se reconstruit sur la tablette : un petit chat
+  const PIX = ["..O....O..", ".OOO..OOO.", ".OOOOOOOO.", "OOOOOOOOOO", "OOYOOOOYOO", "OOOOOOOOOO", "OOOORROOOO", ".OOOOOOOO.", "..OOOOOO..", "..........."];
+  SC.push({
+    a: t0,
+    b: T("s4"),
+    forms: [
+      R(-400, -600, 2900, 1700, { k: 0.3, lo: 2, hi: 5, flow: FLOW.down(0.3), lit: LIT.glow(960, 400, 1700), dens: 300, max: 9000, len: 36 }),
+      groundF(880, { lo: 2, hi: 5 }),
+      R(190, 160, 44, 300, { r: 22, lo: 2, hi: 6, dens: 70 }),
+      R(50, 440, 340, 200, { r: 40, lo: 0, hi: 5, flow: FLOW.h(), dens: 110 }),
+      R(90, 640, 260, 242, { r: 6, lo: 3, hi: 6 }),
+      R(1320, 150, 520, 730, { r: 50, lo: 4, hi: 7, dens: 150 }),
+      R(1362, 196, 436, 600, { r: 14, lo: 0, hi: 2, flow: FLOW.h(), dens: 150, ph: 0 }),
+    ],
+    cam: (t) => [0, 0, 1 + 0.04 * lin(t, t0, T("s4"))],
+    waves: () => [],
+    figs: (t, im, tq, s3) => {
+      // les signaux : des paquets de traits, grands (fort) ou petits (faible), qui filent vers la tablette
+      if (tq >= tSi) {
+        const sp = tq < tMi ? 150 : 150 + 1500 * ease(lin(tq, tMi, tMi + 1)),
+          off = tq < tMi ? (tq - tSi) * 150 : (tMi - tSi) * 150 + (tq - tMi) * sp;
+        ctx.lineCap = "round";
+        ctx.lineWidth = 4.5;
+        for (let i = 0; i < 9; i++) {
+          const x = 420 + ((off + i * 100) % 900),
+            n = Math.floor((off + i * 100) / 900),
+            bit = CODE[(i + n * 3) % CODE.length],
+            h = bit ? 170 : 60;
+          if (x > 1300) continue;
+          ctx.strokeStyle = bit ? RAMP[0] : RAMP[2];
+          ctx.beginPath();
+          for (let k = 0; k < 26; k++) {
+            const sx = x + (rnd(i * 7 + k + s3 * 0.7) - 0.5) * 50,
+              sy = 520 + (rnd(i * 3 + k * 1.3 + s3) - 0.5) * 2 * h,
+              l = 14 + rnd(k) * 10;
+            ctx.moveTo(sx, sy - l);
+            ctx.lineTo(sx + (rnd(k + s3) - 0.5) * 6, sy + l);
+          }
+          ctx.stroke();
+        }
+      }
+      // l'image, carré par carré
+      const done = Math.floor(lin(t, tRe, tE - 0.2) * 100);
+      for (let k = 0; k < done; k++) {
+        const r = Math.floor(k / 10),
+          c = k % 10,
+          ch = PIX[r][c];
+        if (ch === ".") continue;
+        ctx.fillStyle = ch === "Y" ? ACC.yellow : ch === "R" ? ACC.red : ACC.orange;
+        ctx.fillRect(1380 + c * 40, 290 + r * 40, 36, 36);
+      }
+      dot(110, 600, 8, ACC.green);
+      kid(1180, 886, 1, { bob: [0, -2][Math.floor(im / 8) % 2], tablet: false, up: true });
+    },
+    over: (t) => cap("fort", 620, 250, t, tFo, { t1: tMi, rot: -4 }) + cap("faible", 900, 250, t, tFa, { t1: tMi, rot: 3 }) + cap("c'est un code", 760, 830, t, tCo, { t1: tRe }) + cap("la tablette reconstruit l'image", 720, 830, t, tRe, { t1: tMi, fs: 40 }) + cap("des millions de signaux par seconde", 720, 830, t, tMi, { fs: 40 }) + logo(),
+  });
+}
+
+// ================= s4 et s5 : la maison en coupe, le jardin, les voisins =================
+const HOME = [
+  skyF({ lit: (x, y) => 0.9 - Math.abs(y - 500) / 1100 }),
+  ...[0, 1, 2, 3].map((i) => F(bullet(1050 + i * 400, 910, 330, 560 + rnd(i + 9) * 240), [885 + i * 400, 100, 330, 810], { k: 0.5, lo: 2, hi: 4, dens: 210 })),
+  R(100, 300, 620, 606, { lo: 0, hi: 3, flow: FLOW.down(0.2), lit: LIT.glow(250, 640, 800), dens: 170 }),
+  F("M10 300L410 40L810 300Z", [10, 40, 800, 260], { lo: 3, hi: 6 }),
+  R(60, 300, 50, 606, { lo: 5, hi: 7, dens: 70, ph: 0.3 }),
+  R(400, 300, 40, 606, { lo: 5, hi: 7, dens: 70, ph: 0.3 }),
+  R(710, 300, 56, 606, { lo: 5, hi: 7, dens: 70, ph: 0.3 }),
+  F(house(2050, 470, 520, 440, 210), [2050, 260, 520, 650], { lo: 2, hi: 6 }),
+  groundF(906),
+  shadowF(760, 910, 200, 420),
+  F(bullet(1560, 906, 300, 760), [1410, 146, 300, 760], { lo: 3, hi: 6 }),
+  R(150, 760, 140, 146, { r: 6, lo: 4, hi: 6 }),
+  R(160, 718, 120, 44, { r: 12, lo: 0, hi: 2, flow: FLOW.h(), dens: 70, ph: 0 }),
+];
+const wallAtt = (cut) => (x) => (cut != null && x > cut ? 0 : (x > 400 ? 0.62 : 1) * (x > 710 ? 0.6 : 1));
+const bars = (x, y, n) => {
+  let s = `<g transform="translate(${f1(x)} ${f1(y)})"><rect x="-58" y="-62" width="116" height="84" rx="10" fill="${ACC.cream}"/>`;
+  for (let i = 0; i < 4; i++) s += `<rect x="${-40 + i * 22}" y="${-4 - i * 14}" width="15" height="${16 + i * 14}" rx="3" fill="${i < n ? "#1c438a" : "#c9c2ae"}"/>`;
+  return s + "</g>";
+};
+{
+  const t0 = T("s4"),
+    tEl = cue("s4-2", "éloigne"),
+    tMu = cue("s4-2", "mur"),
+    tPr = cue("s4-3", "près"),
+    tB = cue("s4-3", "meilleur");
+  sfx(tMu, "tic");
+  sfx(tB, "chime");
+  const kx = (t) => lerp(1790, 570, ease(lin(t, tPr - 2.6, tB)));
+  const camX = (t) => lerp(330, 0, ease(lin(t, tPr - 2.4, tB)));
+  SC.push({
+    a: t0,
+    b: T("s5"),
+    forms: HOME,
+    cam: (t) => [camX(t), 0, 1],
+    waves: () => [SRC(220, 730, t0 - 3, { amp: 0.95, rmax: 1700, lam: 140, att: wallAtt() })],
+    figs: (t, im, tq, s3, srcs) => {
+      dot(190, 740, 6, ACC.green);
+      rings(srcs, tq, s3);
+      const x = kx(Math.floor(t * 15) / 15),
+        moving = t > tPr - 2.6 && t < tB;
+      kid(x, 912, 1, { flip: true, walk: moving ? [1, -1][Math.floor(im / 4) % 2] : 0, bob: moving ? [0, -3][Math.floor(im / 4) % 2] : 0 });
+    },
+    over: (t) => {
+      const x = kx(Math.floor(t * 15) / 15),
+        n = x > 1400 ? 1 : x > 1000 ? 2 : x > 760 ? 3 : 4;
+      return bars(x - camX(t), 760, n) + cap("plus on s'éloigne, plus c'est faible", 1180, 200, t, tEl, { t1: tMu, fs: 40 }) + cap("chaque mur en arrête un peu", 1180, 200, t, tMu, { t1: tB, fs: 40 }) + cap("près de la box : le meilleur endroit !", 1180, 200, t, tB, { fs: 40 }) + logo();
+    },
+  });
+  // ----- s5 : la tablette répond, et le mot de passe -----
+  const t5 = T("s5"),
+    tRp = cue("s5-1", "répond"),
+    tVo = cue("s5-3", "voisins"),
+    tPw = cue("s5-3", "protégé"),
+    tCl = cue("s5-4", "clé");
+  sfx(tRp, "pop");
+  sfx(tPw, "chime");
+  sfx(tCl, "pop");
+  const cam5 = (t) => {
+    const u = ease(lin(t, tVo - 1, tVo + 0.6));
+    return [lerp(0, 760, u), lerp(0, -60, u), lerp(1.08, 0.9, u)];
+  };
+  SC.push({
+    a: t5,
+    b: T("s6"),
+    forms: HOME,
+    cam: cam5,
+    waves: (tq) => [SRC(220, 730, t5 - 3, { amp: 0.8, rmax: 2400, lam: 150, att: wallAtt(tq > tPw ? 1250 : null) }), ...(tq > tRp ? [SRC(588, 850, tRp, { amp: 0.7, rmax: 900, lam: 90, sp: 260 })] : [])],
+    figs: (t, im, tq, s3, srcs) => {
+      dot(190, 740, 6, ACC.green);
+      rings([srcs[0]], tq, s3);
+      if (srcs[1]) rings([srcs[1]], tq, s3, RAMP[1]);
+      kid(570, 912, 1, { flip: false, bob: [0, -2][Math.floor(im / 8) % 2] });
+      kid(1960, 912, 1, { col: ACC.green, flip: true, bob: [0, -2][Math.floor(im / 10) % 2], up: t > tVo && t < tPw });
+      // le cadenas
+      const p = pop(t, tPw);
+      if (p > 0) {
+        ctx.save();
+        ctx.translate(1250, 560);
+        ctx.scale(p * 1.6, p * 1.6);
+        ctx.strokeStyle = RAMP[7];
+        ctx.lineWidth = 16;
+        ctx.beginPath();
+        ctx.arc(0, -40, 34, Math.PI, TAU);
+        ctx.stroke();
+        ctx.fillStyle = ACC.yellow;
+        ctx.beginPath();
+        ctx.roundRect(-56, -40, 112, 90, 14);
+        ctx.fill();
+        ctx.fillStyle = RAMP[7];
+        ctx.beginPath();
+        ctx.arc(0, -4, 12, 0, TAU);
+        ctx.fill();
+        ctx.fillRect(-5, -4, 10, 30);
+        ctx.restore();
+      }
+    },
+    over: (t) => {
+      return cap("la tablette répond !", 1080, 220, t, tRp, { t1: tVo - 0.6 }) + cap("mot de passe : ••••••", 960, 180, t, tPw + 0.3, { fs: 50 }) + cap("la clé… pour les ondes", 960, 300, t, tCl, { fs: 40, rot: 2 }) + logo();
+    },
+  });
+}
+
+// ================= s6 : le résumé et la fin =================
+{
+  const t0 = T("s6"),
+    tCa = cue("s6-1", "câble"),
+    tOn = cue("s6-1", "ondes"),
+    tMp = cue("s6-2", "mot"),
+    tDe = cue("s6-3", "devoirs"),
+    tEnd = lineEnd("s6-4") + 0.5;
+  sfx(tCa, "tic");
+  sfx(tOn, "whoosh");
+  sfx(tDe, "pop");
+  sfx(tEnd, "pop");
+  SC.push({
+    a: t0,
+    b: SCHED.total + 1,
+    forms: STREET,
+    cam: (t) => [0, 0, 1.04 - 0.04 * lin(t, t0, SCHED.total)],
+    waves: () => [SRC(505, 600, tOn, { amp: 0.9 })],
+    figs: (t, im, tq, s3, srcs, c) => {
+      streetWins(c);
+      // le câble sous la rue, jusqu'à la box
+      if (t > tCa - 0.2) {
+        const u = ease(lin(t, tCa - 0.2, tCa + 0.9));
+        ctx.strokeStyle = ACC.yellow;
+        ctx.lineWidth = 9;
+        ctx.setLineDash([26, 18]);
+        ctx.lineDashOffset = -tq * 60;
+        ctx.beginPath();
+        ctx.moveTo(-200, 1030);
+        ctx.lineTo(lerp(-200, 505, u), 1030);
+        if (u >= 1) ctx.lineTo(505, 940);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      rings(srcs, tq, s3);
+      const jump = t > tMp && t < tMp + 1.2 ? -Math.abs(Math.sin((t - tMp) * 7)) * 26 : 0;
+      kid(1000, 936 + jump, 1, { bob: [0, -2][Math.floor(im / 8) % 2], up: t > tMp && t < tDe });
+    },
+    over: (t) =>
+      cap("un câble jusqu'à la box…", 520, 840, t, tCa, { t1: tMp, fs: 40 }) +
+      cap("… puis des ondes jusqu'à toi", 1340, 780, t, tOn, { t1: tMp, fs: 40, rot: 2 }) +
+      cap("les devoirs d'abord !", 1300, 760, t, tDe, { t1: tEnd, rot: 3 }) +
+      (pop(t, tEnd, 0.5) > 0 ? `<g transform="translate(960 300) rotate(-2) scale(${pop(t, tEnd, 0.5).toFixed(3)})"><rect x="-370" y="-76" width="760" height="170" rx="14" fill="#07122e" opacity=".35"/><rect x="-380" y="-86" width="760" height="170" rx="14" fill="${ACC.cream}"/><text x="0" y="36" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="108" fill="#1c438a">Kidi-science</text></g>` + cap("À bientôt pour une nouvelle question !", 960, 470, t, tEnd + 0.6, { fs: 46, rot: 1.5 }) : logo()),
+  });
+}
+
+      // ===== run.js =====
+// Chaque image : formes hachurées (redessinées une image sur trois), ondes, personnages, étiquettes.
+{
+  const lab = document.getElementById("lab"),
+    grain = document.getElementById("grain"),
+    dip = document.getElementById("dip");
+  const draw = (time) => {
+    const im = Math.floor(time * 30 + 1e-4),
+      s3 = Math.floor(im / 3),
+      tq = s3 / 10;
+    let S = SC[SC.length - 1];
+    for (const s of SC)
+      if (time < s.b) {
+        S = s;
+        break;
+      }
+    const c = S.cam(time),
+      srcs = S.waves(tq);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = RAMP[4];
+    ctx.fillRect(0, 0, 1920, 1080);
+    drawForms(S, c, tq, s3, srcs);
+    setCam(c, 1);
+    S.figs(time, im, tq, s3, srcs, c);
+    lab.innerHTML = S.over(time);
+    const d = Math.min(S.a > 0 ? lin(time, S.a, S.a + 0.25) : 1, S === SC[SC.length - 1] ? 1 : lin(S.b - time, 0, 0.25));
+    dip.style.opacity = (1 - d).toFixed(3);
+    grain.style.transform = `translate(${f1((rnd(s3 * 1.3) - 0.5) * 100)}px,${f1((rnd(s3 * 2.1 + 5) - 0.5) * 100)}px)`;
+  };
+  const tl = gsap.timeline({ paused: true });
+  const tick = { v: 0 };
+  tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: () => draw(tl.time()) }, 0);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+  draw(0);
+}
+    </script>
+  </body>
+</html>

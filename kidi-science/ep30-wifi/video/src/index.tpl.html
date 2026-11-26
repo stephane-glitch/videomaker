@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — Comment marche le Wi-Fi ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #173a7c;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        background: #173a7c;
+      }
+      #cv,
+      #lab,
+      .fx {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        display: block;
+      }
+      #grain {
+        left: -60px;
+        top: -60px;
+        width: 2040px;
+        height: 1200px;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+      }
+      #grain img {
+        display: block;
+      }
+      #dip {
+        background: #0d2253;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <filter id="grainF" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="21" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.14  0 0 0 0 0.25  0 0 0 2.4 -1.1" />
+          </filter>
+        </defs>
+      </svg>
+      <canvas id="cv" width="1920" height="1080"></canvas>
+      <svg id="lab" viewBox="0 0 1920 1080" width="1920" height="1080"></svg>
+      <div class="fx" id="grain"><img src="assets/pieces/grain.png" width="2040" height="1200" alt="" /></div>
+      <div class="fx" id="dip"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      const SCHED = {{SCHED}};
+{{JS}}
+    </script>
+  </body>
+</html>

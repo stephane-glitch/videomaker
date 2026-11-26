@@ -90,6 +90,9 @@ EPS = [
     ("ep29-chenille-papillon", "Comment une chenille devient papillon ?", "Comment une chenille devient papillon ?",
      "Une chenille, c'est un bébé papillon ! Zoé et Max la suivent en dessin animé : l'œuf minuscule, les feuilles dévorées, les mues, la chrysalide où tout se reconstruit, puis les ailes fripées qui se gonflent avant le premier envol.",
      ["chenille", "papillon", "chrysalide", "métamorphose", "insectes", "nature"], ("s4", 0.62)),
+    ("ep30-wifi", "Comment marche le Wi-Fi ?", "Comment marche le Wi-Fi ?",
+     "Le Wi-Fi n'a pas de fil : il voyage dans l'air, sur des ondes invisibles. Zoé et Max suivent le signal, du câble caché dans le mur jusqu'à la box, puis en ondes jusqu'à la tablette, à travers les murs et jusqu'au fond du jardin.",
+     ["Wi-Fi", "wifi", "ondes", "box internet", "Internet", "technologie"], ("s1", 0.8)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

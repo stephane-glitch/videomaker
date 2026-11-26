@@ -1,0 +1,123 @@
+[
+  { "id": "g-1", "scene": "g", "who": "zoe", "text": "Dis… comment ça marche ?" },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Dis, Max… le Wi-Fi, il passe par où ? Je ne vois aucun fil !"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Normal : il voyage dans l'air, sur des ondes invisibles."
+  },
+  { "id": "s0-3", "scene": "s0", "who": "zoe", "text": "Des ondes ? Comme les vagues ?" },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque ! Lance un caillou dans une mare : des ronds s'écartent tout autour. Les ondes du Wi-Fi font pareil, mais dans l'air."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tout part de la box. Internet y arrive par un câble, caché dans le mur."
+  },
+  { "id": "s1-2", "scene": "s1", "who": "zoe", "text": "Et la box le transforme en ondes ?" },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement ! Avec ses antennes, elle les envoie dans toutes les directions."
+  },
+  { "id": "s2-1", "scene": "s2", "who": "zoe", "text": "Mais pourquoi je ne les vois pas ?" },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Parce que ce sont des ondes radio. Des cousines de la lumière, que nos yeux ne savent pas voir."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Dommage… la maison serait pleine de ronds !"
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et mon dessin animé, il est où, là-dedans ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Il est découpé en tout petits signaux. La box fait vibrer l'onde, un coup fort, un coup faible : c'est un code."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Ta tablette lit ce code et reconstruit l'image. Des millions de signaux, chaque seconde !"
+  },
+  { "id": "s3-4", "scene": "s3", "who": "zoe", "text": "Elle lit plus vite que moi…" },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et pourquoi ça marche mal, au fond du jardin ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Plus on s'éloigne, plus les ondes s'affaiblissent. Et chaque mur en arrête un petit peu."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc, près de la box, c'est le meilleur endroit !"
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "max",
+    "text": "Autre chose : ta tablette répond ! Elle envoie ses propres ondes vers la box."
+  },
+  { "id": "s5-2", "scene": "s5", "who": "zoe", "text": "Elles se parlent, alors ?" },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "max",
+    "text": "Sans arrêt ! Et pour que les voisins n'écoutent pas, tout est protégé par un mot de passe."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "C'est la clé de la maison… mais pour les ondes !"
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu vois : un câble jusqu'à la box, puis des ondes jusqu'à toi."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… je peux avoir le mot de passe ?"
+  },
+  { "id": "s6-3", "scene": "s6", "who": "max", "text": "Quand tes devoirs seront finis." },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Les ondes passent les murs… mais pas les devoirs."
+  }
+]

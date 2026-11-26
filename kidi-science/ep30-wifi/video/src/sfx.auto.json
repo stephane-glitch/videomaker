@@ -1,0 +1,23 @@
+[
+  { "file": "whoosh", "at": 14.05, "volume": 0.22 },
+  { "file": "pop", "at": 20.65, "volume": 0.28 },
+  { "file": "chime", "at": 23.49, "volume": 0.22 },
+  { "file": "tic", "at": 30.23, "volume": 0.2 },
+  { "file": "whoosh", "at": 36.21, "volume": 0.22 },
+  { "file": "pop", "at": 44.25, "volume": 0.28 },
+  { "file": "chime", "at": 46.47, "volume": 0.22 },
+  { "file": "whoosh", "at": 51.28, "volume": 0.22 },
+  { "file": "tic", "at": 59.81, "volume": 0.2 },
+  { "file": "pop", "at": 65.06, "volume": 0.28 },
+  { "file": "whoosh", "at": 69.83, "volume": 0.22 },
+  { "file": "chime", "at": 71.52, "volume": 0.22 },
+  { "file": "tic", "at": 82.48, "volume": 0.2 },
+  { "file": "chime", "at": 86.98, "volume": 0.22 },
+  { "file": "pop", "at": 91.98, "volume": 0.28 },
+  { "file": "chime", "at": 100.92, "volume": 0.22 },
+  { "file": "pop", "at": 103.23, "volume": 0.28 },
+  { "file": "tic", "at": 108.97, "volume": 0.2 },
+  { "file": "whoosh", "at": 111.32, "volume": 0.22 },
+  { "file": "pop", "at": 116.96, "volume": 0.28 },
+  { "file": "pop", "at": 123.45, "volume": 0.28 }
+]
