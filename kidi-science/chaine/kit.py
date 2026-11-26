@@ -45,6 +45,9 @@ EPS = [
     ("ep14-volcans", "Pourquoi les volcans crachent du feu ?", "Pourquoi les volcans crachent du feu ?",
      "Surprise : ce n'est pas du feu, c'est de la roche fondue. Zoé et Max descendent sous la croûte de la Terre, suivent le magma jusqu'à l'éruption, et découvrent que les volcans fabriquent des îles.",
      ["volcan", "magma", "lave", "éruption", "la Terre"], ("s2", 0.92)),
+    ("ep15-pluie", "D'où vient la pluie ? Les nuages", "D’où vient la pluie ?",
+     "Un nuage pèse aussi lourd qu'un troupeau d'éléphants, et pourtant il flotte. Zoé et Max suivent l'eau : elle s'évapore, monte, redevient gouttelettes, puis retombe en pluie… depuis le temps des dinosaures.",
+     ["pluie", "nuages", "cycle de l'eau", "météo", "évaporation"], ("s3", 0.55)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
