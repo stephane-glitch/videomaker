@@ -4,6 +4,9 @@
 #   python3 -I publier.py envoyer    → envoie les vidéos EN PRIVÉ (celles déjà en ligne sont seulement mises à jour, visibilité inchangée), avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
 #   python3 -I publier.py publier    → passe en public les vidéos déjà envoyées
 #   python3 -I publier.py chaine     → installe la description et la bannière de la chaîne
+#   python3 -I publier.py rattacher  → retrouve les vidéos envoyées à la main depuis YouTube Studio et les associe aux fiches
+#   python3 -I publier.py completer  → pour ces vidéos : miniature, fiche, passage en public, playlist, puis sous-titres
+# Quota : environ 600 unités par vidéo (dont 400 pour les sous-titres), sur 10 000 par jour : relancer le lendemain si besoin.
 # L'avancement est noté dans publication/etat.json : relancer une commande reprend là où elle s'était arrêtée.
 import glob, json, os, re, subprocess, sys, tempfile
 
@@ -85,6 +88,52 @@ def publier():
             call("PUT", f"{API}/videos?part=status", {"id": v["id"], "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": True, "embeddable": True}}); v["publique"] = True; save()
             print(key, "publique : https://youtu.be/" + v["id"])
 
+def rattacher():
+    # retrouve les vidéos envoyées à la main depuis YouTube Studio (titre = nom du fichier, ex. « kidi-science-ep08-feu-v1 »)
+    # et les associe aux fiches : elles seront complétées puis rendues publiques par « completer »
+    c = call("GET", f"{API}/channels?part=snippet,contentDetails&mine=true")["items"][0]
+    print("Chaîne :", c["snippet"]["title"])
+    up, tok, vus = c["contentDetails"]["relatedPlaylists"]["uploads"], "", []
+    while True:
+        r = call("GET", f"{API}/playlistItems?part=snippet&maxResults=50&playlistId={up}" + (f"&pageToken={tok}" if tok else ""))
+        vus += [(i["snippet"]["resourceId"]["videoId"], i["snippet"]["title"]) for i in r.get("items", [])]
+        tok = r.get("nextPageToken")
+        if not tok: break
+    titres = {m["titre"]: m["episode"] for m in metas()}
+    for vid, titre in vus:
+        n = re.search(r"ep(\d{2})", titre, re.I)
+        ep = int(n.group(1)) if n else titres.get(titre)
+        if not ep: continue
+        key = f"ep{ep:02d}"; v = etat["videos"].setdefault(key, {})
+        if "id" in v and v["id"] != vid: print(key, "déjà associé à", v["id"], "— doublon ignoré :", vid); continue
+        if "id" not in v: v.update({"id": vid, "deja_en_ligne": True, "a_publier": True}); save(); print(key, "trouvé :", vid, "«", titre, "»")
+    manque = [f"ep{m['episode']:02d}" for m in metas() if "id" not in etat["videos"].get(f"ep{m['episode']:02d}", {})]
+    print("Pas encore en ligne :", ", ".join(manque) or "aucune")
+
+def completer():
+    # pour les vidéos trouvées par « rattacher » : miniature, puis fiche complète + passage en public, playlist, et enfin sous-titres (les plus coûteux en quota)
+    lot = [(m, etat["videos"][f"ep{m['episode']:02d}"]) for m in metas() if etat["videos"].get(f"ep{m['episode']:02d}", {}).get("a_publier")]
+    if "playlist" not in etat: sys.exit("playlist inconnue")
+    for m, v in lot:
+        key = f"ep{m['episode']:02d}"
+        if not v.get("miniature"):
+            call("POST", f"{UP}/thumbnails/set?videoId={v['id']}", headers=["Content-Type: image/jpeg"], data_file=f"{m['dir']}/miniature.jpg"); v["miniature"] = True; save()
+        if not v.get("publique"):
+            call("PUT", f"{API}/videos?part=snippet,status", {"id": v["id"], "snippet": {"title": m["titre"], "description": m["description"], "tags": m["mots_cles"], "categoryId": m["categorie"], "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
+                 "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": m["pour_enfants"], "embeddable": True}})
+            v["fiche"] = v["publique"] = True; save()
+        if not v.get("playlist"):
+            call("POST", f"{API}/playlistItems?part=snippet", {"snippet": {"playlistId": etat["playlist"], "resourceId": {"kind": "youtube#video", "videoId": v["id"]}}}); v["playlist"] = True; save()
+        print(key, "publique, fiche + miniature + playlist : https://youtu.be/" + v["id"])
+    for m, v in lot:
+        if not v.get("sous_titres"):
+            b = "kidiscience-frontiere"
+            part = (f"--{b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + json.dumps({"snippet": {"videoId": v["id"], "language": "fr", "name": ""}}) +
+                    f"\r\n--{b}\r\nContent-Type: application/octet-stream\r\n\r\n").encode() + open(f"{m['dir']}/sous-titres.srt", "rb").read() + f"\r\n--{b}--\r\n".encode()
+            with tempfile.NamedTemporaryFile(suffix=".bin", delete=False) as f: f.write(part)
+            call("POST", f"{UP}/captions?uploadType=multipart&part=snippet", headers=[f"Content-Type: multipart/related; boundary={b}"], data_file=f.name); os.remove(f.name)
+            v["sous_titres"] = True; save(); print(f"ep{m['episode']:02d}", "sous-titres posés")
+
 def chaine():
     c = call("GET", f"{API}/channels?part=brandingSettings&mine=true")["items"][0]
     txt = open("DESCRIPTION.md").read()
@@ -97,4 +146,4 @@ def chaine():
     call("PUT", f"{API}/channels?part=brandingSettings", {"id": c["id"], "brandingSettings": bs})
     print("Description et bannière installées")
 
-{"verifier": verifier, "fiches": fiches, "envoyer": envoyer, "publier": publier, "chaine": chaine}[sys.argv[1]]()
+{"verifier": verifier, "fiches": fiches, "envoyer": envoyer, "publier": publier, "chaine": chaine, "rattacher": rattacher, "completer": completer}[sys.argv[1]]()
