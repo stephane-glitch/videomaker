@@ -1,0 +1,164 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, un avion, c'est lourd comme cent éléphants. Comment ça tient en l'air ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Grâce à l'air, justement."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "L'air ? Mais l'air, c'est rien du tout !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Détrompe-toi. Quand tu cours très vite, tu le sens sur ton visage. L'air, ça pousse."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Un avion, c'est d'abord une histoire de vitesse. Ses moteurs le poussent très fort vers l'avant."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et l'air lui fonce dessus."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Voilà. Et plus l'avion va vite, plus l'air pousse fort."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Le secret, c'est l'aile. Elle est un peu penchée, et bombée sur le dessus. En avançant, elle renvoie l'air vers le bas."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et si l'aile pousse l'air vers le bas…"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "… l'air pousse l'aile vers le haut. Cette force s'appelle la portance."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Comme ma main à plat devant un ventilateur !"
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Exactement pareil."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "En vol, quatre forces se disputent l'avion. Le poids le tire vers le bas. La portance le porte vers le haut. Les moteurs le poussent en avant. Et l'air le freine."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et si les moteurs s'arrêtent, il tombe comme une pierre ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Non. Il plane, comme un avion en papier. Et très longtemps."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Pourquoi il roule si longtemps avant de décoller ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Pour prendre de la vitesse. Sans vitesse, pas de portance. Vers deux cent cinquante kilomètres à l'heure, les ailes portent enfin tout le poids."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et hop, les cent éléphants s'envolent."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et pour tourner, il y a un volant ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Presque. Le pilote bouge de petits volets, sur les ailes et sur la queue. Ils dévient l'air, et l'avion se penche pour tourner."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Les oiseaux font pareil avec leurs plumes !"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Oui. Eux, ils ont inventé l'aile bien avant nous."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : les moteurs donnent la vitesse. L'aile pousse l'air vers le bas. Et l'air pousse l'aile vers le haut."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Bien reçu, commandant."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et Internet, ça passe par où ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Par des câbles, au fond des océans. La prochaine fois !"
+  }
+]

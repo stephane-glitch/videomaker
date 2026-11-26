@@ -1,0 +1,155 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,660 --> 00:00:11,490
+Max, un avion, c'est lourd comme cent éléphants.
+
+3
+00:00:11,520 --> 00:00:12,610
+Comment ça tient en l'air ?
+
+4
+00:00:13,100 --> 00:00:14,590
+Grâce à l'air, justement.
+
+5
+00:00:15,200 --> 00:00:17,290
+L'air ? Mais l'air, c'est rien du tout !
+
+6
+00:00:18,190 --> 00:00:20,450
+Détrompe-toi. Quand tu cours très vite,
+
+7
+00:00:20,480 --> 00:00:24,100
+tu le sens sur ton visage. L'air, ça pousse.
+
+8
+00:00:25,320 --> 00:00:28,220
+Un avion, c'est d'abord une histoire de vitesse.
+
+9
+00:00:28,260 --> 00:00:30,310
+Ses moteurs le poussent très fort vers l'avant.
+
+10
+00:00:32,350 --> 00:00:33,950
+Et l'air lui fonce dessus.
+
+11
+00:00:34,430 --> 00:00:37,480
+Voilà. Et plus l'avion va vite, plus l'air pousse fort.
+
+12
+00:00:38,710 --> 00:00:42,020
+Le secret, c'est l'aile. Elle est un peu penchée,
+
+13
+00:00:42,080 --> 00:00:46,110
+et bombée sur le dessus. En avançant, elle renvoie l'air vers le bas.
+
+14
+00:00:47,510 --> 00:00:51,040
+Et si l'aile pousse l'air vers le bas…
+
+15
+00:00:51,590 --> 00:00:55,980
+… l'air pousse l'aile vers le haut. Cette force s'appelle la portance.
+
+16
+00:00:56,330 --> 00:00:59,780
+Comme ma main à plat devant un ventilateur !
+
+17
+00:01:00,560 --> 00:01:01,450
+Exactement pareil.
+
+18
+00:01:02,630 --> 00:01:05,340
+En vol, quatre forces se disputent l'avion.
+
+19
+00:01:05,540 --> 00:01:09,510
+Le poids le tire vers le bas. La portance le porte vers le haut.
+
+20
+00:01:09,560 --> 00:01:12,640
+Les moteurs le poussent en avant. Et l'air le freine.
+
+21
+00:01:13,240 --> 00:01:17,800
+Et si les moteurs s'arrêtent, il tombe comme une pierre ?
+
+22
+00:01:18,310 --> 00:01:21,630
+Non. Il plane, comme un avion en papier.
+
+23
+00:01:22,030 --> 00:01:23,630
+Et très longtemps.
+
+24
+00:01:24,910 --> 00:01:27,880
+Pourquoi il roule si longtemps avant de décoller ?
+
+25
+00:01:28,310 --> 00:01:30,850
+Pour prendre de la vitesse. Sans vitesse,
+
+26
+00:01:30,870 --> 00:01:34,330
+pas de portance. Vers deux cent cinquante kilomètres à l'heure,
+
+27
+00:01:34,370 --> 00:01:36,240
+les ailes portent enfin tout le poids.
+
+28
+00:01:36,820 --> 00:01:39,390
+Et hop, les cent éléphants s'envolent.
+
+29
+00:01:41,510 --> 00:01:44,160
+Et pour tourner, il y a un volant ?
+
+30
+00:01:44,710 --> 00:01:47,380
+Presque. Le pilote bouge de petits volets,
+
+31
+00:01:47,430 --> 00:01:50,430
+sur les ailes et sur la queue. Ils dévient l'air,
+
+32
+00:01:50,460 --> 00:01:52,170
+et l'avion se penche pour tourner.
+
+33
+00:01:52,760 --> 00:01:55,810
+Les oiseaux font pareil avec leurs plumes !
+
+34
+00:01:56,220 --> 00:02:00,130
+Oui. Eux, ils ont inventé l'aile bien avant nous.
+
+35
+00:02:01,270 --> 00:02:03,430
+Je résume : les moteurs donnent la vitesse.
+
+36
+00:02:03,710 --> 00:02:07,990
+L'aile pousse l'air vers le bas. Et l'air pousse l'aile vers le haut.
+
+37
+00:02:08,630 --> 00:02:09,770
+Bien reçu, commandant.
+
+38
+00:02:10,810 --> 00:02:13,700
+Dis, Max… et Internet, ça passe par où ?
+
+39
+00:02:14,110 --> 00:02:17,410
+Par des câbles, au fond des océans. La prochaine fois !

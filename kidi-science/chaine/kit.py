@@ -66,6 +66,9 @@ EPS = [
     ("ep21-etoiles", "C'est quoi, une étoile ?", "C'est quoi, une étoile ?",
      "Les étoiles ne sont pas des petites lampes : ce sont des soleils, très loin. Zoé et Max découvrent les boules de gaz brûlant, la lumière qui voyage pendant des années, les couleurs des étoiles et les milliards de galaxies.",
      ["étoiles", "Soleil", "galaxie", "espace", "astronomie"], ("s4", 0.9)),
+    ("ep22-avion", "Comment vole un avion ?", "Comment vole un avion ?",
+     "Un avion pèse le poids de cent éléphants, et pourtant il tient en l'air. Zoé et Max expliquent la vitesse, le secret de l'aile, la portance, les quatre forces du vol, le décollage et les volets pour tourner.",
+     ["avion", "voler", "portance", "aile", "transports"], ("s3", 0.5)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
