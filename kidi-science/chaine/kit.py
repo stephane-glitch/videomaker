@@ -39,6 +39,9 @@ EPS = [
     ("ep12-toucher", "Pourquoi ça chatouille ? Le toucher", "Pourquoi ça chatouille ?",
      "La peau est un emballage rempli de millions de capteurs. Zoé et Max les passent en revue, testent les doigts et le dos, expliquent le réflexe de la main qui se retire, et percent le secret des chatouilles.",
      ["toucher", "peau", "réflexe", "chatouilles", "les cinq sens"], ("s1", 0.8)),
+    ("ep13-vue", "Pourquoi on a deux yeux ? La vue", "Pourquoi on a deux yeux ?",
+     "Un œil, c'est presque un appareil photo. Zoé et Max suivent la lumière : la pupille, le cristallin, l'image à l'envers sur la rétine, le rôle des lunettes, et ce que deux yeux apportent de plus qu'un seul.",
+     ["vue", "œil", "pupille", "lunettes", "les cinq sens"], ("s2", 0.5)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

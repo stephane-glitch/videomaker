@@ -1,0 +1,194 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, pourquoi on a deux yeux ? Un seul gros au milieu, ça suffirait pour voir."
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Pour voir, oui. Pour attraper une balle, non. Mais commençons par un seul œil."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "D'accord. Un œil, c'est comme un appareil photo ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque pareil. Regarde."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "La lumière entre par un trou noir, au milieu : la pupille. Autour, l'iris, la partie colorée, est un muscle. Quand il fait sombre, il ouvre la pupille en grand. En plein soleil, il la referme."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "C'est pour ça que les chats ont des yeux immenses la nuit !"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement. Ils laissent entrer le plus de lumière possible."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Derrière la pupille, il y a une petite loupe transparente : le cristallin. Il rassemble la lumière et projette l'image au fond de l'œil, sur la rétine."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Comme au cinéma, avec un écran."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Sauf que l'image arrive à l'envers. La tête en bas."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Quoi ? Je vois le monde à l'envers ?"
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Ton œil, oui. C'est ton cerveau qui la remet à l'endroit, sans te le dire."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Il fait beaucoup de choses sans me le dire, celui-là."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et pourquoi Papi a besoin de lunettes ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Pour que l'image soit nette, elle doit tomber pile sur la rétine. Chez certaines personnes, elle se forme un peu avant, ou un peu après. Tout devient flou."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et les lunettes poussent l'image au bon endroit ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "C'est ça. Un verre de lunettes, c'est une deuxième loupe qui corrige la première."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Bon. Et mes deux yeux, alors ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Tends ton pouce devant toi. Ferme un œil, puis l'autre. Ton pouce saute !"
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Oh ! Chaque œil voit une image un peu différente."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Et ton cerveau compare les deux. Plus elles sont différentes, plus l'objet est près. C'est comme ça que tu vois en relief."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc un cyclope raterait toutes ses passes au foot."
+  },
+  {
+    "id": "s4-6",
+    "scene": "s4",
+    "who": "max",
+    "text": "Il verrait le ballon, mais il ne saurait pas à quelle distance."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et les lapins ? Leurs yeux sont sur les côtés."
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Bien vu. Les animaux chassés ont les yeux sur les côtés : ils voient presque tout autour d'eux, pour repérer le danger. Les chasseurs, comme le chat ou la chouette, les ont devant, pour bien viser."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et moi, j'ai les yeux devant. Je suis une chasseuse !"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Une chasseuse de tartines, surtout."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la pupille laisse entrer la lumière, le cristallin fait l'image, à l'envers, et mes deux yeux me donnent le relief."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu as l'œil."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… pourquoi les volcans crachent du feu ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ce n'est pas vraiment du feu. Mais ça, c'est pour la prochaine fois !"
+  }
+]
