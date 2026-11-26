@@ -1,0 +1,200 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, quand je suis enrhumée, ma purée n'a plus aucun goût. On dirait du carton tiède."
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "C'est normal. Ce que tu appelles le goût, c'est un travail d'équipe : la langue… et le nez."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Le nez ? Encore lui ? Il est partout !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Commençons par la langue."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Regarde ta langue dans un miroir : elle est couverte de petites bosses, les papilles. Dans ces bosses se cachent des milliers de bourgeons du goût, de minuscules capteurs."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Des bourgeons ? Comme sur les arbres ?"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Ils en ont la forme. Mais pour qu'ils goûtent, il faut de la salive : elle fait fondre un peu l'aliment, et les molécules glissent jusqu'aux bourgeons."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc une langue toute sèche ne sent rien. La bave, ça sert !"
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et ils reconnaissent combien de goûts ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Cinq. Le sucré, le salé, l'acide, l'amer… et l'umami."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "L'ou quoi ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "L'umami. C'est le goût savoureux du bouillon, du parmesan ou de la tomate bien mûre. Un mot japonais."
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "À l'école, on m'a montré une carte : le sucré au bout de la langue, l'amer au fond."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "max",
+    "text": "Cette carte est fausse. Toute la langue sent les cinq goûts."
+  },
+  {
+    "id": "s2-7",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Je le dirai à la maîtresse. Poliment."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Cinq goûts seulement ? Mais une fraise et un bonbon, ce n'est pas pareil !"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "C'est là que le nez entre en scène. Quand tu mâches, des odeurs remontent par l'arrière de la bouche jusqu'au nez. La langue dit : sucré. Le nez dit : fraise."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et si je me bouche le nez ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Essaie avec un bonbon : tu sentiras le sucre, mais impossible de dire son parfum."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Voilà pourquoi ma purée était en carton. Mon nez était en panne."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Pourquoi je déteste les endives ? C'est amer !"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "L'amer, c'est une alarme. Dans la nature, beaucoup de poisons sont amers. Et les enfants y sont plus sensibles que les adultes."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Donc quand je fais la grimace, je me protège. Je le savais."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Les endives ne sont pas du poison. Et tes goûts changeront en grandissant."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et le piment ? Ça brûle ! C'est un goût aussi ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Non. Le piment triche. Il déclenche les capteurs de chaleur de ta bouche. Ton cerveau croit que ça brûle, alors que rien n'est chaud."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et la menthe fait pareil avec le froid ?"
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Exactement. Tu as tout compris."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la langue reconnaît cinq goûts, le nez ajoute les parfums, et le piment est un tricheur."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Bravo. À table !"
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… ces capteurs de chaud et de froid, j'en ai aussi sur la peau ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Partout. Et ils ne sont pas tout seuls. La prochaine fois, on parle du toucher !"
+  }
+]

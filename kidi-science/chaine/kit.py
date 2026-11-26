@@ -33,6 +33,9 @@ EPS = [
     ("ep10-odorat", "Comment je sens les odeurs ? L'odorat", "Comment je sens les odeurs ?",
      "Une odeur, ce sont des molécules qui volent jusqu'au nez. Zoé et Max montent tout en haut du nez, là où des millions de capteurs fonctionnent comme des serrures, et comparent notre nez à celui du chien.",
      ["odorat", "odeur", "nez", "molécules", "les cinq sens"], ("s2", 0.7)),
+    ("ep11-gout", "Pourquoi ça a du goût ? Le goût", "Pourquoi ça a du goût ?",
+     "Le goût, c'est un travail d'équipe entre la langue et le nez. Zoé et Max découvrent les papilles, les cinq goûts, la fausse carte de la langue, pourquoi l'amer fait grimacer et comment le piment triche.",
+     ["goût", "langue", "papilles", "umami", "les cinq sens"], ("s2", 0.3)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
