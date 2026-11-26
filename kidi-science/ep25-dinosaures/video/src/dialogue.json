@@ -1,0 +1,164 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, les dinosaures, ils sont passés où ? Ils se cachent ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Non. Ils ont disparu il y a soixante-six millions d'années."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Tous d'un coup ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque. Et le coupable est tombé du ciel."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Avant ça, les dinosaures ont régné sur la Terre pendant plus de cent cinquante millions d'années. Il y avait des géants, comme le diplodocus, long comme trois bus. Et des tout petits, pas plus gros qu'une poule."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et nous, les humains, on était où ?"
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Nulle part. On n'existait pas encore."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Un jour, une météorite large comme une ville a foncé sur la Terre. Elle s'est écrasée là où se trouve aujourd'hui le Mexique."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Ça a dû faire un trou énorme !"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Un cratère de près de deux cents kilomètres de large."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Le choc a soulevé tellement de poussière qu'elle a caché le Soleil, pendant des mois."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et sans soleil ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Les plantes meurent. Puis ceux qui mangent les plantes. Puis ceux qui mangent ceux qui mangent les plantes."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Tout s'écroule, comme des dominos."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et personne n'a survécu ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Si. Les petits animaux, qui avaient besoin de très peu de nourriture. Comme de petits mammifères, cachés dans leurs terriers. Ce sont nos lointains ancêtres."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "On descend d'une sorte de souris ? Ça explique mon goût pour le fromage."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "max",
+    "text": "Et certains dinosaures ont survécu, eux aussi."
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Quoi ? Où ça ?"
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "max",
+    "text": "Regarde par la fenêtre. Les oiseaux sont leurs descendants."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Le pigeon est un dinosaure ?"
+  },
+  {
+    "id": "s5-5",
+    "scene": "s5",
+    "who": "max",
+    "text": "Un petit cousin du tyrannosaure, oui. On le sait grâce aux fossiles : des os devenus pierre."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : les dinosaures ont régné très longtemps. Une météorite a caché le Soleil, et ils ont disparu. Mais leurs descendants volent encore : les oiseaux."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Bravo, paléontologue."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et pourquoi le ciel est bleu ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Ça, c'est un tour que nous joue la lumière. La prochaine fois !"
+  }
+]

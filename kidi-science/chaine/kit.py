@@ -75,6 +75,9 @@ EPS = [
     ("ep24-aimant", "Pourquoi l'aimant colle au frigo ?", "Pourquoi l'aimant colle au frigo ?",
      "Un aimant n'attire pas tout : il aime surtout le fer. Zoé et Max découvrent les deux pôles, le champ magnétique révélé par la limaille de fer, les mini-aimants bien rangés, et la Terre, aimant géant qui guide les boussoles.",
      ["aimant", "magnétisme", "boussole", "fer", "physique"], ("s3", 0.8)),
+    ("ep25-dinosaures", "Où sont passés les dinosaures ?", "Où sont passés les dinosaures ?",
+     "Les dinosaures ont régné plus de 150 millions d'années, puis une météorite a tout changé. Zoé et Max racontent le cratère, la poussière qui cache le Soleil, les petits mammifères survivants, et les oiseaux, descendants des dinosaures.",
+     ["dinosaures", "météorite", "fossiles", "préhistoire", "oiseaux"], ("s0", 0.2)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
