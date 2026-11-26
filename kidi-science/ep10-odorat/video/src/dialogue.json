@@ -1,0 +1,194 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, ce matin, j'ai su qu'il y avait des crêpes avant même d'ouvrir les yeux. Mon nez les a vues à travers la porte !"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Ton nez n'a rien vu. Ce sont les crêpes qui sont venues jusqu'à lui."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Les crêpes ont monté l'escalier ?"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "De tout petits morceaux de crêpes, oui."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Une odeur, ce sont des molécules : des grains bien trop petits pour être vus. Quand la crêpe chauffe, des milliers s'envolent, et l'air les promène dans toute la maison."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc quand je sens une crêpe, j'ai déjà un peu de crêpe dans le nez."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Exactement."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Et quand je sens la poubelle ?"
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "On va dire qu'on parle des crêpes."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et dans mon nez, il se passe quoi ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Tout en haut, bien caché, il y a un petit tapis de la taille d'un timbre. Il est couvert de millions de capteurs, avec de petits cils qui trempent dans le mucus."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Le mucus… tu veux dire la morve ?"
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Elle attrape les molécules et les amène aux capteurs. Elle travaille dur, ta morve."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et comment mon nez sait que c'est une crêpe, et pas une chaussette ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "Chaque capteur est comme une serrure, et chaque molécule comme une clé. Tu as environ quatre cents sortes de serrures. Une odeur en ouvre plusieurs à la fois, et ton cerveau reconnaît la combinaison."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Comme un code secret. Crêpe : serrures trois, douze et quarante."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "C'est l'idée. Et avec quatre cents serrures, ça fait des milliers et des milliers de codes."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Pourquoi je ne sens plus rien quand je suis enrhumée ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Parce que ton nez est bouché : les molécules n'arrivent plus jusqu'au tapis."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et pourquoi je ne sens jamais l'odeur de ma propre maison ?"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Parce que ton cerveau se lasse. Une odeur qui ne change pas, au bout de quelques minutes, il arrête de la signaler. Il garde son attention pour les nouveautés."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "C'est pour ça que tu ne sens plus tes chaussettes."
+  },
+  {
+    "id": "s4-6",
+    "scene": "s4",
+    "who": "max",
+    "text": "Je ne vois pas de quoi tu parles."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et les chiens ? Ils sentent mieux que nous ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Beaucoup mieux. Nous avons quelques millions de capteurs. Un chien en a jusqu'à trois cents millions. Il peut suivre une trace vieille de plusieurs jours."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Lui, il sait ce que j'ai mangé avant-hier."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Et ton nez à toi a un autre talent : il te prévient. La fumée, le lait tourné, le gaz… il sonne l'alarme avant tes yeux."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : une odeur, ce sont des molécules qui volent. Dans mon nez, elles ouvrent des serrures, et mon cerveau lit le code."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu as du nez, toi."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… quand je suis enrhumée, ma purée n'a plus aucun goût. C'est normal ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Très normal. Mais ça, c'est une histoire de langue… et encore de nez. La prochaine fois !"
+  }
+]

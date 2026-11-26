@@ -30,6 +30,9 @@ EPS = [
     ("ep09-mer", "Pourquoi la mer est salée ?", "Pourquoi la mer est salée ?",
      "Le sel de la mer vient… des montagnes. Zoé et Max suivent son voyage : la pluie qui grignote les rochers, les rivières, puis la mer, où l'eau s'évapore et où le sel reste.",
      ["mer", "sel", "eau de mer", "cycle de l'eau", "mer Morte"], ("s3", 0.6)),
+    ("ep10-odorat", "Comment je sens les odeurs ? L'odorat", "Comment je sens les odeurs ?",
+     "Une odeur, ce sont des molécules qui volent jusqu'au nez. Zoé et Max montent tout en haut du nez, là où des millions de capteurs fonctionnent comme des serrures, et comparent notre nez à celui du chien.",
+     ["odorat", "odeur", "nez", "molécules", "les cinq sens"], ("s2", 0.7)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
