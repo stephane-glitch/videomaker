@@ -36,6 +36,9 @@ EPS = [
     ("ep11-gout", "Pourquoi ça a du goût ? Le goût", "Pourquoi ça a du goût ?",
      "Le goût, c'est un travail d'équipe entre la langue et le nez. Zoé et Max découvrent les papilles, les cinq goûts, la fausse carte de la langue, pourquoi l'amer fait grimacer et comment le piment triche.",
      ["goût", "langue", "papilles", "umami", "les cinq sens"], ("s2", 0.3)),
+    ("ep12-toucher", "Pourquoi ça chatouille ? Le toucher", "Pourquoi ça chatouille ?",
+     "La peau est un emballage rempli de millions de capteurs. Zoé et Max les passent en revue, testent les doigts et le dos, expliquent le réflexe de la main qui se retire, et percent le secret des chatouilles.",
+     ["toucher", "peau", "réflexe", "chatouilles", "les cinq sens"], ("s1", 0.8)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

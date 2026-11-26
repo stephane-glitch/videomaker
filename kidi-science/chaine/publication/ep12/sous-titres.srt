@@ -1,0 +1,207 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,670 --> 00:00:10,850
+Max, pourquoi je ne peux pas me chatouiller toute seule ?
+
+3
+00:00:10,930 --> 00:00:12,370
+J'ai essayé. Rien.
+
+4
+00:00:12,880 --> 00:00:17,430
+Bonne question. Pour y répondre, il faut regarder ta peau de très près.
+
+5
+00:00:17,950 --> 00:00:20,190
+Ma peau ? C'est juste l'emballage.
+
+6
+00:00:20,670 --> 00:00:24,690
+Un emballage rempli de capteurs. Des millions.
+
+7
+00:00:26,540 --> 00:00:30,120
+Sous la surface de ta peau, il y a plusieurs sortes de capteurs.
+
+8
+00:00:30,180 --> 00:00:32,560
+Certains sentent la pression. D'autres,
+
+9
+00:00:32,600 --> 00:00:35,860
+les vibrations. D'autres encore, le chaud,
+
+10
+00:00:35,890 --> 00:00:37,690
+le froid… ou la douleur.
+
+11
+00:00:38,580 --> 00:00:39,630
+Chacun son métier.
+
+12
+00:00:40,140 --> 00:00:44,230
+Voilà. Et quand l'un d'eux s'active, il envoie un message par un nerf,
+
+13
+00:00:44,290 --> 00:00:47,710
+jusqu'au cerveau. À plus de deux cents kilomètres à l'heure.
+
+14
+00:00:48,360 --> 00:00:50,610
+Plus vite qu'un train ! Dans mon bras !
+
+15
+00:00:51,850 --> 00:00:53,050
+Et il y en a partout pareil ?
+
+16
+00:00:53,660 --> 00:00:56,020
+Non. Au bout des doigts et sur les lèvres,
+
+17
+00:00:56,070 --> 00:00:58,280
+ils sont serrés les uns contre les autres.
+
+18
+00:00:58,420 --> 00:01:01,070
+Dans le dos, ils sont très espacés.
+
+19
+00:01:01,480 --> 00:01:04,650
+Fais le test : deux pointes de crayon sur ton doigt,
+
+20
+00:01:04,680 --> 00:01:07,950
+tu sens deux points. Les mêmes dans ton dos,
+
+21
+00:01:08,010 --> 00:01:09,000
+tu n'en sens qu'un.
+
+22
+00:01:10,030 --> 00:01:13,410
+Donc mon dos est myope, et mes doigts ont des lunettes.
+
+23
+00:01:13,910 --> 00:01:16,040
+C'est pour ça qu'on lit le braille avec les doigts,
+
+24
+00:01:16,060 --> 00:01:16,860
+pas avec le dos.
+
+25
+00:01:18,230 --> 00:01:21,720
+Et la douleur, à quoi ça sert ? C'est nul, la douleur.
+
+26
+00:01:22,150 --> 00:01:25,050
+C'est une alarme. Si tu touches un plat brûlant,
+
+27
+00:01:25,110 --> 00:01:28,960
+ta main se retire avant même que ton cerveau soit au courant.
+
+28
+00:01:28,990 --> 00:01:31,480
+Le message fait demi-tour dans ta moelle épinière :
+
+29
+00:01:31,530 --> 00:01:32,530
+c'est un réflexe.
+
+30
+00:01:33,060 --> 00:01:34,350
+Ma main décide toute seule ?
+
+31
+00:01:34,970 --> 00:01:38,720
+Elle n'attend pas la réunion. Le cerveau est prévenu juste après,
+
+32
+00:01:38,740 --> 00:01:41,150
+et là, tu dis : aïe !
+
+33
+00:01:42,290 --> 00:01:46,780
+Et le chaud et le froid, c'est comme un thermomètre ?
+
+34
+00:01:47,260 --> 00:01:49,970
+Pas vraiment. Tes capteurs sentent surtout les changements.
+
+35
+00:01:50,060 --> 00:01:52,230
+Mets une main dans l'eau chaude, l'autre dans l'eau froide,
+
+36
+00:01:52,260 --> 00:01:53,450
+puis les deux dans de l'eau tiède.
+
+37
+00:01:54,000 --> 00:01:56,720
+Laisse-moi deviner. Une main dit : c'est froid.
+
+38
+00:01:56,760 --> 00:02:00,480
+L'autre dit : c'est chaud. Pour la même eau !
+
+39
+00:02:01,210 --> 00:02:04,290
+Exactement. Ta peau compare, elle ne mesure pas.
+
+40
+00:02:05,910 --> 00:02:07,530
+Bon. Et mes chatouilles, alors ?
+
+41
+00:02:07,930 --> 00:02:12,150
+Quand tu bouges ta main, ton cerveau sait d'avance ce que tu vas sentir.
+
+42
+00:02:12,240 --> 00:02:14,670
+Pas de surprise, donc pas de chatouille.
+
+43
+00:02:15,600 --> 00:02:18,250
+Alors que quand c'est toi, je ne sais pas où tu vas attaquer.
+
+44
+00:02:18,730 --> 00:02:21,520
+Voilà. La chatouille, c'est de la surprise.
+
+45
+00:02:22,170 --> 00:02:24,730
+Je demande un robot chatouilleur pour Noël.
+
+46
+00:02:25,990 --> 00:02:28,160
+Je résume : ma peau est pleine de capteurs,
+
+47
+00:02:28,220 --> 00:02:31,120
+surtout au bout des doigts. La douleur est une alarme,
+
+48
+00:02:31,250 --> 00:02:33,760
+et mon cerveau gâche mes chatouilles.
+
+49
+00:02:34,230 --> 00:02:35,030
+Parfait.
+
+50
+00:02:35,640 --> 00:02:40,380
+Dis, Max… pourquoi on a deux yeux, et pas un seul gros au milieu ?
+
+51
+00:02:40,910 --> 00:02:43,580
+Bonne question de cyclope. La prochaine fois,
+
+52
+00:02:43,640 --> 00:02:46,020
+on parle de la vue !

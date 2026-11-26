@@ -1,0 +1,188 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, pourquoi je ne peux pas me chatouiller toute seule ? J'ai essayé. Rien."
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Bonne question. Pour y répondre, il faut regarder ta peau de très près."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Ma peau ? C'est juste l'emballage."
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Un emballage rempli de capteurs. Des millions."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Sous la surface de ta peau, il y a plusieurs sortes de capteurs. Certains sentent la pression. D'autres, les vibrations. D'autres encore, le chaud, le froid… ou la douleur."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Chacun son métier."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Voilà. Et quand l'un d'eux s'active, il envoie un message par un nerf, jusqu'au cerveau. À plus de deux cents kilomètres à l'heure."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Plus vite qu'un train ! Dans mon bras !"
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et il y en a partout pareil ?"
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "max",
+    "text": "Non. Au bout des doigts et sur les lèvres, ils sont serrés les uns contre les autres. Dans le dos, ils sont très espacés."
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Fais le test : deux pointes de crayon sur ton doigt, tu sens deux points. Les mêmes dans ton dos, tu n'en sens qu'un."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Donc mon dos est myope, et mes doigts ont des lunettes."
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "C'est pour ça qu'on lit le braille avec les doigts, pas avec le dos."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et la douleur, à quoi ça sert ? C'est nul, la douleur."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "C'est une alarme. Si tu touches un plat brûlant, ta main se retire avant même que ton cerveau soit au courant. Le message fait demi-tour dans ta moelle épinière : c'est un réflexe."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Ma main décide toute seule ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "Elle n'attend pas la réunion. Le cerveau est prévenu juste après, et là, tu dis : aïe !"
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et le chaud et le froid, c'est comme un thermomètre ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Pas vraiment. Tes capteurs sentent surtout les changements. Mets une main dans l'eau chaude, l'autre dans l'eau froide, puis les deux dans de l'eau tiède."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Laisse-moi deviner. Une main dit : c'est froid. L'autre dit : c'est chaud. Pour la même eau !"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Exactement. Ta peau compare, elle ne mesure pas."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Bon. Et mes chatouilles, alors ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Quand tu bouges ta main, ton cerveau sait d'avance ce que tu vas sentir. Pas de surprise, donc pas de chatouille."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Alors que quand c'est toi, je ne sais pas où tu vas attaquer."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Voilà. La chatouille, c'est de la surprise."
+  },
+  {
+    "id": "s5-5",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Je demande un robot chatouilleur pour Noël."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : ma peau est pleine de capteurs, surtout au bout des doigts. La douleur est une alarme, et mon cerveau gâche mes chatouilles."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parfait."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… pourquoi on a deux yeux, et pas un seul gros au milieu ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Bonne question de cyclope. La prochaine fois, on parle de la vue !"
+  }
+]

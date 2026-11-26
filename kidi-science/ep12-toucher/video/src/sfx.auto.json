@@ -1,0 +1,16 @@
+[
+  { "file": "pop", "at": 22.4, "volume": 0.28 },
+  { "file": "tic", "at": 41.42, "volume": 0.2 },
+  { "file": "tic", "at": 62.97, "volume": 0.2 },
+  { "file": "tic", "at": 67.62, "volume": 0.2 },
+  { "file": "tic", "at": 89.5, "volume": 0.2 },
+  { "file": "pop", "at": 91.4, "volume": 0.28 },
+  { "file": "pop", "at": 122.31, "volume": 0.28 },
+  { "file": "tic", "at": 128.29, "volume": 0.2 },
+  { "file": "pop", "at": 140.23, "volume": 0.28 },
+  { "file": "tic", "at": 146.76, "volume": 0.2 },
+  { "file": "tic", "at": 149.83, "volume": 0.2 },
+  { "file": "tic", "at": 152.09, "volume": 0.2 },
+  { "file": "pop", "at": 163.46, "volume": 0.28 },
+  { "file": "tic", "at": 167.7, "volume": 0.2 }
+]
