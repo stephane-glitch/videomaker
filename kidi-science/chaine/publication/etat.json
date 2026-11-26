@@ -55,6 +55,106 @@
       "miniature": true,
       "sous_titres": true,
       "playlist": true
+    },
+    "ep17": {
+      "id": "PGtRsutOqoc",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep16": {
+      "id": "VUNfRoRoOiw",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep15": {
+      "id": "vy63skQ8GM8",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep14": {
+      "id": "ptQTt7U4PVY",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep13": {
+      "id": "FIuYU2cssiU",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep12": {
+      "id": "aVYgr3TXhkA",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep11": {
+      "id": "KNYsGxzL9FU",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep10": {
+      "id": "rjMduk2gzUQ",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep09": {
+      "id": "8S8_6LqhiAM",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
+    },
+    "ep08": {
+      "id": "QezVrKJD76A",
+      "deja_en_ligne": true,
+      "a_publier": true,
+      "miniature": true,
+      "fiche": true,
+      "publique": true,
+      "playlist": true,
+      "sous_titres": true
     }
   },
   "playlist": "PLQWJCtYunQgs"
