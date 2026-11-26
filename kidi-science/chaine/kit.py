@@ -51,6 +51,9 @@ EPS = [
     ("ep16-coeur", "Pourquoi mon cœur bat ? Le cœur et le sang", "Pourquoi mon cœur bat ?",
      "Le cœur est une pompe grosse comme le poing, qui bat cent mille fois par jour. Zoé et Max suivent le sang, livreur d'oxygène : le grand circuit en huit, les artères et les veines, le boum-boum des valves.",
      ["cœur", "sang", "circulation", "pouls", "corps humain"], ("s2", 0.75)),
+    ("ep17-digestion", "Où va ce que je mange ? La digestion", "Où va ce que je mange ?",
+     "Une tartine part pour un voyage de sept mètres. Zoé et Max la suivent étape par étape : la bouche, l'œsophage, l'estomac, l'intestin grêle qui nourrit le sang, et le gros intestin avec ses milliards de bactéries.",
+     ["digestion", "estomac", "intestin", "corps humain", "alimentation"], ("s3", 0.75)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

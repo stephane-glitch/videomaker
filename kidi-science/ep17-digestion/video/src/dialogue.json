@@ -1,0 +1,212 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, ma tartine de ce matin, elle est où, maintenant ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "Elle voyage. Elle a pris un toboggan de sept mètres de long, plié dans ton ventre."
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Sept mètres ? Je ne mesure même pas un mètre cinquante !"
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "C'est très bien rangé. Suivons-la depuis le départ."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Première étape : la bouche. Tes dents écrasent la tartine, et ta salive commence déjà à la transformer."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Donc quand Maman dit : mâche bien, c'est scientifique."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tout à fait. Ensuite, tu avales : la bouchée descend dans un tube, l'œsophage. Ses muscles la poussent, comme on presse un tube de dentifrice."
+  },
+  {
+    "id": "s1-4",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Alors ça marcherait même la tête en bas ?"
+  },
+  {
+    "id": "s1-5",
+    "scene": "s1",
+    "who": "max",
+    "text": "Oui. Mais ne mange pas la tête en bas."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Deuxième étape : l'estomac. C'est une poche musclée qui malaxe la nourriture pendant deux ou trois heures, avec un jus très acide."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Acide ? Et il ne se digère pas lui-même ?"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Bonne question. Sa paroi est tapissée d'une couche gluante qui la protège."
+  },
+  {
+    "id": "s2-4",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Et ma tartine devient quoi ?"
+  },
+  {
+    "id": "s2-5",
+    "scene": "s2",
+    "who": "max",
+    "text": "Une sorte de soupe épaisse."
+  },
+  {
+    "id": "s2-6",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "Je préférais la tartine."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "max",
+    "text": "Troisième étape, la plus longue : l'intestin grêle. Six mètres de tuyau, repliés sur eux-mêmes. C'est là que le bon passe dans ton sang."
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Comment ça passe ? Il y a des trous ?"
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "max",
+    "text": "Presque. La paroi est couverte de millions de petits doigts, les villosités. Ils attrapent les nutriments et les donnent au sang, qui les livre partout."
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Le livreur ! Celui de la dernière fois."
+  },
+  {
+    "id": "s3-5",
+    "scene": "s3",
+    "who": "max",
+    "text": "Le même. Tu vois, tout est relié."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Et ce qui ne sert à rien ?"
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "max",
+    "text": "Ça continue dans le gros intestin. Lui, il récupère l'eau. Et il héberge des milliards de bactéries, qui nous aident à finir le travail."
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "J'ai des milliards de colocataires dans le ventre ?"
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "max",
+    "text": "Et ils ne paient pas de loyer. Ce qui reste à la fin sort aux toilettes."
+  },
+  {
+    "id": "s4-5",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Le voyage complet dure combien de temps ?"
+  },
+  {
+    "id": "s4-6",
+    "scene": "s4",
+    "who": "max",
+    "text": "Entre un et deux jours."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et quand mon ventre gargouille en classe ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "Ce sont tes muscles qui brassent de l'air et du liquide. Estomac vide ou plein, ils travaillent tout le temps."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Donc ce n'est pas moi. C'est mon tuyau."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Tu peux essayer cette excuse."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : la bouche écrase, l'estomac malaxe, l'intestin grêle donne le bon au sang, et le gros intestin récupère l'eau."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Digéré à la perfection."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… après le déjeuner, j'ai toujours envie de dormir. Pourquoi on dort ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Parce que ton cerveau fait le ménage la nuit. La prochaine fois !"
+  }
+]
