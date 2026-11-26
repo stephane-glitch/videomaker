@@ -1,0 +1,159 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,660 --> 00:00:10,370
+Max, pourquoi l'aimant colle au frigo,
+
+3
+00:00:10,480 --> 00:00:11,650
+et pas à la fenêtre ?
+
+4
+00:00:12,050 --> 00:00:14,050
+Parce qu'un aimant n'attire pas tout.
+
+5
+00:00:14,690 --> 00:00:17,570
+Il est difficile ?
+
+6
+00:00:18,060 --> 00:00:21,630
+Très. Il aime le fer, et presque rien d'autre.
+
+7
+00:00:22,730 --> 00:00:26,500
+Un trombone, un clou, la porte du frigo :
+
+8
+00:00:26,530 --> 00:00:30,070
+il y a du fer dedans, alors ça colle. Le bois,
+
+9
+00:00:30,100 --> 00:00:32,500
+le plastique, le verre : rien du tout.
+
+10
+00:00:33,240 --> 00:00:34,690
+Et ma canette en aluminium ?
+
+11
+00:00:35,190 --> 00:00:37,800
+Rien non plus. Tous les métaux ne sont pas attirés.
+
+12
+00:00:39,020 --> 00:00:41,740
+Chaque aimant a deux bouts, qu'on appelle des pôles :
+
+13
+00:00:41,800 --> 00:00:43,480
+le nord et le sud.
+
+14
+00:00:44,080 --> 00:00:45,300
+Comme la Terre !
+
+15
+00:00:45,750 --> 00:00:49,830
+Un nord et un sud s'attirent. Mais deux nords se repoussent.
+
+16
+00:00:50,440 --> 00:00:54,360
+Je l'ai déjà senti ! On dirait un coussin invisible entre les deux.
+
+17
+00:00:55,390 --> 00:00:58,230
+Autour de l'aimant, il y a une force invisible :
+
+18
+00:00:58,290 --> 00:01:03,020
+le champ magnétique. Pour le voir, on saupoudre de la limaille de fer.
+
+19
+00:01:03,600 --> 00:01:05,210
+Oh ! Ça dessine des lignes !
+
+20
+00:01:05,700 --> 00:01:07,530
+Elles vont d'un pôle à l'autre.
+
+21
+00:01:08,670 --> 00:01:10,750
+Et à l'intérieur d'un aimant, il y a quoi ?
+
+22
+00:01:11,320 --> 00:01:15,350
+Des milliards de minuscules aimants. Dans un clou,
+
+23
+00:01:15,420 --> 00:01:18,830
+ils pointent dans tous les sens, et ils s'annulent.
+
+24
+00:01:18,860 --> 00:01:21,440
+Dans un aimant, ils sont tous alignés,
+
+25
+00:01:21,470 --> 00:01:23,180
+et leurs forces s'additionnent.
+
+26
+00:01:24,290 --> 00:01:25,510
+Une armée bien rangée.
+
+27
+00:01:26,820 --> 00:01:29,280
+Et le plus gros aimant que tu connais,
+
+28
+00:01:29,340 --> 00:01:30,240
+tu marches dessus.
+
+29
+00:01:31,540 --> 00:01:32,510
+La Terre ?
+
+30
+00:01:33,020 --> 00:01:36,730
+Oui. Son cœur de fer en fait un aimant géant.
+
+31
+00:01:36,890 --> 00:01:40,260
+C'est pour ça que l'aiguille d'une boussole montre toujours le nord.
+
+32
+00:01:40,700 --> 00:01:42,390
+L'aiguille, c'est un petit aimant ?
+
+33
+00:01:43,120 --> 00:01:43,920
+Exactement.
+
+34
+00:01:44,790 --> 00:01:48,960
+Je résume : un aimant attire le fer. Il a deux pôles :
+
+35
+00:01:49,000 --> 00:01:52,880
+les contraires s'attirent, les pareils se repoussent.
+
+36
+00:01:52,930 --> 00:01:55,200
+Et la Terre est un aimant géant.
+
+37
+00:01:55,810 --> 00:01:57,630
+Tu ne perds pas le nord.
+
+38
+00:01:58,810 --> 00:02:01,380
+Dis, Max… et les dinosaures, ils sont passés où ?
+
+39
+00:02:02,050 --> 00:02:04,150
+Ah… Ça, c'est une histoire de météorite.
+
+40
+00:02:04,440 --> 00:02:05,800
+La prochaine fois !

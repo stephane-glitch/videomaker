@@ -72,6 +72,9 @@ EPS = [
     ("ep23-internet", "Internet, ça passe par où ?", "Internet, ça passe par où ?",
      "Internet n'est pas dans les nuages : ce sont surtout des câbles, jusqu'au fond des océans. Zoé et Max suivent une vidéo découpée en petits paquets, guidée par les routeurs, à la vitesse de la lumière.",
      ["Internet", "câbles sous-marins", "réseau", "numérique", "technologie"], ("s4", 0.5)),
+    ("ep24-aimant", "Pourquoi l'aimant colle au frigo ?", "Pourquoi l'aimant colle au frigo ?",
+     "Un aimant n'attire pas tout : il aime surtout le fer. Zoé et Max découvrent les deux pôles, le champ magnétique révélé par la limaille de fer, les mini-aimants bien rangés, et la Terre, aimant géant qui guide les boussoles.",
+     ["aimant", "magnétisme", "boussole", "fer", "physique"], ("s3", 0.8)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"
