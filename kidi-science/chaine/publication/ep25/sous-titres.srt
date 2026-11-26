@@ -151,13 +151,9 @@ les oiseaux.
 Bravo, paléontologue.
 
 39
-00:02:10,370 --> 00:02:12,470
-Dis, Max… et pourquoi le ciel est bleu ?
+00:02:10,330 --> 00:02:13,630
+Dis, Max… et une graine, comment ça devient un arbre ?
 
 40
-00:02:12,880 --> 00:02:15,490
-Ça, c'est un tour que nous joue la lumière.
-
-41
-00:02:15,520 --> 00:02:16,360
-La prochaine fois !
+00:02:14,160 --> 00:02:17,740
+Avec de l'eau, de l'air et du soleil. La prochaine fois !

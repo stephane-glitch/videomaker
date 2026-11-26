@@ -119,7 +119,7 @@ Demandés : **le feu**, **l'eau de mer (pourquoi elle est salée)**, et **une vi
 | Les machines | Internet                 | Comment une vidéo arrive sur mon écran ? |
 | Les machines | L'aimant                 | Pourquoi les aimants collent ?           |
 | La vie       | Les dinosaures           | Où sont passés les dinosaures ?          |
-| La Terre     | Le ciel bleu             | Pourquoi le ciel est bleu ?              |
+| La vie       | Les plantes              | Comment une graine devient un arbre ?    |
 
 ## Rythme : constat et règles pour les prochains épisodes
 

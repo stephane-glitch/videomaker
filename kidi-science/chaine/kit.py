@@ -78,6 +78,9 @@ EPS = [
     ("ep25-dinosaures", "Où sont passés les dinosaures ?", "Où sont passés les dinosaures ?",
      "Les dinosaures ont régné plus de 150 millions d'années, puis une météorite a tout changé. Zoé et Max racontent le cratère, la poussière qui cache le Soleil, les petits mammifères survivants, et les oiseaux, descendants des dinosaures.",
      ["dinosaures", "météorite", "fossiles", "préhistoire", "oiseaux"], ("s0", 0.2)),
+    ("ep26-plantes", "Comment une graine devient un arbre ?", "Comment pousse un arbre ?",
+     "Un arbre ne mange pas la terre : il se fabrique surtout avec de l'air ! Zoé et Max suivent la graine qui se réveille, la recette de la photosynthèse (eau, air, soleil), le sucre qui devient bois, et l'oxygène offert par les plantes.",
+     ["plantes", "photosynthèse", "arbre", "graine", "nature"], ("s2", 0.6)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

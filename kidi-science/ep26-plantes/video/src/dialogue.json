@@ -1,0 +1,164 @@
+[
+  {
+    "id": "g-1",
+    "scene": "g",
+    "who": "zoe",
+    "text": "Dis… comment ça marche ?"
+  },
+  {
+    "id": "s0-1",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Max, une graine, c'est minuscule. Comment ça devient un arbre énorme ?"
+  },
+  {
+    "id": "s0-2",
+    "scene": "s0",
+    "who": "max",
+    "text": "À ton avis, il trouve où de quoi grandir ?"
+  },
+  {
+    "id": "s0-3",
+    "scene": "s0",
+    "who": "zoe",
+    "text": "Dans la terre ! Il la mange."
+  },
+  {
+    "id": "s0-4",
+    "scene": "s0",
+    "who": "max",
+    "text": "Presque tout le monde le pense. Mais non. Un arbre se fabrique surtout avec de l'air."
+  },
+  {
+    "id": "s1-1",
+    "scene": "s1",
+    "who": "max",
+    "text": "Tout commence par la graine. Dedans, il y a une plante miniature, et un petit stock de nourriture."
+  },
+  {
+    "id": "s1-2",
+    "scene": "s1",
+    "who": "zoe",
+    "text": "Un pique-nique pour le voyage."
+  },
+  {
+    "id": "s1-3",
+    "scene": "s1",
+    "who": "max",
+    "text": "Voilà. Avec un peu d'eau, elle se réveille. Une racine descend, une tige monte vers la lumière."
+  },
+  {
+    "id": "s2-1",
+    "scene": "s2",
+    "who": "max",
+    "text": "Ensuite, la plante se nourrit toute seule. Ses racines boivent l'eau du sol. Ses feuilles attrapent un gaz de l'air, le gaz carbonique. Et le soleil lui donne de l'énergie."
+  },
+  {
+    "id": "s2-2",
+    "scene": "s2",
+    "who": "zoe",
+    "text": "De l'eau, de l'air et du soleil. C'est une recette ?"
+  },
+  {
+    "id": "s2-3",
+    "scene": "s2",
+    "who": "max",
+    "text": "Oui. Avec ça, les feuilles fabriquent du sucre. Cette recette s'appelle la photosynthèse."
+  },
+  {
+    "id": "s3-1",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Et le sucre, il sert à quoi ?"
+  },
+  {
+    "id": "s3-2",
+    "scene": "s3",
+    "who": "max",
+    "text": "À tout construire : le bois, les feuilles, les fruits. Un arbre, c'est de l'air et de l'eau transformés en bois."
+  },
+  {
+    "id": "s3-3",
+    "scene": "s3",
+    "who": "zoe",
+    "text": "Donc mon bureau est fait avec de l'air ?"
+  },
+  {
+    "id": "s3-4",
+    "scene": "s3",
+    "who": "max",
+    "text": "En grande partie, oui."
+  },
+  {
+    "id": "s4-1",
+    "scene": "s4",
+    "who": "max",
+    "text": "Et en cuisinant, la plante rejette un déchet : de l'oxygène."
+  },
+  {
+    "id": "s4-2",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "L'oxygène ? Celui qu'on respire ?"
+  },
+  {
+    "id": "s4-3",
+    "scene": "s4",
+    "who": "max",
+    "text": "Celui-là même. Nous respirons ce que les plantes rejettent."
+  },
+  {
+    "id": "s4-4",
+    "scene": "s4",
+    "who": "zoe",
+    "text": "Merci, les plantes. Je ne vous marcherai plus dessus."
+  },
+  {
+    "id": "s5-1",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et pourquoi les feuilles sont vertes ?"
+  },
+  {
+    "id": "s5-2",
+    "scene": "s5",
+    "who": "max",
+    "text": "À cause de la chlorophylle. C'est elle qui capte la lumière du soleil."
+  },
+  {
+    "id": "s5-3",
+    "scene": "s5",
+    "who": "zoe",
+    "text": "Et en automne, elles deviennent jaunes."
+  },
+  {
+    "id": "s5-4",
+    "scene": "s5",
+    "who": "max",
+    "text": "Parce que l'arbre range sa chlorophylle pour l'hiver. Les autres couleurs, cachées dessous, apparaissent."
+  },
+  {
+    "id": "s6-1",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Je résume : une plante boit de l'eau, attrape de l'air, et prend la lumière du soleil. Elle fabrique son sucre, et nous offre de l'oxygène."
+  },
+  {
+    "id": "s6-2",
+    "scene": "s6",
+    "who": "max",
+    "text": "Tu pousses vite, toi."
+  },
+  {
+    "id": "s6-3",
+    "scene": "s6",
+    "who": "zoe",
+    "text": "Dis, Max… et les abeilles, comment elles font le miel ?"
+  },
+  {
+    "id": "s6-4",
+    "scene": "s6",
+    "who": "max",
+    "text": "Avec des fleurs, et beaucoup de patience. La prochaine fois !"
+  }
+]
