@@ -120,6 +120,8 @@ Demandés : **le feu**, **l'eau de mer (pourquoi elle est salée)**, et **une vi
 | Les machines | L'aimant                 | Pourquoi les aimants collent ?           |
 | La vie       | Les dinosaures           | Où sont passés les dinosaures ?          |
 | La vie       | Les plantes              | Comment une graine devient un arbre ?    |
+| La vie       | Les abeilles             | Comment les abeilles font le miel ?      |
+| Le corps     | Le hoquet (à faire)      | D'où vient le hoquet ?                   |
 
 ## Rythme : constat et règles pour les prochains épisodes
 

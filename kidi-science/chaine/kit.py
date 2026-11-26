@@ -81,6 +81,9 @@ EPS = [
     ("ep26-plantes", "Comment une graine devient un arbre ?", "Comment pousse un arbre ?",
      "Un arbre ne mange pas la terre : il se fabrique surtout avec de l'air ! Zoé et Max suivent la graine qui se réveille, la recette de la photosynthèse (eau, air, soleil), le sucre qui devient bois, et l'oxygène offert par les plantes.",
      ["plantes", "photosynthèse", "arbre", "graine", "nature"], ("s2", 0.6)),
+    ("ep27-abeilles", "Comment les abeilles font le miel ?", "Comment les abeilles font le miel ?",
+     "Le miel ne sort pas d'une cuisine : tout commence dans une fleur. Zoé et Max suivent le nectar, de la langue de l'abeille jusqu'à l'alvéole de cire, le séchage à coups d'ailes, la réserve pour l'hiver, et le pollen qui fait naître les fruits.",
+     ["abeilles", "miel", "ruche", "pollinisation", "nature"], ("s3", 0.3)),
 ]
 COMMON_TAGS = ["Kidi-science", "sciences pour enfants", "comment ça marche", "vulgarisation scientifique", "dessin animé éducatif", "école primaire"]
 ts = lambda s: f"{int(s // 60)}:{int(s % 60):02d}"

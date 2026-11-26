@@ -1,7 +1,7 @@
 // Relève les apparitions à l'écran (show, pop, étiquettes) dans index.html et en fait des bruitages discrets.
 // Usage : node scripts/build.mjs && node scripts/autosfx.cjs && node scripts/build.mjs
 const { chromium } = require("playwright");
-const { writeFileSync, readFileSync } = require("node:fs");
+const { writeFileSync } = require("node:fs");
 const { pathToFileURL } = require("node:url");
 (async () => {
   const browser = await chromium.launch();
