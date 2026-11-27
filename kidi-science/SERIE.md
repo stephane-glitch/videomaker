@@ -131,3 +131,21 @@ Demandés : **le feu**, **l'eau de mer (pourquoi elle est salée)**, et **une vi
 Mesure sur les épisodes 2, 4 et 7 : une trentaine de silences de plus de 0,7 s par épisode, environ 40 s au total (un cinquième de la durée), dont 13 ou 14 de plus de 1,2 s, le plus long dépassant 3 s. Ils viennent des pauses réglées dans `src/config.json` (`lead`, `tail`, `pre`) et de l'absence de fond sonore.
 
 Règles proposées : pauses entre répliques de 0,25 s au plus (0,5 s pour une chute), 0,4 s en début de scène et 0,6 s en fin ; un fond sonore discret en continu ; un bruitage sur chaque apparition ; aucune image immobile plus d'une demi-seconde (mouvement d'attente sur les éléments à l'écran).
+
+## Ouverture des épisodes (décidé le 27/11/2026, à partir de l'épisode 31)
+
+Constat sur l'épisode 10 (odorat) dans YouTube Studio, après 20 vues : 1 200 impressions, 1,7 % de clics,
+26 s regardées en moyenne (14 %). Les spectateurs repartent pendant l'introduction, qui met 15 à 20 s
+avant la première vraie explication.
+
+Règles pour les prochains épisodes (décision de l'utilisateur) :
+
+1. **Accroche d'abord** : l'épisode s'ouvre directement sur une image surprenante et en mouvement liée
+   au sujet, avec la question de Zoé dès la première seconde. Pas d'écran de titre avant.
+2. **Générique ensuite, et court** : 2 à 3 s au plus (logo Kidi-science et jingle), placé juste après
+   l'accroche (vers 6 à 10 s), puis on enchaîne tout de suite sur la réponse.
+3. **Première explication avant 15 s** : Max commence à répondre au plus tard 15 s après le début.
+4. Les épisodes 1 à 30 ne sont pas modifiés.
+
+Le style visuel peut changer d'un épisode à l'autre (papier découpé, dessin animé classique, gouache
+hachurée testés sur les épisodes 28 à 30) ; d'autres styles pourront être essayés.
