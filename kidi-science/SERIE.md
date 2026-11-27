@@ -176,3 +176,9 @@ Chaque sujet vient avec son **accroche** (la première image, selon les règles 
 | La matière   | Pourquoi la glace flotte ?                 | Un glaçon qui remonte, alors que les cailloux coulent        |
 | La matière   | Comment marche le savon ?                  | Une tache de gras qui s'enfuit devant une bulle              |
 | La matière   | Pourquoi le pop-corn éclate ?              | Un grain de maïs qui explose au ralenti                      |
+
+## Rythme de production (décidé le 27/11/2026)
+
+Moins d'épisodes, mieux faits : la production se fait **le jeudi soir uniquement**, en mettant l'effort sur la
+qualité visuelle et le rendu. Pas de demande de hausse du quota YouTube. Le reste (voix, ton, structure,
+publication) ne change pas.
