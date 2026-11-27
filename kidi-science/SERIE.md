@@ -150,7 +150,9 @@ Règles pour les prochains épisodes (décision de l'utilisateur) :
 Le style visuel peut changer d'un épisode à l'autre (papier découpé, dessin animé classique, gouache
 hachurée testés sur les épisodes 28 à 30) ; d'autres styles pourront être essayés.
 
-## Nouveaux sujets proposés (27/11/2026, à valider par l'utilisateur)
+## Nouveaux sujets validés (27/11/2026) — production à partir du jeudi 3/12/2026
+
+Écartés par l'utilisateur : l'arc-en-ciel (déjà dans l'épisode 6, la lumière) et « pourquoi le ciel est noir la nuit » (trop évident).
 
 Chaque sujet vient avec son **accroche** (la première image, selon les règles d'ouverture ci-dessus).
 
@@ -161,10 +163,8 @@ Chaque sujet vient avec son **accroche** (la première image, selon les règles 
 | Le corps     | Pourquoi j'ai la chair de poule ?          | Un bras dont les poils se dressent d'un coup                 |
 | Le corps     | Pourquoi mes doigts fripent dans le bain ? | Des doigts qui deviennent des pruneaux                       |
 | Le corps     | Comment guérit une coupure ?               | Une armée minuscule qui répare un trou dans la peau          |
-| La Terre     | D'où vient l'arc-en-ciel ?                 | Un rayon de soleil qui se casse en sept couleurs             |
 | La Terre     | Comment se forme un orage ?                | Un éclair qui coupe l'écran en deux, puis le « BOUM »        |
 | La Terre     | Pourquoi il y a des vagues ?               | Une vague géante qui se dresse                               |
-| L'espace     | Pourquoi le ciel est noir la nuit ?        | Le ciel bleu qui s'éteint d'un coup                          |
 | L'espace     | Comment vivent les astronautes ?           | Une goutte d'eau qui flotte en boule devant un nez           |
 | L'espace     | C'est quoi, un trou noir ?                 | Une étoile aspirée comme des spaghettis                      |
 | Les machines | Comment marche un frigo ?                  | La porte s'ouvre : il fait froid, mais d'où vient le froid ? |
