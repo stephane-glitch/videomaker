@@ -209,11 +209,43 @@
       "id": "1VnCarRd2vo",
       "miniature": true,
       "sous_titres": true,
-      "playlist": true
+      "playlist": true,
+      "publique": true
     },
     "ep23": {
       "id": "8SUZlllRXrI",
-      "miniature": true
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true,
+      "publique": true
+    },
+    "ep24": {
+      "id": "OSjd79x2iPo",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true,
+      "publique": true
+    },
+    "ep25": {
+      "id": "dsl2R79qnK0",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true,
+      "publique": true
+    },
+    "ep26": {
+      "id": "3M0eRmOm2fA",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true,
+      "publique": true
+    },
+    "ep27": {
+      "id": "C1i8ADaBJyk",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true,
+      "publique": true
     }
   },
   "playlist": "PLQWJCtYunQgs"

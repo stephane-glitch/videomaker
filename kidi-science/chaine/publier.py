@@ -2,7 +2,7 @@
 # Le jeton d'accès n'est jamais dans ce fichier : il est ajouté aux requêtes par le proxy de la session.
 #   python3 -I publier.py verifier   → montre la chaîne reconnue par le jeton
 #   python3 -I publier.py envoyer [ep28 ep29 …] → envoie les vidéos EN PRIVÉ (celles déjà en ligne sont seulement mises à jour, visibilité inchangée), avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
-#   python3 -I publier.py publier    → passe en public les vidéos déjà envoyées
+#   python3 -I publier.py publier ep22 ep23 … → passe en public les vidéos déjà envoyées
 #   python3 -I publier.py chaine     → installe la description et la bannière de la chaîne
 #   python3 -I publier.py rattacher  → retrouve les vidéos envoyées à la main depuis YouTube Studio et les associe aux fiches
 #   python3 -I publier.py completer  → pour ces vidéos : miniature, fiche, passage en public, playlist, puis sous-titres
@@ -87,8 +87,11 @@ def fiches():
         v["fiche"] = True; save(); print(key, "fiche mise à jour (visibilité inchangée :", cur["privacyStatus"] + ")")
 
 def publier():
+    # « publier ep22 ep23 » : seulement ces épisodes (sans liste, aucun : on ne touche jamais aux épisodes 1 à 7 par erreur)
+    seuls = set(sys.argv[2:])
+    if not seuls: sys.exit("Indiquez les épisodes à publier, par exemple : publier ep22 ep23")
     for key, v in sorted(etat["videos"].items()):
-        if "id" in v and not v.get("publique"):
+        if key in seuls and "id" in v and not v.get("publique"):
             call("PUT", f"{API}/videos?part=status", {"id": v["id"], "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": True, "embeddable": True}}); v["publique"] = True; save()
             print(key, "publique : https://youtu.be/" + v["id"])
 
