@@ -1,0 +1,6 @@
+[
+  { "file": "fond", "at": 0, "loop": 41.74, "volume": 0.13 },
+  { "file": "whoosh", "at": ["@g", "start"], "offset": -0.25, "volume": 0.35 },
+  { "file": "jingle", "at": ["@g", "start"], "offset": 0.05, "volume": 0.42, "dur": 2.6 },
+  { "file": "whoosh", "at": ["@b", "start"], "offset": -0.25, "volume": 0.3 }
+]

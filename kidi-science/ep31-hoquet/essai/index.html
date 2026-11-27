@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — D'où vient le hoquet ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #b9a283;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        background: #b9a283;
+      }
+      .layer,
+      .pc,
+      .fx {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .scene {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .layer {
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .pc {
+        will-change: transform, opacity;
+      }
+      .pc img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+      }
+      #grain img {
+        display: block;
+      }
+      #sets {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .fx {
+        width: 1920px;
+        height: 1080px;
+        pointer-events: none;
+      }
+      #lamp {
+        background: radial-gradient(ellipse 75% 80% at 46% 42%, rgba(255, 244, 214, 0.1) 0%, rgba(40, 22, 6, 0) 45%, rgba(40, 22, 6, 0.5) 100%);
+      }
+      #grain {
+        left: -60px;
+        top: -60px;
+        width: 2040px;
+        height: 1200px;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="33.7" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <!-- Grains de papier : chaque « stock » éclaire un bruit comme un relief -->
+          <filter id="st-sugar" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035 0.7" numOctaves="3" seed="4" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.5" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-fine" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="63" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-kraft" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.9" numOctaves="4" seed="2" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.4" lighting-color="#ffffff" result="l"><feDistantLight azimuth="250" elevation="56" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-board" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.5 0.02" numOctaves="4" seed="11" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="200" elevation="58" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" />
+          </filter>
+          <filter id="st-marble" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="turbulence" baseFrequency="0.0035 0.009" numOctaves="4" seed="8" result="t" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.1  0 0 0 0 0.04  7 0 0 0 -1.15" result="v1" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 0.78  0 0 0 0 0.25  0 -9 0 0 1.25" result="v2" />
+            <feMerge result="m"><feMergeNode in="SourceGraphic" /><feMergeNode in="v1" /><feMergeNode in="v2" /></feMerge>
+            <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="5" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="62" /></feDiffuseLighting>
+            <feBlend in="m" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <!-- Bords déchirés : on déplace le contour avec un bruit -->
+          <filter id="tear1" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <filter id="tear2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="17" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="13" xChannelSelector="G" yChannelSelector="R" />
+          </filter>
+          <filter id="tearW" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="4" seed="29" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="6" result="f" />
+            <feDiffuseLighting in="f" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="d" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="d" operator="in" />
+          </filter>
+          <filter id="grainF" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="21" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 2.4 -1.1" />
+          </filter>
+          <pattern id="p-half" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+            <circle cx="10" cy="10" r="6" fill="#e2571c" />
+          </pattern>
+          <pattern id="p-half2" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+            <circle cx="7" cy="7" r="3.4" fill="#f39a1d" />
+          </pattern>
+          <pattern id="p-grid" width="26" height="26" patternUnits="userSpaceOnUse">
+            <path d="M0 0H26M0 0V26" stroke="#8fb6d9" stroke-width="1.6" fill="none" />
+          </pattern>
+          <pattern id="p-ori" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+            <circle cx="11" cy="11" r="6" fill="#f6d9a0" />
+            <circle cx="33" cy="33" r="6" fill="#f6d9a0" />
+            <path d="M28 6l10 10M38 6l-10 10M6 28l10 10M16 28l-10 10" stroke="#9c2f1f" stroke-width="3" />
+          </pattern>
+          <pattern id="p-stripe" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
+            <rect width="9" height="22" fill="#2f6f8f" />
+          </pattern>
+          <!-- Ombre portée d'un papier : sa silhouette, assombrie et adoucie -->
+          <filter id="toSh" x="-20%" y="-20%" width="140%" height="140%">
+            <feColorMatrix type="matrix" values="0 0 0 0 0.16  0 0 0 0 0.09  0 0 0 0 0.03  0 0 0 1 0" />
+            <feGaussianBlur stdDeviation="3.5" />
+          </filter>
+          <pattern id="p-ging" width="60" height="60" patternUnits="userSpaceOnUse">
+            <rect width="30" height="60" fill="#d9482f" opacity=".45" />
+            <rect width="60" height="30" fill="#d9482f" opacity=".45" />
+          </pattern>
+          <pattern id="p-wall" width="64" height="64" patternUnits="userSpaceOnUse">
+            <rect width="18" height="64" fill="#e3c77e" opacity=".55" />
+            <circle cx="42" cy="18" r="5" fill="#d9486e" opacity=".55" />
+            <circle cx="42" cy="50" r="3" fill="#3a9d6e" opacity=".55" />
+          </pattern>
+          <pattern id="p-rings" width="40" height="18" patternUnits="userSpaceOnUse">
+            <rect width="40" height="6" fill="#c4546a" opacity=".55" />
+          </pattern>
+          <pattern id="p-alv" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
+            <circle cx="9" cy="9" r="6" fill="#ffd3de" opacity=".8" />
+            <circle cx="26" cy="25" r="4" fill="#e0607e" opacity=".5" />
+          </pattern>
+          <pattern id="p-muscle" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-70)">
+            <rect width="5" height="16" fill="#8e2f22" opacity=".45" />
+          </pattern>
+        </defs>
+      </svg>
+
+      <div id="sets"></div>
+      <div class="layer" id="L-fixed"></div>
+      <div class="fx" id="grain"><img src="assets/pieces/grain.png" width="2040" height="1200" alt="" /></div>
+      <div class="fx" id="lamp"></div>
+      <audio id="vo-a-1" src="assets/vo/a-1.mp3" data-start="0.25" data-duration="3.53" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-b-1" src="assets/vo/b-1.mp3" data-start="7.35" data-duration="9.65" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-c-1" src="assets/vo/c-1.mp3" data-start="17.7" data-duration="2.83" data-track-index="3" data-volume="1"></audio>
+      <audio id="vo-c-2" src="assets/vo/c-2.mp3" data-start="20.85" data-duration="9.49" data-track-index="4" data-volume="1"></audio>
+      <audio id="vo-c-3" src="assets/vo/c-3.mp3" data-start="30.56" data-duration="1.2" data-track-index="3" data-volume="1"></audio>
+      <audio id="fx-0-fond" src="assets/sfx/fond.mp3" data-start="0" data-duration="33.68" data-track-index="5" data-volume="0.13"></audio>
+      <audio id="fx-1-whoosh" src="assets/sfx/whoosh.mp3" data-start="4.05" data-duration="1.39" data-track-index="6" data-volume="0.35"></audio>
+      <audio id="fx-2-jingle" src="assets/sfx/jingle.mp3" data-start="4.35" data-duration="2.58" data-track-index="7" data-volume="0.42"></audio>
+      <audio id="fx-3-whoosh" src="assets/sfx/whoosh.mp3" data-start="6.75" data-duration="1.39" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="fx-4-pop" src="assets/sfx/pop.mp3" data-start="0.52" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-5-pop" src="assets/sfx/pop.mp3" data-start="2.17" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-6-pop" src="assets/sfx/pop.mp3" data-start="4.46" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-7-pop" src="assets/sfx/pop.mp3" data-start="4.91" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-8-pop" src="assets/sfx/pop.mp3" data-start="10.1" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+      <audio id="fx-9-pop" src="assets/sfx/pop.mp3" data-start="22.52" data-duration="0.61" data-track-index="5" data-volume="0.28"></audio>
+      <audio id="fx-10-pop" src="assets/sfx/pop.mp3" data-start="27.88" data-duration="0.61" data-track-index="6" data-volume="0.28"></audio>
+      <audio id="fx-11-pop" src="assets/sfx/pop.mp3" data-start="31.48" data-duration="0.61" data-track-index="7" data-volume="0.28"></audio>
+    </div>
+    <script>
+      const SCHED = {"total":33.7,"scenes":{"a":{"start":0,"end":4.3},"g":{"start":4.3,"end":7},"b":{"start":7,"end":17.4},"c":{"start":17.4,"end":33.7}},"parts":{"a":{"start":0,"end":3.8},"g":{"start":4.3,"end":7},"b":{"start":7,"end":17.02},"c":{"start":17.4,"end":31.78}},"lines":{"a-1":{"start":0.25,"end":3.8,"who":"zoe","words":[["Hic",0.49,0.5],["!",0.54,0.58],["…",0.9,1.22],["Dis,",1.26,1.38],["Max…",1.52,2.1],["hic",2.14,2.26],["!",2.3,2.34],["D'où",2.62,3.06],["vient",3.08,3.14],["le",3.2,3.3],["hoquet",3.36,3.62],["?",3.7,3.78]]},"b-1":{"start":7.35,"end":17.02,"who":"max","words":[["D'un",7.49,7.6],["muscle",7.66,8.04],["caché",8.11,8.47],["sous",8.51,8.64],["tes",8.69,8.82],["poumons",8.86,9.17],[":",9.47,9.77],["le",9.8,9.86],["diaphragme.",9.95,10.73],["Quand",11.02,11.69],["tu",11.72,11.78],["respires,",11.84,12.82],["il",12.88,12.99],["descend",13.06,13.51],["tout",13.55,13.69],["doucement…",13.73,14.38],["et",14.67,15.25],["l'air",15.3,15.51],["entre.",15.6,17.08]]},"c-1":{"start":17.7,"end":20.55,"who":"zoe","words":[["Et",17.95,17.95],["quand",17.99,18.19],["j'ai",18.23,18.35],["le",18.38,18.43],["hoquet",18.51,18.83],["?",19.67,20.51]]},"c-2":{"start":20.85,"end":30.36,"who":"max","words":[["Il",21.06,21.09],["se",21.18,21.35],["contracte",21.42,22.05],["d'un",22.18,22.4],["coup,",22.47,23.09],["sans",23.14,23.35],["prévenir",23.42,23.96],["!",24.35,24.74],["L'air",24.79,25.09],["s'engouffre…",25.14,25.96],["et",26.25,26.83],["une",26.9,27.09],["petite",27.14,27.44],["porte",27.53,27.96],["se",28.08,28.31],["ferme",28.42,28.83],["au",28.95,29.18],["fond",29.25,29.53],["de",29.56,29.61],["ta",29.67,29.79],["gorge.",29.88,30.4]]},"c-3":{"start":30.56,"end":31.78,"who":"zoe","words":[["Hic",31.45,31.53],["!",31.65,31.77]]}}};
+      // ===== paper.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs : ces fonctions servent aux autres fragments */
+// Moteur « papier découpé », deuxième version.
+// Chaque morceau de papier est fabriqué une fois en image (grain, déchirure) avec, à part, son ombre portée.
+// À chaque pose, le morceau bouge et son ombre s'écarte et s'adoucit quand il se soulève du carton.
+const TAU = Math.PI * 2;
+const FPS = 15; // « sur deux » ; les actions très rapides passent « sur un » (voir `ones`)
+const rnd = (i) => {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const ease = (u) => u * u * (3 - 2 * u);
+const E = (t, a, b) => ease(lin(t, a, b));
+const lerp = (a, b, u) => a + (b - a) * u;
+const f1 = (v) => v.toFixed(1);
+const hashStr = (s) => {
+  let a = 5381,
+    b = 52711;
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    a = (a * 33) ^ c;
+    b = (b * 33) ^ c;
+  }
+  return (a >>> 0).toString(36) + (b >>> 0).toString(36);
+};
+const INK = "#2a2320";
+const LIGHT = [0.55, 0.9]; // la lampe est en haut à gauche : les ombres tombent en bas à droite
+
+// --- Repères de voix ---
+const normW = (w) =>
+  w
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+const cue = (id, frag, nth = 0) => {
+  const l = SCHED.lines[id];
+  if (!frag) return l.start;
+  const hits = l.words.filter(([w]) => normW(w).includes(normW(frag)));
+  return hits[nth] ? hits[nth][1] : l.start;
+};
+const lineEnd = (id) => SCHED.lines[id].end;
+const scn = (id) => SCHED.scenes[id];
+const SFX_LOG = (window.__SFX = []);
+const sfx = (t, kind = "pop") => SFX_LOG.push([t, kind]);
+
+// --- Décors (« sets ») et calques ---
+const SETS = {};
+let CUR = null;
+let uid = 0;
+function set(id, layers) {
+  const root = document.createElement("div");
+  root.className = "scene";
+  root.style.visibility = "hidden";
+  document.getElementById("sets").appendChild(root);
+  CUR = SETS[id] = { id, root, layers: {}, pieces: [], cam: () => ({ x: 960, y: 540, z: 1 }), jump: () => 0, shake: () => [0, 0] };
+  for (const [name, k, blur] of layers) {
+    const el = document.createElement("div");
+    el.className = "layer";
+    el.style.transformOrigin = "0 0";
+    if (blur) el.style.filter = `blur(${blur}px)`;
+    root.appendChild(el);
+    CUR.layers[name] = { el, k };
+  }
+  return CUR;
+}
+const FIXED = { id: "fixed", root: null, layers: { fixed: { el: document.getElementById("L-fixed"), k: 0 } }, pieces: [] };
+
+// --- Formes ---
+const poly = (pts) => "M" + pts.map((p) => f1(p[0]) + " " + f1(p[1])).join("L") + "Z";
+// contour arrondi passant au milieu des points (formes organiques : poumon, nuages…)
+function smoothD(pts) {
+  const n = pts.length,
+    m = (i) => [(pts[i % n][0] + pts[(i + 1) % n][0]) / 2, (pts[i % n][1] + pts[(i + 1) % n][1]) / 2];
+  let d = `M${f1(m(n - 1)[0])} ${f1(m(n - 1)[1])}`;
+  for (let i = 0; i < n; i++) d += `Q${f1(pts[i][0])} ${f1(pts[i][1])} ${f1(m(i)[0])} ${f1(m(i)[1])}`;
+  return d + "Z";
+}
+function blob(cx, cy, rx, ry, n, seed, jag = 0.1) {
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * TAU,
+      r = 1 + (rnd(seed + i) - 0.5) * 2 * jag;
+    pts.push([cx + Math.cos(a) * rx * r, cy + Math.sin(a) * ry * r]);
+  }
+  return pts;
+}
+function band(x0, x1, y0, y1, seed, amp = 18, stepx = 95) {
+  const pts = [],
+    n = Math.round((x1 - x0) / stepx);
+  const side = (i, s) => (i === 0 || i === n ? (rnd(seed + s + i) - 0.5) * 26 : 0);
+  for (let i = 0; i <= n; i++) pts.push([x0 + ((x1 - x0) * i) / n + side(i, 60), y0 + (rnd(seed + i) - 0.5) * 2 * amp]);
+  for (let i = n; i >= 0; i--) pts.push([x0 + ((x1 - x0) * i) / n + side(i, 80), y1 + (rnd(seed + 100 + i) - 0.5) * 2 * amp]);
+  return pts;
+}
+function rect(x, y, w, h, seed = 0, j = 0) {
+  const q = (k) => (rnd(seed + k) - 0.5) * 2 * j;
+  return [
+    [x + q(1), y + q(2)],
+    [x + w + q(3), y + q(4)],
+    [x + w + q(5), y + h + q(6)],
+    [x + q(7), y + h + q(8)],
+  ];
+}
+function starPts(cx, cy, r1, r2, n, rot = 0) {
+  const pts = [];
+  for (let i = 0; i < n * 2; i++) {
+    const a = rot + (i / (n * 2)) * TAU,
+      r = i % 2 ? r2 : r1;
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+  }
+  return pts;
+}
+function arrowPts(x, y, len, deg, wd = 26) {
+  const a = (deg * Math.PI) / 180,
+    c = Math.cos(a),
+    s = Math.sin(a);
+  const q = (u, v) => [x + u * c - v * s, y + u * s + v * c];
+  const h = wd * 1.9;
+  return [q(0, -wd / 2), q(len - h, -wd / 2), q(len - h, -wd * 1.25), q(len, 0), q(len - h, wd * 1.25), q(len - h, wd / 2), q(0, wd / 2)];
+}
+// bande de largeur w (de w0 à w1) autour d'une ligne médiane
+function strip(cl, w0, w1 = w0) {
+  const L = [],
+    R = [],
+    n = cl.length;
+  for (let i = 0; i < n; i++) {
+    const a = cl[Math.max(0, i - 1)],
+      b = cl[Math.min(n - 1, i + 1)],
+      dx = b[0] - a[0],
+      dy = b[1] - a[1],
+      l = Math.hypot(dx, dy) || 1,
+      w = lerp(w0, w1, i / (n - 1)) / 2;
+    L.push([cl[i][0] - (dy / l) * w, cl[i][1] + (dx / l) * w]);
+    R.unshift([cl[i][0] + (dy / l) * w, cl[i][1] - (dx / l) * w]);
+  }
+  return L.concat(R);
+}
+// point à la fraction u d'une ligne brisée
+function along(cl, u) {
+  const seg = [];
+  let tot = 0;
+  for (let i = 1; i < cl.length; i++) {
+    const l = Math.hypot(cl[i][0] - cl[i - 1][0], cl[i][1] - cl[i - 1][1]);
+    seg.push(l);
+    tot += l;
+  }
+  let d = clamp(u) * tot;
+  for (let i = 0; i < seg.length; i++) {
+    if (d <= seg[i] || i === seg.length - 1) {
+      const k = seg[i] ? d / seg[i] : 0;
+      return [lerp(cl[i][0], cl[i + 1][0], k), lerp(cl[i][1], cl[i + 1][1], k), (Math.atan2(cl[i + 1][1] - cl[i][1], cl[i + 1][0] - cl[i][0]) * 180) / Math.PI];
+    }
+    d -= seg[i];
+  }
+  return [cl[0][0], cl[0][1], 0];
+}
+const dots = (id, op) => (w, h) => `<rect width="${w}" height="${h}" fill="url(#${id})" opacity="${op}"/>`;
+
+// --- Un morceau de papier ---
+// o : pts (contour), smooth, fill, stock, torn, deckle, extra(w,h), over(w,h), art (SVG en coordonnées du décor),
+//     alpha, pivot, rot, layer, lift (hauteur au-dessus du carton), jmp (sensibilité aux sauts « hic »),
+//     tin/tout/from (entrée et sortie), anim(t, pose) → {x, y, r, s, sx, sy, o, lift}, show(t, pose) → vrai/faux
+function P(o) {
+  const pts = o.pts;
+  let x0 = 1e9,
+    y0 = 1e9,
+    x1 = -1e9,
+    y1 = -1e9;
+  for (const [x, y] of pts) {
+    x0 = Math.min(x0, x);
+    y0 = Math.min(y0, y);
+    x1 = Math.max(x1, x);
+    y1 = Math.max(y1, y);
+  }
+  const pad = o.pad ?? 36,
+    w = x1 - x0,
+    h = y1 - y0,
+    W = Math.ceil(w + 2 * pad),
+    H = Math.ceil(h + 2 * pad);
+  const loc = pts.map(([x, y]) => [x - x0, y - y0]);
+  const d = o.smooth ? smoothD(loc) : poly(loc);
+  uid++;
+  const tear = o.torn ? ` filter="url(#tear${o.torn})"` : "";
+  const stock = ` filter="url(#st-${o.stock || "fine"})"`;
+  const extra = o.extra ? `<g clip-path="url(#cP)">${o.extra(w, h)}</g>` : "";
+  const art = o.art ? `<g clip-path="url(#cP)"><g transform="translate(${f1(-x0)} ${f1(-y0)})">${o.art}</g></g>` : "";
+  const free = o.free ? `<g transform="translate(${f1(-x0)} ${f1(-y0)})">${o.free}</g>` : "";
+  const dk = o.dk || [-2, -6];
+  const white = o.torn && o.deckle !== false ? `<path d="${d}" transform="translate(${dk[0]} ${dk[1]})" fill="#f6f0e2" stroke="#f6f0e2" stroke-width="${o.dw ?? 8}" stroke-linejoin="round" filter="url(#tearW)"/>` : "";
+  const body = `<defs><clipPath id="cP"><path d="${d}"/></clipPath></defs>${white}<g${tear}><g${stock}><path d="${d}" fill="${o.fill}"/>${extra}${o.over ? o.over(w, h) : ""}${art}</g></g>${free}`;
+  const head = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="${-pad} ${-pad} ${W} ${H}">`;
+  const html = head + (o.alpha ? `<g opacity="${o.alpha}">${body}</g>` : body) + "</svg>";
+  const key = hashStr(html);
+  const lift = o.lift ?? 6;
+  const hasSh = lift > 0 || o.shadow;
+  if (window.__BAKE) {
+    window.__BAKE[key] = { html, shadow: "", w: W, h: H };
+    if (hasSh) window.__BAKE[key + "s"] = { html: head + `<g filter="url(#toSh)" opacity="${o.alpha ? Math.min(1, o.alpha + 0.2) : 1}">${body}</g></svg>`, shadow: "", w: W, h: H };
+  }
+  const el = document.createElement("div");
+  el.className = "pc";
+  el.style.left = f1(x0 - pad) + "px";
+  el.style.top = f1(y0 - pad) + "px";
+  el.style.width = W + "px";
+  el.style.height = H + "px";
+  const piv = o.pivot ? [o.pivot[0] - x0 + pad, o.pivot[1] - y0 + pad] : [w / 2 + pad, h / 2 + pad];
+  el.style.transformOrigin = `${f1(piv[0])}px ${f1(piv[1])}px`;
+  el.innerHTML = (hasSh ? `<img class="sh" src="assets/pieces/${key}s.png" width="${W}" height="${H}" alt="">` : "") + `<img src="assets/pieces/${key}.png" width="${W}" height="${H}" alt="">`;
+  const S = o.layer === "fixed" ? FIXED : CUR;
+  S.layers[o.layer === "fixed" ? "fixed" : o.layer || "world"].el.appendChild(el);
+  const size = Math.max(w, h);
+  const p = {
+    el,
+    sh: hasSh ? el.firstChild : null,
+    seed: o.seed ?? uid * 7.3,
+    rot: o.rot || 0,
+    lift,
+    jmp: o.jmp ?? (size > 1200 ? 0.15 : 1),
+    tin: o.tin,
+    tout: o.tout,
+    from: o.from || [0, -50, 10],
+    anim: o.anim,
+    show: o.show,
+    boil: o.boil ?? (size > 900 ? 0.6 : 1.2),
+    rb: o.rb ?? 0.35 * Math.min(1, 120 / size),
+    last: "",
+  };
+  if (o.tin != null && o.snd !== false) sfx(o.tin, o.snd || "tic");
+  S.pieces.push(p);
+  return p;
+}
+
+// Étiquette en papier quadrillé tenue par un ruban (une seule à la fois à l'écran)
+function label(x, y, text, o = {}) {
+  const fs = o.fs ?? 56,
+    w = o.w ?? text.length * fs * 0.54 + 90,
+    h = fs * 1.75;
+  const base = { layer: o.layer ?? "fixed", tin: o.tin, tout: o.tout, from: o.from || [80, -40, 10], rot: o.rot ?? -2, seed: x * 1.7 + y, pivot: [x + w / 2, y + h / 2], jmp: 0 };
+  P({
+    ...base,
+    snd: o.snd ?? "pop",
+    pts: rect(x, y, w, h, x + y, 4),
+    fill: o.fill || "#f7f0dc",
+    lift: 9,
+    extra: (W, H) => `<rect width="${W}" height="${H}" fill="url(#p-grid)" opacity=".5"/>`,
+    over: (W, H) => `<text x="${W / 2}" y="${H / 2 + fs * 0.35}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${fs}" fill="${o.ink || INK}">${text}</text>`,
+  });
+  const tx = x + w * 0.5 - 60,
+    ty = y - 22;
+  P({ ...base, snd: false, pts: [[tx, ty + 4], [tx + 8, ty - 2], [tx + 112, ty], [tx + 120, ty + 6], [tx + 114, ty + 40], [tx + 122, ty + 46], [tx + 6, ty + 44], [tx - 2, ty + 38]], fill: "#ead9a6", alpha: 0.82, lift: 3 });
+}
+const tape = (x, y, rot, layer) => P({ layer, pts: rect(x, y, 130, 42, x, 3), fill: "#ead9a6", alpha: 0.82, lift: 2, rot, boil: 0.3, jmp: 0.3 });
+const brass = (x, y, layer, r = 15) => P({ layer, pts: blob(x, y, r, r, 12, x + y, 0.02), smooth: true, fill: "#d4a640", lift: 3, jmp: 0.2, over: (w, h) => `<circle cx="${w / 2 - 4}" cy="${h / 2 - 4}" r="5" fill="#fff0b8" opacity=".8"/><path d="M${w / 2 - 7} ${h / 2}h14" stroke="#8a6a1c" stroke-width="3"/>` });
+
+// Lettres découpées façon « lettre anonyme »
+const LCOL = [
+  ["#e4572e", "#fff6e0"],
+  ["#f2b134", INK],
+  ["#2f6f8f", "#fff6e0"],
+  ["#f7f0dc", INK],
+  ["#3a9d6e", "#fff6e0"],
+  ["#d9486e", "#fff6e0"],
+  ["#2b2b2b", "#ffd84a"],
+];
+function letters(text, x, y, o = {}) {
+  const k = (o.size ?? 78) / 78;
+  let n = o.n0 ?? 0;
+  const out = [];
+  for (const ch of text) {
+    if (ch === " ") {
+      x += 44 * k;
+      continue;
+    }
+    const narrow = "'-il!.:".includes(ch);
+    const tw = (narrow ? 50 : 76) * k,
+      th = (102 + (rnd(n) - 0.5) * 10) * k;
+    const [bg, fg] = (o.col || LCOL)[(n * 3 + (o.shift ?? 0)) % (o.col || LCOL).length];
+    const yy = y + (rnd(n + 9) - 0.5) * 14 * k,
+      i = n - (o.n0 ?? 0);
+    out.push(
+      P({
+        layer: o.layer,
+        pts: rect(x, yy, tw, th, n * 5 + (o.seed || 0), 4 * k),
+        fill: bg,
+        stock: n % 3 ? "fine" : "sugar",
+        lift: 7,
+        jmp: o.jmp ?? 0.6,
+        rot: (rnd(n + 3 + (o.seed || 0)) - 0.5) * 12,
+        tin: o.tin != null ? o.tin + i * (o.dt ?? 0.067) : undefined,
+        tout: o.tout != null ? o.tout + i * (o.dto ?? 0) : undefined,
+        snd: i % 3 === 0 ? o.snd || "tic" : false,
+        from: o.from || [0, -60, 18 * (n % 2 ? 1 : -1)],
+        anim: o.anim ? (t, s) => o.anim(t, s, i) : undefined,
+        over: (w, h) => `<text x="${w / 2}" y="${h / 2 + 27 * k}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="${78 * k}" fill="${fg}">${ch}</text>`,
+      }),
+    );
+    x += tw + 8 * k;
+    n++;
+  }
+  return out;
+}
+
+// Caméra : liste de [temps, {x, y, z}] (x, y = point visé au centre de l'image), reliés en douceur
+function camKeys(keys) {
+  return (t) => {
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++)
+      if (t <= keys[i][0]) {
+        const u = keys[i][2] === "lin" ? lin(t, keys[i - 1][0], keys[i][0]) : E(t, keys[i - 1][0], keys[i][0]);
+        const a = keys[i - 1][1],
+          b = keys[i][1];
+        return { x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), z: lerp(a.z, b.z, u) };
+      }
+    return keys[keys.length - 1][1];
+  };
+}
+// saut de tout le décor (le « hic ») : forme du saut, pose par pose après l'instant t0
+const JUMP = [0, 1, 0.86, 0.55, 0.25, 0.08, 0];
+// times : liste d'instants, ou de paires [instant, force]
+const jumpAt = (times) => (t) => {
+  let j = 0;
+  for (const e of times) {
+    const [t0, a] = Array.isArray(e) ? e : [e, 1],
+      k = Math.floor((t - t0) * 30 + 1e-4);
+    if (k >= 0 && k < JUMP.length * 2) j = Math.max(j, a * (JUMP[Math.floor(k / 2)] ?? 0));
+  }
+  return j;
+};
+
+      // ===== shots.js =====
+/* eslint-disable no-unused-vars -- fragment assemblé par scripts/build.mjs */
+// Les trois décors de l'essai : la cuisine (l'accroche), le générique, le corps en coupe.
+const T = (id) => scn(id).start;
+const newsprint = (w, h) => {
+  let s = `<g fill="#33302c" opacity=".38">`,
+    k = 0;
+  for (let y = 8; y < h; y += 12) {
+    let x = 6;
+    while (x < w - 10) {
+      const ww = 8 + rnd(k++) * 30;
+      s += `<rect x="${f1(x)}" y="${y}" width="${f1(Math.min(ww, w - 6 - x))}" height="5"/>`;
+      x += ww + 6;
+    }
+  }
+  return s + "</g>";
+};
+const board = (layer) => P({ layer, pts: rect(-400, -400, 2720, 1880), fill: "#c4ab88", stock: "board", lift: 0, pad: 0, boil: 0, rb: 0, jmp: 0 });
+
+// ================= A : la cuisine — l'accroche =================
+{
+  const S = set("A", [
+    ["board", 0.9],
+    ["wall", 0.95],
+    ["world", 1],
+    ["front", 1.08, 2.2],
+  ]);
+  const tH1 = cue("a-1", "hic"),
+    tH2 = cue("a-1", "hic", 1);
+  S.jump = jumpAt([tH1, tH2]);
+  S.cam = camKeys([
+    [0, { x: 1000, y: 600, z: 1.22 }],
+    [tH2 - 0.1, { x: 1060, y: 630, z: 1.3 }, "lin"],
+    [scn("a").end, { x: 1120, y: 650, z: 1.4 }, "lin"],
+  ]);
+  S.shake = (t, st) => {
+    const j = S.jump(t);
+    return [(rnd(st * 1.7) - 0.5) * 30 * j, -22 * j];
+  };
+  board("board");
+  // le mur et sa fenêtre
+  P({ layer: "wall", pts: rect(60, 30, 1800, 640, 3, 7), fill: "#f4e4b6", stock: "sugar", lift: 5, extra: dots("p-wall", 1), boil: 0.4, jmp: 0.15 });
+  tape(30, 18, -8, "wall");
+  tape(1760, 22, 7, "wall");
+  P({ layer: "wall", pts: rect(190, 90, 440, 340, 5, 3), fill: "#fbf8f0", lift: 6, jmp: 0.4 });
+  P({ layer: "wall", pts: rect(216, 114, 388, 292, 6, 2), fill: "#a8d5ee", stock: "sugar", lift: 2, jmp: 0.4 });
+  P({ layer: "wall", pts: blob(330, 210, 82, 30, 11, 4, 0.22), fill: "#ffffff", torn: 2, deckle: false, alpha: 0.95, lift: 4, jmp: 0.6, anim: (t, st) => ({ x: (Math.floor(st / 2) * 1.2) % 160 }) });
+  P({ layer: "wall", pts: blob(500, 300, 60, 22, 9, 14, 0.22), fill: "#ffffff", torn: 1, deckle: false, alpha: 0.9, lift: 3, jmp: 0.6, anim: (t, st) => ({ x: -((Math.floor(st / 2) * 0.9) % 90) }) });
+  P({ layer: "wall", pts: rect(404, 114, 16, 292, 7, 1), fill: "#fbf8f0", lift: 4, jmp: 0.5 });
+  P({ layer: "wall", pts: rect(216, 252, 388, 16, 8, 1), fill: "#fbf8f0", lift: 4, jmp: 0.5 });
+  // l'horloge : l'aiguille avance à chaque pose
+  P({ layer: "wall", pts: blob(1520, 250, 128, 128, 30, 2, 0.01), smooth: true, fill: "#e4572e", lift: 7, jmp: 0.8 });
+  P({ layer: "wall", pts: blob(1520, 250, 104, 104, 30, 5, 0.01), smooth: true, fill: "#fbf8f0", lift: 2, jmp: 0.8, over: (w, h) => Array.from({ length: 12 }, (_, i) => `<rect x="${w / 2 - 3}" y="8" width="6" height="${i % 3 ? 10 : 18}" fill="${INK}" transform="rotate(${i * 30} ${w / 2} ${h / 2})"/>`).join("") });
+  P({ layer: "wall", pts: rect(1515, 196, 11, 62), fill: INK, lift: 4, pivot: [1520, 250], rot: 60, jmp: 0.8, anim: (t, st) => ({ r: Math.floor(st / 2) * 0.5 }) });
+  P({ layer: "wall", pts: rect(1516, 160, 8, 98), fill: "#d9482f", lift: 5, pivot: [1520, 250], jmp: 0.8, anim: (t, st) => ({ r: Math.floor(st / 2) * 6 }) });
+  brass(1520, 250, "wall", 11);
+  // la nappe à carreaux
+  P({ pts: band(-80, 2000, 610, 1400, 11, 10, 90), fill: "#f8f1e2", torn: 1, dw: 10, extra: dots("p-ging", 1), lift: 7, jmp: 0.25 });
+  // la serviette pliée
+  P({ pts: [[380, 760], [560, 720], [520, 900], [360, 930]], fill: "#3a9d6e", lift: 5, rot: -6, over: (w, h) => `<path d="M10 ${h * 0.3}L${w - 10} ${h * 0.12}" stroke="#2c7a55" stroke-width="5"/>` });
+  // l'assiette et le sandwich
+  P({ pts: blob(820, 820, 280, 104, 44, 4, 0.004), smooth: true, fill: "#cfe0ee", lift: 7 });
+  P({ pts: blob(820, 812, 222, 78, 40, 9, 0.004), smooth: true, fill: "#fbfbf6", lift: 2 });
+  P({ pts: [[650, 830], [960, 812], [790, 690]], fill: "#e6b86a", stock: "kraft", lift: 4, over: (w, h) => `<path d="M6 ${h - 16}L${w - 6} ${h - 30}" stroke="#b07a32" stroke-width="10" stroke-linecap="round"/>` });
+  {
+    const lt = [];
+    for (let i = 0; i <= 12; i++) lt.push([660 + i * 24, 790 - i * 7 + (i % 2 ? -14 : 8)]);
+    P({ pts: lt.concat([[952, 712], [672, 800]]), fill: "#74c05a", stock: "sugar", lift: 3, torn: 2, deckle: false });
+  }
+  P({ pts: blob(760, 770, 46, 22, 14, 3, 0.03), smooth: true, fill: "#e4472a", lift: 3, rot: -12 });
+  P({ pts: blob(860, 750, 40, 20, 14, 6, 0.03), smooth: true, fill: "#e4472a", lift: 3, rot: -14 });
+  P({ pts: [[668, 788], [948, 720], [800, 610]], fill: "#ebc47a", stock: "kraft", lift: 6, over: (w, h) => `<path d="M8 ${h - 12}L${w - 8} ${h - 60}" stroke="#b07a32" stroke-width="10" stroke-linecap="round"/>` });
+  for (let i = 0; i < 6; i++) P({ pts: blob(560 + rnd(i) * 520, 900 + rnd(i + 7) * 70, 7, 5, 6, i, 0.3), fill: "#d9a24f", stock: "kraft", lift: 2, rot: rnd(i) * 90 });
+  // le verre d'eau : l'eau est une forme de rechange qui clapote
+  P({ pts: rect(1180, 540, 190, 340, 3, 2), fill: "#d6ecf7", alpha: 0.5, lift: 7 });
+  const slosh = (t, st) => {
+    const j = S.jump(t);
+    return j > 0.05 ? [0, 2, 4, 2][st % 4] : [1, 2, 3, 2][Math.floor(st / 3) % 4];
+  };
+  for (let k = 0; k < 5; k++) {
+    const tilt = (k - 2) * 12,
+      top = [];
+    for (let i = 0; i <= 8; i++) top.push([1186 + i * 22.25, 660 + tilt * (1 - i / 4) + Math.sin(i * 1.3 + k) * 5]);
+    P({ pts: top.concat([[1364, 872], [1186, 872]]), fill: "#5fb0e0", alpha: 0.82, lift: 2, show: (t, st) => slosh(t, st) === k, boil: 0.6 });
+  }
+  for (let i = 0; i < 4; i++) P({ pts: blob(0, 0, 7, 7, 8, i, 0.05), smooth: true, fill: "#e8f6ff", lift: 1, boil: 0, anim: (t) => ({ x: 1215 + i * 40 + Math.sin(t * 3 + i) * 6, y: 860 - ((t * 60 + i * 50) % 180) }) });
+  P({ pts: rect(1304, 470, 26, 330, 4, 1), fill: "#fbf8f0", lift: 3, rot: 12, pivot: [1317, 800], over: (w, h) => Array.from({ length: 10 }, (_, i) => `<rect x="0" y="${i * 34}" width="${w}" height="16" fill="#e4572e"/>`).join(""), anim: (t, st) => ({ r: S.jump(t) > 0.05 ? [4, -4][st % 2] : 0 }) });
+  P({ pts: rect(1200, 560, 22, 300, 5, 1), fill: "#ffffff", alpha: 0.55, lift: 1 });
+  // la bouteille de limonade, pleine de bulles
+  P({ pts: [[1528, 420], [1572, 420], [1574, 500], [1618, 560], [1618, 880], [1482, 880], [1482, 560], [1526, 500]], fill: "#8fd06e", alpha: 0.88, lift: 7 });
+  P({ pts: rect(1520, 396, 60, 34, 2, 2), fill: "#e4572e", lift: 4 });
+  P({ pts: rect(1482, 640, 136, 120, 3, 2), fill: "#ece7da", lift: 3, extra: newsprint, over: (w, h) => `<circle cx="${w / 2}" cy="${h / 2}" r="30" fill="#e4572e"/><text x="${w / 2}" y="${h / 2 + 10}" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="28" fill="#fff6e0">psch</text>` });
+  for (let i = 0; i < 6; i++) P({ pts: blob(0, 0, 5 + (i % 3) * 2, 5 + (i % 3) * 2, 8, i + 20, 0.05), smooth: true, fill: "#f2fbe8", lift: 1, boil: 0, anim: (t) => ({ x: 1500 + ((i * 37) % 100) + Math.sin(t * 4 + i) * 5, y: 870 - ((t * 90 + i * 55) % 300) }), show: (t) => true });
+  // devant, flou : le bord de la table et une miette géante
+  P({ layer: "front", pts: blob(1830, 1040, 120, 60, 9, 3, 0.2), fill: "#d9a24f", stock: "kraft", lift: 12, jmp: 1.4 });
+  P({ layer: "front", pts: blob(120, 1060, 160, 70, 10, 7, 0.15), fill: "#3a9d6e", lift: 12, jmp: 1.2 });
+  // les « HIC ! » découpés, à chaque hoquet
+  [tH1, tH2].forEach((t0, k) =>
+    letters("HIC !", 640 + k * 80, 120 + k * 40, {
+      layer: "fixed",
+      size: 150,
+      tin: t0 + 0.03,
+      tout: t0 + 1.05,
+      dt: 0.034,
+      shift: k * 2,
+      seed: k * 40,
+      jmp: 0,
+      snd: "pop",
+      from: [0, -120, 30],
+      anim: (t, st, i) => (t > t0 + 0.8 ? { y: -500 * E(t, t0 + 0.8, t0 + 1.02), x: (i - 2) * 140 * E(t, t0 + 0.8, t0 + 1.02), r: (i - 2) * 30 * E(t, t0 + 0.8, t0 + 1.02) } : null),
+    }),
+  );
+}
+
+// ================= G : le générique, court =================
+{
+  const S = set("G", [
+    ["board", 1],
+    ["world", 1],
+  ]);
+  const t0 = T("g");
+  S.cam = (t) => ({ x: 960, y: 540, z: 1 + 0.05 * lin(t, t0, T("b")) });
+  board("board");
+  P({ pts: rect(-60, -60, 2040, 1200), fill: "#2f5bd3", stock: "sugar", lift: 0, pad: 0, boil: 0, rb: 0, jmp: 0 });
+  for (let i = 0; i < 18; i++) {
+    const a0 = (i / 18) * TAU,
+      a1 = ((i + 0.5) / 18) * TAU;
+    P({ pts: [[960, 540], [960 + Math.cos(a0) * 1300, 540 + Math.sin(a0) * 1300], [960 + Math.cos(a1) * 1300, 540 + Math.sin(a1) * 1300]], fill: i % 2 ? "#f2b134" : "#e4572e", lift: 4, pivot: [960, 540], pad: 10, boil: 0.3, rb: 0.05, jmp: 0, anim: (t, st) => ({ r: Math.floor(st / 2) * 0.8 }) });
+  }
+  P({ pts: blob(960, 540, 420, 260, 40, 3, 0.04), torn: 1, fill: "#f7f0dc", lift: 9, tin: t0 + 0.05, from: [0, 0, -20], snd: false, extra: dots("p-grid", 0.5) });
+  letters("Kidi-science", 252, 470, { size: 110, tin: t0 + 0.16, dt: 0.05, from: [0, -140, 30], shift: 1, snd: "pop" });
+}
+
+// ================= B : le corps en coupe =================
+{
+  const S = set("B", [
+    ["board", 0.9],
+    ["world", 1],
+  ]);
+  const tDia = cue("b-1", "diaphragme"),
+    tRes = cue("b-1", "respires"),
+    tDesc = cue("b-1", "descend"),
+    tEntre = cue("b-1", "entre"),
+    tQ = cue("c-1", "hoquet"),
+    tContr = cue("c-2", "contracte"),
+    tCoup = cue("c-2", "coup"),
+    tEng = cue("c-2", "engouffre"),
+    tPorte = cue("c-2", "porte"),
+    tFerme = cue("c-2", "ferme"),
+    tHic = cue("c-3", "Hic"),
+    B0 = T("b");
+  S.jump = jumpAt([[tCoup, 0.45], tHic]);
+  S.shake = (t, st) => {
+    const j = S.jump(t);
+    return [(rnd(st * 2.3) - 0.5) * 30 * j, -20 * j];
+  };
+  S.ones = (t) => (t > tCoup - 0.05 && t < tCoup + 0.35) || (t > tFerme - 0.05 && t < tFerme + 0.3) || (t > tHic - 0.05 && t < tHic + 0.4);
+  S.cam = camKeys([
+    [B0, { x: 960, y: 545, z: 1.0 }],
+    [tDia - 0.3, { x: 960, y: 560, z: 1.03 }, "lin"],
+    [tDia + 0.6, { x: 930, y: 800, z: 1.55 }],
+    [tRes - 0.2, { x: 932, y: 790, z: 1.58 }, "lin"],
+    [tRes + 0.9, { x: 945, y: 640, z: 1.2 }],
+    [tContr - 0.5, { x: 945, y: 645, z: 1.24 }, "lin"],
+    [tContr + 0.15, { x: 930, y: 770, z: 1.5 }],
+    [tPorte - 0.5, { x: 932, y: 740, z: 1.54 }, "lin"],
+    [tPorte + 0.4, { x: 960, y: 410, z: 2.05 }],
+    [tHic - 0.12, { x: 958, y: 412, z: 2.1 }, "lin"],
+    [tHic + 0.25, { x: 960, y: 560, z: 1.06 }],
+    [SCHED.total, { x: 960, y: 560, z: 1.1 }, "lin"],
+  ]);
+  // la respiration : 0 = poumons vides, 1 = pleins, 1,3 = le hoquet
+  const breath = (t) => {
+    const calm = (x) => 0.2 + 0.16 * Math.sin((x - B0) * 1.9);
+    if (t < tDesc - 0.2) return calm(t);
+    if (t < tEntre + 0.5) return lerp(calm(tDesc - 0.2), 1, E(t, tDesc - 0.2, tEntre + 0.4));
+    const relax = (x) => lerp(1, calm(x), E(x, tEntre + 0.5, tEntre + 2.2));
+    if (t < tCoup) return relax(t);
+    const k = (t - tCoup) * 30,
+      base = relax(tCoup);
+    if (k < 2) return lerp(base, 1.3, k / 2);
+    if (t < tHic + 0.6) return 1.25 + 0.05 * Math.sin(t * 30);
+    return lerp(1.25, calm(t), E(t, tHic + 0.6, tHic + 2));
+  };
+  const STATES = [0, 0.25, 0.5, 0.75, 1, 1.3];
+  const state = (t) => {
+    const b = breath(t);
+    let best = 0;
+    for (let i = 1; i < STATES.length; i++) if (Math.abs(STATES[i] - b) < Math.abs(STATES[best] - b)) best = i;
+    return best;
+  };
+  const DX0 = 745,
+    DX1 = 1095;
+  const domeH = (b) => 88 - 72 * b;
+  const domeY = (x, h) => {
+    const u = clamp((x - DX0) / (DX1 - DX0));
+    return lerp(874, 894, u) - h * Math.sin(Math.PI * u);
+  };
+  board("board");
+  P({ pts: rect(330, 40, 1260, 1000, 4, 5), fill: "#f7f3e8", lift: 6, extra: dots("p-grid", 0.9), boil: 0.4, jmp: 0.2 });
+  for (const [x, y] of [
+    [372, 82],
+    [1548, 82],
+    [372, 998],
+    [1548, 998],
+  ])
+    brass(x, y);
+  const SKIN = "#f3c9a0";
+  // le buste, de profil
+  P({ pts: rect(850, 360, 120, 120, 3, 2), fill: SKIN, stock: "sugar", lift: 4 });
+  P({ pts: [[820, 450], [880, 440], [960, 445], [1030, 470], [1080, 540], [1100, 650], [1095, 800], [1110, 900], [1118, 1010], [742, 1010], [735, 900], [730, 700], [745, 560], [780, 480]], smooth: true, fill: SKIN, stock: "sugar", lift: 7 });
+  P({ pts: blob(900, 235, 150, 162, 30, 3, 0.02), smooth: true, fill: SKIN, stock: "sugar", lift: 7 });
+  P({ pts: [[1036, 210], [1094, 270], [1040, 286]], fill: SKIN, stock: "sugar", lift: 5 });
+  P({ pts: blob(858, 252, 26, 36, 12, 4, 0.04), smooth: true, fill: "#e0a87c", lift: 3 });
+  P({ pts: [[760, 250], [748, 160], [800, 92], [900, 66], [1004, 86], [1056, 140], [1000, 128], [924, 150], [864, 196], [842, 262], [800, 306]], smooth: true, fill: "#5a3a26", torn: 2, deckle: false, lift: 6 });
+  P({ pts: blob(1000, 205, 11, 13, 10, 2, 0.02), smooth: true, fill: INK, lift: 2 });
+  P({ pts: blob(1012, 262, 24, 16, 10, 6, 0.04), smooth: true, fill: "#f4978e", alpha: 0.55, lift: 1 });
+  // le chemin de l'air : bouche, gorge, trachée
+  const CL = [[1040, 302], [1000, 306], [962, 318], [942, 350], [936, 400], [934, 450], [933, 500], [930, 550], [926, 600]];
+  const AP = [[1150, 300], [1100, 300], ...CL, [924, 660]];
+  P({ pts: strip(CL, 48, 34), fill: "#e98a9a", lift: 3, extra: dots("p-rings", 1) });
+  P({ pts: blob(1040, 304, 20, 10, 12, 3, 0.03), smooth: true, fill: "#8a2f2a", lift: 2 });
+  // l'estomac, plein de bulles de limonade
+  P({ pts: blob(995, 962, 98, 66, 22, 6, 0.04), smooth: true, fill: "#f6a64a", lift: 4, over: (w, h) => `<path d="M${w * 0.25} ${h * 0.35}q${w * 0.25} -${h * 0.2} ${w * 0.5} 0" stroke="#fbd08a" stroke-width="8" fill="none" stroke-linecap="round"/>` });
+  for (let i = 0; i < 5; i++) P({ pts: blob(0, 0, 6, 6, 8, i + 40, 0.05), smooth: true, fill: "#fff3d6", lift: 1, boil: 0, anim: (t) => ({ x: 940 + i * 26 + Math.sin(t * 3 + i) * 5, y: 1000 - ((t * 30 + i * 13) % 56) }) });
+  // les poumons et le diaphragme : une forme de rechange par état de la respiration
+  STATES.forEach((b, k) => {
+    const h = domeH(b),
+      rx = 150 + 14 * b,
+      ry = 200 + 16 * b,
+      cx = 925,
+      cy = 682 + 8 * b;
+    const pts = [];
+    for (let i = 0; i < 34; i++) {
+      const a = (i / 34) * TAU;
+      let x = cx + Math.cos(a) * rx * (1 + (rnd(i + k * 50) - 0.5) * 0.04),
+        y = cy + Math.sin(a) * ry * (1 + (rnd(i + 9 + k * 50) - 0.5) * 0.04);
+      x = clamp(x, 752, 1086);
+      y = Math.min(y, domeY(x, h) - 12);
+      pts.push([x, y]);
+    }
+    let tree = "";
+    const br = (x, y, a, l, n) => {
+      if (n === 0) return;
+      const x2 = x + Math.cos(a) * l,
+        y2 = y + Math.sin(a) * l;
+      tree += `<path d="M${f1(x)} ${f1(y)}L${f1(x2)} ${f1(y2)}" stroke="#c4546a" stroke-width="${n * 2.4}" stroke-linecap="round"/>`;
+      br(x2, y2, a - 0.45, l * 0.7, n - 1);
+      br(x2, y2, a + 0.45, l * 0.7, n - 1);
+    };
+    br(926, 600, Math.PI / 2, 50 + 14 * b, 4);
+    P({ pts, smooth: true, fill: "#f49ab0", stock: "sugar", torn: 2, deckle: false, alpha: 0.9, lift: 5, extra: dots("p-alv", 1), art: tree, show: (t) => state(t) === k, boil: 0.5 });
+    const cl = [];
+    for (let i = 0; i <= 14; i++) {
+      const x = DX0 - 8 + ((DX1 - DX0 + 16) * i) / 14;
+      cl.push([x, domeY(x, h)]);
+    }
+    P({ pts: strip(cl, 30, 26), fill: "#c4543a", stock: "kraft", lift: 6, extra: dots("p-muscle", 1), show: (t) => state(t) === k, boil: 0.5 });
+  });
+  // les côtes, qui s'écartent quand on inspire
+  for (let i = 0; i < 4; i++) {
+    const y0 = 520 + i * 80,
+      cl = [];
+    for (let k = 0; k <= 8; k++) {
+      const u = k / 8;
+      cl.push([lerp(758, 1082, u), lerp(y0, y0 + 46, u) - 34 * Math.sin(Math.PI * u)]);
+    }
+    P({ pts: strip(cl, 22, 18), fill: "#f7efd8", alpha: 0.72, lift: 3, pivot: [758, y0], anim: (t) => ({ r: -2.2 * breath(t) }) });
+  }
+  // la glotte : une petite porte de papier, accrochée par une attache
+  const door = (t) => {
+    if (t < tFerme) return 78;
+    const k = Math.floor((t - tFerme) * 30);
+    if (k < 4) return [78, 30, -8, 3][k];
+    if (t < tHic + 0.8) return 0;
+    return 78 * E(t, tHic + 0.8, tHic + 1.6);
+  };
+  P({ pts: rect(910, 401, 54, 17, 2, 1), fill: "#f2b134", lift: 5, pivot: [916, 409], anim: (t) => ({ r: door(t) }), over: (w, h) => `<rect x="4" y="${h / 2 - 2}" width="${w - 8}" height="4" fill="#c98a1c"/>` });
+  brass(916, 409, "world", 8);
+  // les flèches d'air
+  let uDoor = 0;
+  for (let u = 0; u <= 1; u += 0.002)
+    if (along(AP, u)[1] < 409) uDoor = u;
+  for (let i = 0; i < 5; i++) {
+    const a = arrowPts(-30, 0, 60, 0, 18);
+    P({
+      pts: a,
+      fill: "#7cc3ea",
+      lift: 6,
+      pivot: [0, 0],
+      boil: 0.6,
+      anim: (t) => {
+        let u = -1;
+        if (t > tDesc - 0.2 && t < tEntre + 0.7) u = ((t - tDesc) * 0.3 + i * 0.2) % 1;
+        else if (t > tEng - 0.2 && t < tFerme) u = ((t - tEng) * 1.25 + i * 0.2) % 1;
+        else if (t >= tFerme && t < tHic + 0.5) u = uDoor - 0.05 - i * 0.055 + (Math.floor(t * 15) % 2) * 0.008;
+        if (u < 0) return { o: 0 };
+        const [x, y, r] = along(AP, u);
+        return { x, y, r };
+      },
+    });
+  }
+  // les étiquettes (une seule à la fois, à l'écran)
+  label(1150, 830, "le diaphragme", { tin: tDia + 0.15, tout: tEntre + 1.0 });
+  label(1180, 190, "d'un coup !", { tin: tCoup + 0.05, tout: tPorte - 0.35, fill: "#2b2b2b", ink: "#ffd84a", rot: 3 });
+  label(1060, 700, "une petite porte : la glotte", { tin: tPorte + 0.35, tout: tHic - 0.08, fs: 50 });
+  letters("HIC!", 1170, 180, { layer: "fixed", size: 130, tin: tHic + 0.03, dt: 0.034, shift: 4, seed: 99, jmp: 0, snd: "pop", from: [0, -120, 30] });
+}
+label(1560, 975, "Kidi-science", { tin: T("b") + 0.5, snd: false, fs: 34, rot: -2, fill: "#2f5bd3", ink: "#fff6e0" });
+
+      // ===== run.js =====
+// Dessin pose par pose : on place chaque papier et son ombre selon le temps du film.
+{
+  const SHOTS = [
+    { set: "A", b: T("g") },
+    { set: "G", b: T("b") },
+    { set: "B", b: Infinity },
+  ];
+  const WHIP = 0.16;
+  const sets = document.getElementById("sets"),
+    grain = document.getElementById("grain"),
+    lamp = document.getElementById("lamp");
+  const POP = [1, 0.42, -0.08, 0];
+  const placePiece = (p, S, t, st) => {
+    let x = 0,
+      y = 0,
+      r = p.rot,
+      sx = 1,
+      sy = 1,
+      o = true,
+      l = p.lift;
+    if (p.tin != null) {
+      const k = Math.floor((t - p.tin) * 15 + 1e-4);
+      if (k < 0) o = false;
+      else {
+        const f = POP[k] ?? 0;
+        x += p.from[0] * f;
+        y += p.from[1] * f;
+        r += p.from[2] * f;
+        l += 36 * Math.max(0, f);
+      }
+    }
+    if (o && p.tout != null && t >= p.tout) o = false;
+    if (o && p.show && !p.show(t, st)) o = false;
+    if (o && p.anim) {
+      const a = p.anim(t, st);
+      if (a) {
+        x += a.x || 0;
+        y += a.y || 0;
+        r += a.r || 0;
+        sx *= (a.s ?? 1) * (a.sx ?? 1);
+        sy *= (a.s ?? 1) * (a.sy ?? 1);
+        l += a.lift || 0;
+        if (a.o === 0) o = false;
+      }
+    }
+    if (!o) {
+      if (p.last !== "h") p.el.style.visibility = "hidden";
+      p.last = "h";
+      return;
+    }
+    const j = S.jump ? S.jump(t) * p.jmp : 0;
+    if (j) {
+      y -= j * 26 * (0.6 + 0.8 * rnd(p.seed));
+      l += j * 30;
+      r += j * 7 * (rnd(p.seed + 3) - 0.5) * 2;
+    }
+    const b = Math.floor(st / 2);
+    x += (rnd(p.seed + b * 3.1) - 0.5) * 2 * p.boil;
+    y += (rnd(p.seed + b * 5.3 + 1) - 0.5) * 2 * p.boil;
+    r += (rnd(p.seed + b * 7.7 + 2) - 0.5) * 2 * p.rb;
+    const up = 1 + (l - p.lift) * 0.0016;
+    const tr = `translate(${f1(x)}px,${f1(y)}px) rotate(${r.toFixed(2)}deg) scale(${(sx * up).toFixed(3)},${(sy * up).toFixed(3)})`;
+    if (p.last === "h" || p.last === "") p.el.style.visibility = "inherit";
+    if (p.last !== tr) p.el.style.transform = tr;
+    p.last = tr;
+    if (p.sh) {
+      const st2 = `translate(${f1(LIGHT[0] * l * 0.8)}px,${f1(LIGHT[1] * l * 0.8)}px)`,
+        op = clamp(0.6 - (l - 6) * 0.011, 0.2, 0.6).toFixed(2),
+        bl = l > 14 ? `blur(${((l - 14) * 0.09).toFixed(1)}px)` : "none";
+      if (p.shT !== st2) p.sh.style.transform = p.shT = st2;
+      if (p.shO !== op) p.sh.style.opacity = p.shO = op;
+      if (p.shB !== bl) p.sh.style.filter = p.shB = bl;
+    }
+  };
+  const placeSet = (S, t, st, dx) => {
+    S.root.style.visibility = "visible";
+    S.root.style.transform = `translateX(${f1(dx)}px)`;
+    const c = S.cam(t),
+      [kx, ky] = S.shake ? S.shake(t, st) : [0, 0];
+    for (const n in S.layers) {
+      const { el, k } = S.layers[n],
+        z = 1 + (c.z - 1) * k,
+        fx = 960 + (c.x - 960) * k,
+        fy = 540 + (c.y - 540) * k;
+      el.style.transform = `translate(${f1(960 - z * fx + kx * k)}px,${f1(540 - z * fy + ky * k)}px) scale(${z.toFixed(4)})`;
+    }
+    for (const p of S.pieces) placePiece(p, S, t, st);
+  };
+  const draw = (time) => {
+    const i = SHOTS.findIndex((s) => time < s.b);
+    const S = SETS[SHOTS[i].set];
+    const ones = (S.ones && S.ones(time)) || (i > 0 && time < SHOTS[i - 1].b + WHIP) || time > SHOTS[i].b - WHIP;
+    const st = ones ? Math.floor(time * 30 + 1e-4) / 2 : Math.floor(time * 15 + 1e-4);
+    const t = ones ? Math.floor(time * 30 + 1e-4) / 30 : st / 15;
+    const sti = Math.floor(st);
+    for (const n in SETS) SETS[n].root.style.visibility = "hidden";
+    // passage d'un décor à l'autre : panoramique filé
+    let blur = 0;
+    if (i + 1 < SHOTS.length && t > SHOTS[i].b - WHIP) {
+      const u = E(t, SHOTS[i].b - WHIP, SHOTS[i].b + WHIP);
+      placeSet(S, t, sti, -1920 * u);
+      placeSet(SETS[SHOTS[i + 1].set], t, sti, 1920 * (1 - u));
+      blur = 10 * Math.sin(Math.PI * u);
+    } else if (i > 0 && t < SHOTS[i - 1].b + WHIP) {
+      const u = E(t, SHOTS[i - 1].b - WHIP, SHOTS[i - 1].b + WHIP);
+      placeSet(SETS[SHOTS[i - 1].set], t, sti, -1920 * u);
+      placeSet(S, t, sti, 1920 * (1 - u));
+      blur = 10 * Math.sin(Math.PI * u);
+    } else placeSet(S, t, sti, 0);
+    sets.style.filter = blur > 0.5 ? `blur(${blur.toFixed(1)}px)` : "none";
+    for (const p of FIXED.pieces) placePiece(p, FIXED, t, sti);
+    // la caméra banc-titre : léger flottement, lampe qui vacille, grain
+    const b = Math.floor(sti / 2);
+    sets.style.transform = `translate(${f1((rnd(b * 1.7) - 0.5) * 2.2)}px,${f1((rnd(b * 2.3 + 4) - 0.5) * 2.2)}px)`;
+    grain.style.transform = `translate(${f1((rnd(sti * 1.3) - 0.5) * 100)}px,${f1((rnd(sti * 2.1 + 5) - 0.5) * 100)}px)`;
+    lamp.style.opacity = (0.92 + rnd(b * 1.9) * 0.08).toFixed(3);
+  };
+  const tl = gsap.timeline({ paused: true });
+  const tick = { v: 0 };
+  tl.fromTo(tick, { v: 0 }, { v: 1, duration: SCHED.total, ease: "none", onUpdate: () => draw(tl.time()) }, 0);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+  draw(0);
+}
+    </script>
+  </body>
+</html>

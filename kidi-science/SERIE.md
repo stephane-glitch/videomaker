@@ -182,3 +182,12 @@ Chaque sujet vient avec son **accroche** (la première image, selon les règles 
 Moins d'épisodes, mieux faits : la production se fait **le jeudi soir uniquement**, en mettant l'effort sur la
 qualité visuelle et le rendu. Pas de demande de hausse du quota YouTube. Le reste (voix, ton, structure,
 publication) ne change pas.
+
+## Style maison et qualité (décidé le 27/11/2026)
+
+- **Style maison : le papier découpé** (moteur de l'épisode 28, amélioré dans `ep31-hoquet/essai`).
+- **Une ou deux vidéos au plus par jeudi**, avec un maximum de soin sur l'animation.
+- Améliorations du moteur : ombre de chaque papier fabriquée à part, qui s'écarte et s'adoucit quand le papier se soulève ;
+  formes de rechange (poumons, diaphragme, eau) ; caméra avec plusieurs cadrages et zooms par scène ; passages filés entre
+  décors ; actions rapides calculées à chaque image (« sur un ») ; une seule étiquette à la fois, à taille fixe à l'écran.
+- Contrôle du mouvement : en plus des images fixes, bandes d'images à 10 par seconde autour des moments forts.

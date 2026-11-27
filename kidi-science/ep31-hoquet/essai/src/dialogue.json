@@ -1,0 +1,22 @@
+[
+  {
+    "id": "a-1",
+    "scene": "a",
+    "who": "zoe",
+    "text": "Hic ! … Dis, Max… hic ! D'où vient le hoquet ?"
+  },
+  {
+    "id": "b-1",
+    "scene": "b",
+    "who": "max",
+    "text": "D'un muscle caché sous tes poumons : le diaphragme. Quand tu respires, il descend tout doucement… et l'air entre."
+  },
+  { "id": "c-1", "scene": "c", "who": "zoe", "text": "Et quand j'ai le hoquet ?" },
+  {
+    "id": "c-2",
+    "scene": "c",
+    "who": "max",
+    "text": "Il se contracte d'un coup, sans prévenir ! L'air s'engouffre… et une petite porte se ferme au fond de ta gorge."
+  },
+  { "id": "c-3", "scene": "c", "who": "zoe", "text": "Hic !" }
+]

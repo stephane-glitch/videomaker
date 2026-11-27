@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Kidi-science — D'où vient le hoquet ?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 600;
+        src: url("assets/fonts/fredoka-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Fredoka";
+        font-weight: 700;
+        src: url("assets/fonts/fredoka-700.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #b9a283;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Fredoka", sans-serif;
+        background: #b9a283;
+      }
+      .layer,
+      .pc,
+      .fx {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .scene {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .layer {
+        width: 1920px;
+        height: 1080px;
+        will-change: transform;
+      }
+      .pc {
+        will-change: transform, opacity;
+      }
+      .pc img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+      }
+      #grain img {
+        display: block;
+      }
+      #sets {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .fx {
+        width: 1920px;
+        height: 1080px;
+        pointer-events: none;
+      }
+      #lamp {
+        background: radial-gradient(ellipse 75% 80% at 46% 42%, rgba(255, 244, 214, 0.1) 0%, rgba(40, 22, 6, 0) 45%, rgba(40, 22, 6, 0.5) 100%);
+      }
+      #grain {
+        left: -60px;
+        top: -60px;
+        width: 2040px;
+        height: 1200px;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <!-- Grains de papier : chaque « stock » éclaire un bruit comme un relief -->
+          <filter id="st-sugar" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035 0.7" numOctaves="3" seed="4" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.5" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-fine" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="63" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-kraft" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.9" numOctaves="4" seed="2" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.4" lighting-color="#ffffff" result="l"><feDistantLight azimuth="250" elevation="56" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <filter id="st-board" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.5 0.02" numOctaves="4" seed="11" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="200" elevation="58" /></feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="l" mode="multiply" />
+          </filter>
+          <filter id="st-marble" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="turbulence" baseFrequency="0.0035 0.009" numOctaves="4" seed="8" result="t" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.1  0 0 0 0 0.04  7 0 0 0 -1.15" result="v1" />
+            <feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 0.78  0 0 0 0 0.25  0 -9 0 0 1.25" result="v2" />
+            <feMerge result="m"><feMergeNode in="SourceGraphic" /><feMergeNode in="v1" /><feMergeNode in="v2" /></feMerge>
+            <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="5" result="n" />
+            <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="62" /></feDiffuseLighting>
+            <feBlend in="m" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="SourceGraphic" operator="in" />
+          </filter>
+          <!-- Bords déchirés : on déplace le contour avec un bruit -->
+          <filter id="tear1" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <filter id="tear2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="17" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="13" xChannelSelector="G" yChannelSelector="R" />
+          </filter>
+          <filter id="tearW" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="4" seed="29" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="6" result="f" />
+            <feDiffuseLighting in="f" surfaceScale="2.2" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="60" /></feDiffuseLighting>
+            <feBlend in="d" in2="l" mode="multiply" result="b" />
+            <feComposite in="b" in2="d" operator="in" />
+          </filter>
+          <filter id="grainF" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="21" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 2.4 -1.1" />
+          </filter>
+          <pattern id="p-half" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+            <circle cx="10" cy="10" r="6" fill="#e2571c" />
+          </pattern>
+          <pattern id="p-half2" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+            <circle cx="7" cy="7" r="3.4" fill="#f39a1d" />
+          </pattern>
+          <pattern id="p-grid" width="26" height="26" patternUnits="userSpaceOnUse">
+            <path d="M0 0H26M0 0V26" stroke="#8fb6d9" stroke-width="1.6" fill="none" />
+          </pattern>
+          <pattern id="p-ori" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+            <circle cx="11" cy="11" r="6" fill="#f6d9a0" />
+            <circle cx="33" cy="33" r="6" fill="#f6d9a0" />
+            <path d="M28 6l10 10M38 6l-10 10M6 28l10 10M16 28l-10 10" stroke="#9c2f1f" stroke-width="3" />
+          </pattern>
+          <pattern id="p-stripe" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
+            <rect width="9" height="22" fill="#2f6f8f" />
+          </pattern>
+          <!-- Ombre portée d'un papier : sa silhouette, assombrie et adoucie -->
+          <filter id="toSh" x="-20%" y="-20%" width="140%" height="140%">
+            <feColorMatrix type="matrix" values="0 0 0 0 0.16  0 0 0 0 0.09  0 0 0 0 0.03  0 0 0 1 0" />
+            <feGaussianBlur stdDeviation="3.5" />
+          </filter>
+          <pattern id="p-ging" width="60" height="60" patternUnits="userSpaceOnUse">
+            <rect width="30" height="60" fill="#d9482f" opacity=".45" />
+            <rect width="60" height="30" fill="#d9482f" opacity=".45" />
+          </pattern>
+          <pattern id="p-wall" width="64" height="64" patternUnits="userSpaceOnUse">
+            <rect width="18" height="64" fill="#e3c77e" opacity=".55" />
+            <circle cx="42" cy="18" r="5" fill="#d9486e" opacity=".55" />
+            <circle cx="42" cy="50" r="3" fill="#3a9d6e" opacity=".55" />
+          </pattern>
+          <pattern id="p-rings" width="40" height="18" patternUnits="userSpaceOnUse">
+            <rect width="40" height="6" fill="#c4546a" opacity=".55" />
+          </pattern>
+          <pattern id="p-alv" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
+            <circle cx="9" cy="9" r="6" fill="#ffd3de" opacity=".8" />
+            <circle cx="26" cy="25" r="4" fill="#e0607e" opacity=".5" />
+          </pattern>
+          <pattern id="p-muscle" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-70)">
+            <rect width="5" height="16" fill="#8e2f22" opacity=".45" />
+          </pattern>
+        </defs>
+      </svg>
+
+      <div id="sets"></div>
+      <div class="layer" id="L-fixed"></div>
+      <div class="fx" id="grain"><img src="assets/pieces/grain.png" width="2040" height="1200" alt="" /></div>
+      <div class="fx" id="lamp"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      const SCHED = {{SCHED}};
+{{JS}}
+    </script>
+  </body>
+</html>
