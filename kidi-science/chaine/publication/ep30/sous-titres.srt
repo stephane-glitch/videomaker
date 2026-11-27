@@ -1,0 +1,139 @@
+1
+00:00:01,010 --> 00:00:02,540
+Dis… comment ça marche ?
+
+2
+00:00:08,110 --> 00:00:11,410
+Dis, Max… le Wi-Fi, il passe par où ? Je ne vois aucun fil !
+
+3
+00:00:11,960 --> 00:00:14,890
+Normal : il voyage dans l'air, sur des ondes invisibles.
+
+4
+00:00:15,960 --> 00:00:18,000
+Des ondes ? Comme les vagues ?
+
+5
+00:00:18,750 --> 00:00:21,200
+Presque ! Lance un caillou dans une mare :
+
+6
+00:00:21,240 --> 00:00:24,510
+des ronds s'écartent tout autour. Les ondes du Wi-Fi font pareil,
+
+7
+00:00:24,540 --> 00:00:25,340
+mais dans l'air.
+
+8
+00:00:27,710 --> 00:00:30,790
+Tout part de la box. Internet y arrive par un câble,
+
+9
+00:00:30,820 --> 00:00:31,660
+caché dans le mur.
+
+10
+00:00:32,320 --> 00:00:34,170
+Et la box le transforme en ondes ?
+
+11
+00:00:35,030 --> 00:00:38,840
+Exactement ! Avec ses antennes, elle les envoie dans toutes les directions.
+
+12
+00:00:41,320 --> 00:00:42,690
+Mais pourquoi je ne les vois pas ?
+
+13
+00:00:43,410 --> 00:00:46,950
+Parce que ce sont des ondes radio. Des cousines de la lumière,
+
+14
+00:00:47,040 --> 00:00:48,690
+que nos yeux ne savent pas voir.
+
+15
+00:00:49,480 --> 00:00:52,680
+Dommage… la maison serait pleine de ronds !
+
+16
+00:00:55,300 --> 00:00:57,540
+Et mon dessin animé, il est où, là-dedans ?
+
+17
+00:00:58,160 --> 00:01:00,190
+Il est découpé en tout petits signaux.
+
+18
+00:01:00,430 --> 00:01:03,500
+La box fait vibrer l'onde, un coup fort,
+
+19
+00:01:03,560 --> 00:01:06,280
+un coup faible : c'est un code.
+
+20
+00:01:07,060 --> 00:01:09,510
+Ta tablette lit ce code et reconstruit l'image.
+
+21
+00:01:09,570 --> 00:01:11,860
+Des millions de signaux, chaque seconde !
+
+22
+00:01:12,510 --> 00:01:13,720
+Elle lit plus vite que moi…
+
+23
+00:01:16,070 --> 00:01:18,230
+Et pourquoi ça marche mal, au fond du jardin ?
+
+24
+00:01:18,930 --> 00:01:21,960
+Plus on s'éloigne, plus les ondes s'affaiblissent.
+
+25
+00:01:21,990 --> 00:01:24,390
+Et chaque mur en arrête un petit peu.
+
+26
+00:01:25,480 --> 00:01:27,890
+Donc, près de la box, c'est le meilleur endroit !
+
+27
+00:01:30,320 --> 00:01:35,820
+Autre chose : ta tablette répond ! Elle envoie ses propres ondes vers la box.
+
+28
+00:01:36,180 --> 00:01:36,990
+Elles se parlent, alors ?
+
+29
+00:01:37,880 --> 00:01:40,500
+Sans arrêt ! Et pour que les voisins n'écoutent pas,
+
+30
+00:01:40,540 --> 00:01:42,330
+tout est protégé par un mot de passe.
+
+31
+00:01:43,010 --> 00:01:45,500
+C'est la clé de la maison… mais pour les ondes !
+
+32
+00:01:47,630 --> 00:01:52,190
+Tu vois : un câble jusqu'à la box, puis des ondes jusqu'à toi.
+
+33
+00:01:54,060 --> 00:01:55,960
+Dis, Max… je peux avoir le mot de passe ?
+
+34
+00:01:56,640 --> 00:01:58,640
+Quand tes devoirs seront finis.
+
+35
+00:01:59,640 --> 00:02:02,930
+Les ondes passent les murs… mais pas les devoirs.
