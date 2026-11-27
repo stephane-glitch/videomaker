@@ -1,7 +1,7 @@
 # Publication sur YouTube par l'API officielle (YouTube Data API v3).
 # Le jeton d'accès n'est jamais dans ce fichier : il est ajouté aux requêtes par le proxy de la session.
 #   python3 -I publier.py verifier   → montre la chaîne reconnue par le jeton
-#   python3 -I publier.py envoyer    → envoie les vidéos EN PRIVÉ (celles déjà en ligne sont seulement mises à jour, visibilité inchangée), avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
+#   python3 -I publier.py envoyer [ep28 ep29 …] → envoie les vidéos EN PRIVÉ (celles déjà en ligne sont seulement mises à jour, visibilité inchangée), avec titre, description, « conçue pour les enfants », miniature, sous-titres, playlist
 #   python3 -I publier.py publier    → passe en public les vidéos déjà envoyées
 #   python3 -I publier.py chaine     → installe la description et la bannière de la chaîne
 #   python3 -I publier.py rattacher  → retrouve les vidéos envoyées à la main depuis YouTube Studio et les associe aux fiches
@@ -39,8 +39,11 @@ def verifier():
 
 def envoyer():
     verifier()
+    seuls = set(sys.argv[2:])  # ex. « envoyer ep28 ep29 » : seulement ces épisodes
     for m in metas():
-        key = f"ep{m['episode']:02d}"; v = etat["videos"].setdefault(key, {})
+        key = f"ep{m['episode']:02d}"
+        if seuls and key not in seuls: continue
+        v = etat["videos"].setdefault(key, {})
         if "id" not in v:
             size = os.path.getsize(m["fichier"])
             body = {"snippet": {"title": m["titre"], "description": m["description"], "tags": m["mots_cles"], "categoryId": m["categorie"], "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
@@ -67,7 +70,8 @@ def envoyer():
     if "playlist" not in etat:
         etat["playlist"] = call("POST", f"{API}/playlists?part=snippet,status", {"snippet": {"title": metas()[0]["playlist"], "description": "Tous les épisodes de Kidi-science, dans l'ordre.", "defaultLanguage": "fr"}, "status": {"privacyStatus": "public"}})["id"]; save()
     for m in metas():
-        v = etat["videos"][f"ep{m['episode']:02d}"]
+        v = etat["videos"].get(f"ep{m['episode']:02d}")
+        if not v or "id" not in v: continue
         if not v.get("playlist"):
             call("POST", f"{API}/playlistItems?part=snippet", {"snippet": {"playlistId": etat["playlist"], "resourceId": {"kind": "youtube#video", "videoId": v["id"]}}}); v["playlist"] = True; save()
     print("Playlist :", etat["playlist"])

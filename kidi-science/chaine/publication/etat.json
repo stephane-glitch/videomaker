@@ -155,6 +155,24 @@
       "publique": true,
       "playlist": true,
       "sous_titres": true
+    },
+    "ep28": {
+      "id": "rspOaI5Kc04",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true
+    },
+    "ep29": {
+      "id": "14ggS0pgWtg",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true
+    },
+    "ep30": {
+      "id": "GTKNAFsnSWE",
+      "miniature": true,
+      "sous_titres": true,
+      "playlist": true
     }
   },
   "playlist": "PLQWJCtYunQgs"
