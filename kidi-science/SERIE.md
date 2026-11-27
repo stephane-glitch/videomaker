@@ -191,3 +191,15 @@ publication) ne change pas.
   formes de rechange (poumons, diaphragme, eau) ; caméra avec plusieurs cadrages et zooms par scène ; passages filés entre
   décors ; actions rapides calculées à chaque image (« sur un ») ; une seule étiquette à la fois, à taille fixe à l'écran.
 - Contrôle du mouvement : en plus des images fixes, bandes d'images à 10 par seconde autour des moments forts.
+
+## Retour sur l'essai du hoquet (27/11/2026) — en pause jusqu'au jeudi 3/12/2026
+
+Avis de l'utilisateur : « pas mal », mais **le tremblement de l'écran rend le visionnage désagréable**.
+À corriger avant l'épisode complet. Sources du tremblement dans le moteur (`ep31-hoquet/essai/src/js/run.js`) :
+
+- le flottement de toute l'image à chaque pose (`sets.style.transform`, ± 1,1 px) : à supprimer ;
+- le frémissement de chaque papier (`boil` et `rb`, jusqu'à ± 1,2 px et une petite rotation) : à réduire fortement,
+  ou à ne garder que sur quelques petits objets ;
+- les secousses de caméra sur les « hic » (`shake`) : à garder courtes et plus douces.
+
+Production de l'épisode complet : jeudi 3/12/2026, avec le modèle Fable 5.2 (choisi par l'utilisateur).
